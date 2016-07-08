@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="com_kakao_accounts_array">
+        <item>@string/com_kakao_kakaotalk_account</item>
+        <item>@string/com_kakao_other_kakaoaccount</item>
+        <item>@string/com_kakao_account_cancel</item>
+    </string-array>
     <string msgid="4600421777120114993" name="abc_action_bar_home_description">"홈 탐색"</string>
     <string msgid="1397052879051804371" name="abc_action_bar_home_description_format">"%1$s, %2$s"</string>
     <string msgid="6623331958280229229" name="abc_action_bar_home_subtitle_description_format">"%1$s, %2$s, %3$s"</string>
@@ -19,5 +24,17 @@
     <string msgid="3421042268587513524" name="abc_shareactionprovider_share_with">"공유 대상"</string>
     <string msgid="7165123711973476752" name="abc_shareactionprovider_share_with_application">"%s와(과) 공유"</string>
     <string msgid="1603543279005712093" name="abc_toolbar_collapse_description">"접기"</string>
+    <string name="com_kakao_account_cancel">취소</string>
+    <string name="com_kakao_cancel_button">취소</string>
+    <string name="com_kakao_confirm_logout">이 앱을 로그아웃 하시겠습니까?</string>
+    <string name="com_kakao_confirm_unlink">이 앱을 탈퇴하시겠습니까?</string>
+    <string name="com_kakao_kakaostory_account">카카오스토리로 간편로그인</string>
+    <string name="com_kakao_kakaotalk_account">카카오톡으로 간편로그인</string>
+    <string name="com_kakao_login_button">카카오계정으로 로그인</string>
+    <string name="com_kakao_logout_button">로그아웃</string>
+    <string name="com_kakao_ok_button">확인</string>
+    <string name="com_kakao_other_kakaoaccount">다른 카카오계정으로 로그인</string>
+    <string name="com_kakao_profile_userId">카카오 사용자 ID</string>
+    <string name="com_kakao_unlink_button">탈퇴</string>
     <string msgid="2869576371154716097" name="status_bar_notification_info_overflow">"999+"</string>
 </resources>

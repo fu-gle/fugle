@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/values-w820dp-v13/values-w820dp-v13.xml",
+        "outputFile": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\res\\merged\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
         "map": [
             {
                 "to": {
@@ -11,13 +11,13 @@
                     "endOffset": 108
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/src/main/res/values-w820dp/dimens.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\src\\main\\res\\values-w820dp\\dimens.xml",
                     "position": {
                         "startLine": 4,
-                        "startColumn": 2,
-                        "startOffset": 287,
-                        "endColumn": 55,
-                        "endOffset": 340
+                        "startColumn": 4,
+                        "startOffset": 295,
+                        "endColumn": 57,
+                        "endOffset": 348
                     }
                 }
             }
