@@ -12,6 +12,14 @@
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_list_selector_background_transition_holo_dark.xml"
     },
     {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/star_empty.png",
+        "source": "/Users/hokyung/fugle/app/src/main/res/drawable/star_empty.png"
+    },
+    {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/custom_ratingbar_empty.xml",
+        "source": "/Users/hokyung/fugle/app/src/main/res/drawable/custom_ratingbar_empty.xml"
+    },
+    {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_switch_thumb_material.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_switch_thumb_material.xml"
     },
@@ -22,6 +30,10 @@
     {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_btn_default_mtrl_shape.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_btn_default_mtrl_shape.xml"
+    },
+    {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/custom_ratingbar_full_filled.xml",
+        "source": "/Users/hokyung/fugle/app/src/main/res/drawable/custom_ratingbar_full_filled.xml"
     },
     {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_edit_text_material.xml",
@@ -48,12 +60,24 @@
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_seekbar_track_material.xml"
     },
     {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/star_full.png",
+        "source": "/Users/hokyung/fugle/app/src/main/res/drawable/star_full.png"
+    },
+    {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_item_background_holo_dark.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_item_background_holo_dark.xml"
     },
     {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_btn_colored_material.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_btn_colored_material.xml"
+    },
+    {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/home.png",
+        "source": "/Users/hokyung/fugle/app/src/main/res/drawable/home.png"
+    },
+    {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/x.png",
+        "source": "/Users/hokyung/fugle/app/src/main/res/drawable/x.png"
     },
     {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_dialog_material_background_light.xml",
@@ -80,12 +104,20 @@
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_ratingbar_indicator_material.xml"
     },
     {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/custom_ratingbar_full_empty.xml",
+        "source": "/Users/hokyung/fugle/app/src/main/res/drawable/custom_ratingbar_full_empty.xml"
+    },
+    {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_ratingbar_full_material.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_ratingbar_full_material.xml"
     },
     {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_btn_borderless_material.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_btn_borderless_material.xml"
+    },
+    {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/custom_ratingbar_full.xml",
+        "source": "/Users/hokyung/fugle/app/src/main/res/drawable/custom_ratingbar_full.xml"
     },
     {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_tab_indicator_material.xml",
@@ -98,6 +130,10 @@
     {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_list_selector_holo_light.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_list_selector_holo_light.xml"
+    },
+    {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/star.png",
+        "source": "/Users/hokyung/fugle/app/src/main/res/drawable/star.png"
     },
     {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_list_selector_holo_dark.xml",

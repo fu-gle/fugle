@@ -14,10 +14,10 @@
                     "file": "/Users/hokyung/fugle/app/src/main/res/values-w820dp/dimens.xml",
                     "position": {
                         "startLine": 4,
-                        "startColumn": 2,
-                        "startOffset": 287,
-                        "endColumn": 55,
-                        "endOffset": 340
+                        "startColumn": 4,
+                        "startOffset": 291,
+                        "endColumn": 57,
+                        "endOffset": 344
                     }
                 }
             }

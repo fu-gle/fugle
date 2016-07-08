@@ -2674,10 +2674,10 @@
                     "file": "/Users/hokyung/fugle/app/src/main/res/values/dimens.xml",
                     "position": {
                         "startLine": 2,
-                        "startColumn": 2,
-                        "startOffset": 84,
-                        "endColumn": 55,
-                        "endOffset": 137
+                        "startColumn": 4,
+                        "startOffset": 88,
+                        "endColumn": 57,
+                        "endOffset": 141
                     }
                 }
             },
@@ -2693,10 +2693,10 @@
                     "file": "/Users/hokyung/fugle/app/src/main/res/values/dimens.xml",
                     "position": {
                         "startLine": 3,
-                        "startColumn": 2,
-                        "startOffset": 140,
-                        "endColumn": 53,
-                        "endOffset": 191
+                        "startColumn": 4,
+                        "startOffset": 146,
+                        "endColumn": 55,
+                        "endOffset": 197
                     }
                 }
             },
@@ -3510,10 +3510,10 @@
                     "file": "/Users/hokyung/fugle/app/src/main/res/values/strings.xml",
                     "position": {
                         "startLine": 1,
-                        "startColumn": 2,
-                        "startOffset": 14,
-                        "endColumn": 40,
-                        "endOffset": 52
+                        "startColumn": 4,
+                        "startOffset": 16,
+                        "endColumn": 42,
+                        "endOffset": 54
                     }
                 }
             },
@@ -9646,6 +9646,27 @@
                         "startOffset": 115845,
                         "endColumn": 119,
                         "endOffset": 115960
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 1522,
+                    "startColumn": 4,
+                    "startOffset": 116567,
+                    "endLine": 1528,
+                    "endColumn": 10,
+                    "endOffset": 116924
+                },
+                "from": {
+                    "file": "/Users/hokyung/fugle/app/src/main/res/values/styles.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 2,
+                        "startOffset": 390,
+                        "endLine": 17,
+                        "endColumn": 10,
+                        "endOffset": 747
                     }
                 }
             }

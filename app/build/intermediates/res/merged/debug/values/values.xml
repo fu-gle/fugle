@@ -1520,4 +1520,11 @@
     <style name="Widget.AppCompat.TextView.SpinnerItem" parent="Base.Widget.AppCompat.TextView.SpinnerItem"/>
     <style name="Widget.AppCompat.Toolbar" parent="Base.Widget.AppCompat.Toolbar"/>
     <style name="Widget.AppCompat.Toolbar.Button.Navigation" parent="Base.Widget.AppCompat.Toolbar.Button.Navigation"/>
+    <style name="starRatingBar" parent="@android:style/Widget.RatingBar">
+    <item name="android:indeterminateOnly">false</item>
+    <item name="android:progressDrawable">@drawable/custom_ratingbar_full</item>
+    <item name="android:minHeight">50dip</item>
+    <item name="android:maxHeight">50dip</item>
+    <item name="android:thumb">@null</item>
+  </style>
 </resources>

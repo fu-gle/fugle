@@ -1,9 +1,5 @@
 [
     {
-        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/layout/activity_main.xml",
-        "source": "/Users/hokyung/fugle/app/src/main/res/layout/activity_main.xml"
-    },
-    {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/layout/abc_action_bar_view_list_nav_layout.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/layout/abc_action_bar_view_list_nav_layout.xml"
     },
@@ -116,8 +112,16 @@
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/layout/notification_media_cancel_action.xml"
     },
     {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/layout/rating_item.xml",
+        "source": "/Users/hokyung/fugle/app/src/main/res/layout/rating_item.xml"
+    },
+    {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/layout/abc_action_menu_item_layout.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/layout/abc_action_menu_item_layout.xml"
+    },
+    {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/layout/activity_rating.xml",
+        "source": "/Users/hokyung/fugle/app/src/main/res/layout/activity_rating.xml"
     },
     {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/layout/abc_screen_simple_overlay_action_mode.xml",
@@ -144,11 +148,11 @@
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/layout/notification_template_media.xml"
     },
     {
-        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/layout/abc_action_menu_layout.xml",
-        "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/layout/abc_action_menu_layout.xml"
-    },
-    {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/layout/abc_screen_simple.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/layout/abc_screen_simple.xml"
+    },
+    {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/layout/abc_action_menu_layout.xml",
+        "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/layout/abc_action_menu_layout.xml"
     }
 ]
