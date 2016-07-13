@@ -26,6 +26,15 @@
 
         <meta-data android:name="com.kakao.sdk.AppKey"
                    android:value="f38f436c283edf2e94e26961d9139527"/>
+        <meta-data android:name="com.facebook.sdk.ApplicationId"
+                   android:value="@string/facebook_app_id"/>
+
+        <!-- facebook popup -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- splash -->
         <activity

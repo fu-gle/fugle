@@ -30,4 +30,7 @@ dependencies {
 
     // kakao login
     compile group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+
+    // facebook login
+    compile 'com.facebook.android:facebook-android-sdk:[4,5)'
 }

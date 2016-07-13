@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:2:1-42:12
+ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:2:1-51:12
 	package
 		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:3:11-29
 		INJECTED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml
@@ -18,7 +18,7 @@ ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidMani
 	android:name
 		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:5:22-64
 application
-ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:7:5-40:19
+ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:7:5-49:19
 MERGED from [com.android.support:appcompat-v7:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\AndroidManifest.xml:25:5-20
 MERGED from [com.android.support:animated-vector-drawable:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
 MERGED from [com.android.support:support-vector-drawable:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
@@ -26,6 +26,11 @@ MERGED from [com.android.support:support-v4:23.4.0] D:\estsoft\AndroidStudioProj
 MERGED from [com.android.support:support-v4:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-vector-drawable:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\23.4.0\AndroidManifest.xml:7:5-20
 MERGED from [com.android.support:support-v4:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\AndroidManifest.xml:22:5-20
+MERGED from [com.facebook.android:facebook-android-sdk:4.13.2] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.13.2\AndroidManifest.xml:28:5-37:19
+MERGED from [com.android.support:cardview-v7:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.4.0\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-v4:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:customtabs:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\customtabs\23.4.0\AndroidManifest.xml:22:5-20
 MERGED from [com.android.support:support-v4:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\AndroidManifest.xml:22:5-20
 	android:label
 		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:11:9-41
@@ -63,20 +68,37 @@ ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidMani
 		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:28:20-68
 	android:name
 		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:27:20-55
-activity#kr.fugle.splash.SplashActivity
-ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:31:9-36:15
-	android:screenOrientation
-		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:34:13-49
+meta-data#com.facebook.sdk.ApplicationId
+ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:29:9-30:61
+	android:value
+		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:30:20-59
+	android:name
+		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:29:20-65
+activity#com.facebook.FacebookActivity
+ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:33:9-37:75
+MERGED from [com.facebook.android:facebook-android-sdk:4.13.2] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.13.2\AndroidManifest.xml:29:9-32:75
+	android:label
+		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:36:13-45
 	android:configChanges
-		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:33:13-63
+		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:35:13-96
 	android:theme
-		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:35:13-60
+		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:37:13-72
 	android:name
-		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:32:13-50
+		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:34:13-57
+activity#kr.fugle.splash.SplashActivity
+ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:40:9-45:15
+	android:screenOrientation
+		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:43:13-49
+	android:configChanges
+		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:42:13-63
+	android:theme
+		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:44:13-60
+	android:name
+		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:41:13-50
 activity#kr.fugle.login.SuccessActivity
-ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:39:9-68
+ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:48:9-68
 	android:name
-		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:39:19-56
+		ADDED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml:48:19-56
 uses-sdk
 INJECTED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\AndroidManifest.xml:21:5-23:78
@@ -91,6 +113,11 @@ MERGED from [com.kakao.sdk:usermgmt:1.1.7] D:\estsoft\AndroidStudioProjects\Fugl
 MERGED from [com.kakao.sdk:auth:1.1.7] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.kakao.sdk\auth\1.1.7\AndroidManifest.xml:11:5-13:41
 MERGED from [com.kakao.sdk:network:1.1.7] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.kakao.sdk\network\1.1.7\AndroidManifest.xml:8:5-10:41
 MERGED from [com.kakao.sdk:util:1.1.7] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.kakao.sdk\util\1.1.7\AndroidManifest.xml:11:5-13:41
+MERGED from [com.facebook.android:facebook-android-sdk:4.13.2] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.13.2\AndroidManifest.xml:24:5-26:41
+MERGED from [com.android.support:cardview-v7:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.4.0\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:support-v4:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\AndroidManifest.xml:20:5-43
+MERGED from [com.android.support:customtabs:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\customtabs\23.4.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.4.0\AndroidManifest.xml:20:5-43
 	tools:overrideLibrary
 		ADDED from [com.android.support:appcompat-v7:23.4.0] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.4.0\AndroidManifest.xml:23:9-75
 	android:targetSdkVersion
@@ -99,3 +126,9 @@ MERGED from [com.kakao.sdk:util:1.1.7] D:\estsoft\AndroidStudioProjects\Fugle\fu
 	android:minSdkVersion
 		INJECTED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml
 		INJECTED from D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\src\main\AndroidManifest.xml
+activity#com.facebook.CustomTabActivity
+ADDED from [com.facebook.android:facebook-android-sdk:4.13.2] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.13.2\AndroidManifest.xml:33:9-36:20
+	android:exported
+		ADDED from [com.facebook.android:facebook-android-sdk:4.13.2] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.13.2\AndroidManifest.xml:35:13-36
+	android:name
+		ADDED from [com.facebook.android:facebook-android-sdk:4.13.2] D:\estsoft\AndroidStudioProjects\Fugle\fugle\app\build\intermediates\exploded-aar\com.facebook.android\facebook-android-sdk\4.13.2\AndroidManifest.xml:34:13-58

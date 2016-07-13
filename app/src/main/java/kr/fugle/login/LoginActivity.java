@@ -37,23 +37,6 @@ public class LoginActivity extends AppCompatActivity {
 //                //로그아웃 성공 후 하고싶은 내용 코딩 ~
 //            }
 //        });
-                /* 해시키 추출 */
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo(
-//                    getPackageName(), PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.e("★★★★★★★MY KEY HASH:",
-//                        Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//
-//        } catch (NoSuchAlgorithmException e) {
-//
-//        }
-
-
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
         //GlobalApplication.setCurrentActivity(LoginActivity.this);
@@ -104,6 +87,8 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("UserProfile", userProfile.toString());
                     Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
                     intent.putExtra("image", userProfile.getProfileImagePath());
+                    intent.putExtra("id", userProfile.getId()+"");
+                    intent.putExtra("name", userProfile.getNickname());
                     startActivity(intent);
                     finish();
                 }

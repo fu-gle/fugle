@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/kor_toondere"
+        android:src="@drawable/splash_test01"
         android:layout_margin="60dp"
         android:layout_gravity="center_vertical"
         />
