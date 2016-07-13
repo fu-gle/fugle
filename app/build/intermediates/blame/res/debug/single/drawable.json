@@ -24,12 +24,12 @@
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_switch_thumb_material.xml"
     },
     {
-        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_spinner_textfield_background_material.xml",
-        "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_spinner_textfield_background_material.xml"
-    },
-    {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_btn_default_mtrl_shape.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_btn_default_mtrl_shape.xml"
+    },
+    {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_spinner_textfield_background_material.xml",
+        "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_spinner_textfield_background_material.xml"
     },
     {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/custom_ratingbar_full_filled.xml",
@@ -128,8 +128,20 @@
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_cab_background_top_material.xml"
     },
     {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/button_transparent.xml",
+        "source": "/Users/hokyung/fugle/app/src/main/res/drawable/button_transparent.xml"
+    },
+    {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/abc_list_selector_holo_light.xml",
         "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/drawable/abc_list_selector_holo_light.xml"
+    },
+    {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/background_tab.xml",
+        "source": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.astuetz/pagerslidingtabstrip/1.0.1/res/drawable/background_tab.xml"
+    },
+    {
+        "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/textview_border.xml",
+        "source": "/Users/hokyung/fugle/app/src/main/res/drawable/textview_border.xml"
     },
     {
         "merged": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/drawable/star.png",

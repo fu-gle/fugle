@@ -1,27 +1,40 @@
 package kr.fugle.rating;
 
-import android.support.v4.content.ContextCompat;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+import kr.fugle.Item;
 import kr.fugle.R;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class RatingActivity extends AppCompatActivity {
+
+    final static String serverUrl = "http://52.79.147.163:8000/";
+    OkHttpClient client;
+    RatingAdapter adapter;
+    ArrayList<Item> itemArrayList;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rating);
+        setContentView(R.layout.activity_rating_list);
 
-        ListView listView;
-        RatingAdapter adapter;
+        itemArrayList = new ArrayList<>();
+        client = new OkHttpClient();
 
         // Adapter 생성
         adapter = new RatingAdapter();
@@ -32,42 +45,100 @@ public class RatingActivity extends AppCompatActivity {
 
         // 아이템 넣기
         // 이 부분에서 서버와 연동하여 데이터 넣기
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.home), "Home", "home is good", 3.0f);
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.star), "Star", "star is bling bling", 2.0f);
-        adapter.addItem(ContextCompat.getDrawable(this, R.drawable.x), "X", "x is wrong", 2.5f);
-
-        Log.d("----->", "loading is complete");
+        new OkHttpGet().execute(serverUrl);
+        //adapter.addItem("http://thumb.comic.naver.net/webtoon/675554/thumbnail/title_thumbnail_20160303181701_t83x90.jpg", "가우스 전자", "곽백수", 3.0f);
 
         // 클릭시 이벤트 처리
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("---->", "item is clicked");
                 // 아이템 가져오기
                 RatingItem item = (RatingItem)parent.getItemAtPosition(position);
 
-                LinearLayout layout = (LinearLayout) view;
+                // view 는 리니어 레이아웃 한 줄을 뜻함
+//                LinearLayout layout = (LinearLayout) view;
 
-//                ((RatingBar) view).setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//                    @Override
-//                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-//                        Toast.makeText(RatingActivity.this, rating + "clicked", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-
-//                RatingBar ratingBar = (RatingBar)layout.findViewById(R.id.ratingBar);
-//
-//                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//                    @Override
-//                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-//                        Toast.makeText(RatingActivity.this, rating + "", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-
+                //상세정보 액티비티로 이동
                 Toast.makeText(RatingActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-
 
             }
         });
+    }
+
+    // 서버로부터 데이터를 json 형태로 긁어온다
+    private class OkHttpGet extends AsyncTask<String, Void, String>{
+
+        // 서버와 통신을 하는 doInBackground 메소드
+        @Override
+        protected String doInBackground(String... params) {
+            Log.d("ho's activity", "RatingActivity.OkHttpGet.doInBackground");
+
+            // OkHttp 사용을 위한 문법
+            Request request = new Request.Builder()
+                    .url(params[0])
+                    .build();
+
+            // json 데이터가 담길 변수
+            String result = "";
+
+            try{
+                // 서버 통신 실행
+                Response response = client.newCall(request).execute();
+
+                // json 형태로의 변환을 위해 { "" :  } 추가
+                result = "{\"\":" + response.body().string() + "}";
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        // 뷰에 반영 할 메소드
+        @Override
+        protected void onPostExecute(String s) {
+            Log.d("ho's activity", "RatingActivity.OkHttpGet.onPostExecute");
+
+            Item item;
+
+            if(s != null && s != ""){
+                try{
+                    // 통째로 받아들여서 하나씩 자르기 위한 json object
+                    JSONObject reader = new JSONObject(s);
+
+                    // 하나씩 잘라서 adapter에 저장해야 한다
+                    JSONArray list = reader.getJSONArray("");
+
+                    for(int i=0;i<list.length();i++){
+                        JSONObject obj = list.getJSONObject(i);
+
+                        item = new Item();
+                        item.setNo(obj.getInt("id"));
+                        item.setTitle(obj.getString("title"));
+                        item.setAuthor1(obj.getString("author1"));
+                        item.setAuthor2(obj.getString("author2"));
+                        item.setGenre1(obj.getString("genre1"));
+                        item.setGenre2(obj.getString("genre2"));
+                        item.setGenre3(obj.getString("genre3"));
+                        item.setAge(obj.getString("age"));
+                        item.setThumbnail(obj.getString("thumbnail"));
+
+                        itemArrayList.add(item);
+//                        String key = obj.getString("key");
+//                        String value = obj.getString("value");
+//
+//                        resultText.setText(resultText.getText().toString() + key + ":" + value + "\n");
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+            for(Item data : itemArrayList){
+                adapter.addItem(data);
+            }
+
+            listView.setAdapter(adapter);
+        }
     }
 }

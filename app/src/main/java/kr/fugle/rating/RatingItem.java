@@ -1,6 +1,7 @@
 package kr.fugle.rating;
 
 import android.graphics.drawable.Drawable;
+import android.widget.ImageView;
 
 /**
  * Created by hokyung on 16. 7. 6..
@@ -9,14 +10,29 @@ import android.graphics.drawable.Drawable;
  */
 public class RatingItem {
 
-    private Drawable thumnailImg;
+    private Integer no;
+    private String imgUrl;
     private String title;
     private String description;
     private Float rating;
 
-    public Drawable getThumnailImg() {
-        return thumnailImg;
+    public RatingItem(){
+        no = 0;
+        imgUrl = title = description = "";
+        rating = 0f;
     }
+
+    public Integer getNo() {
+        return no;
+    }
+
+    public void setNo(Integer no) {
+        this.no = no;
+    }
+
+    public String getImgUrl() { return imgUrl; }
+
+    public void setImgUrl(String imgUrl) { this.imgUrl = imgUrl; }
 
     public String getTitle() {
         return title;
@@ -24,10 +40,6 @@ public class RatingItem {
 
     public String getDescription() {
         return description;
-    }
-
-    public void setThumnailImg(Drawable thumnailImg) {
-        this.thumnailImg = thumnailImg;
     }
 
     public void setTitle(String title) {
