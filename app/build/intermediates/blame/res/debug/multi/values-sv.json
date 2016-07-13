@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/Users/hokyung/fugle/app/build/intermediates/res/merged/debug/values-sv/values-sv.xml",
+        "outputFile": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\res\\merged\\debug\\values-sv\\values-sv.xml",
         "map": [
             {
                 "to": {
@@ -11,7 +11,7 @@
                     "endOffset": 156
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 2,
                         "startColumn": 4,
@@ -30,7 +30,7 @@
                     "endOffset": 264
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 3,
                         "startColumn": 4,
@@ -49,7 +49,7 @@
                     "endOffset": 387
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 4,
                         "startColumn": 4,
@@ -68,7 +68,7 @@
                     "endOffset": 490
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 5,
                         "startColumn": 4,
@@ -87,7 +87,7 @@
                     "endOffset": 601
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 6,
                         "startColumn": 4,
@@ -106,7 +106,7 @@
                     "endOffset": 686
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
@@ -125,7 +125,7 @@
                     "endOffset": 788
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 8,
                         "startColumn": 4,
@@ -144,7 +144,7 @@
                     "endOffset": 901
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 9,
                         "startColumn": 4,
@@ -163,7 +163,7 @@
                     "endOffset": 977
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 10,
                         "startColumn": 4,
@@ -182,7 +182,7 @@
                     "endOffset": 1053
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 11,
                         "startColumn": 4,
@@ -201,7 +201,7 @@
                     "endOffset": 1133
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 12,
                         "startColumn": 4,
@@ -220,7 +220,7 @@
                     "endOffset": 1239
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 13,
                         "startColumn": 4,
@@ -239,7 +239,7 @@
                     "endOffset": 1339
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 14,
                         "startColumn": 4,
@@ -258,7 +258,7 @@
                     "endOffset": 1435
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 15,
                         "startColumn": 4,
@@ -277,7 +277,7 @@
                     "endOffset": 1540
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 16,
                         "startColumn": 4,
@@ -296,7 +296,7 @@
                     "endOffset": 1642
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 17,
                         "startColumn": 4,
@@ -315,7 +315,7 @@
                     "endOffset": 1744
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 18,
                         "startColumn": 4,
@@ -334,7 +334,7 @@
                     "endOffset": 1861
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 19,
                         "startColumn": 4,
@@ -353,7 +353,7 @@
                     "endOffset": 1963
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 20,
                         "startColumn": 4,
@@ -368,11 +368,353 @@
                     "startLine": 21,
                     "startColumn": 4,
                     "startOffset": 1968,
-                    "endColumn": 100,
-                    "endOffset": 2064
+                    "endColumn": 167,
+                    "endOffset": 2131
                 },
                 "from": {
-                    "file": "/Users/hokyung/fugle/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/res/values-sv/values-sv.xml",
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endColumn": 167,
+                        "endOffset": 218
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 22,
+                    "startColumn": 4,
+                    "startOffset": 2136,
+                    "endColumn": 106,
+                    "endOffset": 2238
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 3,
+                        "startColumn": 4,
+                        "startOffset": 223,
+                        "endColumn": 106,
+                        "endOffset": 325
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 23,
+                    "startColumn": 4,
+                    "startOffset": 2243,
+                    "endColumn": 115,
+                    "endOffset": 2354
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 4,
+                        "startColumn": 4,
+                        "startOffset": 330,
+                        "endColumn": 115,
+                        "endOffset": 441
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 24,
+                    "startColumn": 4,
+                    "startOffset": 2359,
+                    "endColumn": 92,
+                    "endOffset": 2447
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 5,
+                        "startColumn": 4,
+                        "startOffset": 446,
+                        "endColumn": 92,
+                        "endOffset": 534
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 25,
+                    "startColumn": 4,
+                    "startOffset": 2452,
+                    "endColumn": 66,
+                    "endOffset": 2514
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 6,
+                        "startColumn": 4,
+                        "startOffset": 539,
+                        "endColumn": 66,
+                        "endOffset": 601
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 26,
+                    "startColumn": 4,
+                    "startOffset": 2519,
+                    "endColumn": 68,
+                    "endOffset": 2583
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 7,
+                        "startColumn": 4,
+                        "startOffset": 606,
+                        "endColumn": 68,
+                        "endOffset": 670
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 27,
+                    "startColumn": 4,
+                    "startOffset": 2588,
+                    "endColumn": 59,
+                    "endOffset": 2643
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 675,
+                        "endColumn": 59,
+                        "endOffset": 730
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 28,
+                    "startColumn": 4,
+                    "startOffset": 2648,
+                    "endColumn": 71,
+                    "endOffset": 2715
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 9,
+                        "startColumn": 4,
+                        "startOffset": 735,
+                        "endColumn": 71,
+                        "endOffset": 802
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 29,
+                    "startColumn": 4,
+                    "startOffset": 2720,
+                    "endColumn": 73,
+                    "endOffset": 2789
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 10,
+                        "startColumn": 4,
+                        "startOffset": 807,
+                        "endColumn": 73,
+                        "endOffset": 876
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 30,
+                    "startColumn": 4,
+                    "startOffset": 2794,
+                    "endColumn": 91,
+                    "endOffset": 2881
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 11,
+                        "startColumn": 4,
+                        "startOffset": 881,
+                        "endColumn": 91,
+                        "endOffset": 968
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 31,
+                    "startColumn": 4,
+                    "startOffset": 2886,
+                    "endColumn": 74,
+                    "endOffset": 2956
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 12,
+                        "startColumn": 4,
+                        "startOffset": 973,
+                        "endColumn": 74,
+                        "endOffset": 1043
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 32,
+                    "startColumn": 4,
+                    "startOffset": 2961,
+                    "endColumn": 74,
+                    "endOffset": 3031
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 13,
+                        "startColumn": 4,
+                        "startOffset": 1048,
+                        "endColumn": 74,
+                        "endOffset": 1118
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 33,
+                    "startColumn": 4,
+                    "startOffset": 3036,
+                    "endColumn": 82,
+                    "endOffset": 3114
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 14,
+                        "startColumn": 4,
+                        "startOffset": 1123,
+                        "endColumn": 82,
+                        "endOffset": 1201
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 34,
+                    "startColumn": 4,
+                    "startOffset": 3119,
+                    "endColumn": 97,
+                    "endOffset": 3212
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 15,
+                        "startColumn": 4,
+                        "startOffset": 1206,
+                        "endColumn": 97,
+                        "endOffset": 1299
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 35,
+                    "startColumn": 4,
+                    "startOffset": 3217,
+                    "endColumn": 64,
+                    "endOffset": 3277
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 16,
+                        "startColumn": 4,
+                        "startOffset": 1304,
+                        "endColumn": 64,
+                        "endOffset": 1364
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 36,
+                    "startColumn": 4,
+                    "startOffset": 3282,
+                    "endColumn": 63,
+                    "endOffset": 3341
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 17,
+                        "startColumn": 4,
+                        "startOffset": 1369,
+                        "endColumn": 63,
+                        "endOffset": 1428
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 37,
+                    "startColumn": 4,
+                    "startOffset": 3346,
+                    "endColumn": 119,
+                    "endOffset": 3461
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 18,
+                        "startColumn": 4,
+                        "startOffset": 1433,
+                        "endColumn": 119,
+                        "endOffset": 1548
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 38,
+                    "startColumn": 4,
+                    "startOffset": 3466,
+                    "endColumn": 61,
+                    "endOffset": 3523
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.facebook.android\\facebook-android-sdk\\4.13.2\\res\\values-sv\\values-sv.xml",
+                    "position": {
+                        "startLine": 19,
+                        "startColumn": 4,
+                        "startOffset": 1553,
+                        "endColumn": 61,
+                        "endOffset": 1610
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 39,
+                    "startColumn": 4,
+                    "startOffset": 3528,
+                    "endColumn": 100,
+                    "endOffset": 3624
+                },
+                "from": {
+                    "file": "D:\\estsoft\\AndroidStudioProjects\\Fugle\\fugle\\app\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.4.0\\res\\values-sv\\values-sv.xml",
                     "position": {
                         "startLine": 21,
                         "startColumn": 4,
