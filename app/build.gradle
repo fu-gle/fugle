@@ -30,4 +30,7 @@ dependencies {
 
     // kakao login
     compile group: project.KAKAO_SDK_GROUP, name: 'usermgmt', version: project.KAKAO_SDK_VERSION
+
+    // okhttp
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
 }
