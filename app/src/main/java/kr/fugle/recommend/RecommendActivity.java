@@ -14,7 +14,6 @@ import java.util.List;
 
 import kr.fugle.Item;
 import kr.fugle.R;
-import kr.fugle.rating.RecyclerAdapter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
