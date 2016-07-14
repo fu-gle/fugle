@@ -5,9 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-<<<<<<< .merge_file_KGQPpx
-
-=======
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -17,7 +14,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
->>>>>>> .merge_file_B1hQTY
 import com.kakao.auth.ErrorCode;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -28,12 +24,8 @@ import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
-<<<<<<< .merge_file_KGQPpx
-import kr.fugle.HoActivity;
-=======
 import java.util.Arrays;
 
->>>>>>> .merge_file_B1hQTY
 import kr.fugle.R;
 import kr.fugle.splash.SplashActivity;
 
@@ -65,30 +57,6 @@ public class LoginActivity extends AppCompatActivity {
 //                //로그아웃 성공 후 하고싶은 내용 코딩 ~
 //            }
 //        });
-                /* 해시키 추출 */
-//        try {
-//            PackageInfo info = getPackageManager().getPackageInfo(
-//                    getPackageName(), PackageManager.GET_SIGNATURES);
-//            for (Signature signature : info.signatures) {
-//                MessageDigest md = MessageDigest.getInstance("SHA");
-//                md.update(signature.toByteArray());
-//                Log.e("★★★★★★★MY KEY HASH:",
-//                        Base64.encodeToString(md.digest(), Base64.DEFAULT));
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//
-//        } catch (NoSuchAlgorithmException e) {
-//
-//        }
-
-        findViewById(R.id.nextBtn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, HoActivity.class));
-            }
-        });
-
-
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
         //GlobalApplication.setCurrentActivity(LoginActivity.this);
@@ -199,6 +167,8 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("UserProfile", userProfile.toString());
                     Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
                     intent.putExtra("image", userProfile.getProfileImagePath());
+                    intent.putExtra("id", userProfile.getId()+"");
+                    intent.putExtra("name", userProfile.getNickname());
                     startActivity(intent);
                     finish();
                 }
@@ -213,4 +183,3 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 }
-
