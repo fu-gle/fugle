@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.facebook.login.LoginManager;
 import com.kakao.usermgmt.UserManagement;
@@ -19,6 +20,8 @@ import kr.fugle.R;
 public class SuccessActivity extends AppCompatActivity {
 
     private ImageView imageView;
+    private TextView idView;
+    private TextView nameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,15 @@ public class SuccessActivity extends AppCompatActivity {
 
         String imagePath = getIntent().getStringExtra("image");
         imageView = (ImageView) findViewById(R.id.user_profile_photo);
+
+        String id = "ID = " + getIntent().getStringExtra("id") + "";
+        String name = getIntent().getStringExtra("name") + " 님 \n환영합니다.";
+
+        idView = (TextView) findViewById(R.id.login_id);
+        nameView = (TextView) findViewById(R.id.login_name);
+
+        idView.setText(id);
+        nameView.setText(name);
 
         CircleTransform circleTransform = new CircleTransform();
 
