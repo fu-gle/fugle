@@ -1,6 +1,7 @@
 package kr.fugle.login;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,6 +29,11 @@ import java.util.Arrays;
 
 import kr.fugle.R;
 import kr.fugle.splash.SplashActivity;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
     SessionCallback callback;
@@ -35,6 +41,10 @@ public class LoginActivity extends AppCompatActivity {
     // 페이스북
     private TextView CustomloginButton;
     private CallbackManager callbackManager;
+
+    // 서버 통신 OkHttp
+    final static String serverUrl = "http://52.79.147.163:8000/";
+    OkHttpClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +105,10 @@ public class LoginActivity extends AppCompatActivity {
 //                                parameters.putString("fields", "email,gender,cover");
 //                                request.setParameters(parameters);
 //                                request.executeAsync();
+
+                                // 서버로 데이터 전송
+                                // 페북이니까 페북 키 + 기본 유저 정보(이름, 성별.. 말고 뭐있지?)
+//                                new OkHttpLogin().execute(serverUrl, 여기에 정보들);
 
                                 Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
                                 intent.putExtra("image", profile.getProfilePictureUri(128,128).toString());
@@ -164,6 +178,10 @@ public class LoginActivity extends AppCompatActivity {
                 public void onSuccess(UserProfile userProfile) {
                     //로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
                     //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
+
+                    // 서버로 데이터 전송
+                    // 카카오톡 키 + 기본 유저 정보(이름, 성별.. 말고 뭐있지?)
+//                    new OkHttpLogin().execute(serverUrl, 유저 정보);
                     Log.e("UserProfile", userProfile.toString());
                     Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
                     intent.putExtra("image", userProfile.getProfileImagePath());
@@ -180,6 +198,44 @@ public class LoginActivity extends AppCompatActivity {
         public void onSessionOpenFailed(KakaoException exception) {
             // 세션 연결이 실패했을때
             // 어쩔때 실패되는지는 테스트를 안해보았음 ㅜㅜ
+        }
+    }
+
+    private class OkHttpLogin extends AsyncTask<String, Void, String>{
+
+        public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
+
+        @Override
+        protected String doInBackground(String... params) {
+            // 서버로 보낼 사용자 데이터
+            // 넘어온 정보들 다 보내야함
+            String data = "webtoonId=" + params[1] + "&star=" + params[2];  // 변경 필요
+            Log.d("OkHttpPost.data", data);
+
+            RequestBody body = RequestBody.create(HTML, data);
+
+            Request request = new Request.Builder()
+                    .url(params[0] + "login/")     // 임시 로그인 주소
+                    .post(body)
+                    .build();
+
+            try{
+                // 서버로 전송
+                Response response = client.newCall(request).execute();
+                return response.body().string();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            // 서버에서 로그인 성공여부 받음
+            // 성공시 startActivity. 실패시 토스트 메세지
+            Log.d("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute");
         }
     }
 }
