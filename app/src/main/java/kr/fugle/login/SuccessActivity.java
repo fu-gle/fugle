@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.facebook.login.LoginManager;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.squareup.picasso.Picasso;
@@ -38,13 +39,16 @@ public class SuccessActivity extends AppCompatActivity {
     }
 
     public void onLogoutButtonClicked(View v) {
+        if(LoginManager.getInstance() != null) {
+            LoginManager.getInstance().logOut();
+        }
         UserManagement.requestLogout(new LogoutResponseCallback() {
             @Override
             public void onCompleteLogout() {
-                Intent intent = new Intent(SuccessActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
             }
-            });
+        });
+        Intent intent = new Intent(SuccessActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
