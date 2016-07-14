@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import com.kakao.auth.ErrorCode;
 import com.kakao.auth.ISessionCallback;
@@ -15,6 +16,7 @@ import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
+import kr.fugle.HoActivity;
 import kr.fugle.R;
 import kr.fugle.splash.SplashActivity;
 
@@ -52,6 +54,13 @@ public class LoginActivity extends AppCompatActivity {
 //        } catch (NoSuchAlgorithmException e) {
 //
 //        }
+
+        findViewById(R.id.nextBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, HoActivity.class));
+            }
+        });
 
 
         callback = new SessionCallback();
