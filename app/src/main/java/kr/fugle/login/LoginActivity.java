@@ -13,6 +13,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.kakao.auth.ErrorCode;
@@ -81,13 +82,32 @@ public class LoginActivity extends AppCompatActivity {
                         Arrays.asList("public_profile", "user_friends"));
                 LoginManager.getInstance().registerCallback(callbackManager,
                         new FacebookCallback<LoginResult>() {
+
+                            private ProfileTracker mProfileTracker;
+
                             @Override
                             public void onSuccess(LoginResult loginResult) {
                                 Log.e("onSuccess", "onSuccess");
                                 Log.e("토큰",loginResult.getAccessToken().getToken());
                                 Log.e("유저아이디",loginResult.getAccessToken().getUserId());
                                 Log.e("퍼미션 리스트",loginResult.getAccessToken().getPermissions()+"");
-                                Profile profile = Profile.getCurrentProfile();
+
+                                final Profile[] profile = {null};
+
+                                if(Profile.getCurrentProfile() == null){
+                                    mProfileTracker = new ProfileTracker() {
+                                        @Override
+                                        protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+                                            // currentProfile is new profile
+                                            profile[0] = currentProfile;
+                                            mProfileTracker.stopTracking();
+                                        }
+                                    };
+                                    // no need to call startTracking() on mProfileTracker
+                                    // because it is called by its constructor, internally.
+                                } else {
+                                    profile[0] = Profile.getCurrentProfile();
+                                }
 
                                 //loginResult.getAccessToken() 정보를 가지고 유저 정보를 가져올수 있습니다.
 //                                GraphRequest request =GraphRequest.newMeRequest(loginResult.getAccessToken() ,
@@ -111,10 +131,10 @@ public class LoginActivity extends AppCompatActivity {
 //                                new OkHttpLogin().execute(serverUrl, 여기에 정보들);
 
                                 Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
-                                intent.putExtra("image", profile.getProfilePictureUri(128,128).toString());
-                                intent.putExtra("id", profile.getId()+"");
-                                intent.putExtra("name",profile.getFirstName()+"-"+
-                                        profile.getLastName()+"-"+profile.getName());
+                                intent.putExtra("image", profile[0].getProfilePictureUri(128,128).toString());
+                                intent.putExtra("id", profile[0].getId()+"");
+                                intent.putExtra("name", profile[0].getFirstName()+"-"+
+                                        profile[0].getLastName()+"-"+ profile[0].getName());
                                 startActivity(intent);
                                 finish();
                                 //request.executeAsync();

@@ -5,6 +5,12 @@
                 android:layout_marginTop="100dp"
                 android:orientation="vertical">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="넘어가기"
+        android:id="@+id/tempBtn"/>
+
     <ImageView
         android:id="@+id/user_profile_photo"
         android:layout_width="100dp"
