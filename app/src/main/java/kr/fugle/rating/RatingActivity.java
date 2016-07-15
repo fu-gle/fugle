@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import kr.fugle.Item;
+import kr.fugle.Item.Content;
 import kr.fugle.R;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,7 +25,7 @@ public class RatingActivity extends AppCompatActivity {
     final static String serverUrl = "http://52.79.147.163:8000/";
     OkHttpClient client;
     RatingAdapter adapter;
-    ArrayList<Item> itemArrayList;
+    ArrayList<Content> contentArrayList;
     ListView listView;
 
     @Override
@@ -33,7 +33,7 @@ public class RatingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating_list);
 
-        itemArrayList = new ArrayList<>();
+        contentArrayList = new ArrayList<>();
         client = new OkHttpClient();
 
         // Adapter 생성
@@ -99,7 +99,7 @@ public class RatingActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             Log.d("ho's activity", "RatingActivity.OkHttpGet.onPostExecute");
 
-            Item item;
+            Content content;
 
             if(s != null && s != ""){
                 try{
@@ -112,18 +112,18 @@ public class RatingActivity extends AppCompatActivity {
                     for(int i=0;i<list.length();i++){
                         JSONObject obj = list.getJSONObject(i);
 
-                        item = new Item();
-                        item.setNo(obj.getInt("id"));
-                        item.setTitle(obj.getString("title"));
-                        item.setAuthor1(obj.getString("author1"));
-                        item.setAuthor2(obj.getString("author2"));
-                        item.setGenre1(obj.getString("genre1"));
-                        item.setGenre2(obj.getString("genre2"));
-                        item.setGenre3(obj.getString("genre3"));
-                        item.setAge(obj.getString("age"));
-                        item.setThumbnail(obj.getString("thumbnail"));
+                        content = new Content();
+                        content.setNo(obj.getInt("id"));
+                        content.setTitle(obj.getString("title"));
+                        content.setAuthor1(obj.getString("author1"));
+                        content.setAuthor2(obj.getString("author2"));
+                        content.setGenre1(obj.getString("genre1"));
+                        content.setGenre2(obj.getString("genre2"));
+                        content.setGenre3(obj.getString("genre3"));
+                        content.setAge(obj.getString("age"));
+                        content.setThumbnail(obj.getString("thumbnail"));
 
-                        itemArrayList.add(item);
+                        contentArrayList.add(content);
 //                        String key = obj.getString("key");
 //                        String value = obj.getString("value");
 //
@@ -134,7 +134,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }
 
-            for(Item data : itemArrayList){
+            for(Content data : contentArrayList){
                 adapter.addItem(data);
             }
 

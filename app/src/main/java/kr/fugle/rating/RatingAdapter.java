@@ -17,7 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-import kr.fugle.Item;
+import kr.fugle.Item.Content;
 import kr.fugle.R;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -59,24 +59,24 @@ public class RatingAdapter extends BaseAdapter {
 
     // ratingItems 리스트에 아이템 추가
     //public void addItem(String imgUrl, String title, String description, Float rating){
-    public void addItem(Item item){
+    public void addItem(Content content){
         RatingItem ratingItem = new RatingItem();
 
-        ratingItem.setNo(item.getNo());
-        ratingItem.setImgUrl(item.getThumbnail());
-        ratingItem.setTitle(item.getTitle());
-        String author = item.getAuthor1();
-        if(!item.getAuthor2().equals("null")){
-            author += ", " + item.getAuthor2();
+        ratingItem.setNo(content.getNo());
+        ratingItem.setImgUrl(content.getThumbnail());
+        ratingItem.setTitle(content.getTitle());
+        String author = content.getAuthor1();
+        if(!content.getAuthor2().equals("null")){
+            author += ", " + content.getAuthor2();
         }
-        String genre = item.getGenre1();
-        if(!item.getGenre2().equals("null")){
-            genre += ", " + item.getGenre2();
-            if(!item.getGenre3().equals("null")){
-                genre += ", " + item.getGenre3();
+        String genre = content.getGenre1();
+        if(!content.getGenre2().equals("null")){
+            genre += ", " + content.getGenre2();
+            if(!content.getGenre3().equals("null")){
+                genre += ", " + content.getGenre3();
             }
         }
-        ratingItem.setDescription(author + " / " + item.getAge() + " / " + genre);
+        ratingItem.setDescription(author + " / " + content.getAge() + " / " + genre);
         ratingItem.setRating(0.0f);
 
         ratingItems.add(ratingItem);

@@ -14,7 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import kr.fugle.Item;
+import kr.fugle.Item.Content;
 import kr.fugle.R;
 
 /**
@@ -27,10 +27,10 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private RecommendHeader header;
     private Context context;
-    private List<Item> list;
+    private List<Content> list;
     int itemLayout;
 
-    public RecommendRecyclerAdapter(Context context, RecommendHeader header, List<Item> list, int itemLayout){
+    public RecommendRecyclerAdapter(Context context, RecommendHeader header, List<Content> list, int itemLayout){
         this.header = header;
         this.context = context;
         this.list = list;
@@ -58,16 +58,16 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
         }else if(holder instanceof VHItem){
             final VHItem vhItem = (VHItem)holder;
 
-            final Item item = list.get(position);
+            final Content content = list.get(position);
 
-            vhItem.no = item.getNo();
+            vhItem.no = content.getNo();
             Picasso.with(context.getApplicationContext())
-                    .load(item.getThumbnail())
+                    .load(content.getThumbnail())
                     .into(vhItem.thumbnailImg);
-            vhItem.prediction.setText(item.getPrediction().toString());
-            vhItem.title.setText(item.getTitle());
-//        vhItem.tag.setText("선호하는 테그 #" + item.getTag());
-//        vhItem.friends.setText(item.getFriends + "님 왜 7명의 친구가 봤어요");
+            vhItem.prediction.setText(content.getPrediction().toString());
+            vhItem.title.setText(content.getTitle());
+//        vhItem.tag.setText("선호하는 테그 #" + content.getTag());
+//        vhItem.friends.setText(content.getFriends + "님 왜 7명의 친구가 봤어요");
             vhItem.preference.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

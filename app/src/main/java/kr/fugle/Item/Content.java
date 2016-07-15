@@ -1,9 +1,9 @@
-package kr.fugle;
+package kr.fugle.Item;
 
 /**
  * Created by hokyung on 16. 7. 11..
  */
-public class Item {
+public class Content {
 
     Integer no;
     String title;
@@ -17,7 +17,7 @@ public class Item {
     String href;
     Float prediction;
 
-    public Item(){
+    public Content(){
         no = 0;
         title = author1 = author2 = genre1 = genre2 = genre3 = summary = media = age = thumbnail = href = "";
         publish = false;

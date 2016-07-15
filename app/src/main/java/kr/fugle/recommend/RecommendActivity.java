@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.fugle.Item;
+import kr.fugle.Item.Content;
 import kr.fugle.R;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,7 +22,7 @@ public class RecommendActivity extends AppCompatActivity {
 
     final static String serverUrl = "http://52.79.147.163:8000/";
     OkHttpClient client = new OkHttpClient();
-    List<Item> itemArrayList;
+    List<Content> contentArrayList;
     RecyclerView recyclerView;
 
     @Override
@@ -35,7 +35,7 @@ public class RecommendActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
 
-        itemArrayList = new ArrayList<>();
+        contentArrayList = new ArrayList<>();
 
         new OkHttpGet().execute(serverUrl);
 
@@ -80,7 +80,7 @@ public class RecommendActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
 
-            Item item;
+            Content content;
 
             if(s != null && s != ""){
                 try{
@@ -93,18 +93,18 @@ public class RecommendActivity extends AppCompatActivity {
                     for(int i=0;i<list.length();i++){
                         JSONObject obj = list.getJSONObject(i);
 
-                        item = new Item();
-                        item.setNo(obj.getInt("id"));
-                        item.setTitle(obj.getString("title"));
-                        item.setAuthor1(obj.getString("author1"));
-                        item.setAuthor2(obj.getString("author2"));
-                        item.setGenre1(obj.getString("genre1"));
-                        item.setGenre2(obj.getString("genre2"));
-                        item.setGenre3(obj.getString("genre3"));
-                        item.setAge(obj.getString("age"));
-                        item.setThumbnail(obj.getString("thumbnail"));
+                        content = new Content();
+                        content.setNo(obj.getInt("id"));
+                        content.setTitle(obj.getString("title"));
+                        content.setAuthor1(obj.getString("author1"));
+                        content.setAuthor2(obj.getString("author2"));
+                        content.setGenre1(obj.getString("genre1"));
+                        content.setGenre2(obj.getString("genre2"));
+                        content.setGenre3(obj.getString("genre3"));
+                        content.setAge(obj.getString("age"));
+                        content.setThumbnail(obj.getString("thumbnail"));
 
-                        itemArrayList.add(item);
+                        contentArrayList.add(content);
 //                        String key = obj.getString("key");
 //                        String value = obj.getString("value");
 //
@@ -115,7 +115,7 @@ public class RecommendActivity extends AppCompatActivity {
                 }
             }
 
-            recyclerView.setAdapter(new RecommendRecyclerAdapter(getApplicationContext(),getHeader(), itemArrayList, R.layout.activity_recommend));
+            recyclerView.setAdapter(new RecommendRecyclerAdapter(getApplicationContext(),getHeader(), contentArrayList, R.layout.activity_recommend));
         }
     }
 }
