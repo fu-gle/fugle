@@ -11,6 +11,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -23,6 +25,8 @@ import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
+
+import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -80,21 +84,21 @@ public class LoginActivity extends AppCompatActivity {
                                 Profile profile = Profile.getCurrentProfile();
 
                                 //loginResult.getAccessToken() 정보를 가지고 유저 정보를 가져올수 있습니다.
-//                                GraphRequest request =GraphRequest.newMeRequest(loginResult.getAccessToken() ,
-//                                        new GraphRequest.GraphJSONObjectCallback() {
-//                                            @Override
-//                                            public void onCompleted(JSONObject object, GraphResponse response) {
-//                                                try {
-//                                                    Log.e("user profile",object.toString());
-//                                                } catch (Exception e) {
-//                                                    e.printStackTrace();
-//                                                }
-//                                            }
-//                                        });
-//                                Bundle parameters = new Bundle();
-//                                parameters.putString("fields", "email,gender,cover");
-//                                request.setParameters(parameters);
-//                                request.executeAsync();
+                                GraphRequest request =GraphRequest.newMeRequest(loginResult.getAccessToken() ,
+                                        new GraphRequest.GraphJSONObjectCallback() {
+                                            @Override
+                                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                                try {
+                                                    Log.e("user profile",object.toString());
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                Bundle parameters = new Bundle();
+                                parameters.putString("fields", "email,gender,cover");
+                                request.setParameters(parameters);
+                                request.executeAsync();
 
                                 Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
                                 intent.putExtra("image", profile.getProfilePictureUri(128,128).toString());
@@ -103,6 +107,14 @@ public class LoginActivity extends AppCompatActivity {
                                         profile.getLastName()+"-"+profile.getName());
                                 startActivity(intent);
                                 finish();
+
+//                                Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
+//                                intent.putExtra("image", profile.getProfilePictureUri(64,64).toString());
+//                                intent.putExtra("id", profile.getId()+"");
+//                                intent.putExtra("name",profile.getFirstName()+"-"+
+//                                        profile.getLastName()+"-"+profile.getName());
+//                                startActivity(intent);
+//                                finish();
                                 //request.executeAsync();
                             }
 
