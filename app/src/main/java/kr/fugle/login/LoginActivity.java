@@ -98,19 +98,21 @@ public class LoginActivity extends AppCompatActivity {
 
                                 final Profile[] profile = {null};
 
-                                if(Profile.getCurrentProfile() == null){
+                                profile[0] = Profile.getCurrentProfile();
+
+                                if(profile[0] == null){
                                     mProfileTracker = new ProfileTracker() {
                                         @Override
                                         protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
                                             // currentProfile is new profile
+                                            Profile.setCurrentProfile(currentProfile);
                                             profile[0] = currentProfile;
                                             mProfileTracker.stopTracking();
                                         }
                                     };
+                                    mProfileTracker.startTracking();
                                     // no need to call startTracking() on mProfileTracker
                                     // because it is called by its constructor, internally.
-                                } else {
-                                    profile[0] = Profile.getCurrentProfile();
                                 }
 
                                 //loginResult.getAccessToken() 정보를 가지고 유저 정보를 가져올수 있습니다.
