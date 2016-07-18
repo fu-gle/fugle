@@ -3,9 +3,11 @@ package kr.fugle.recommend;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,9 +63,20 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
             final Content content = list.get(position);
 
             vhItem.no = content.getNo();
+
             Picasso.with(context.getApplicationContext())
                     .load(content.getThumbnail())
                     .into(vhItem.thumbnailImg);
+
+            // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
+            DisplayMetrics metrics = new DisplayMetrics();
+            WindowManager windowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+            windowManager.getDefaultDisplay().getMetrics(metrics);
+
+            vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) vhItem.thumbnailImg.getLayoutParams();
+            params.height = metrics.heightPixels;
+
             vhItem.prediction.setText(content.getPrediction().toString());
             vhItem.title.setText(content.getTitle());
 //        vhItem.tag.setText("선호하는 테그 #" + content.getTag());
