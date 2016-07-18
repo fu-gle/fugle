@@ -214,8 +214,8 @@ public class LoginActivity extends AppCompatActivity {
                     //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
 
                     // 서버로 데이터 전송
-                    // 카카오톡 키 + 기본 유저 정보(이름, 성별.. 말고 뭐있지?)
-//                    new OkHttpLogin().execute(serverUrl, 유저 정보);
+                    new OkHttpLogin().execute(serverUrl, userProfile.getId() + "", userProfile.getNickname(), userProfile.getProfileImagePath());
+
                     Log.e("UserProfile", userProfile.toString());
                     Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
                     intent.putExtra("image", userProfile.getProfileImagePath());
@@ -242,9 +242,10 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             // 서버로 보낼 사용자 데이터
-            // 넘어온 정보들 다 보내야함
-            String data = "webtoonId=" + params[1] + "&star=" + params[2];  // 변경 필요
-            Log.d("OkHttpPost.data", data);
+            // 0: server address, 1: primary number, 2: nickname, 3: profileImgPath
+            String data = "primary=" + params[1] + "&nickname=" + params[2]
+                    + "&profile=" + params[3];  // 변경 필요
+            Log.d("OkHttpLogin.data", data);
 
             RequestBody body = RequestBody.create(HTML, data);
 
@@ -268,6 +269,13 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             // 서버에서 로그인 성공여부 받음
+//            Log.e("UserProfile", userProfile.toString());
+//            Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
+//            intent.putExtra("image", userProfile.getProfileImagePath());
+//            intent.putExtra("id", userProfile.getId()+"");
+//            intent.putExtra("name", userProfile.getNickname());
+//            startActivity(intent);
+//            finish();
             // 성공시 startActivity. 실패시 토스트 메세지
             Log.d("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute");
         }
