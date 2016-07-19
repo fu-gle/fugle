@@ -27,6 +27,7 @@ import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -124,10 +125,28 @@ public class LoginActivity extends AppCompatActivity {
                     // 서버로 데이터 전송
                     new OkHttpLogin().execute(serverUrl, userProfile.getId() + "", userProfile.getNickname(), userProfile.getProfileImagePath());
                     Log.e("UserProfile", userProfile.toString());
+
+                    String accessToken = Session.getCurrentSession().getAccessToken();
+                    Log.d("accessToken: ", accessToken);
                     Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
-                    intent.putExtra("image", userProfile.getProfileImagePath());
-                    intent.putExtra("id", userProfile.getId() + "");
-                    intent.putExtra("name", userProfile.getNickname());
+                    intent.putExtra("accessToken", accessToken);
+                    Session.getCurrentSession().checkAccessTokenInfo();
+                    JSONObject obj = new JSONObject();
+                    try {
+                        obj.put("login_type","kakao");
+                        obj.put("id", userProfile.getId()+"");
+                        obj.put("name", userProfile.getNickname());
+                        obj.put("image", userProfile.getProfileImagePath());
+                    } catch (JSONException e1) {
+                        // TODO Auto-generated catch block
+                        e1.printStackTrace();
+                    }
+                    intent.putExtra("jsondata",obj.toString());
+                    // "fields", "id,name,email,picture.width(120).height(120)"
+
+//                    intent.putExtra("image", userProfile.getProfileImagePath());
+//                    intent.putExtra("id", userProfile.getId() + "");
+//                    intent.putExtra("name", userProfile.getNickname());
                     startActivity(intent);
                     finish();
                 }
@@ -222,6 +241,11 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(JSONObject object,
                                             GraphResponse response) {
+                        try{
+                            object.put("login_type","facebook");
+                        } catch (JSONException el) {
+                            el.printStackTrace();
+                        }
                         Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
                         intent.putExtra("jsondata", object.toString());
                         startActivity(intent);
