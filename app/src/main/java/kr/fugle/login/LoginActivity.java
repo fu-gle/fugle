@@ -170,13 +170,13 @@ public class LoginActivity extends AppCompatActivity {
             // 서버로 보낼 사용자 데이터
             // 0: server address, 1: primary number, 2: nickname, 3: profileImgPath
             String data = "primary=" + params[1] + "&nickname=" + params[2]
-                    + "&profile=" + params[3];  // 변경 필요
+                    + "&profile=" + params[3];
             Log.d("OkHttpLogin.data", data);
 
             RequestBody body = RequestBody.create(HTML, data);
 
             Request request = new Request.Builder()
-                    .url(params[0] + "login/")     // 임시 로그인 주소
+                    .url(params[0] + "login/")
                     .post(body)
                     .build();
 
@@ -245,6 +245,9 @@ public class LoginActivity extends AppCompatActivity {
                                             GraphResponse response) {
                         try{
                             object.put("login_type","facebook");
+                            JSONObject pic_data = new JSONObject(object.get("picture").toString());
+                            JSONObject pic_url = new JSONObject(pic_data.getString("data"));
+                            new OkHttpLogin().execute(serverUrl, object.getString("id").toString(), object.getString("name").toString(), pic_url.getString("url"));
                         } catch (JSONException el) {
                             el.printStackTrace();
                         }
