@@ -3,11 +3,13 @@ package kr.fugle.rating;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -62,7 +64,14 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
         Picasso.with(context.getApplicationContext())
                 .load(content.getThumbnail())
                 .into(vhItem.thumbnailImg);
-//        vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+        // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+        vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) vhItem.thumbnailImg.getLayoutParams();
+        params.height = metrics.heightPixels / 3;
 
         vhItem.title.setText(content.getTitle());
 
