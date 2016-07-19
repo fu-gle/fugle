@@ -75,7 +75,7 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
 
             vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
             ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) vhItem.thumbnailImg.getLayoutParams();
-            params.height = metrics.heightPixels;
+            params.height = metrics.heightPixels / 3;
 
             vhItem.prediction.setText(content.getPrediction().toString());
             vhItem.title.setText(content.getTitle());
