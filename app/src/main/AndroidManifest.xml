@@ -44,16 +44,19 @@
             android:theme="@android:style/Theme.NoTitleBar"/>
         <!-- splash -->
 
-        <activity android:name=".login.SuccessActivity"></activity>
-
+        <activity android:name=".login.SuccessActivity"/>
 
         <!-- 호경이의 액티비티입니당 -->
-        <activity android:name=".HoActivity"></activity>
+        <activity android:name=".HoActivity"/>
+        <activity android:name=".rating.RatingActivity"/>
+        <activity android:name=".recommend.RecommendActivity"/>
 
-        <activity android:name=".rating.RatingActivity"></activity>
-
-        <activity android:name=".recommend.RecommendActivity"></activity>
-
+        <!-- 회원가입 -->
+        <activity android:name=".register.RegisterActivity"
+                  android:theme="@style/TextLabel"
+                  android:label="@string/actionbar_name"
+            />
+        <!-- 회원가입 -->
     </application>
 
 </manifest>

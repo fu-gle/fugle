@@ -27,8 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_profile_photo"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:gravity="center"
         android:text="id : null"
         android:textSize="30dp"/>
@@ -38,17 +37,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/login_id"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="name : null"
+        android:textSize="30dp"/>
+
+    <TextView
+        android:id="@+id/login_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/login_name"
+        android:layout_marginBottom="30dp"
+        android:gravity="center"
+        android:text="email : null"
         android:textSize="30dp"/>
 
     <Button
         android:id="@+id/LogoutButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@+id/login_name"
+        android:layout_below="@+id/login_email"
         android:layout_margin="20dp"
         android:background="@drawable/round_box_kakao"
         android:drawableLeft="@drawable/kakaolink_btn_small_ov"
