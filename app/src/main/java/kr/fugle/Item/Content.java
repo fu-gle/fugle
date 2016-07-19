@@ -16,12 +16,13 @@ public class Content {
     String thumbnail;
     String href;
     Float prediction;
+    Float rating;
 
     public Content(){
         no = 0;
         title = author1 = author2 = genre1 = genre2 = genre3 = summary = media = age = thumbnail = href = "";
         publish = false;
-        prediction = 0.0f;
+        prediction = rating = 0.0f;
     }
 
     public Integer getNo() {
@@ -134,5 +135,13 @@ public class Content {
 
     public void setPrediction(Float prediction) {
         this.prediction = prediction;
+    }
+
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
     }
 }
