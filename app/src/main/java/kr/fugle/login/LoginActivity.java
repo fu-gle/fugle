@@ -14,7 +14,6 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -33,6 +32,7 @@ import org.json.JSONObject;
 import java.util.Arrays;
 
 import kr.fugle.R;
+import kr.fugle.register.RegisterActivity;
 import kr.fugle.splash.SplashActivity;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     SessionCallback callback;
 
     // 페이스북
-    private TextView CustomloginButton;
+    //private TextView CustomloginButton;
     private CallbackManager callbackManager;
 
     // 서버 통신 OkHttp
@@ -65,105 +65,15 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_login);
 
-//        UserManagement.requestLogout(new LogoutResponseCallback() {
-//            @Override
-//            public void onCompleteLogout() {
-//                Toast.makeText(getApplicationContext(), "로그아웃 성공!", Toast.LENGTH_SHORT).show();
-//                //로그아웃 성공 후 하고싶은 내용 코딩 ~
-//            }
-//        });
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
         //GlobalApplication.setCurrentActivity(LoginActivity.this);
 
+        // 회원가입
+        findViewById(R.id.register_button).setOnClickListener(onRegisterButtonClicked);
+
         // 페이스북 로그인
-        CustomloginButton = (TextView)findViewById(R.id.com_facebook_login);
-        CustomloginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //LoginManager - 요청된 읽기 또는 게시 권한으로 로그인 절차를 시작합니다.
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
-                        Arrays.asList("public_profile", "user_friends"));
-                LoginManager.getInstance().registerCallback(callbackManager,
-                        new FacebookCallback<LoginResult>() {
-
-                            private ProfileTracker mProfileTracker;
-
-                            @Override
-                            public void onSuccess(LoginResult loginResult) {
-                                Log.e("onSuccess", "onSuccess");
-                                Log.e("토큰",loginResult.getAccessToken().getToken());
-                                Log.e("유저아이디",loginResult.getAccessToken().getUserId());
-                                Log.e("퍼미션 리스트",loginResult.getAccessToken().getPermissions()+"");
-
-                                final Profile[] profile = {null};
-
-                                if(Profile.getCurrentProfile() == null){
-                                    mProfileTracker = new ProfileTracker() {
-                                        @Override
-                                        protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
-                                            // currentProfile is new profile
-                                            profile[0] = currentProfile;
-                                            mProfileTracker.stopTracking();
-                                        }
-                                    };
-                                    // no need to call startTracking() on mProfileTracker
-                                    // because it is called by its constructor, internally.
-                                } else {
-                                    profile[0] = Profile.getCurrentProfile();
-                                }
-
-                                //loginResult.getAccessToken() 정보를 가지고 유저 정보를 가져올수 있습니다.
-                                GraphRequest request =GraphRequest.newMeRequest(loginResult.getAccessToken() ,
-                                        new GraphRequest.GraphJSONObjectCallback() {
-                                            @Override
-                                            public void onCompleted(JSONObject object, GraphResponse response) {
-                                                try {
-                                                    Log.e("user profile",object.toString());
-                                                } catch (Exception e) {
-                                                    e.printStackTrace();
-                                                }
-                                            }
-                                        });
-                                Bundle parameters = new Bundle();
-                                parameters.putString("fields", "email,gender,cover");
-                                request.setParameters(parameters);
-                                request.executeAsync();
-
-                                // 서버로 데이터 전송
-                                // 페북이니까 페북 키 + 기본 유저 정보(이름, 성별.. 말고 뭐있지?)
-//                                new OkHttpLogin().execute(serverUrl, 여기에 정보들);
-
-                                Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
-                                intent.putExtra("image", profile[0].getProfilePictureUri(128,128).toString());
-                                intent.putExtra("id", profile[0].getId()+"");
-                                intent.putExtra("name", profile[0].getFirstName()+"-"+
-                                        profile[0].getLastName()+"-"+ profile[0].getName());
-                                startActivity(intent);
-                                finish();
-
-//                                Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
-//                                intent.putExtra("image", profile.getProfilePictureUri(64,64).toString());
-//                                intent.putExtra("id", profile.getId()+"");
-//                                intent.putExtra("name",profile.getFirstName()+"-"+
-//                                        profile.getLastName()+"-"+profile.getName());
-//                                startActivity(intent);
-//                                finish();
-                                //request.executeAsync();
-                            }
-
-                            @Override
-                            public void onCancel() {
-                                Log.e("onCancel", "onCancel");
-                            }
-
-                            @Override
-                            public void onError(FacebookException exception) {
-                                Log.e("onError", "onError " + exception.getLocalizedMessage());
-                            }
-                        });
-            }
-        });
+        findViewById(R.id.com_facebook_login).setOnClickListener(onFacebookButtonClicked);
     }
 
     @Override
@@ -217,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("UserProfile", userProfile.toString());
                     Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
                     intent.putExtra("image", userProfile.getProfileImagePath());
-                    intent.putExtra("id", userProfile.getId()+"");
+                    intent.putExtra("id", userProfile.getId() + "");
                     intent.putExtra("name", userProfile.getNickname());
                     startActivity(intent);
                     finish();
@@ -233,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private class OkHttpLogin extends AsyncTask<String, Void, String>{
+    private class OkHttpLogin extends AsyncTask<String, Void, String> {
 
         public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
@@ -251,11 +161,11 @@ public class LoginActivity extends AppCompatActivity {
                     .post(body)
                     .build();
 
-            try{
+            try {
                 // 서버로 전송
                 Response response = client.newCall(request).execute();
                 return response.body().string();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -270,5 +180,68 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute");
         }
     }
+
+    TextView.OnClickListener onFacebookButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //LoginManager - 요청된 읽기 또는 게시 권한으로 로그인 절차를 시작합니다.
+            LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
+                    Arrays.asList("public_profile", "user_friends"));
+            LoginManager.getInstance().registerCallback(callbackManager,
+                    new FacebookCallback<LoginResult>() {
+
+                        private ProfileTracker mProfileTracker;
+
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
+                            getUserInfo(loginResult);
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            Log.e("onCancel", "onCancel");
+                        }
+
+                        @Override
+                        public void onError(FacebookException exception) {
+                            Log.e("onError", "onError " + exception.getLocalizedMessage());
+                        }
+                    });
+        }
+    };
+
+    /*
+    To get the facebook user's own profile information via  creating a new request.
+    When the request is completed, a callback is called to handle the success condition.
+ */
+    protected void getUserInfo(LoginResult loginResult) {
+
+        GraphRequest request = GraphRequest.newMeRequest(
+                loginResult.getAccessToken(),
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object,
+                                            GraphResponse response) {
+                        Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
+                        intent.putExtra("jsondata", object.toString());
+                        startActivity(intent);
+                    }
+                });
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email,picture.width(120).height(120)");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+
+    TextView.OnClickListener onRegisterButtonClicked = new View.OnClickListener() {
+        // 회원가입 버튼 클릭
+        public void onClick(View v) {
+            //TextView register = (TextView)findViewById(R.id.register_button);
+            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+            //finish();
+        }
+    };
 }
 

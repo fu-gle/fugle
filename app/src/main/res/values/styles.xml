@@ -29,4 +29,17 @@
         <item name="android:thumb">@null</item>
     </style>
 
+    <!-- 회원가입 textlabel 부분 custom 색 -->
+    <style name="TextLabel" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Hint color and label color in FALSE state -->
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="android:textSize">17sp</item>
+        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
+        <item name="colorAccent">@color/subColor1</item>
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+
+        <!-- edit를 눌렀을때 위로 올라가는 색 -->
+        <item name="colorControlActivated">@color/mainColor</item>
+    </style>
+
 </resources>
