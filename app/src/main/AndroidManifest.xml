@@ -3,6 +3,7 @@
           package="kr.fugle">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".login.GlobalApplication"
@@ -52,11 +53,14 @@
         <activity android:name=".recommend.RecommendActivity"/>
 
         <!-- 회원가입 -->
-        <activity android:name=".register.RegisterActivity"
-                  android:theme="@style/TextLabel"
-                  android:label="@string/actionbar_name"
+        <activity
+            android:name=".register.RegisterActivity"
+            android:label="@string/actionbar_name"
+            android:theme="@style/TextLabel"
             />
         <!-- 회원가입 -->
+        <activity android:name=".login.EmailLoginActivity">
+        </activity>
     </application>
 
 </manifest>

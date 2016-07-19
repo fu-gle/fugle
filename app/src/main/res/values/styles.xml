@@ -40,6 +40,8 @@
 
         <!-- edit를 눌렀을때 위로 올라가는 색 -->
         <item name="colorControlActivated">@color/mainColor</item>
+
+        <item name="colorControlHighlight">@color/subColor1</item>
     </style>
 
 </resources>
