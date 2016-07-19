@@ -3,7 +3,11 @@ package kr.fugle.rating;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -24,45 +28,42 @@ public class RatingActivity extends AppCompatActivity {
 
     final static String serverUrl = "http://52.79.147.163:8000/";
     OkHttpClient client;
-    RatingAdapter adapter;
     ArrayList<Content> contentArrayList;
-    ListView listView;
+    RecyclerView recyclerView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating_list);
 
+        // 툴바 생성
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(manager);
+
         contentArrayList = new ArrayList<>();
         client = new OkHttpClient();
 
-        // Adapter 생성
-        adapter = new RatingAdapter();
-
-        // 리스트뷰 참조 및 Adapter 달기
-        listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(adapter);
-
         // 아이템 넣기
-        // 이 부분에서 서버와 연동하여 데이터 넣기
         new OkHttpGet().execute(serverUrl);
-        //adapter.addItem("http://thumb.comic.naver.net/webtoon/675554/thumbnail/title_thumbnail_20160303181701_t83x90.jpg", "가우스 전자", "곽백수", 3.0f);
+    }
 
-        // 클릭시 이벤트 처리
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // 아이템 가져오기
-                RatingItem item = (RatingItem)parent.getItemAtPosition(position);
-
-                // view 는 리니어 레이아웃 한 줄을 뜻함
-//                LinearLayout layout = (LinearLayout) view;
-
-                //상세정보 액티비티로 이동
-                Toast.makeText(RatingActivity.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     // 서버로부터 데이터를 json 형태로 긁어온다
@@ -124,21 +125,13 @@ public class RatingActivity extends AppCompatActivity {
                         content.setThumbnail(obj.getString("thumbnail"));
 
                         contentArrayList.add(content);
-//                        String key = obj.getString("key");
-//                        String value = obj.getString("value");
-//
-//                        resultText.setText(resultText.getText().toString() + key + ":" + value + "\n");
                     }
                 }catch(Exception e){
                     e.printStackTrace();
                 }
             }
-
-            for(Content data : contentArrayList){
-                adapter.addItem(data);
-            }
-
-            listView.setAdapter(adapter);
+            Log.d("------",contentArrayList.get(0).getTitle());
+            recyclerView.setAdapter(new RatingRecyclerAdapter(getApplicationContext(), contentArrayList, R.layout.activity_rating_list));
         }
     }
 }

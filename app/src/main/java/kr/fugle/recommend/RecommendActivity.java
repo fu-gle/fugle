@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -24,11 +26,18 @@ public class RecommendActivity extends AppCompatActivity {
     OkHttpClient client = new OkHttpClient();
     List<Content> contentArrayList;
     RecyclerView recyclerView;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if(toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
@@ -38,8 +47,16 @@ public class RecommendActivity extends AppCompatActivity {
         contentArrayList = new ArrayList<>();
 
         new OkHttpGet().execute(serverUrl);
+    }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public RecommendHeader getHeader(){
@@ -105,10 +122,6 @@ public class RecommendActivity extends AppCompatActivity {
                         content.setThumbnail(obj.getString("thumbnail"));
 
                         contentArrayList.add(content);
-//                        String key = obj.getString("key");
-//                        String value = obj.getString("value");
-//
-//                        resultText.setText(resultText.getText().toString() + key + ":" + value + "\n");
                     }
                 }catch(Exception e){
                     e.printStackTrace();

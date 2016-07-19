@@ -60,7 +60,7 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
         }else if(holder instanceof VHItem){
             final VHItem vhItem = (VHItem)holder;
 
-            final Content content = list.get(position);
+            final Content content = list.get(position - 1);
 
             vhItem.no = content.getNo();
 

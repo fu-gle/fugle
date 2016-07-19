@@ -22,4 +22,9 @@
     <string name="err_msg_password">패스워드를 입력해주세요</string>
     <!-- 회원가입 -->
 
+    <!-- 툴바 내용 목록 -->
+    <string name="toolbar_rating">별점을 입력해주세요</string>
+    <string name="toolbar_recommend">추천 목록</string>
+
+
 </resources>
