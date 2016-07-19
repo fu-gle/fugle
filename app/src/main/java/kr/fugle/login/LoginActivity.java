@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // 서버 통신 OkHttp
     final static String serverUrl = "http://52.79.147.163:8000/";
-    OkHttpClient client;
+    OkHttpClient client = new OkHttpClient();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +180,8 @@ public class LoginActivity extends AppCompatActivity {
                     .post(body)
                     .build();
 
+            Log.d("OkHttpLogin.request", request.toString());
+
             try {
                 // 서버로 전송
                 Response response = client.newCall(request).execute();
@@ -196,7 +198,7 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(s);
             // 서버에서 로그인 성공여부 받음
             // 성공시 startActivity. 실패시 토스트 메세지
-            Log.d("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute");
+            Log.d("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute " + s);
         }
     }
 
