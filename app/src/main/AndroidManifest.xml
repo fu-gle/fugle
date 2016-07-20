@@ -14,8 +14,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".login.LoginActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -41,16 +40,21 @@
         <activity
             android:name=".splash.SplashActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:screenOrientation="portrait"/>
         <!-- splash -->
 
         <activity android:name=".login.SuccessActivity"/>
 
         <!-- 호경이의 액티비티입니당 -->
         <activity android:name=".HoActivity"/>
-        <activity android:name=".rating.RatingActivity"/>
-        <activity android:name=".recommend.RecommendActivity"/>
+
+        <!-- 별점 주기용 -->
+        <activity android:name=".rating.RatingActivity"
+                  android:label="@string/toolbar_rating"/>
+
+        <!-- 추천 목록 -->
+        <activity android:name=".recommend.RecommendActivity"
+                  android:label="@string/toolbar_recommend"/>
 
         <!-- 회원가입 -->
         <activity
@@ -58,6 +62,7 @@
             android:label="@string/actionbar_name"
             android:theme="@style/TextLabel"
             />
+
         <!-- 회원가입 -->
         <activity android:name=".login.EmailLoginActivity">
         </activity>
