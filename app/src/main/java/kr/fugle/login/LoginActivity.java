@@ -42,11 +42,16 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
+    // 카카오
     SessionCallback callback;
 
     // 페이스북
     //private TextView CustomloginButton;
     private CallbackManager callbackManager;
+
+    // 이메일
+    private EmailLoginDialog emailLogin;
 
     // 서버 통신 OkHttp
     final static String serverUrl = "http://52.79.147.163:8000/";
@@ -75,6 +80,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // 페이스북 로그인
         findViewById(R.id.com_facebook_login).setOnClickListener(onFacebookButtonClicked);
+
+        // 이메일 로그인
+        findViewById(R.id.com_email_login).setOnClickListener(onEmailButtonClicked);
     }
 
     @Override
@@ -122,8 +130,6 @@ public class LoginActivity extends AppCompatActivity {
                     //로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
                     //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
 
-                    // 서버로 데이터 전송
-                    new OkHttpLogin().execute(serverUrl, userProfile.getId() + "", userProfile.getNickname(), userProfile.getProfileImagePath());
                     Log.e("UserProfile", userProfile.toString());
 
                     String accessToken = Session.getCurrentSession().getAccessToken();
@@ -137,16 +143,19 @@ public class LoginActivity extends AppCompatActivity {
                         obj.put("id", userProfile.getId()+"");
                         obj.put("name", userProfile.getNickname());
                         obj.put("image", userProfile.getProfileImagePath());
+                        // 서버로 데이터전송
+                        new OkHttpLogin().execute(
+                                serverUrl,
+                                obj.getString("id"),
+                                obj.getString("name"),
+                                null,
+                                null,
+                                obj.getString("image"));
                     } catch (JSONException e1) {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
                     intent.putExtra("jsondata",obj.toString());
-                    // "fields", "id,name,email,picture.width(120).height(120)"
-
-//                    intent.putExtra("image", userProfile.getProfileImagePath());
-//                    intent.putExtra("id", userProfile.getId() + "");
-//                    intent.putExtra("name", userProfile.getNickname());
                     startActivity(intent);
                     finish();
                 }
@@ -168,9 +177,10 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... params) {
             // 서버로 보낼 사용자 데이터
-            // 0: server address, 1: primary number, 2: nickname, 3: profileImgPath
-            String data = "primary=" + params[1] + "&nickname=" + params[2]
-                    + "&profile=" + params[3];
+            // server address, primary, name, password, message, profile
+            String data = "primary=" + params[1] + "&name=" + params[2]
+                    + "&password=" + params[3] + "&message=" + params[4]
+                    + "&profile=" + params[5];
             Log.d("OkHttpLogin.data", data);
 
             RequestBody body = RequestBody.create(HTML, data);
@@ -247,7 +257,13 @@ public class LoginActivity extends AppCompatActivity {
                             object.put("login_type","facebook");
                             JSONObject pic_data = new JSONObject(object.get("picture").toString());
                             JSONObject pic_url = new JSONObject(pic_data.getString("data"));
-                            new OkHttpLogin().execute(serverUrl, object.getString("id").toString(), object.getString("name").toString(), pic_url.getString("url"));
+                            new OkHttpLogin().execute(
+                                    serverUrl,
+                                    object.getString("id"),
+                                    object.getString("name"),
+                                    null,
+                                    null,
+                                    pic_url.getString("url"));
                         } catch (JSONException el) {
                             el.printStackTrace();
                         }
@@ -262,7 +278,17 @@ public class LoginActivity extends AppCompatActivity {
         request.executeAsync();
     }
 
+    // 이메일 로그인 버튼 클릭시
+    TextView.OnClickListener onEmailButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            //emailLogin = new EmailLoginDialog();
+           //emailLogin.show
+        }
+    };
 
+
+    // 회원가입 버튼 클릭시
     TextView.OnClickListener onRegisterButtonClicked = new View.OnClickListener() {
         // 회원가입 버튼 클릭
         public void onClick(View v) {
