@@ -38,6 +38,7 @@
         />
 
     <TextView
+        android:id="@+id/com_email_login"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
@@ -47,20 +48,23 @@
         android:gravity="center"
         android:text="이메일로 로그인"
         android:textColor="#ffffffff"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:onClick="onEmailButtonClicked"
+        />
 
     <TextView
         android:id="@+id/register_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
-        android:gravity="right"
+        android:layout_gravity="center"
         android:linksClickable="true"
         android:paddingRight="30dp"
-        android:text="회원가입"
+        android:text="아직 회원이 아니십니까? 회원가입"
         android:textSize="17sp"
+        android:textColor="#ffffffff"
         android:onClick="onRegisterButtonClicked"
         />
 
