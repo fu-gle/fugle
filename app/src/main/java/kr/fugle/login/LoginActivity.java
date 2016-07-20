@@ -42,6 +42,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
+
+    // 카카오톡
     SessionCallback callback;
 
     // 페이스북
@@ -64,9 +66,18 @@ public class LoginActivity extends AppCompatActivity {
         // Splash 화면 이동
         startActivity(new Intent(this, SplashActivity.class));
 
-        setContentView(R.layout.activity_login);
-
         callback = new SessionCallback();
+
+        // 로그아웃 버튼 클릭시의 intent 채크
+        Intent intent = getIntent();
+        boolean logout = intent.getBooleanExtra("logout",false);
+
+        // 이미 카톡로그인이 되어있는 경우 확인
+        if(!logout && !Session.getCurrentSession().isClosed()){
+            Log.d("--->","already logined");
+            new SessionCallback().onSessionOpened();
+        }
+
         Session.getCurrentSession().addCallback(callback);
         //GlobalApplication.setCurrentActivity(LoginActivity.this);
 

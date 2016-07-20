@@ -78,6 +78,7 @@ public class SuccessActivity extends AppCompatActivity {
             }
         });
         Intent intent = new Intent(SuccessActivity.this, LoginActivity.class);
+        intent.putExtra("logout",true);
         startActivity(intent);
         finish();
     }
