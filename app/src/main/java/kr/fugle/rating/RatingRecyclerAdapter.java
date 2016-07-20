@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import kr.fugle.Item.Content;
@@ -79,6 +81,8 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
         if(!content.getAuthor2().equals("null")){
             author += ", " + content.getAuthor2();
         }
+        vhItem.description.setText(author + " / " + content.getAge());
+
         String genre = content.getGenre1();
         if(!content.getGenre2().equals("null")){
             genre += ", " + content.getGenre2();
@@ -86,7 +90,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
                 genre += ", " + content.getGenre3();
             }
         }
-        vhItem.description.setText(author + " / " + content.getAge() + " / " + genre);
+        vhItem.genre.setText(genre);
 
         vhItem.ratingBar.setRating(content.getRating());
         vhItem.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -127,6 +131,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
         ImageView thumbnailImg;
         TextView title;
         TextView description;
+        TextView genre;
         RatingBar ratingBar;
 
         public VHItem(View itemView) {
@@ -134,6 +139,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
             thumbnailImg = (ImageView)itemView.findViewById(R.id.thumbnailImg);
             title = (TextView)itemView.findViewById(R.id.title);
             description = (TextView)itemView.findViewById(R.id.description);
+            genre = (TextView)itemView.findViewById(R.id.genre);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
         }
     }
