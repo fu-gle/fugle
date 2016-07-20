@@ -17,8 +17,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import kr.fugle.Item.Content;
@@ -37,13 +35,16 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
     private Context context;
     private List<Content> list;
     int itemLayout;
+    Integer userNo;
+
     private OkHttpClient client = new OkHttpClient();
     final static String serverUrl = "http://52.79.147.163:8000/";
 
-    public RatingRecyclerAdapter(Context context, List<Content> list, int itemLayout){
+    public RatingRecyclerAdapter(Context context, List<Content> list, int itemLayout, int userNo){
         this.context = context;
         this.list = list;
         this.itemLayout = itemLayout;
+        this.userNo = userNo;
     }
 
     @Override
@@ -103,7 +104,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
 
                     Toast.makeText(context.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                    new OkHttpPost().execute(serverUrl, content.getNo().toString(), Rating.toString());
+                    new OkHttpPost().execute(serverUrl, userNo.toString(), content.getNo().toString(), Rating.toString());
                     lock[0] = false;
                 }
             }
@@ -153,7 +154,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
 
             // 서버로 보낼 별점 데이터
             // 별점 이외에 사용자 번호와 작품 번호도 보내야함
-            String data = "webtoonId=" + params[1] + "&star=" + params[2];
+            String data = "userId=" + params[1] + "&webtoonId=" + params[2] + "&star=" + params[3];
             Log.d("OkHttpPost.data", data);
 
             RequestBody body = RequestBody.create(HTML, data);

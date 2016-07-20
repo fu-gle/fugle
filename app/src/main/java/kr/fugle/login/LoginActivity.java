@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.register.RegisterActivity;
 import kr.fugle.splash.SplashActivity;
@@ -57,6 +59,12 @@ public class LoginActivity extends AppCompatActivity {
     final static String serverUrl = "http://52.79.147.163:8000/";
     OkHttpClient client = new OkHttpClient();
 
+    // User 정보 저장
+//    User user;
+    String user;
+    JSONObject obj;
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,13 +80,42 @@ public class LoginActivity extends AppCompatActivity {
         callback = new SessionCallback();
 
         // 로그아웃 버튼 클릭시의 intent 채크
-        Intent intent = getIntent();
-        boolean logout = intent.getBooleanExtra("logout",false);
+        Intent data = getIntent();
+        boolean logout = data.getBooleanExtra("logout",false);
 
         // 이미 카톡로그인이 되어있는 경우 확인
         if(!logout && !Session.getCurrentSession().isClosed()){
             Log.d("--->","already logined");
             new SessionCallback().onSessionOpened();
+        }
+
+        // 페이스북 로그인이 되어있는 경우 확인
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken != null){
+            Log.d("-----","이미 페북로그인");
+            //LoginManager - 요청된 읽기 또는 게시 권한으로 로그인 절차를 시작합니다.
+            LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
+                    Arrays.asList("public_profile", "user_friends"));
+            LoginManager.getInstance().registerCallback(callbackManager,
+                    new FacebookCallback<LoginResult>() {
+
+                        private ProfileTracker mProfileTracker;
+
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
+                            getUserInfo(loginResult);
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            Log.e("onCancel", "onCancel");
+                        }
+
+                        @Override
+                        public void onError(FacebookException exception) {
+                            Log.e("onError", "onError " + exception.getLocalizedMessage());
+                        }
+                    });
         }
 
         Session.getCurrentSession().addCallback(callback);
@@ -143,10 +180,10 @@ public class LoginActivity extends AppCompatActivity {
 
                     String accessToken = Session.getCurrentSession().getAccessToken();
                     Log.d("accessToken: ", accessToken);
-                    Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
+                    intent = new Intent(LoginActivity.this, SuccessActivity.class);
                     intent.putExtra("accessToken", accessToken);
                     Session.getCurrentSession().checkAccessTokenInfo();
-                    JSONObject obj = new JSONObject();
+                    obj = new JSONObject();
                     try {
                         obj.put("login_type","kakao");
                         obj.put("id", userProfile.getId()+"");
@@ -165,8 +202,10 @@ public class LoginActivity extends AppCompatActivity {
                         e1.printStackTrace();
                     }
                     intent.putExtra("jsondata",obj.toString());
-                    startActivity(intent);
-                    finish();
+//                    intent.putExtra("userNo",user.getNo());
+//                    intent.putExtra("user",user);
+//                    startActivity(intent);
+//                    finish();
                 }
             });
 
@@ -218,6 +257,9 @@ public class LoginActivity extends AppCompatActivity {
             // 서버에서 로그인 성공여부 받음
             // 성공시 startActivity. 실패시 토스트 메세지
             Log.d("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute " + s);
+            intent.putExtra("user",s);
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -276,9 +318,11 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (JSONException el) {
                             el.printStackTrace();
                         }
-                        Intent intent = new Intent(LoginActivity.this, SuccessActivity.class);
+                        intent = new Intent(LoginActivity.this, SuccessActivity.class);
                         intent.putExtra("jsondata", object.toString());
-                        startActivity(intent);
+//                        intent.putExtra("userNo", user.getNo());
+//                        intent.putExtra("user",user);
+//                        startActivity(intent);
                     }
                 });
         Bundle parameters = new Bundle();
