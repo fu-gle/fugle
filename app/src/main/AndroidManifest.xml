@@ -65,13 +65,14 @@
             android:theme="@style/TextLabel" />
 
         <!-- 회원가입 -->
-        <activity android:name=".login.EmailLoginDialog"></activity>
+        <activity android:name=".login.EmailLoginDialog" />
 
         <!-- 메인 -->
         <activity
             android:name=".Main.MainActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".mystar.MyStarActivity"></activity>
+        <activity android:name=".mystar.MyStarActivity" />
+        <activity android:name=".detail.DetailActivity"></activity>
     </application>
 
 </manifest>

@@ -24,6 +24,11 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/*
+ *
+ * 내가 별점 준 작품의 목록을 불러오는 액티비티
+ *
+ */
 public class MyStarActivity extends AppCompatActivity {
 
     final static String serverUrl = "http://52.79.147.163:8000/";
