@@ -9,5 +9,7 @@
     <!-- fugle 전용색 -->
     <color name="mainColor">#61CAFC</color>
     <color name="subColor1">#22487a</color>
+    <color name="whiteColor">#ffffff</color>
     <!-- fugle 전용색 -->
+
 </resources>

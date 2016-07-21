@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import kr.fugle.HoActivity;
+import kr.fugle.Main.MainActivity;
 import kr.fugle.R;
 
 /**
@@ -61,6 +62,15 @@ public class SuccessActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SuccessActivity.this, HoActivity.class));
+                finish();
+            }
+        });
+
+        // 메인으로 가기
+        findViewById(R.id.mainBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SuccessActivity.this, MainActivity.class));
                 finish();
             }
         });
