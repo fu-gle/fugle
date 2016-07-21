@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import kr.fugle.Item.User;
+import kr.fugle.mystar.MyStarActivity;
 import kr.fugle.rating.RatingActivity;
 import kr.fugle.recommend.RecommendActivity;
 
@@ -70,6 +71,15 @@ public class HoActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HoActivity.this, RecommendActivity.class);
+                intent.putExtra("userNo", user.getNo());
+                startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.mystar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HoActivity.this, MyStarActivity.class);
                 intent.putExtra("userNo", user.getNo());
                 startActivity(intent);
             }

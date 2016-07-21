@@ -37,6 +37,12 @@
             android:id="@+id/recommendBtn"
             android:text="추천 목록"/>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mystar"
+            android:text="내 별점"/>
+
         <TextView
             android:layout_width="50dp"
             android:layout_height="50dp"

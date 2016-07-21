@@ -94,15 +94,43 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
         }
         vhItem.genre.setText(genre);
 
+        // 땡땡이 버튼(overflow icon) 클릭시 dialog
         vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MaterialDialog.Builder(ratingContext)
-                        .title("Basic Dialog")
-                        .content("contents")
-                        .positiveText("positive")
-                        .negativeText("negative")
+                final MaterialDialog dialog = new MaterialDialog.Builder(ratingContext)
+                        .title(content.getTitle())
+                        .customView(R.layout.rating_dialog, true)
                         .show();
+
+                View view = dialog.getCustomView();
+
+                // 보고싶어요 버튼
+                view.findViewById(R.id.preference).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("----->","보고싶어요 버튼 " + content.getNo());
+                        dialog.cancel();
+                    }
+                });
+
+                // 상세정보 버튼
+                view.findViewById(R.id.detail).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("----->","상세정보 버튼 " + content.getNo());
+                        dialog.cancel();
+                    }
+                });
+
+                // 코멘트 버튼
+                view.findViewById(R.id.comment).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("----->","코멘트 버튼 " + content.getNo());
+                        dialog.cancel();
+                    }
+                });
             }
         });
 

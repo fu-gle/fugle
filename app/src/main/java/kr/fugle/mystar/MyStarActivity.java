@@ -1,5 +1,6 @@
-package kr.fugle.recommend;
+package kr.fugle.mystar;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,32 +14,40 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import kr.fugle.Item.Content;
 import kr.fugle.R;
+import kr.fugle.rating.RatingRecyclerAdapter;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RecommendActivity extends AppCompatActivity {
+public class MyStarActivity extends AppCompatActivity {
 
     final static String serverUrl = "http://52.79.147.163:8000/";
-    OkHttpClient client = new OkHttpClient();
-    List<Content> contentArrayList;
+    OkHttpClient client;
+
+    ArrayList<Content> contentArrayList;
     RecyclerView recyclerView;
     Toolbar toolbar;
+    Integer userNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recommend);
+        setContentView(R.layout.activity_mystar);
 
+        // 툴바 생성
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        Intent intent = getIntent();
+        userNo = intent.getIntExtra("userNo", 0);
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
@@ -46,8 +55,10 @@ public class RecommendActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
 
         contentArrayList = new ArrayList<>();
+        client = new OkHttpClient();
 
-        new OkHttpGet().execute(serverUrl);
+        // 아이템 넣기
+        new OkHttpGet().execute(serverUrl, userNo.toString());
     }
 
     @Override
@@ -60,21 +71,24 @@ public class RecommendActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public RecommendHeader getHeader(){
-        RecommendHeader header = new RecommendHeader();
-        return header;
-    }
-
-    // 서버에서 데이터 받아오는 코드 추가
+    // 서버로부터 데이터를 json 형태로 긁어온다
     private class OkHttpGet extends AsyncTask<String, Void, String> {
+
+        public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
         // 서버와 통신을 하는 doInBackground 메소드
         @Override
         protected String doInBackground(String... params) {
+            Log.d("ho's activity", "MyStarActivity.OkHttpGet.doInBackground");
+
+            String data = "userId=" + params[1];
+
+            RequestBody body = RequestBody.create(HTML, data);
 
             // OkHttp 사용을 위한 문법
             Request request = new Request.Builder()
-                    .url(params[0])  // 추천 주소 예시
+                    .url(params[0] + "mystar/")
+                    .post(body)
                     .build();
 
             // json 데이터가 담길 변수
@@ -96,8 +110,7 @@ public class RecommendActivity extends AppCompatActivity {
         // 뷰에 반영 할 메소드
         @Override
         protected void onPostExecute(String s) {
-
-            Log.d("ho's activity", "RecommendActivity.OkHttpGet.onPostExecute " + s);
+            Log.d("ho's activity", "MyStarActivity.OkHttpGet.onPostExecute" + s);
 
             Content content;
 
@@ -122,6 +135,7 @@ public class RecommendActivity extends AppCompatActivity {
                         content.setGenre3(obj.getString("genre3"));
                         content.setAge(obj.getString("age"));
                         content.setThumbnail(obj.getString("thumbnail"));
+                        content.setRating((float)(obj.getInt("star")*1.0)/10);
 
                         contentArrayList.add(content);
                     }
@@ -129,8 +143,8 @@ public class RecommendActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-
-            recyclerView.setAdapter(new RecommendRecyclerAdapter(getApplicationContext(),getHeader(), contentArrayList, R.layout.activity_recommend));
+            Log.d("------",contentArrayList.get(0).getTitle());
+            recyclerView.setAdapter(new RatingRecyclerAdapter(getApplicationContext(), contentArrayList, MyStarActivity.this, userNo));
         }
     }
 }
