@@ -269,6 +269,7 @@ public class LoginActivity extends AppCompatActivity {
             //LoginManager - 요청된 읽기 또는 게시 권한으로 로그인 절차를 시작합니다.
             LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
                     Arrays.asList("public_profile", "user_friends"));
+
             LoginManager.getInstance().registerCallback(callbackManager,
                     new FacebookCallback<LoginResult>() {
 
