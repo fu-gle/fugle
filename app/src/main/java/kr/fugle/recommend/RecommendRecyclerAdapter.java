@@ -47,10 +47,10 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType == TYPE_HEADER){
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommend_item_header, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend_header, parent, false);
             return (RecyclerView.ViewHolder)(new VHHeader(v));
         } else if(viewType == TYPE_ITEM) {
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.recommend_item, parent, false);
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend, parent, false);
             return (RecyclerView.ViewHolder)(new VHItem(v));
         }
         throw  new RuntimeException("there is no type that matches the type" + viewType + ". make sure your using types correctly");

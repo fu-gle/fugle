@@ -52,7 +52,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
 
     @Override
     public VHItem onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.rating_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rating, parent, false);
         return new VHItem(v);
     }
 
@@ -102,7 +102,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
             public void onClick(View v) {
                 final MaterialDialog dialog = new MaterialDialog.Builder(ratingContext)
                         .title(content.getTitle())
-                        .customView(R.layout.rating_dialog, true)
+                        .customView(R.layout.dialog_rating, true)
                         .show();
 
                 View view = dialog.getCustomView();

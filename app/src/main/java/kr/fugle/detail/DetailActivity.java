@@ -14,9 +14,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -93,6 +95,7 @@ public class DetailActivity extends AppCompatActivity {
         // 0: serverUrl , 1: userNo, 2:contentNo
         new OkHttpGet().execute(serverUrl, userNo.toString(), contentNo.toString());
 
+        // 보고싶어요 버튼
         preferenceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,13 +103,37 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        // 평가하기 버튼
         ratingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final MaterialDialog dialog = new MaterialDialog.Builder(DetailActivity.this)
+                        .title(content.getTitle())
+                        .customView(R.layout.dialog_detail_rating, true)
+                        .show();
 
+                View view = dialog.getCustomView();
+
+                RatingBar ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
+
+                ratingBar.setRating(content.getRating());
+
+                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        // 별점 보내기
+                        Integer Rating = (int)rating * 10;
+                        // 0: serverUrl, 1: userNo, 2: contentNo, 3: rating
+                        new OkHttpPost().execute(serverUrl, userNo.toString(), contentNo.toString(), Rating.toString());
+
+                        // 다이얼로그 끄기
+                        dialog.cancel();
+                    }
+                });
             }
         });
 
+        // 코멘트 버튼
         commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,6 +141,7 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
 
+        // 보러가기 버튼
         hrefBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,6 +280,42 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             summary.setText(content.getSummary());
+        }
+    }
+
+    public class OkHttpPost extends AsyncTask<String, Void, String> {
+
+        public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            // 서버로 보낼 별점 데이터
+            // 0: serverUrl, 1: userNo, 2: contentNo, 3: rating
+            String data = "userId=" + params[1] + "&webtoonId=" + params[2] + "&star=" + params[3];
+            Log.d("OkHttpPost.data", data);
+
+            RequestBody body = RequestBody.create(HTML, data);
+
+            Request request = new Request.Builder()
+                    .url(params[0] + "insert/")
+                    .post(body)
+                    .build();
+
+            try{
+                // 서버로 전송
+                Response response = client.newCall(request).execute();
+                return response.body().string();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            Log.d("OkHttpPost","post complete");
         }
     }
 }
