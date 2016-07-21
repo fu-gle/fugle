@@ -49,23 +49,30 @@
         <activity android:name=".HoActivity"/>
 
         <!-- 별점 주기용 -->
-        <activity android:name=".rating.RatingActivity"
-                  android:label="@string/toolbar_rating"/>
+        <activity
+            android:name=".rating.RatingActivity"
+            android:label="@string/toolbar_rating"/>
 
         <!-- 추천 목록 -->
-        <activity android:name=".recommend.RecommendActivity"
-                  android:label="@string/toolbar_recommend"/>
+        <activity
+            android:name=".recommend.RecommendActivity"
+            android:label="@string/toolbar_recommend"/>
 
         <!-- 회원가입 -->
         <activity
             android:name=".register.RegisterActivity"
             android:label="@string/actionbar_name"
-            android:theme="@style/TextLabel"
-            />
+            android:theme="@style/TextLabel"/>
 
         <!-- 회원가입 -->
         <activity android:name=".login.EmailLoginDialog">
         </activity>
+
+        <!-- 메인 -->
+        <activity
+            android:name=".Main.MainActivity"
+            android:theme="@style/AppTheme"
+            />
     </application>
 
 </manifest>

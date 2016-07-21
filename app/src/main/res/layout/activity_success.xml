@@ -6,10 +6,19 @@
                 android:orientation="vertical">
 
     <Button
+        android:id="@+id/mainBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="메인으로 가자"
+        />
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="넘어가기"
-        android:id="@+id/tempBtn"/>
+        android:id="@+id/tempBtn"
+        android:layout_below="@+id/mainBtn"
+        />
 
     <ImageView
         android:id="@+id/user_profile_photo"
