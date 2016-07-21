@@ -3,6 +3,7 @@ package kr.fugle.login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +17,11 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import kr.fugle.HoActivity;
+<<<<<<< HEAD
 import kr.fugle.Main.MainActivity;
+=======
+import kr.fugle.Item.User;
+>>>>>>> a99c38dab6aced1729b3f909d4e2a477560ebb1b
 import kr.fugle.R;
 
 /**
@@ -34,6 +39,8 @@ public class SuccessActivity extends AppCompatActivity {
     private String imagePath;
 
     private UserProfile userProfile;
+//    private User user;
+    private String user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,13 +53,15 @@ public class SuccessActivity extends AppCompatActivity {
         user_name = (TextView) findViewById(R.id.login_name);
         user_email = (TextView) findViewById(R.id.login_email);
 
+        final Intent intent = getIntent();
+
         // 페이스북
-        Intent intent = getIntent();
         String jsondata = intent.getStringExtra("jsondata");
         if (jsondata != null) {
             setUserProfile(jsondata);
         }
 
+        // 카카오
         if (userProfile != null) {
             setUserProfile(userProfile);
         }
@@ -61,7 +70,10 @@ public class SuccessActivity extends AppCompatActivity {
         findViewById(R.id.tempBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SuccessActivity.this, HoActivity.class));
+                Intent tempIntent = new Intent(SuccessActivity.this, HoActivity.class);
+                tempIntent.putExtra("user", intent.getStringExtra("user"));
+                Log.d("in SuccessActivity", "intent.user " + intent.getStringExtra("user"));
+                startActivity(tempIntent);
                 finish();
             }
         });
@@ -88,6 +100,7 @@ public class SuccessActivity extends AppCompatActivity {
             }
         });
         Intent intent = new Intent(SuccessActivity.this, LoginActivity.class);
+        intent.putExtra("logout",true);
         startActivity(intent);
         finish();
     }

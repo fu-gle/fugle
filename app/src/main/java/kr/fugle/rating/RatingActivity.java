@@ -1,5 +1,6 @@
 package kr.fugle.rating;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,9 +29,11 @@ public class RatingActivity extends AppCompatActivity {
 
     final static String serverUrl = "http://52.79.147.163:8000/";
     OkHttpClient client;
+
     ArrayList<Content> contentArrayList;
     RecyclerView recyclerView;
     Toolbar toolbar;
+    int userNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,9 @@ public class RatingActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        Intent intent = getIntent();
+        userNo = intent.getIntExtra("userNo", 0);
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
@@ -98,7 +104,7 @@ public class RatingActivity extends AppCompatActivity {
         // 뷰에 반영 할 메소드
         @Override
         protected void onPostExecute(String s) {
-            Log.d("ho's activity", "RatingActivity.OkHttpGet.onPostExecute");
+            Log.d("ho's activity", "RatingActivity.OkHttpGet.onPostExecute" + s);
 
             Content content;
 
@@ -131,7 +137,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }
             Log.d("------",contentArrayList.get(0).getTitle());
-            recyclerView.setAdapter(new RatingRecyclerAdapter(getApplicationContext(), contentArrayList, R.layout.activity_rating_list));
+            recyclerView.setAdapter(new RatingRecyclerAdapter(getApplicationContext(), contentArrayList, R.layout.activity_rating_list, userNo));
         }
     }
 }

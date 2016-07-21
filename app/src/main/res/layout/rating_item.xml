@@ -17,7 +17,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -66,18 +67,25 @@
                     android:layout_alignLeft="@+id/description"
                     android:padding="3dp"/>
 
-                <RatingBar
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/starRatingBar"
-                    android:stepSize="0.5"
-                    android:numStars="5"
-                    android:max="5"
-                    android:id="@+id/ratingBar"
                     android:layout_alignBottom="@+id/thumbnailImg"
-                    android:layout_alignRight="@+id/thumbnailImg"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:gravity="right">
+
+                    <RatingBar
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/starRatingBar"
+                        android:stepSize="0.5"
+                        android:numStars="5"
+                        android:max="5"
+                        android:id="@+id/ratingBar"
+                        android:background="#9FFF"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginRight="10dp"/>
+
+                </LinearLayout>
 
             </RelativeLayout>
 

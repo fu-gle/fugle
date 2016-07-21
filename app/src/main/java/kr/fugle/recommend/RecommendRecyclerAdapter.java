@@ -1,6 +1,7 @@
 package kr.fugle.recommend;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -85,6 +86,13 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context.getApplicationContext(), "만화 : " + vhItem.no + "'s preference", Toast.LENGTH_SHORT).show();
+                    if(content.getHeart()){
+                        vhItem.preference.setTextColor(Color.parseColor("#777777"));
+                        content.setHeart(false);
+                    }else {
+                        vhItem.preference.setTextColor(Color.parseColor("#F13839"));
+                        content.setHeart(true);
+                    }
                 }
             });
             vhItem.rating.setOnClickListener(new View.OnClickListener() {
