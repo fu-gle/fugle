@@ -17,11 +17,12 @@ public class Content {
     String href;
     Float prediction;
     Float rating;
+    Boolean heart;
 
     public Content(){
         no = 0;
         title = author1 = author2 = genre1 = genre2 = genre3 = summary = media = age = thumbnail = href = "";
-        publish = false;
+        publish = heart = false;
         prediction = rating = 0.0f;
     }
 
@@ -143,5 +144,13 @@ public class Content {
 
     public void setRating(Float rating) {
         this.rating = rating;
+    }
+
+    public Boolean getHeart() {
+        return heart;
+    }
+
+    public void setHeart(Boolean heart) {
+        this.heart = heart;
     }
 }
