@@ -17,11 +17,7 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import kr.fugle.HoActivity;
-<<<<<<< HEAD
 import kr.fugle.Main.MainActivity;
-=======
-import kr.fugle.Item.User;
->>>>>>> a99c38dab6aced1729b3f909d4e2a477560ebb1b
 import kr.fugle.R;
 
 /**
