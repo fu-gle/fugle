@@ -28,8 +28,6 @@ public class SuccessActivity extends AppCompatActivity {
     // 페이스북
     JSONObject response, profile_pic_data, profile_pic_url;
 
-    boolean isLogOut;
-
     private ImageView user_picture;
     private TextView user_id, user_name, user_email;
     private String imagePath;
@@ -43,7 +41,6 @@ public class SuccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_success);
 
-        isLogOut = false;
         user_picture = (ImageView) findViewById(R.id.user_profile_photo);
         user_id = (TextView) findViewById(R.id.login_id);
         user_name = (TextView) findViewById(R.id.login_name);
@@ -85,16 +82,19 @@ public class SuccessActivity extends AppCompatActivity {
     }
 
     public void onLogoutButtonClicked(View v) {
-        isLogOut = true;
-
+        // 페이스북
         if (LoginManager.getInstance() != null) {
             LoginManager.getInstance().logOut();
         }
+
+        // 카카오톡
         UserManagement.requestLogout(new LogoutResponseCallback() {
             @Override
             public void onCompleteLogout() {
             }
         });
+
+        // 로그인 액티비티로 이동
         Intent intent = new Intent(SuccessActivity.this, LoginActivity.class);
         intent.putExtra("logout",true);
         startActivity(intent);
