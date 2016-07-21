@@ -1,6 +1,7 @@
 package kr.fugle.recommend;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import kr.fugle.Item.Content;
 import kr.fugle.R;
+import kr.fugle.detail.DetailActivity;
 
 /**
  * Created by hokyung on 16. 7. 12..
@@ -31,13 +33,15 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
     private RecommendHeader header;
     private Context context;
     private List<Content> list;
-    int itemLayout;
+    private Context recommendContext;
+    private Integer userNo;
 
-    public RecommendRecyclerAdapter(Context context, RecommendHeader header, List<Content> list, int itemLayout){
+    public RecommendRecyclerAdapter(Context context, RecommendHeader header, List<Content> list, Context recommendContext, int userNo){
         this.header = header;
         this.context = context;
         this.list = list;
-        this.itemLayout = itemLayout;
+        this.recommendContext = recommendContext;
+        this.userNo = userNo;
     }
 
     @Override
@@ -77,6 +81,17 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
             vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
             ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) vhItem.thumbnailImg.getLayoutParams();
             params.height = metrics.heightPixels / 3;
+
+            // 이미지 클릭시 상세보기로 넘어간다
+            vhItem.thumbnailImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(recommendContext, DetailActivity.class);
+                    intent.putExtra("userNo", userNo);
+                    intent.putExtra("contentNo", content.getNo());
+                    recommendContext.startActivity(intent);
+                }
+            });
 
             vhItem.prediction.setText(content.getPrediction().toString());
             vhItem.title.setText(content.getTitle());

@@ -1,5 +1,6 @@
 package kr.fugle.recommend;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,11 +29,15 @@ public class RecommendActivity extends AppCompatActivity {
     List<Content> contentArrayList;
     RecyclerView recyclerView;
     Toolbar toolbar;
+    Integer userNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recommend);
+
+        Intent intent = getIntent();
+        userNo = intent.getIntExtra("userNo", 0);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
@@ -130,7 +135,7 @@ public class RecommendActivity extends AppCompatActivity {
                 }
             }
 
-            recyclerView.setAdapter(new RecommendRecyclerAdapter(getApplicationContext(),getHeader(), contentArrayList, R.layout.activity_recommend));
+            recyclerView.setAdapter(new RecommendRecyclerAdapter(getApplicationContext(),getHeader(), contentArrayList, RecommendActivity.this, userNo));
         }
     }
 }

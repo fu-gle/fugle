@@ -24,7 +24,7 @@ import okhttp3.Response;
 public class RatingActivity extends AppCompatActivity {
 
     final static String serverUrl = "http://52.79.147.163:8000/";
-    OkHttpClient client;
+    OkHttpClient client = new OkHttpClient();
 
     ArrayList<Content> contentArrayList;
     RecyclerView recyclerView;
@@ -52,7 +52,6 @@ public class RatingActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
 
         contentArrayList = new ArrayList<>();
-        client = new OkHttpClient();
 
         // 아이템 넣기
         new OkHttpGet().execute(serverUrl);

@@ -1,6 +1,7 @@
 package kr.fugle.rating;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -22,6 +23,7 @@ import java.util.List;
 
 import kr.fugle.Item.Content;
 import kr.fugle.R;
+import kr.fugle.detail.DetailActivity;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -119,6 +121,10 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
                     @Override
                     public void onClick(View v) {
                         Log.d("----->","상세정보 버튼 " + content.getNo());
+                        Intent intent = new Intent(ratingContext, DetailActivity.class);
+                        intent.putExtra("userNo", userNo);
+                        intent.putExtra("contentNo", content.getNo());
+                        ratingContext.startActivity(intent);
                         dialog.cancel();
                     }
                 });
