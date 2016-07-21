@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -76,7 +78,12 @@ public class HoActivity extends AppCompatActivity{
         findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HoActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                new MaterialDialog.Builder(HoActivity.this)
+                        .title("Basic Dialog")
+                        .content("contents")
+                        .positiveText("positive")
+                        .negativeText("negative")
+                        .show();
             }
         });
     }

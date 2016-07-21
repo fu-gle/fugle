@@ -15,6 +15,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -34,16 +35,16 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
 
     private Context context;
     private List<Content> list;
-    int itemLayout;
+    Context ratingContext;
     Integer userNo;
 
     private OkHttpClient client = new OkHttpClient();
     final static String serverUrl = "http://52.79.147.163:8000/";
 
-    public RatingRecyclerAdapter(Context context, List<Content> list, int itemLayout, int userNo){
+    public RatingRecyclerAdapter(Context context, List<Content> list, Context ratingContext, int userNo){
         this.context = context;
         this.list = list;
-        this.itemLayout = itemLayout;
+        this.ratingContext = ratingContext;
         this.userNo = userNo;
     }
 
@@ -93,6 +94,18 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
         }
         vhItem.genre.setText(genre);
 
+        vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(ratingContext)
+                        .title("Basic Dialog")
+                        .content("contents")
+                        .positiveText("positive")
+                        .negativeText("negative")
+                        .show();
+            }
+        });
+
         vhItem.ratingBar.setRating(content.getRating());
         vhItem.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -133,6 +146,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
         TextView title;
         TextView description;
         TextView genre;
+        ImageView detailBtn;
         RatingBar ratingBar;
 
         public VHItem(View itemView) {
@@ -141,6 +155,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
             title = (TextView)itemView.findViewById(R.id.title);
             description = (TextView)itemView.findViewById(R.id.description);
             genre = (TextView)itemView.findViewById(R.id.genre);
+            detailBtn = (ImageView)itemView.findViewById(R.id.detailBtn);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
         }
     }

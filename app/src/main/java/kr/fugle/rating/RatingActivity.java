@@ -137,7 +137,7 @@ public class RatingActivity extends AppCompatActivity {
                 }
             }
             Log.d("------",contentArrayList.get(0).getTitle());
-            recyclerView.setAdapter(new RatingRecyclerAdapter(getApplicationContext(), contentArrayList, R.layout.activity_rating_list, userNo));
+            recyclerView.setAdapter(new RatingRecyclerAdapter(getApplicationContext(), contentArrayList, RatingActivity.this, userNo));
         }
     }
 }

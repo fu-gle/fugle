@@ -19,6 +19,9 @@ allprojects {
         // kakao login
         mavenCentral()
         maven { url 'http://devrepo.kakao.com:8088/nexus/content/groups/public/' }
+
+        // Material Dialog를 위해
+        maven { url "https://jitpack.io"}
     }
 }
 

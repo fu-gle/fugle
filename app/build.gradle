@@ -44,4 +44,10 @@ dependencies {
     // TextInputLayout을 위해
     compile 'com.android.support:appcompat-v7:23.0.0'
     compile 'com.android.support:design:23.0.0'
+
+    // Material Dialog를 위해
+    compile 'com.mcxiaoke.volley:library:1.0.18'
+    compile ('com.github.afollestad.material-dialogs:core:0.8.5.8@aar') {
+        transitive = true
+    }
 }
