@@ -19,24 +19,29 @@ public class PostStar extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        // 서버로 보낼 별점 데이터
-        // 0: serverUrl, 1: userNo, 2: contentNo, 3: rating
-        String data = "userId=" + params[1] + "&webtoonId=" + params[2] + "&star=" + params[3];
-        Log.d("PostStar.data", data);
 
-        RequestBody body = RequestBody.create(HTML, data);
+        // 별점이 0일경우 전송하지 않는다
+        if(!params[3].equals(0)) {
 
-        Request request = new Request.Builder()
-                .url(params[0] + "insert/")
-                .post(body)
-                .build();
+            // 서버로 보낼 별점 데이터
+            // 0: serverUrl, 1: userNo, 2: contentNo, 3: rating
+            String data = "userId=" + params[1] + "&webtoonId=" + params[2] + "&star=" + params[3];
+            Log.d("PostStar.data", data);
 
-        try{
-            // 서버로 전송
-            Response response = client.newCall(request).execute();
-            return response.body().string();
-        }catch (Exception e){
-            e.printStackTrace();
+            RequestBody body = RequestBody.create(HTML, data);
+
+            Request request = new Request.Builder()
+                    .url(params[0] + "insert/")
+                    .post(body)
+                    .build();
+
+            try {
+                // 서버로 전송
+                Response response = client.newCall(request).execute();
+                return response.body().string();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         return null;
@@ -44,6 +49,10 @@ public class PostStar extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-        Log.d("OkHttpPost","post complete");
+        if(s == null){
+            Log.d("PostStar", "rating is 0");
+        }else {
+            Log.d("PostStar", "post complete");
+        }
     }
 }

@@ -17,8 +17,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center">
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -29,74 +36,78 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/thumbnailImg"/>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="제목"
-                    android:textSize="20sp"
-                    android:textColor="#000"
-                    android:id="@+id/title"
-                    android:background="#9FFF"
-                    android:layout_alignLeft="@+id/thumbnailImg"
-                    android:layout_alignTop="@+id/thumbnailImg"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
-                    android:padding="3dp"/>
+                    android:orientation="vertical"
+                    android:id="@+id/linearLayout"
+                    android:layout_below="@+id/thumbnailImg"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginBottom="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="작가, 출판년도"
-                    android:textSize="12sp"
-                    android:textColor="#444"
-                    android:id="@+id/description"
-                    android:background="#9FFF"
-                    android:layout_below="@+id/title"
-                    android:layout_alignLeft="@+id/title"
-                    android:padding="3dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="제목"
+                        android:textSize="20sp"
+                        android:textColor="#000"
+                        android:id="@+id/title"
+                        android:background="#9FFF"
+                        android:padding="3dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="장르"
-                    android:textSize="12sp"
-                    android:textColor="#444"
-                    android:id="@+id/genre"
-                    android:background="#9FFF"
-                    android:layout_below="@+id/description"
-                    android:layout_alignLeft="@+id/description"
-                    android:padding="3dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="작가, 출판년도"
+                        android:textSize="12sp"
+                        android:textColor="#444"
+                        android:id="@+id/description"
+                        android:background="#9FFF"
+                        android:padding="3dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="장르"
+                        android:textSize="12sp"
+                        android:textColor="#444"
+                        android:id="@+id/genre"
+                        android:background="#9FFF"
+                        android:padding="3dp" />
+
+                </LinearLayout>
 
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:id="@+id/detailBtn"
                     android:src="@drawable/overflow_icon"
-                    android:layout_alignTop="@+id/title"
-                    android:layout_alignRight="@+id/thumbnailImg"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
-                    />
+                    android:layout_alignTop="@+id/thumbnailImg"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginRight="10dp"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/preferenceBtn"
+                    android:src="@drawable/heart_empty"
+                    android:layout_alignTop="@+id/linearLayout"
+                    android:layout_alignRight="@+id/detailBtn"
+                    android:layout_marginRight="5dp"/>
+
+                <RatingBar
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/thumbnailImg"
-                    android:gravity="right">
-
-                    <RatingBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        style="@style/starRatingBar"
-                        android:stepSize="0.5"
-                        android:numStars="5"
-                        android:max="5"
-                        android:id="@+id/ratingBar"
-                        android:background="#9FFF"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginRight="10dp"/>
-
-                </LinearLayout>
+                    style="@style/starRatingBar"
+                    android:stepSize="0.5"
+                    android:numStars="5"
+                    android:max="5"
+                    android:id="@+id/ratingBar"
+                    android:layout_alignRight="@+id/detailBtn"
+                    android:layout_alignBottom="@+id/linearLayout"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="8dp"/>
 
             </RelativeLayout>
 

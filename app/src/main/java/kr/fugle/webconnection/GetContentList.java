@@ -88,6 +88,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
 
         // userNo를 넘기는 경우
         if(params.length != 1) {
+            Log.d("---->","GetContentList param != 1");
             data = "userId=" + params[1];
             body = RequestBody.create(HTML, data);
             request = new Request.Builder()
@@ -146,7 +147,9 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                     content.setGenre3(obj.getString("genre3"));
                     content.setAge(obj.getString("age"));
                     content.setThumbnail(obj.getString("thumbnail"));
-//                    content.setRating((float)(obj.getInt("star")*1.0)/10);
+                    if(!obj.isNull("star__star")) {
+                        content.setRating((float) (obj.getInt("star__star") * 1.0) / 10);
+                    }
 
                     list.add(content);
                 }

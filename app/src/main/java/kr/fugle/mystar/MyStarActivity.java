@@ -53,6 +53,7 @@ public class MyStarActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userNo = intent.getIntExtra("userNo", 0);
+        Log.d("----","MyStar userNo " + userNo);
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
@@ -68,7 +69,7 @@ public class MyStarActivity extends AppCompatActivity {
                 MyStarActivity.this,
                 2,
                 userNo)
-                .execute(serverUrl, userNo.toString());
+                .execute(serverUrl + "mystar/", userNo.toString());
     }
 
     @Override

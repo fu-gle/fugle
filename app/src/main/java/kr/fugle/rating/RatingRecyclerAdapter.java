@@ -141,6 +141,8 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
             }
         });
 
+        if(vhItem.ratingBar == null)
+            Log.d("-----","ratingbar is null");
         vhItem.ratingBar.setRating(content.getRating());
         vhItem.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
