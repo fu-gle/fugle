@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/preference"
+        android:text="보고싶어요"
+        android:background="@drawable/button_transparent"
+        android:gravity="center"
+        android:textColor="#777"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/detail"
+        android:text="상세정보"
+        android:background="@drawable/button_transparent"
+        android:gravity="center"
+        android:textColor="#777"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:id="@+id/comment"
+        android:text="코멘트"
+        android:background="@drawable/button_transparent"
+        android:gravity="center"
+        android:textColor="#777"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"/>
+
+</LinearLayout>

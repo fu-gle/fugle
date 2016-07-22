@@ -24,6 +24,7 @@ import java.util.List;
 import kr.fugle.Item.Content;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
+import kr.fugle.webconnection.PostStar;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -102,7 +103,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
             public void onClick(View v) {
                 final MaterialDialog dialog = new MaterialDialog.Builder(ratingContext)
                         .title(content.getTitle())
-                        .customView(R.layout.dialog_rating, true)
+                        .customView(R.layout.dialog_rating_option, true)
                         .show();
 
                 View view = dialog.getCustomView();
@@ -151,7 +152,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
 
                     Toast.makeText(context.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                    new OkHttpPost().execute(serverUrl, userNo.toString(), content.getNo().toString(), Rating.toString());
+                    new PostStar().execute(serverUrl, userNo.toString(), content.getNo().toString(), Rating.toString());
                     lock[0] = false;
                 }
             }
@@ -191,42 +192,6 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
             genre = (TextView)itemView.findViewById(R.id.genre);
             detailBtn = (ImageView)itemView.findViewById(R.id.detailBtn);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
-        }
-    }
-
-    public class OkHttpPost extends AsyncTask<String, Void, String> {
-
-        public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            // 서버로 보낼 별점 데이터
-            // 별점 이외에 사용자 번호와 작품 번호도 보내야함
-            String data = "userId=" + params[1] + "&webtoonId=" + params[2] + "&star=" + params[3];
-            Log.d("OkHttpPost.data", data);
-
-            RequestBody body = RequestBody.create(HTML, data);
-
-            Request request = new Request.Builder()
-                    .url(params[0] + "insert/")
-                    .post(body)
-                    .build();
-
-            try{
-                // 서버로 전송
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            Log.d("OkHttpPost","post complete");
         }
     }
 }

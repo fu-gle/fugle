@@ -11,9 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import java.util.List;
 import kr.fugle.Item.Content;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
+import kr.fugle.webconnection.PostStar;
 
 /**
  * Created by hokyung on 16. 7. 12..
@@ -30,14 +33,13 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    private RecommendHeader header;
+    final static String serverUrl = "http://52.79.147.163:8000/";
     private Context context;
     private List<Content> list;
     private Context recommendContext;
     private Integer userNo;
 
-    public RecommendRecyclerAdapter(Context context, RecommendHeader header, List<Content> list, Context recommendContext, int userNo){
-        this.header = header;
+    public RecommendRecyclerAdapter(Context context, List<Content> list, Context recommendContext, int userNo){
         this.context = context;
         this.list = list;
         this.recommendContext = recommendContext;
@@ -97,6 +99,8 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
             vhItem.title.setText(content.getTitle());
 //        vhItem.tag.setText("선호하는 테그 #" + content.getTag());
 //        vhItem.friends.setText(content.getFriends + "님 왜 7명의 친구가 봤어요");
+
+            // 보고싶어요 버튼
             vhItem.preference.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -110,12 +114,40 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
                     }
                 }
             });
+
+            // 평가하기 버튼
             vhItem.rating.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context.getApplicationContext(), "만화 : " + vhItem.no + "'s rating", Toast.LENGTH_SHORT).show();
+                    final MaterialDialog dialog = new MaterialDialog.Builder(recommendContext)
+                            .title(content.getTitle())
+                            .customView(R.layout.dialog_rating, true)
+                            .show();
+
+                    View view = dialog.getCustomView();
+
+                    RatingBar ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
+
+                    ratingBar.setRating(content.getRating());
+
+                    ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                        @Override
+                        public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                            // 별점
+                            Integer Rating = (int)rating * 10;
+
+                            // 0: serverUrl, 1: userNo, 2: contentNo, 3: rating
+                            new PostStar().execute(serverUrl, userNo.toString(), content.getNo().toString(), Rating.toString());
+
+                            // 다이얼로그 끄기
+                            dialog.cancel();
+                        }
+                    });
                 }
             });
+
+            // 코멘트 버튼
             vhItem.comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

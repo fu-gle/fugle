@@ -2,6 +2,7 @@ package kr.fugle.detail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +17,6 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
@@ -26,6 +26,7 @@ import org.json.JSONObject;
 
 import kr.fugle.Item.Content;
 import kr.fugle.R;
+import kr.fugle.webconnection.PostStar;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -99,7 +100,13 @@ public class DetailActivity extends AppCompatActivity {
         preferenceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(content.getHeart()){
+                    preferenceBtn.setTextColor(Color.parseColor("#777777"));
+                    content.setHeart(false);
+                }else{
+                    preferenceBtn.setTextColor(Color.parseColor("#F13839"));
+                    content.setHeart(true);
+                }
             }
         });
 
@@ -109,7 +116,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final MaterialDialog dialog = new MaterialDialog.Builder(DetailActivity.this)
                         .title(content.getTitle())
-                        .customView(R.layout.dialog_detail_rating, true)
+                        .customView(R.layout.dialog_rating, true)
                         .show();
 
                 View view = dialog.getCustomView();
@@ -124,7 +131,7 @@ public class DetailActivity extends AppCompatActivity {
                         // 별점 보내기
                         Integer Rating = (int)rating * 10;
                         // 0: serverUrl, 1: userNo, 2: contentNo, 3: rating
-                        new OkHttpPost().execute(serverUrl, userNo.toString(), contentNo.toString(), Rating.toString());
+                        new PostStar().execute(serverUrl, userNo.toString(), contentNo.toString(), Rating.toString());
 
                         // 다이얼로그 끄기
                         dialog.cancel();
@@ -227,6 +234,7 @@ public class DetailActivity extends AppCompatActivity {
 //                        content.setRating((float)(obj.getInt("star")*1.0)/10);
 //                        content.setAverage((float)obj.getDouble("average"));
 //                        content.setPrediction((float)(obj.getInt("prediction")*1.0)/10);
+//                        content.setHeart(obj.getBoolean("heart"));
                         content.setHref(obj.getString("href"));
                         content.setSummary(obj.getString("summary"));
                         content.setMedia(obj.getString("media"));
