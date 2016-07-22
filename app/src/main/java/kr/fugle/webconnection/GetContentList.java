@@ -1,6 +1,7 @@
 package kr.fugle.webconnection;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -149,6 +150,9 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                     content.setThumbnail(obj.getString("thumbnail"));
                     if(!obj.isNull("star__star")) {
                         content.setRating((float) (obj.getInt("star__star") * 1.0) / 10);
+                    }
+                    if(!obj.isNull("preference")){  // 보고싶어요 버튼 예시
+                        content.setHeart(obj.getBoolean("preference"));
                     }
 
                     list.add(content);

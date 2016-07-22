@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+//import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -114,29 +114,7 @@ public class DetailActivity extends AppCompatActivity {
         ratingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final MaterialDialog dialog = new MaterialDialog.Builder(DetailActivity.this)
-                        .title(content.getTitle())
-                        .customView(R.layout.dialog_rating, true)
-                        .show();
 
-                View view = dialog.getCustomView();
-
-                RatingBar ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
-
-                ratingBar.setRating(content.getRating());
-
-                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                        // 별점 보내기
-                        Integer Rating = (int)rating * 10;
-                        // 0: serverUrl, 1: userNo, 2: contentNo, 3: rating
-                        new PostStar().execute(serverUrl, userNo.toString(), contentNo.toString(), Rating.toString());
-
-                        // 다이얼로그 끄기
-                        dialog.cancel();
-                    }
-                });
             }
         });
 

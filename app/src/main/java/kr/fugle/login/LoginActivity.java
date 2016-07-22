@@ -232,7 +232,7 @@ public class LoginActivity extends AppCompatActivity {
             String data = "primary=" + params[1] + "&name=" + params[2]
                     + "&password=" + params[3] + "&message=" + params[4]
                     + "&profile=" + params[5];
-            Log.d("OkHttpLogin.data", data);
+            Log.i("OkHttpLogin.data", data);
 
             RequestBody body = RequestBody.create(HTML, data);
 
@@ -241,7 +241,7 @@ public class LoginActivity extends AppCompatActivity {
                     .post(body)
                     .build();
 
-            Log.d("OkHttpLogin.request", request.toString());
+            Log.i("OkHttpLogin.request", request.toString());
 
             try {
                 // 서버로 전송
@@ -259,7 +259,7 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(s);
             // 서버에서 로그인 성공여부 받음
             // 성공시 startActivity. 실패시 토스트 메세지
-            Log.d("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute " + s);
+            Log.i("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute " + s);
             intent.putExtra("user",s);
             startActivity(intent);
             finish();

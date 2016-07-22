@@ -5,11 +5,12 @@ import android.media.Rating;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+//import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +43,8 @@ public class HoActivity extends AppCompatActivity{
         JSONObject jsonObject;
 
         try {
+            Log.d("--->","user json " + data.getStringExtra("user"));
+        Log.i("----->","user json " + data.getStringExtra("user"));
             jsonObject = new JSONObject(data.getStringExtra("user"));
 
             user = new User();
@@ -88,12 +91,12 @@ public class HoActivity extends AppCompatActivity{
         findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new MaterialDialog.Builder(HoActivity.this)
-                        .title("Basic Dialog")
-                        .content("contents")
-                        .positiveText("positive")
-                        .negativeText("negative")
-                        .show();
+//                new MaterialDialog.Builder(HoActivity.this)
+//                        .title("Basic Dialog")
+//                        .content("contents")
+//                        .positiveText("positive")
+//                        .negativeText("negative")
+//                        .show();
             }
         });
     }

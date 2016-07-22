@@ -16,7 +16,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+//import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -101,43 +101,43 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
         vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final MaterialDialog dialog = new MaterialDialog.Builder(ratingContext)
-                        .title(content.getTitle())
-                        .customView(R.layout.dialog_rating_option, true)
-                        .show();
-
-                View view = dialog.getCustomView();
-
-                // 보고싶어요 버튼
-                view.findViewById(R.id.preference).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("----->","보고싶어요 버튼 " + content.getNo());
-                        dialog.cancel();
-                    }
-                });
-
-                // 상세정보 버튼
-                view.findViewById(R.id.detail).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("----->","상세정보 버튼 " + content.getNo());
-                        Intent intent = new Intent(ratingContext, DetailActivity.class);
-                        intent.putExtra("userNo", userNo);
-                        intent.putExtra("contentNo", content.getNo());
-                        ratingContext.startActivity(intent);
-                        dialog.cancel();
-                    }
-                });
-
-                // 코멘트 버튼
-                view.findViewById(R.id.comment).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("----->","코멘트 버튼 " + content.getNo());
-                        dialog.cancel();
-                    }
-                });
+//                final MaterialDialog dialog = new MaterialDialog.Builder(ratingContext)
+//                        .title(content.getTitle())
+//                        .customView(R.layout.dialog_rating_option, true)
+//                        .show();
+//
+//                View view = dialog.getCustomView();
+//
+//                // 보고싶어요 버튼
+//                view.findViewById(R.id.preference).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        pressHeart(content, vhItem);
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//                // 상세정보 버튼
+//                view.findViewById(R.id.detail).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Log.d("----->","상세정보 버튼 " + content.getNo());
+//                        Intent intent = new Intent(ratingContext, DetailActivity.class);
+//                        intent.putExtra("userNo", userNo);
+//                        intent.putExtra("contentNo", content.getNo());
+//                        ratingContext.startActivity(intent);
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//                // 코멘트 버튼
+//                view.findViewById(R.id.comment).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Log.d("----->","코멘트 버튼 " + content.getNo());
+//                        dialog.cancel();
+//                    }
+//                });
             }
         });
 
