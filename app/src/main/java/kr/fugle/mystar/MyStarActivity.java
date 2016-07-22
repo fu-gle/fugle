@@ -1,8 +1,7 @@
-package kr.fugle.recommend;
+package kr.fugle.mystar;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,18 +14,26 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import kr.fugle.Item.Content;
 import kr.fugle.R;
+import kr.fugle.rating.RatingRecyclerAdapter;
 import kr.fugle.webconnection.GetContentList;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class RecommendActivity extends AppCompatActivity {
+/*
+ *
+ * 내가 별점 준 작품의 목록을 불러오는 액티비티
+ *
+ */
+public class MyStarActivity extends AppCompatActivity {
 
     final static String serverUrl = "http://52.79.147.163:8000/";
+
     ArrayList<Content> contentArrayList;
     RecyclerView recyclerView;
     Toolbar toolbar;
@@ -35,16 +42,17 @@ public class RecommendActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recommend);
+        setContentView(R.layout.activity_mystar);
 
-        Intent intent = getIntent();
-        userNo = intent.getIntExtra("userNo", 0);
-
+        // 툴바 생성
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        Intent intent = getIntent();
+        userNo = intent.getIntExtra("userNo", 0);
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
@@ -57,9 +65,10 @@ public class RecommendActivity extends AppCompatActivity {
                 contentArrayList,
                 recyclerView,
                 getApplicationContext(),
-                RecommendActivity.this,
-                0, userNo)
-                .execute(serverUrl);
+                MyStarActivity.this,
+                2,
+                userNo)
+                .execute(serverUrl, userNo.toString());
     }
 
     @Override
@@ -70,10 +79,5 @@ public class RecommendActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public RecommendHeader getHeader(){
-        RecommendHeader header = new RecommendHeader();
-        return header;
     }
 }

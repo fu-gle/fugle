@@ -1,6 +1,7 @@
 package kr.fugle.rating;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -15,12 +16,15 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import kr.fugle.Item.Content;
 import kr.fugle.R;
+import kr.fugle.detail.DetailActivity;
+import kr.fugle.webconnection.PostStar;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -34,22 +38,22 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
 
     private Context context;
     private List<Content> list;
-    int itemLayout;
+    Context ratingContext;
     Integer userNo;
 
     private OkHttpClient client = new OkHttpClient();
     final static String serverUrl = "http://52.79.147.163:8000/";
 
-    public RatingRecyclerAdapter(Context context, List<Content> list, int itemLayout, int userNo){
+    public RatingRecyclerAdapter(Context context, List<Content> list, Context ratingContext, int userNo){
         this.context = context;
         this.list = list;
-        this.itemLayout = itemLayout;
+        this.ratingContext = ratingContext;
         this.userNo = userNo;
     }
 
     @Override
     public VHItem onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.rating_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rating, parent, false);
         return new VHItem(v);
     }
 
@@ -93,6 +97,50 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
         }
         vhItem.genre.setText(genre);
 
+        // 땡땡이 버튼(overflow icon) 클릭시 dialog
+        vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final MaterialDialog dialog = new MaterialDialog.Builder(ratingContext)
+                        .title(content.getTitle())
+                        .customView(R.layout.dialog_rating_option, true)
+                        .show();
+
+                View view = dialog.getCustomView();
+
+                // 보고싶어요 버튼
+                view.findViewById(R.id.preference).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("----->","보고싶어요 버튼 " + content.getNo());
+                        dialog.cancel();
+                    }
+                });
+
+                // 상세정보 버튼
+                view.findViewById(R.id.detail).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("----->","상세정보 버튼 " + content.getNo());
+                        Intent intent = new Intent(ratingContext, DetailActivity.class);
+                        intent.putExtra("userNo", userNo);
+                        intent.putExtra("contentNo", content.getNo());
+                        ratingContext.startActivity(intent);
+                        dialog.cancel();
+                    }
+                });
+
+                // 코멘트 버튼
+                view.findViewById(R.id.comment).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("----->","코멘트 버튼 " + content.getNo());
+                        dialog.cancel();
+                    }
+                });
+            }
+        });
+
         vhItem.ratingBar.setRating(content.getRating());
         vhItem.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -104,7 +152,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
 
                     Toast.makeText(context.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                    new OkHttpPost().execute(serverUrl, userNo.toString(), content.getNo().toString(), Rating.toString());
+                    new PostStar().execute(serverUrl, userNo.toString(), content.getNo().toString(), Rating.toString());
                     lock[0] = false;
                 }
             }
@@ -133,6 +181,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
         TextView title;
         TextView description;
         TextView genre;
+        ImageView detailBtn;
         RatingBar ratingBar;
 
         public VHItem(View itemView) {
@@ -141,43 +190,8 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
             title = (TextView)itemView.findViewById(R.id.title);
             description = (TextView)itemView.findViewById(R.id.description);
             genre = (TextView)itemView.findViewById(R.id.genre);
+            detailBtn = (ImageView)itemView.findViewById(R.id.detailBtn);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
-        }
-    }
-
-    public class OkHttpPost extends AsyncTask<String, Void, String> {
-
-        public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            // 서버로 보낼 별점 데이터
-            // 별점 이외에 사용자 번호와 작품 번호도 보내야함
-            String data = "userId=" + params[1] + "&webtoonId=" + params[2] + "&star=" + params[3];
-            Log.d("OkHttpPost.data", data);
-
-            RequestBody body = RequestBody.create(HTML, data);
-
-            Request request = new Request.Builder()
-                    .url(params[0] + "insert/")
-                    .post(body)
-                    .build();
-
-            try{
-                // 서버로 전송
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            Log.d("OkHttpPost","post complete");
         }
     }
 }

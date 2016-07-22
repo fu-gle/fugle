@@ -15,15 +15,16 @@ public class Content {
     String age;
     String thumbnail;
     String href;
-    Float prediction;
-    Float rating;
-    Boolean heart;
+    Float prediction;   // 예상 별점
+    Float rating;   // 내가 준 별점
+    Boolean heart;  // 보고싶어요 클릭 여부
+    Float average;  // 평균 별
 
     public Content(){
         no = 0;
         title = author1 = author2 = genre1 = genre2 = genre3 = summary = media = age = thumbnail = href = "";
         publish = heart = false;
-        prediction = rating = 0.0f;
+        prediction = rating = average = 0.0f;
     }
 
     public Integer getNo() {
@@ -152,5 +153,13 @@ public class Content {
 
     public void setHeart(Boolean heart) {
         this.heart = heart;
+    }
+
+    public Float getAverage() {
+        return average;
+    }
+
+    public void setAverage(Float average) {
+        this.average = average;
     }
 }

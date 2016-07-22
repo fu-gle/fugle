@@ -67,6 +67,17 @@
                     android:layout_alignLeft="@+id/description"
                     android:padding="3dp"/>
 
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/detailBtn"
+                    android:src="@drawable/overflow_icon"
+                    android:layout_alignTop="@+id/title"
+                    android:layout_alignRight="@+id/thumbnailImg"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp"
+                    />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

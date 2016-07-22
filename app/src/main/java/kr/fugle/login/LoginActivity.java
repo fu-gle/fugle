@@ -73,14 +73,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();  //로그인 응답을 처리할 콜백 관리자
 
-        // Splash 화면 이동
-        startActivity(new Intent(this, SplashActivity.class));
-
-        callback = new SessionCallback();
-
         // 로그아웃 버튼 클릭시의 intent 채크
         Intent data = getIntent();
         boolean logout = data.getBooleanExtra("logout",false);
+
+        // Splash 화면 이동
+        if(!logout) {
+            startActivity(new Intent(this, SplashActivity.class));
+        }
+
+        callback = new SessionCallback();
 
         // 이미 카톡로그인이 되어있는 경우 확인
         if(!logout && !Session.getCurrentSession().isClosed()){
@@ -270,6 +272,7 @@ public class LoginActivity extends AppCompatActivity {
             //LoginManager - 요청된 읽기 또는 게시 권한으로 로그인 절차를 시작합니다.
             LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
                     Arrays.asList("public_profile", "user_friends"));
+
             LoginManager.getInstance().registerCallback(callbackManager,
                     new FacebookCallback<LoginResult>() {
 

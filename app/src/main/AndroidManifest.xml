@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="kr.fugle">
+    package="kr.fugle">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".login.GlobalApplication"
@@ -16,63 +16,63 @@
             android:name=".login.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="f38f436c283edf2e94e26961d9139527"/>
+            android:value="f38f436c283edf2e94e26961d9139527" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id" />
 
         <!-- facebook popup -->
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- splash -->
         <activity
             android:name=".splash.SplashActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- splash -->
 
-        <activity android:name=".login.SuccessActivity"/>
+        <activity android:name=".login.SuccessActivity" />
 
         <!-- 호경이의 액티비티입니당 -->
-        <activity android:name=".HoActivity"/>
+        <activity android:name=".HoActivity" />
 
         <!-- 별점 주기용 -->
         <activity
             android:name=".rating.RatingActivity"
-            android:label="@string/toolbar_rating"/>
+            android:label="@string/toolbar_rating" />
 
         <!-- 추천 목록 -->
         <activity
             android:name=".recommend.RecommendActivity"
-            android:label="@string/toolbar_recommend"/>
+            android:label="@string/toolbar_recommend" />
 
         <!-- 회원가입 -->
         <activity
             android:name=".register.RegisterActivity"
             android:label="@string/actionbar_name"
-            android:theme="@style/TextLabel"/>
+            android:theme="@style/TextLabel" />
 
         <!-- 회원가입 -->
-        <activity android:name=".login.EmailLoginDialog">
-        </activity>
+        <activity android:name=".login.EmailLoginDialog" />
 
         <!-- 메인 -->
         <activity
             android:name=".Main.MainActivity"
-            android:theme="@style/AppTheme"
-            />
+            android:theme="@style/AppTheme" />
+        <activity android:name=".mystar.MyStarActivity" />
+        <activity android:name=".detail.DetailActivity"></activity>
     </application>
 
 </manifest>
