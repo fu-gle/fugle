@@ -33,7 +33,6 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.register.RegisterActivity;
 import kr.fugle.splash.SplashActivity;
@@ -88,6 +87,8 @@ public class LoginActivity extends AppCompatActivity {
             Log.d("--->","already logined");
             new SessionCallback().onSessionOpened();
         }
+
+
 
         // 페이스북 로그인이 되어있는 경우 확인
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
