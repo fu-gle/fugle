@@ -130,6 +130,13 @@ public class HoActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 alert.show();
+
+                alert.findViewById(R.id.detail).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(HoActivity.this, "asdf", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }

@@ -1,6 +1,7 @@
 package kr.fugle.rating;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.CardView;
@@ -29,6 +30,7 @@ import java.util.List;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
+import kr.fugle.detail.DetailActivity;
 import kr.fugle.webconnection.GetContentList;
 import kr.fugle.webconnection.PostStar;
 
@@ -162,6 +164,8 @@ public class RatingAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
 
+                    dialog.show();
+
                     // 다이얼로그 버튼 구현
                     // 보고싶어요 버튼
                     dialog.findViewById(R.id.preference)
@@ -169,6 +173,7 @@ public class RatingAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(context, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
                         }
                     });
 
@@ -178,6 +183,11 @@ public class RatingAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(context, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(ratingContext, DetailActivity.class);
+                            intent.putExtra("userNo", userNo);
+                            intent.putExtra("contentNo", content.getNo());
+                            ratingContext.startActivity(intent);
+                            dialog.cancel();
                         }
                     });
 
@@ -186,10 +196,9 @@ public class RatingAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(context, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
                         }
                     });
-
-                    dialog.show();
                 }
             });
 
