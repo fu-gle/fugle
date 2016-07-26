@@ -69,7 +69,7 @@
 
         <!-- 메인 -->
         <activity
-            android:name=".Main.MainActivity"
+            android:name=".main.MainActivity"
             android:theme="@style/AppTheme" />
         <activity android:name=".mystar.MyStarActivity" />
         <activity android:name=".detail.DetailActivity"></activity>
