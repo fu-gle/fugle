@@ -26,5 +26,8 @@
     <string name="toolbar_rating">별점을 입력해주세요</string>
     <string name="toolbar_recommend">추천 목록</string>
 
+    <!-- 메인 툴바 -->
+    <string name="search_hint">작품명 or 작가명</string>
+
 
 </resources>
