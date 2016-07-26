@@ -17,8 +17,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import kr.fugle.HoActivity;
-import kr.fugle.Main.MainActivity;
 import kr.fugle.R;
+import kr.fugle.main.MainActivity;
 
 /**
  * Created by 김은진 on 2016-06-17.
