@@ -14,8 +14,9 @@ import okhttp3.Response;
  */
 public class PostStar extends AsyncTask<String, Void, String> {
 
-    OkHttpClient client = new OkHttpClient();
+    final static String serverUrl = "http://52.79.147.163:8000/";
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
+    OkHttpClient client = new OkHttpClient();
 
     @Override
     protected String doInBackground(String... params) {
@@ -31,7 +32,7 @@ public class PostStar extends AsyncTask<String, Void, String> {
             RequestBody body = RequestBody.create(HTML, data);
 
             Request request = new Request.Builder()
-                    .url(params[0] + "insert/")
+                    .url(serverUrl + params[0])
                     .post(body)
                     .build();
 

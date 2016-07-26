@@ -1,13 +1,21 @@
 package kr.fugle;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Rating;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 //import com.afollestad.materialdialogs.MaterialDialog;
@@ -88,15 +96,40 @@ public class HoActivity extends AppCompatActivity{
             }
         });
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setCancelable(true)
+//                .setMessage("메세지")
+                .setView(getLayoutInflater().inflate(R.layout.dialog_rating_option, null));
+//                .setPositiveButton("네", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                })
+//                .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.cancel();
+//                    }
+//                });
+        final AppCompatDialog alert = builder.create();
+
+        WindowManager.LayoutParams params = alert.getWindow().getAttributes();
+        params.width = 1200;
+        alert.getWindow().setAttributes(params);
+//        alert.findViewById(R.id.comment).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(HoActivity.this, " sdfsdf", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
+//        alert.setTitle("제목");
+
         findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                new MaterialDialog.Builder(HoActivity.this)
-//                        .title("Basic Dialog")
-//                        .content("contents")
-//                        .positiveText("positive")
-//                        .negativeText("negative")
-//                        .show();
+                alert.show();
             }
         });
     }
@@ -109,5 +142,9 @@ public class HoActivity extends AppCompatActivity{
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void createDialog(){
+//        ratingBar = (RatingBar)dialog.findViewById(R.id.ratingBar);
     }
 }

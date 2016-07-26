@@ -36,6 +36,14 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/thumbnailImg"/>
 
+                <!--<android.support.v7.widget.Toolbar-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_alignParentTop="true"-->
+                    <!--android:id="@+id/detailToolbar">-->
+                <!--</android.support.v7.widget.Toolbar>-->
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -81,11 +89,12 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:id="@+id/detailBtn"
-                    android:src="@drawable/overflow_icon"
                     android:layout_alignTop="@+id/thumbnailImg"
+                    android:src="@drawable/overflow_icon2"
                     android:layout_alignParentRight="true"
                     android:layout_marginTop="15dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="5dp"/>
+
 
                 <RatingBar
                     android:layout_width="wrap_content"
@@ -95,7 +104,7 @@
                     android:numStars="5"
                     android:max="5"
                     android:id="@+id/ratingBar"
-                    android:layout_alignRight="@+id/detailBtn"
+                    android:layout_alignParentRight="true"
                     android:layout_alignBottom="@+id/linearLayout"
                     android:layout_marginRight="8dp"
                     android:layout_marginBottom="8dp"/>

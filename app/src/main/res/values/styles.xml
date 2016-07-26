@@ -49,6 +49,12 @@
         <item name="colorControlHighlight">@color/subColor1</item>
     </style>
 
-    <!--  -->
+    <!-- 다이얼로그 스타일 -->
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#ff673ab7</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#666666</item>
+        <item name="android:background">#ffffff</item>
+    </style>
 
 </resources>

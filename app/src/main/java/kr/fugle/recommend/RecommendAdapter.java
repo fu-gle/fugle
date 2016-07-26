@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +29,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import kr.fugle.Item.Content;
+import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
 import kr.fugle.webconnection.PostStar;
@@ -34,37 +37,82 @@ import kr.fugle.webconnection.PostStar;
 /**
  * Created by hokyung on 16. 7. 12..
  */
-public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
+    private static final int TYPE_PROG = 2;
 
     private Context context;
     private List<Content> list;
     private Context recommendContext;
+    RecyclerView recyclerView;
     private FragmentManager fragmentManager;
     private Integer userNo;
 
-    public RecommendRecyclerAdapter(Context context,
-                                    List<Content> list,
-                                    Context recommendContext,
-                                    FragmentManager fragmentManager,
-                                    int userNo){
+    // The minimum amount of items to have below your current scroll position
+    // before loading more.
+    private int visibleThreshold = 5;
+    private int lastVisibleItem;
+    private int totalItemCount;
+    private boolean loading;
+    private OnLoadMoreListener onLoadMoreListener;
+
+    public RecommendAdapter(Context context,
+                            List<Content> list,
+                            Context recommendContext,
+                            RecyclerView recyclerView,
+                            FragmentManager fragmentManager,
+                            int userNo){
         this.context = context;
         this.list = list;
         this.recommendContext = recommendContext;
+        this.recyclerView = recyclerView;
         this.fragmentManager = fragmentManager;
         this.userNo = userNo;
+
+        if(recyclerView.getLayoutManager() instanceof LinearLayoutManager){
+
+            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager)recyclerView.getLayoutManager();
+
+            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    super.onScrolled(recyclerView, dx, dy);
+
+                    totalItemCount = linearLayoutManager.getItemCount();
+                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+
+                    if(!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)){
+                        // End has been reached
+                        // Do something
+                        // 여기가 맨 밑에 왔을 때이니 리스트 추가를 돌린다
+
+                        if(onLoadMoreListener != null){
+                            onLoadMoreListener.onLoadMore();
+                        }
+                        loading = true;
+                    }
+                }
+            });
+        }
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener){
+        this.onLoadMoreListener = onLoadMoreListener;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(viewType == TYPE_HEADER){
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend_header, parent, false);
-            return (RecyclerView.ViewHolder)(new VHHeader(v));
-        } else if(viewType == TYPE_ITEM) {
+            return new VHHeader(v);
+        }else if(viewType == TYPE_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend, parent, false);
-            return (RecyclerView.ViewHolder)(new VHItem(v));
+            return new VHItem(v);
+        }else if(viewType == TYPE_PROG) {
+            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progressbar, parent, false);
+            return new VHProgress(v);
         }
         throw  new RuntimeException("there is no type that matches the type" + viewType + ". make sure your using types correctly");
     }
@@ -154,18 +202,23 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
                     Toast.makeText(context.getApplicationContext(), "만화 : " + vhItem.no + "'s comment", Toast.LENGTH_SHORT).show();
                 }
             });
+        }else if(holder instanceof VHProgress){
+
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(isPositionHeader(position))
+        if(position == 0)
             return TYPE_HEADER;
-        return TYPE_ITEM;
+        else if(list.size() == position)
+            return TYPE_PROG;
+        else
+            return TYPE_ITEM;
     }
 
-    private boolean isPositionHeader(int position){
-        return position == 0;
+    public void setLoaded(){
+        loading = false;
     }
 
     @Override
@@ -210,6 +263,16 @@ public class RecommendRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
             preference = (TextView)itemView.findViewById(R.id.preference);
             rating = (TextView)itemView.findViewById(R.id.rating);
             comment = (TextView)itemView.findViewById(R.id.comment);
+        }
+    }
+
+    public class VHProgress extends RecyclerView.ViewHolder{
+
+        ProgressBar progressBar;
+
+        public VHProgress(View itemView) {
+            super(itemView);
+            progressBar = (ProgressBar)itemView.findViewById(R.id.progressBar);
         }
     }
 

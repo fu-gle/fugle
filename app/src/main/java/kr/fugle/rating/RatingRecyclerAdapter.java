@@ -3,6 +3,9 @@ package kr.fugle.rating;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -41,7 +44,6 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
     Context ratingContext;
     Integer userNo;
 
-    private OkHttpClient client = new OkHttpClient();
     final static String serverUrl = "http://52.79.147.163:8000/";
 
     public RatingRecyclerAdapter(Context context, List<Content> list, Context ratingContext, int userNo){
@@ -101,6 +103,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
         vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
 //                final MaterialDialog dialog = new MaterialDialog.Builder(ratingContext)
 //                        .title(content.getTitle())
 //                        .customView(R.layout.dialog_rating_option, true)
@@ -147,25 +150,25 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
         vhItem.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if(lock[0]){
+                if(fromUser){
                     Integer Rating = (int)(rating * 10);
 
                     content.setRating(rating);
 
                     Toast.makeText(context.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                    new PostStar().execute(serverUrl, userNo.toString(), content.getNo().toString(), Rating.toString());
-                    lock[0] = false;
+                    new PostStar().execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+//                    lock[0] = false;
                 }
             }
         });
-        vhItem.ratingBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                lock[0] = true;
-                return false;
-            }
-        });
+//        vhItem.ratingBar.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                lock[0] = true;
+//                return false;
+//            }
+//        });
     }
 
     @Override
@@ -192,8 +195,16 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter<RatingRecyclerAd
             title = (TextView)itemView.findViewById(R.id.title);
             description = (TextView)itemView.findViewById(R.id.description);
             genre = (TextView)itemView.findViewById(R.id.genre);
-            detailBtn = (ImageView)itemView.findViewById(R.id.detailBtn);
+//            detailBtn = (ImageView)itemView.findViewById(R.id.detailBtn);
             ratingBar = (RatingBar) itemView.findViewById(R.id.ratingBar);
+        }
+    }
+
+    public static class DetailDialog extends DialogFragment {
+        @Nullable
+        @Override
+        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            return super.onCreateView(inflater, container, savedInstanceState);
         }
     }
 }

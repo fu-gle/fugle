@@ -3,8 +3,11 @@ package kr.fugle.webconnection;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -13,8 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.fugle.Item.Content;
+import kr.fugle.Item.OnLoadMoreListener;
+import kr.fugle.mystar.MyStarAdapter;
+import kr.fugle.rating.RatingAdapter;
 import kr.fugle.rating.RatingRecyclerAdapter;
 import kr.fugle.recommend.RecommendActivity;
+import kr.fugle.recommend.RecommendAdapter;
 import kr.fugle.recommend.RecommendRecyclerAdapter;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -27,55 +34,27 @@ import okhttp3.Response;
  */
 public class GetContentList extends AsyncTask<String, Void, String> {
 
+    final static String serverUrl = "http://52.79.147.163:8000/";
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
+
     ArrayList<Content> list;
     RecyclerView recyclerView;
+    RecyclerView.Adapter adapter;
     Context applicationContext;
     Context activityContext;
+    FragmentManager fragmentManager;
     int activity;
     int userNo;
-    boolean lock = true;
 
-    public GetContentList(){}
-
-    public GetContentList(ArrayList<Content> list, RecyclerView recyclerView,
-                          Context applicationContext, Context activityContext,
-                          int activity, int userNo){
+    public GetContentList(ArrayList<Content> list,
+                          RecyclerView.Adapter adapter,
+                          int activity,
+                          int userNo){
         this.list = list;
-        this.recyclerView = recyclerView;
-        this.applicationContext = applicationContext;
-        this.activityContext = activityContext;
+        this.adapter = adapter;
         this.activity = activity;
         this.userNo = userNo;
-    }
-
-    public void setRecyclerView(RecyclerView recyclerView){
-        this.recyclerView = recyclerView;
-    }
-
-    public void setApplicationContext(Context applicationContext){
-        this.applicationContext = applicationContext;
-    }
-
-    public void setActivityContext(Context activityContext){
-        this.activityContext = activityContext;
-    }
-
-    public void setActivity(int activity){
-        // 0: RecommendActivity, 1: RatingActivity, 2: MyStarActivity
-        this.activity = activity;
-    }
-
-    public void setList(ArrayList<Content> list){
-        this.list = list;
-    }
-
-    public ArrayList<Content> getList(){
-        if(lock){
-            return null;
-        }
-        return list;
     }
 
     @Override
@@ -90,15 +69,16 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         // userNo를 넘기는 경우
         if(params.length != 1) {
             Log.d("---->","GetContentList param != 1");
-            data = "userId=" + params[1];
+//            data = "userId=" + params[1];
+            data = "userId=" + params[1] + "&pageNo=" + params[2];
             body = RequestBody.create(HTML, data);
             request = new Request.Builder()
-                    .url(params[0])
+                    .url(serverUrl + params[0])
                     .post(body)
                     .build();
         }else{
             request = new Request.Builder()
-                    .url(params[0])
+                    .url(serverUrl + params[0])
                     .build();
         }
 
@@ -126,6 +106,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         Log.d("ho's activity", "GetContentList " + s);
 
         Content content;
+        ArrayList<Content> tempList = new ArrayList<>();
 
         if(s != null && s != ""){
             try{
@@ -155,24 +136,40 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                         content.setHeart(obj.getBoolean("preference"));
                     }
 
-                    list.add(content);
+                    tempList.add(content);
                 }
             }catch(Exception e){
                 e.printStackTrace();
             }
         }
 
-        lock = false;
+        // My Star 액티비티는 프로그래스바를 사용한다
+        if(list.size() != 0){
+            list.remove(list.size() - 1);
+            adapter.notifyItemRemoved(list.size());
+        }
+
+        list.addAll(tempList);
 
         if(activity == 0){
             // Recommend Activity
-            recyclerView.setAdapter(new RecommendRecyclerAdapter(applicationContext, list, activityContext, userNo));
+            Log.d("ho's activity", "GetContentList Recommend Activity");
+            adapter.notifyDataSetChanged();
+            ((RecommendAdapter)adapter).setLoaded();
+//            recyclerView.setAdapter(new RecommendRecyclerAdapter(applicationContext, list, activityContext, fragmentManager, userNo));
+//            RatingAdapter ratingAdapter = new RatingAdapter(applicationContext, recyclerView, list, activityContext, userNo);
+
         } else if(activity == 1){
             // Rating Activity
-            recyclerView.setAdapter(new RatingRecyclerAdapter(applicationContext, list, activityContext, userNo));
+            Log.d("ho's activity", "GetContentList Rating Activity");
+            adapter.notifyDataSetChanged();
+            ((RatingAdapter)adapter).setLoaded();
+//            recyclerView.setAdapter(new RatingRecyclerAdapter(applicationContext, list, activityContext, userNo));
         } else if(activity == 2){
             // MyStar Activity
-            recyclerView.setAdapter(new RatingRecyclerAdapter(applicationContext, list, activityContext, userNo));
+            Log.d("ho's activity", "GetContentList MyStar Activity");
+            adapter.notifyDataSetChanged();
+            ((MyStarAdapter)adapter).setLoaded();
         }
     }
 }
