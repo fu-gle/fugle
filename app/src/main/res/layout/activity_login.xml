@@ -3,15 +3,17 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/mainColor"
+              android:background="@drawable/background1"
               android:orientation="vertical">
 
     <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"
-        android:src="@drawable/splash_test03"/>
+        android:padding="5dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/toondere_logo01"/>
 
     <com.kakao.usermgmt.LoginButton
         android:id="@+id/com_kakao_login"

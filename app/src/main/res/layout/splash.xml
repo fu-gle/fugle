@@ -9,6 +9,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="60dp"
-        android:src="@drawable/splash_test01"/>
+        android:src="@drawable/splash_test03"/>
 
 </LinearLayout>
