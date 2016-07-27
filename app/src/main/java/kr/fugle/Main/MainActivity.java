@@ -10,13 +10,18 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.rating.RatingActivity;
 
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.ic_person_white_24dp
     };
 
+    User user;
     ArrayList<Content> contentArrayList;
     int pageNo;
 
@@ -42,6 +48,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent data = getIntent();
+        JSONObject jsonObject;
+
+        try {
+            Log.d("--->","user json " + data.getStringExtra("user"));
+            jsonObject = new JSONObject(data.getStringExtra("user"));
+
+            user = new User();
+
+            user.setNo(jsonObject.getInt("id"));
+            user.setMessage(jsonObject.getString("message"));
+            user.setEmail(jsonObject.getString("email"));
+            user.setPasswd(jsonObject.getString("password"));
+            user.setName(jsonObject.getString("name"));
+            user.setProfileImg(jsonObject.getString("profile"));
+            user.setUserKey(jsonObject.getString("primary"));
+            user.setGender(jsonObject.getString("gender"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
 //        메인 넘어올때 유저번호 받아와야함
-//        bundle.putInt("userNo", userNo);
+        bundle.putInt("userNo", user.getNo());
 
         TabStatusListener tabStatusListener = new TabStatusListener() {
             @Override

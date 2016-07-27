@@ -75,7 +75,9 @@ public class SuccessActivity extends AppCompatActivity {
         findViewById(R.id.mainBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SuccessActivity.this, MainActivity.class));
+                Intent tempIntent = new Intent(SuccessActivity.this, MainActivity.class);
+                tempIntent.putExtra("user", intent.getStringExtra("user"));
+                startActivity(tempIntent);
                 finish();
             }
         });
