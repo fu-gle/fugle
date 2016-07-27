@@ -1,32 +1,25 @@
 package kr.fugle.recommend;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Handler;
-import android.os.SystemClock;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
 import kr.fugle.webconnection.GetContentList;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class RecommendActivity extends AppCompatActivity {
 
@@ -60,13 +53,23 @@ public class RecommendActivity extends AppCompatActivity {
 
         contentArrayList = new ArrayList<>();
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setCancelable(true)
+                .setView(R.layout.dialog_rating);
+
+        AppCompatDialog dialog = builder.create();
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = 1200;
+        dialog.getWindow().setAttributes(params);
+
         adapter = new RecommendAdapter(
                 getApplicationContext(),
-                contentArrayList,
                 RecommendActivity.this,
-                recyclerView,
-                getSupportFragmentManager(),
-                userNo);
+                dialog,
+                contentArrayList,
+                userNo,
+                recyclerView);
 
         adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override

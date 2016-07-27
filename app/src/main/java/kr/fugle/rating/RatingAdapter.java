@@ -81,10 +81,7 @@ public class RatingAdapter extends RecyclerView.Adapter {
                     lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
 
                     if(!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)){
-                        // End has been reached
-                        // Do something
                         // 여기가 맨 밑에 왔을 때이니 리스트 추가를 돌린다
-
                         if(onLoadMoreListener != null){
                             onLoadMoreListener.onLoadMore();
                         }

@@ -22,6 +22,7 @@ public class PostStar extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
 
         // 별점이 0일경우 전송하지 않는다
+        // 0일경우 delete 추가
         if(!params[3].equals(0)) {
 
             // 서버로 보낼 별점 데이터

@@ -26,6 +26,7 @@ import android.widget.Toast;
 //import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import kr.fugle.Item.Content;
@@ -44,10 +45,9 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_PROG = 2;
 
     private Context context;
-    private List<Content> list;
     private Context recommendContext;
-    RecyclerView recyclerView;
-    private FragmentManager fragmentManager;
+    Dialog dialog;
+    private ArrayList<Content> list;
     private Integer userNo;
 
     // The minimum amount of items to have below your current scroll position
@@ -59,16 +59,15 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private OnLoadMoreListener onLoadMoreListener;
 
     public RecommendAdapter(Context context,
-                            List<Content> list,
                             Context recommendContext,
-                            RecyclerView recyclerView,
-                            FragmentManager fragmentManager,
-                            int userNo){
+                            Dialog dialog,
+                            ArrayList<Content> list,
+                            int userNo,
+                            RecyclerView recyclerView){
         this.context = context;
-        this.list = list;
         this.recommendContext = recommendContext;
-        this.recyclerView = recyclerView;
-        this.fragmentManager = fragmentManager;
+        this.dialog = dialog;
+        this.list = list;
         this.userNo = userNo;
 
         if(recyclerView.getLayoutManager() instanceof LinearLayoutManager){
@@ -84,10 +83,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
 
                     if(!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)){
-                        // End has been reached
-                        // Do something
                         // 여기가 맨 밑에 왔을 때이니 리스트 추가를 돌린다
-
                         if(onLoadMoreListener != null){
                             onLoadMoreListener.onLoadMore();
                         }
@@ -178,20 +174,24 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             vhItem.rating.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context.getApplicationContext(), "만화 : " + vhItem.no + "'s rating", Toast.LENGTH_SHORT).show();
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString("title", content.getTitle());
-                    bundle.putInt("userNo", userNo);
-                    bundle.putInt("contentNo", content.getNo());
-                    bundle.putFloat("rating", content.getRating());
+                    dialog.show();
 
-                    RatingDialog dialog = new RatingDialog();
-                    dialog.setArguments(bundle);
+                    ((RatingBar)dialog.findViewById(R.id.ratingBar))
+                            .setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                        @Override
+                        public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                            if(fromUser){
+                                Integer Rating = (int)(rating * 10);
 
-                    // fragment manager를 이렇게 불러도 되나?
-                    // 안되면 파라미터로 받아야지뭐
-                    dialog.show(fragmentManager, "tag");
+                                content.setRating(rating);
+
+                                Toast.makeText(context, "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+
+                                new PostStar().execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+                            }
+                        }
+                    });
                 }
             });
 
@@ -202,8 +202,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     Toast.makeText(context.getApplicationContext(), "만화 : " + vhItem.no + "'s comment", Toast.LENGTH_SHORT).show();
                 }
             });
-        }else if(holder instanceof VHProgress){
 
+        }else if(holder instanceof VHProgress){
+            VHProgress vh = (VHProgress) holder;
+            vh.progressBar.setIndeterminate(true);
         }
     }
 
@@ -274,50 +276,5 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             progressBar = (ProgressBar)itemView.findViewById(R.id.progressBar);
         }
-    }
-
-    public static class RatingDialog extends DialogFragment {
-
-        String title;
-        Integer userNo;
-        Integer contentNo;
-        Float rating;
-
-        @Override
-        public void setArguments(Bundle args) {
-            super.setArguments(args);
-            title = args.getString("title", "제목없음");
-            userNo = args.getInt("userNo", 0);
-            contentNo = args.getInt("contentNo", 0);
-            rating = args.getFloat("rating", 0.0f);
-        }
-
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-            View view = inflater.inflate(R.layout.dialog_rating, container, false);
-            getDialog().setTitle(title);
-
-            RatingBar ratingBar = (RatingBar)view.findViewById(R.id.ratingBar);
-            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                @Override
-                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                    if(fromUser){
-                        Integer Rating = (int)(rating * 10);
-
-                        Toast.makeText(getContext().getApplicationContext(), "작품 번호 : " + contentNo + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
-
-                        new PostStar().execute("insert/", userNo.toString(), contentNo.toString(), Rating.toString());
-
-                        getDialog().cancel();
-                    }
-                }
-            });
-
-            return view;
-
-        }
-
     }
 }

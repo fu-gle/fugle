@@ -3,14 +3,17 @@ package kr.fugle.mystar;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -21,13 +24,7 @@ import java.util.ArrayList;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
-import kr.fugle.rating.RatingAdapter;
 import kr.fugle.webconnection.GetContentList;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /*
  *
@@ -68,12 +65,23 @@ public class MyStarActivity extends AppCompatActivity {
 
         contentArrayList = new ArrayList<>();
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setCancelable(true)
+                .setView(R.layout.dialog_rating_option);
+
+        AppCompatDialog dialog = builder.create();
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = 1000;
+        dialog.getWindow().setAttributes(params);
+
         adapter = new MyStarAdapter(
                 getApplicationContext(),
-                recyclerView,
-                contentArrayList,
                 MyStarActivity.this,
-                userNo);
+                dialog,
+                contentArrayList,
+                userNo,
+                recyclerView);
 
         adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
