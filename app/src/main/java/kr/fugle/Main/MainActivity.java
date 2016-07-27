@@ -136,14 +136,14 @@ public class MainActivity extends AppCompatActivity {
         tabFragment2.setArguments(bundle);
         tabFragment2.setTabStatusListener(tabStatusListener);
 
-        RecommendFragment recommendFragment = new RecommendFragment();
-        recommendFragment.setArguments(bundle);
-        recommendFragment.setTabStatusListener(tabStatusListener);
+        TabFragment3 tabFragment3 = new TabFragment3();
+        tabFragment3.setArguments(bundle);
+        tabFragment3.setTabStatusListener(tabStatusListener);
 
         // 홈, 순위, 추천, 마이페이지
         adapter.addFragment(tabFragment1, "");
         adapter.addFragment(tabFragment2, "");
-        adapter.addFragment(recommendFragment, "");
+        adapter.addFragment(tabFragment3, "");
         adapter.addFragment(new TabFragment4(), "");
         viewPager.setAdapter(adapter);
     }

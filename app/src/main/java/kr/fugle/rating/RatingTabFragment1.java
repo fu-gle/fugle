@@ -1,4 +1,4 @@
-package kr.fugle.main;
+package kr.fugle.rating;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,58 +20,56 @@ import java.util.ArrayList;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
-import kr.fugle.recommend.RecommendAdapter;
 import kr.fugle.webconnection.GetContentList;
 
 /**
- * Created by 김은진 on 2016-07-26.
+ * Created by hokyung on 16. 7. 27..
  */
-public class RecommendFragment extends Fragment {
+public class RatingTabFragment1 extends Fragment {
 
-    private ArrayList<Content> contentArrayList;
-    private RecyclerView recyclerView;
-    private RecommendAdapter adapter;
-    private Integer userNo;
-    private static int pageNo;
-    private TabStatusListener tabStatusListener;
+    CountChangeListener countChangeListener;
 
-    public void setTabStatusListener(TabStatusListener tabStatusListener){
-        this.tabStatusListener = tabStatusListener;
+    ArrayList<Content> contentArrayList;
+    RecyclerView recyclerView;
+    RatingRecyclerAdapter adapter;
+    Integer userNo;
+    Integer pageNo;
+
+    public void setCountChangeListener(CountChangeListener countChangeListener){
+        this.countChangeListener = countChangeListener;
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        contentArrayList = tabStatusListener.getContentList();
-        pageNo = tabStatusListener.getPageNo();
-    }
-
     public void setArguments(Bundle args) {
         super.setArguments(args);
-        userNo = args.getInt("userNo");
+        userNo = args.getInt("userNo", 0);
+        pageNo = 1;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.tab_recommend, container,false);
 
-        recyclerView = (RecyclerView)v.findViewById(R.id.recyclerview);
+        View view = inflater.inflate(R.layout.tab_rating_fragment, container, false);
+
+        recyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
         LinearLayoutManager manager = new LinearLayoutManager(getContext().getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
 
+        contentArrayList = new ArrayList<>();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AppCompatAlertDialogStyle);
         builder.setCancelable(true)
-                .setView(R.layout.dialog_rating);
+                .setView(R.layout.dialog_rating_option);
 
         AppCompatDialog dialog = builder.create();
 
         WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-        params.width = 1200;
+        params.width = 1000;
         dialog.getWindow().setAttributes(params);
 
-        adapter = new RecommendAdapter(
+        adapter = new RatingRecyclerAdapter(
                 getContext().getApplicationContext(),
                 getContext(),
                 dialog,
@@ -94,9 +92,9 @@ public class RecommendFragment extends Fragment {
                         new GetContentList(
                                 contentArrayList,
                                 adapter,
-                                0,
+                                1,
                                 userNo)
-                                .execute("", userNo.toString(), pageNo + "");
+                                .execute("", userNo + "", pageNo + ""); // 웹툰 표시 추가
                         pageNo++;
                     }
                 }, 1500);
@@ -105,36 +103,26 @@ public class RecommendFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
-        // 맨 처음으로 만들어 질 때만
-        if(contentArrayList.size() == 0) {
-            new GetContentList(
-                    contentArrayList,
-                    adapter,
-                    0,
-                    userNo)
-                    .execute("", userNo.toString(), pageNo + "");
+        // 아이템 넣기
+        new GetContentList(
+                contentArrayList,
+                adapter,
+                1,
+                userNo)
+                .execute("", userNo + "", pageNo + ""); // 웹툰 표시 추가
 
-            pageNo++;
-        }
+        pageNo++;
 
         // 위로가기 버튼 Floating Action Button
-        v.findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext().getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
+
                 recyclerView.smoothScrollToPosition(0);
             }
         });
 
-        return v;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-        // 여기서 list를 메인으로 넘겨서 저장한다.
-        tabStatusListener.setContentList(contentArrayList);
-        tabStatusListener.setPageNo(pageNo);
+        return view;
     }
 }

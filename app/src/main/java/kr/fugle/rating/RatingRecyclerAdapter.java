@@ -37,7 +37,7 @@ import kr.fugle.webconnection.PostStar;
 /**
  * Created by hokyung on 16. 7. 24..
  */
-public class RatingAdapter extends RecyclerView.Adapter {
+public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;    // 프로그래스바
@@ -56,12 +56,12 @@ public class RatingAdapter extends RecyclerView.Adapter {
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
-    public RatingAdapter(Context context,
-                         Context ratingContext,
-                         AppCompatDialog dialog,
-                         ArrayList<Content> list,
-                         int userNo,
-                         RecyclerView recyclerView){
+    public RatingRecyclerAdapter(Context context,
+                                 Context ratingContext,
+                                 AppCompatDialog dialog,
+                                 ArrayList<Content> list,
+                                 int userNo,
+                                 RecyclerView recyclerView){
         this.context = context;
         this.ratingContext = ratingContext;
         this.dialog = dialog;

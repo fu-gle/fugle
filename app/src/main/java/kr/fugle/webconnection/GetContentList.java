@@ -1,10 +1,6 @@
 package kr.fugle.webconnection;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -15,7 +11,7 @@ import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
 import kr.fugle.mystar.MyStarAdapter;
-import kr.fugle.rating.RatingAdapter;
+import kr.fugle.rating.RatingRecyclerAdapter;
 import kr.fugle.recommend.RecommendAdapter;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -151,7 +147,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         } else if(activity == 1){
             // Rating Activity
             Log.d("ho's activity", "GetContentList Rating Activity");
-            ((RatingAdapter)adapter).setLoaded();
+            ((RatingRecyclerAdapter)adapter).setLoaded();
         } else if(activity == 2){
             // MyStar Activity
             Log.d("ho's activity", "GetContentList MyStar Activity");
