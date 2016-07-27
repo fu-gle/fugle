@@ -13,6 +13,13 @@ import kr.fugle.R;
  * Created by 김은진 on 2016-07-26.
  */
 public class TabFragment4 extends Fragment {
+
+    TabStatusListener tabStatusListener;
+
+    public void setTabStatusListener(TabStatusListener tabStatusListener){
+        this.tabStatusListener = tabStatusListener;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

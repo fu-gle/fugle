@@ -14,6 +14,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import kr.fugle.Item.Content;
 import kr.fugle.R;
 import kr.fugle.rating.RatingActivity;
 
@@ -21,6 +24,7 @@ import kr.fugle.rating.RatingActivity;
  * Created by 김은진 on 2016-07-26.
  */
 public class MainActivity extends AppCompatActivity {
+
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -30,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.ic_favorite_white_24dp,
             R.drawable.ic_person_white_24dp
     };
+
+    ArrayList<Content> contentArrayList;
+    int pageNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,10 @@ public class MainActivity extends AppCompatActivity {
         //tabLayout.setSelectedTabIndicatorHeight((int) (2 * getResources().getDisplayMetrics().density));
         tabLayout.setSelectedTabIndicatorHeight(10);
         setupTabIcons();
+
+        // 추천 뷰용으로 arraylist 생성
+        contentArrayList = new ArrayList<>();
+        pageNo = 1;
     }
 
     private void setupTabIcons() {
@@ -64,10 +75,48 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
+        Bundle bundle = new Bundle();
+//        메인 넘어올때 유저번호 받아와야함
+//        bundle.putInt("userNo", userNo);
+
+        TabStatusListener tabStatusListener = new TabStatusListener() {
+            @Override
+            public void setContentList(ArrayList<Content> list) {
+                contentArrayList = list;
+            }
+
+            @Override
+            public ArrayList<Content> getContentList() {
+                return contentArrayList;
+            }
+
+            @Override
+            public void setPageNo(int pageNum) {
+                pageNo = pageNum;
+            }
+
+            @Override
+            public int getPageNo() {
+                return pageNo;
+            }
+        };
+
+        TabFragment1 tabFragment1 = new TabFragment1();
+        tabFragment1.setArguments(bundle);
+        tabFragment1.setTabStatusListener(tabStatusListener);
+
+        TabFragment2 tabFragment2 = new TabFragment2();
+        tabFragment2.setArguments(bundle);
+        tabFragment2.setTabStatusListener(tabStatusListener);
+
+        RecommendFragment recommendFragment = new RecommendFragment();
+        recommendFragment.setArguments(bundle);
+        recommendFragment.setTabStatusListener(tabStatusListener);
+
         // 홈, 순위, 추천, 마이페이지
-        adapter.addFragment(new TabFragment1(), "");
-        adapter.addFragment(new TabFragment2(), "");
-        adapter.addFragment(new TabFragment3(), "");
+        adapter.addFragment(tabFragment1, "");
+        adapter.addFragment(tabFragment2, "");
+        adapter.addFragment(recommendFragment, "");
         adapter.addFragment(new TabFragment4(), "");
         viewPager.setAdapter(adapter);
     }
