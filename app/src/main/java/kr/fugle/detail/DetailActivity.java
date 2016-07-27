@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -17,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.Picasso;
@@ -96,6 +99,17 @@ public class DetailActivity extends AppCompatActivity {
         // 0: serverUrl , 1: userNo, 2:contentNo
         new OkHttpGet().execute(serverUrl, userNo.toString(), contentNo.toString());
 
+        // 별점 다이얼로그 객체 생성
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+        builder.setCancelable(true)
+                .setView(R.layout.dialog_rating);
+
+        final AppCompatDialog dialog = builder.create();
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = 1200;
+        dialog.getWindow().setAttributes(params);
+
         // 보고싶어요 버튼
         preferenceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +128,24 @@ public class DetailActivity extends AppCompatActivity {
         ratingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("ho's activity", "DetailActivity ratingBtn clicked");
+                dialog.show();
 
+                ((RatingBar)dialog.findViewById(R.id.ratingBar))
+                        .setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                            @Override
+                            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                                if(fromUser){
+                                    Integer Rating = (int)(rating * 10);
+
+                                    content.setRating(rating);
+
+                                    Toast.makeText(getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+
+                                    new PostStar().execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+                                }
+                            }
+                        });
             }
         });
 
