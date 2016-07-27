@@ -1,6 +1,8 @@
 package kr.fugle.mystar;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -23,6 +25,7 @@ import java.util.List;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
+import kr.fugle.detail.DetailActivity;
 import kr.fugle.webconnection.PostStar;
 
 /**
@@ -34,9 +37,10 @@ public class MyStarAdapter extends RecyclerView.Adapter {
     private final int VIEW_PROG = 0;    // 프로그래스바
 
     private Context context;
+    private Context myStarContext;
+    private Dialog dialog;
     private List<Content> list;
-    Context myStarContext;
-    Integer userNo;
+    private Integer userNo;
 
     // The minimum amount of items to have below your current scroll position
     // before loading more.
@@ -46,10 +50,16 @@ public class MyStarAdapter extends RecyclerView.Adapter {
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
-    public MyStarAdapter(Context context, RecyclerView recyclerView, List<Content> list, Context myStarContext, int userNo){
+    public MyStarAdapter(Context context,
+                         Context myStarContext,
+                         Dialog dialog,
+                         List<Content> list,
+                         int userNo,
+                         RecyclerView recyclerView){
         this.context = context;
-        this.list = list;
         this.myStarContext = myStarContext;
+        this.dialog = dialog;
+        this.list = list;
         this.userNo = userNo;
 
         if(recyclerView.getLayoutManager() instanceof LinearLayoutManager){
@@ -65,10 +75,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                     lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
 
                     if(!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)){
-                        // End has been reached
-                        // Do something
                         // 여기가 맨 밑에 왔을 때이니 리스트 추가를 돌린다
-
                         if(onLoadMoreListener != null){
                             onLoadMoreListener.onLoadMore();
                         }
@@ -146,43 +153,43 @@ public class MyStarAdapter extends RecyclerView.Adapter {
             vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                final MaterialDialog dialog = new MaterialDialog.Builder(ratingContext)
-//                        .title(content.getTitle())
-//                        .customView(R.layout.dialog_rating_option, true)
-//                        .show();
-//
-//                View view = dialog.getCustomView();
-//
-//                // 보고싶어요 버튼
-//                view.findViewById(R.id.preference).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        pressHeart(content, vhItem);
-//                        dialog.cancel();
-//                    }
-//                });
-//
-//                // 상세정보 버튼
-//                view.findViewById(R.id.detail).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Log.d("----->","상세정보 버튼 " + content.getNo());
-//                        Intent intent = new Intent(ratingContext, DetailActivity.class);
-//                        intent.putExtra("userNo", userNo);
-//                        intent.putExtra("contentNo", content.getNo());
-//                        ratingContext.startActivity(intent);
-//                        dialog.cancel();
-//                    }
-//                });
-//
-//                // 코멘트 버튼
-//                view.findViewById(R.id.comment).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Log.d("----->","코멘트 버튼 " + content.getNo());
-//                        dialog.cancel();
-//                    }
-//                });
+                    Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+
+                    dialog.show();
+
+                    // 다이얼로그 버튼 구현
+                    // 보고싶어요 버튼
+                    dialog.findViewById(R.id.preference)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(context, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
+                            });
+
+                    // 상세정보 버튼
+                    dialog.findViewById(R.id.detail)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(context, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(myStarContext, DetailActivity.class);
+                                    intent.putExtra("userNo", userNo);
+                                    intent.putExtra("contentNo", content.getNo());
+                                    myStarContext.startActivity(intent);
+                                    dialog.cancel();
+                                }
+                            });
+
+                    dialog.findViewById(R.id.comment)
+                            .setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(context, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
+                            });
                 }
             });
 

@@ -7,22 +7,16 @@ import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import kr.fugle.Item.Content;
-import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.mystar.MyStarAdapter;
 import kr.fugle.rating.RatingAdapter;
-import kr.fugle.rating.RatingRecyclerAdapter;
-import kr.fugle.recommend.RecommendActivity;
 import kr.fugle.recommend.RecommendAdapter;
-import kr.fugle.recommend.RecommendRecyclerAdapter;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -39,11 +33,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
     OkHttpClient client = new OkHttpClient();
 
     ArrayList<Content> list;
-    RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
-    Context applicationContext;
-    Context activityContext;
-    FragmentManager fragmentManager;
     int activity;
     int userNo;
 
@@ -143,32 +133,28 @@ public class GetContentList extends AsyncTask<String, Void, String> {
             }
         }
 
-        // My Star 액티비티는 프로그래스바를 사용한다
+        // 리스트를 추가로 불러오는 경우는 리스트 맨 뒤에 null이 들어가있다
         if(list.size() != 0){
             list.remove(list.size() - 1);
             adapter.notifyItemRemoved(list.size());
         }
 
+        // 리스트 추가 후 적용
         list.addAll(tempList);
+        adapter.notifyDataSetChanged();
 
+        // 각 어댑터에 로딩완료 적용
         if(activity == 0){
             // Recommend Activity
             Log.d("ho's activity", "GetContentList Recommend Activity");
-            adapter.notifyDataSetChanged();
             ((RecommendAdapter)adapter).setLoaded();
-//            recyclerView.setAdapter(new RecommendRecyclerAdapter(applicationContext, list, activityContext, fragmentManager, userNo));
-//            RatingAdapter ratingAdapter = new RatingAdapter(applicationContext, recyclerView, list, activityContext, userNo);
-
         } else if(activity == 1){
             // Rating Activity
             Log.d("ho's activity", "GetContentList Rating Activity");
-            adapter.notifyDataSetChanged();
             ((RatingAdapter)adapter).setLoaded();
-//            recyclerView.setAdapter(new RatingRecyclerAdapter(applicationContext, list, activityContext, userNo));
         } else if(activity == 2){
             // MyStar Activity
             Log.d("ho's activity", "GetContentList MyStar Activity");
-            adapter.notifyDataSetChanged();
             ((MyStarAdapter)adapter).setLoaded();
         }
     }
