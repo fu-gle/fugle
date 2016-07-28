@@ -48,16 +48,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Intent data = getIntent();
-        JSONObject jsonObject;
-
-        try {
-            Log.d("--->","user json " + data.getStringExtra("user"));
-            jsonObject = new JSONObject(data.getStringExtra("user"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

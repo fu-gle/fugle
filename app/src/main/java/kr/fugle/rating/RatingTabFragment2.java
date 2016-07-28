@@ -1,5 +1,6 @@
 package kr.fugle.rating;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.webconnection.GetContentList;
 
@@ -26,28 +28,30 @@ import kr.fugle.webconnection.GetContentList;
  */
 public class RatingTabFragment2 extends Fragment {
 
-    CountChangeListener countChangeListener;
+    private CountChangeListener countChangeListener;
 
-    ArrayList<Content> contentArrayList;
-    RecyclerView recyclerView;
-    RatingRecyclerAdapter adapter;
-    Integer userNo;
-    Integer pageNo;
+    private ArrayList<Content> contentArrayList;
+    private RecyclerView recyclerView;
+    private RatingRecyclerAdapter adapter;
+    private Integer userNo;
+    private static Integer pageNo;
+
+    private Context context;
+    Handler handler;
 
     public void setCountChangeListener(CountChangeListener countChangeListener){
         this.countChangeListener = countChangeListener;
     }
 
-    @Override
-    public void setArguments(Bundle args) {
-        super.setArguments(args);
-        userNo = args.getInt("userNo", 0);
-        pageNo = 1;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        context = getContext().getApplicationContext();
+        handler = new Handler();
+
+        userNo = User.getInstance().getNo();
+        pageNo = 1;
 
         View view = inflater.inflate(R.layout.tab_rating_fragment, container, false);
 
@@ -83,10 +87,10 @@ public class RatingTabFragment2 extends Fragment {
                 contentArrayList.add(null);
                 adapter.notifyItemInserted(contentArrayList.size() - 1);
 
-                new Handler().postDelayed(new Runnable() {
+                handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getContext().getApplicationContext(), "rating bottom", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "rating bottom", Toast.LENGTH_SHORT).show();
 
                         new GetContentList(
                                 contentArrayList,
@@ -116,12 +120,18 @@ public class RatingTabFragment2 extends Fragment {
         view.findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext().getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "위로가자!", Toast.LENGTH_SHORT).show();
 
                 recyclerView.smoothScrollToPosition(0);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler.removeMessages(0);
     }
 }

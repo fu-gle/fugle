@@ -1,5 +1,6 @@
 package kr.fugle.rating;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -36,6 +37,9 @@ public class RatingTabFragment1 extends Fragment {
     private Integer userNo;
     static Integer pageNo;
 
+    private Context context;
+    Handler handler;
+
     public void setCountChangeListener(CountChangeListener countChangeListener){
         this.countChangeListener = countChangeListener;
     }
@@ -43,6 +47,9 @@ public class RatingTabFragment1 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        context = getContext().getApplicationContext();
+        handler = new Handler();
 
         userNo = User.getInstance().getNo();
         pageNo = 1;
@@ -81,10 +88,10 @@ public class RatingTabFragment1 extends Fragment {
                 contentArrayList.add(null);
                 adapter.notifyItemInserted(contentArrayList.size() - 1);
 
-                new Handler().postDelayed(new Runnable() {
+                handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getContext().getApplicationContext(), "rating bottom", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "rating bottom", Toast.LENGTH_SHORT).show();
 
                         new GetContentList(
                                 contentArrayList,
@@ -121,5 +128,11 @@ public class RatingTabFragment1 extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        handler.removeMessages(0);
     }
 }
