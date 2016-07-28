@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.recommend.RecommendAdapter;
 import kr.fugle.webconnection.GetContentList;
@@ -45,11 +46,7 @@ public class TabFragment3 extends Fragment {
         super.onCreate(savedInstanceState);
         contentArrayList = tabStatusListener.getContentList();
         pageNo = tabStatusListener.getPageNo();
-    }
-
-    public void setArguments(Bundle args) {
-        super.setArguments(args);
-        userNo = args.getInt("userNo");
+        userNo = User.getInstance().getNo();
     }
 
     @Nullable

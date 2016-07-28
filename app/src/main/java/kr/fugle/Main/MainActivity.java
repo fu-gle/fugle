@@ -55,17 +55,6 @@ public class MainActivity extends AppCompatActivity {
         try {
             Log.d("--->","user json " + data.getStringExtra("user"));
             jsonObject = new JSONObject(data.getStringExtra("user"));
-
-            user = new User();
-
-            user.setNo(jsonObject.getInt("id"));
-            user.setMessage(jsonObject.getString("message"));
-            user.setEmail(jsonObject.getString("email"));
-            user.setPasswd(jsonObject.getString("password"));
-            user.setName(jsonObject.getString("name"));
-            user.setProfileImg(jsonObject.getString("profile"));
-            user.setUserKey(jsonObject.getString("primary"));
-            user.setGender(jsonObject.getString("gender"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -102,10 +91,6 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        Bundle bundle = new Bundle();
-//        메인 넘어올때 유저번호 받아와야함
-        bundle.putInt("userNo", user.getNo());
-
         TabStatusListener tabStatusListener = new TabStatusListener() {
             @Override
             public void setContentList(ArrayList<Content> list) {
@@ -129,15 +114,12 @@ public class MainActivity extends AppCompatActivity {
         };
 
         TabFragment1 tabFragment1 = new TabFragment1();
-        tabFragment1.setArguments(bundle);
         tabFragment1.setTabStatusListener(tabStatusListener);
 
         TabFragment2 tabFragment2 = new TabFragment2();
-        tabFragment2.setArguments(bundle);
         tabFragment2.setTabStatusListener(tabStatusListener);
 
         TabFragment3 tabFragment3 = new TabFragment3();
-        tabFragment3.setArguments(bundle);
         tabFragment3.setTabStatusListener(tabStatusListener);
 
         // 홈, 순위, 추천, 마이페이지

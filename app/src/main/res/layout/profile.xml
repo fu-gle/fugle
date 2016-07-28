@@ -14,6 +14,23 @@
             android:scaleType="centerCrop"
             android:src="@drawable/background"
             />
+        <Button
+            android:id="@+id/prof_favorite_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/header_cover_image"
+            android:layout_alignLeft="@+id/header_cover_image"
+            android:text="취향분석"
+            />
+
+        <Button
+            android:id="@+id/prof_rating_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/header_cover_image"
+            android:layout_alignRight="@+id/header_cover_image"
+            android:text="평가하기"
+            />
 
         <ImageButton
             android:id="@+id/user_profile_photo"
@@ -37,6 +54,15 @@
             android:elevation="4dp"
             android:paddingBottom="240dp"
             >
+            <TextView
+                android:id="@+id/prof_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="이름"
+                android:textSize="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="80dp"
+                />
 
             <ImageView
                 android:id="@+id/drop_down_option_menu"
