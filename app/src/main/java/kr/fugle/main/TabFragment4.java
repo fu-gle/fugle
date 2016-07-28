@@ -12,6 +12,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.login.LoginManager;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.squareup.picasso.Picasso;
 
 import kr.fugle.Item.User;
@@ -82,6 +85,29 @@ public class TabFragment4 extends Fragment {
             }
         });
 
+        // 로그아웃
+        rootView.findViewById(R.id.logout_btn).setOnClickListener(onProfLogoutButtonClicked);
+
         return rootView;
     }
+
+    Button.OnClickListener onProfLogoutButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            // 페이스북
+            if (LoginManager.getInstance() != null) {
+                LoginManager.getInstance().logOut();
+            }
+
+            // 카카오톡
+            UserManagement.requestLogout(new LogoutResponseCallback() {
+                @Override
+                public void onCompleteLogout() {
+                }
+            });
+
+            MainActivity activity = (MainActivity)getActivity();
+            activity.onFragmentChanged(1);
+        }
+    };
 }

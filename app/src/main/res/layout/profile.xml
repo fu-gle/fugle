@@ -47,6 +47,17 @@
             android:src="@drawable/egg_profile"
             />
 
+        <Button
+            android:id="@+id/logout_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="임시로그아웃"
+            android:textColor="#ffffff"
+            android:layout_alignBottom="@id/user_profile_photo"
+            android:background="@drawable/round_box_button"
+            android:onClick="onProfLogoutButtonClicked"
+            />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

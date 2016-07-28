@@ -10,19 +10,15 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
-import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.login.LoginActivity;
 import kr.fugle.rating.RatingActivity;
 
 /**
@@ -124,6 +120,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, RatingActivity.class);
             //intent.putExtra("userNo", user.getNo());
             startActivity(intent);
+        } else if(index == 1) { // 로그아웃 버튼 눌렀을시
+            // 로그인 액티비티로 이동
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.putExtra("logout",true);
+            startActivity(intent);
+            finish();
         }
     }
 

@@ -35,6 +35,7 @@ import java.util.Arrays;
 
 import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.main.MainActivity;
 import kr.fugle.register.RegisterActivity;
 import kr.fugle.splash.SplashActivity;
 import okhttp3.MediaType;
@@ -205,7 +206,11 @@ public class LoginActivity extends AppCompatActivity {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
-                    intent.putExtra("jsondata",obj.toString());
+//                    intent.putExtra("jsondata",obj.toString());
+//                    intent.putExtra("userNo",user.getNo());
+//                    intent.putExtra("user",user);
+//                    startActivity(intent);
+//                    finish();
                 }
             });
 
@@ -337,12 +342,13 @@ public class LoginActivity extends AppCompatActivity {
                                     null,
                                     null,
                                     pic_url.getString("url"));
+
                         } catch (JSONException el) {
                             el.printStackTrace();
                         }
 
                         intent = new Intent(LoginActivity.this, SuccessActivity.class);
-                        intent.putExtra("jsondata", object.toString());
+                        //intent.putExtra("jsondata", object.toString());
                     }
                 });
         Bundle parameters = new Bundle();
