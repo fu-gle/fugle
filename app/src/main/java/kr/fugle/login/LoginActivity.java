@@ -82,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
         // Splash 화면 이동
         if(!logout) {
             startActivity(new Intent(this, SplashActivity.class));
-            finish();
         }
 
         callback = new SessionCallback();

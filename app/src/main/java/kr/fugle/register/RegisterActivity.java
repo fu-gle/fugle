@@ -96,6 +96,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data == null) return;
         super.onActivityResult(requestCode, resultCode, data);
         CircleTransform circleTransform = new CircleTransform();
         Picasso.with(this)
