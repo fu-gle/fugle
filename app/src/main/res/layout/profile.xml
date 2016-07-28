@@ -40,12 +40,16 @@
             android:scaleType="centerCrop"
             android:src="@drawable/basicprofile"
             />
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_below="@+id/user_profile_photo"
+    >
         <LinearLayout
             android:id="@+id/profile_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/user_profile_photo"
             android:orientation="vertical"
             android:layout_marginTop="10dp"
             >
@@ -70,7 +74,6 @@
 
         <LinearLayout
             android:id="@+id/info_layout"
-            android:layout_below="@+id/profile_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -175,19 +178,18 @@
         </LinearLayout>
         <TextView
             android:id="@+id/prof_line"
-            android:layout_below="@+id/info_layout"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@drawable/textview_border"/>
         <LinearLayout
-            android:layout_below="@+id/prof_line"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:padding="10dp"
             >
             <Button
+                android:id="@+id/prof_webtoon_btn"
                 android:text="웹툰 0"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -196,6 +198,7 @@
                 android:layout_marginRight="5dp"
                 />
             <Button
+                android:id="@+id/prof_cartoon_btn"
                 android:text="만화책 0"
                 android:layout_weight="1"
                 android:layout_width="match_parent"
@@ -205,4 +208,5 @@
                 />
 
         </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
