@@ -184,11 +184,9 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("UserProfile", userProfile.toString());
 
                     String accessToken = Session.getCurrentSession().getAccessToken();
-
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
-//                    intent = new Intent(LoginActivity.this, SuccessActivity.class);
-//                    intent.putExtra("accessToken", accessToken);
+                    Log.d("accessToken: ", accessToken);
+                    intent = new Intent(LoginActivity.this, SuccessActivity.class);
+                    intent.putExtra("accessToken", accessToken);
                     Session.getCurrentSession().checkAccessTokenInfo();
                     obj = new JSONObject();
                     try {
@@ -283,8 +281,8 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-//            startActivity(intent);
-//            finish();
+            startActivity(intent);
+            finish();
         }
     }
 
@@ -349,9 +347,7 @@ public class LoginActivity extends AppCompatActivity {
                             el.printStackTrace();
                         }
 
-                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        finish();
-                        //intent = new Intent(LoginActivity.this, SuccessActivity.class);
+                        intent = new Intent(LoginActivity.this, SuccessActivity.class);
                         //intent.putExtra("jsondata", object.toString());
                     }
                 });
