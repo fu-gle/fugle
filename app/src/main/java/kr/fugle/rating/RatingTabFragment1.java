@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.webconnection.GetContentList;
 
@@ -27,28 +28,24 @@ import kr.fugle.webconnection.GetContentList;
  */
 public class RatingTabFragment1 extends Fragment {
 
-    CountChangeListener countChangeListener;
+    private CountChangeListener countChangeListener;
 
-    ArrayList<Content> contentArrayList;
-    RecyclerView recyclerView;
-    RatingRecyclerAdapter adapter;
-    Integer userNo;
-    Integer pageNo;
+    private ArrayList<Content> contentArrayList;
+    private RecyclerView recyclerView;
+    private RatingRecyclerAdapter adapter;
+    private Integer userNo;
+    static Integer pageNo;
 
     public void setCountChangeListener(CountChangeListener countChangeListener){
         this.countChangeListener = countChangeListener;
     }
 
-    @Override
-    public void setArguments(Bundle args) {
-        super.setArguments(args);
-        userNo = args.getInt("userNo", 0);
-        pageNo = 1;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        userNo = User.getInstance().getNo();
+        pageNo = 1;
 
         View view = inflater.inflate(R.layout.tab_rating_fragment, container, false);
 

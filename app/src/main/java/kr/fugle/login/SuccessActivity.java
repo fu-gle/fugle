@@ -64,8 +64,6 @@ public class SuccessActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent tempIntent = new Intent(SuccessActivity.this, HoActivity.class);
-                tempIntent.putExtra("user", intent.getStringExtra("user"));
-                Log.d("in SuccessActivity", "intent.user " + intent.getStringExtra("user"));
                 startActivity(tempIntent);
                 finish();
             }
@@ -76,7 +74,6 @@ public class SuccessActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent tempIntent = new Intent(SuccessActivity.this, MainActivity.class);
-                tempIntent.putExtra("user", intent.getStringExtra("user"));
                 startActivity(tempIntent);
                 finish();
             }

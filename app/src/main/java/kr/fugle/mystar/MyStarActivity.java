@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.webconnection.GetContentList;
 
@@ -55,7 +56,7 @@ public class MyStarActivity extends AppCompatActivity {
         }
 
         Intent intent = getIntent();
-        userNo = intent.getIntExtra("userNo", 0);
+        userNo = User.getInstance().getNo();
         Log.d("----","MyStar userNo " + userNo);
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);

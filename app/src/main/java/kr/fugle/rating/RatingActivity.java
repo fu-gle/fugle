@@ -22,6 +22,7 @@ import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.webconnection.GetContentList;
 
@@ -64,80 +65,7 @@ public class RatingActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setText("웹툰");
         tabLayout.getTabAt(1).setText("만화책");
 
-        Intent intent = getIntent();
-        userNo = intent.getIntExtra("userNo", 0);
-
-//        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
-//        LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(manager);
-//
-//        contentArrayList = new ArrayList<>();
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-//        builder.setCancelable(true)
-//                .setView(R.layout.dialog_rating_option);
-//
-//        AppCompatDialog dialog = builder.create();
-//
-//        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-//        params.width = 1000;
-//        dialog.getWindow().setAttributes(params);
-//
-//        adapter = new RatingRecyclerAdapter(
-//                getApplicationContext(),
-//                RatingActivity.this,
-//                dialog,
-//                contentArrayList,
-//                userNo,
-//                recyclerView);
-//
-//        adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore() {
-//                // add null , so the adapter will check view_type and show progress bar at bottom
-//                contentArrayList.add(null);
-//                adapter.notifyItemInserted(contentArrayList.size() - 1);
-//
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(RatingActivity.this, "rating bottom", Toast.LENGTH_SHORT).show();
-//
-//                        new GetContentList(
-//                                contentArrayList,
-//                                adapter,
-//                                1,
-//                                userNo)
-//                                .execute("", userNo + "", pageNo + "");
-//                        pageNo++;
-//                    }
-//                }, 1500);
-//            }
-//        });
-//
-//        recyclerView.setAdapter(adapter);
-//
-//        // 아이템 넣기
-//        new GetContentList(
-//                contentArrayList,
-//                adapter,
-//                1,
-//                userNo)
-//                .execute("", userNo + "", pageNo + "");
-//
-//        pageNo++;
-//
-//        // 위로가기 버튼 Floating Action Button
-//        findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(RatingActivity.this, "위로가자!", Toast.LENGTH_SHORT).show();
-//
-//                Log.d("---->","extent " + recyclerView.computeVerticalScrollExtent() + " offset " + recyclerView.computeVerticalScrollOffset() + " range " + recyclerView.computeVerticalScrollRange());
-//                recyclerView.smoothScrollToPosition(0);
-//            }
-//        });
+        userNo = User.getInstance().getNo();
     }
 
     @Override
@@ -153,9 +81,6 @@ public class RatingActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         RatingViewpagerAdapter adapter = new RatingViewpagerAdapter(getSupportFragmentManager());
 
-        Bundle bundle = new Bundle();
-        bundle.putInt("userNo", userNo);
-
         CountChangeListener countChangeListener = new CountChangeListener() {
             @Override
             public void setTitle(String title) {
@@ -169,11 +94,9 @@ public class RatingActivity extends AppCompatActivity {
         };
 
         RatingTabFragment1 ratingTabFragment1 = new RatingTabFragment1();
-        ratingTabFragment1.setArguments(bundle);
         ratingTabFragment1.setCountChangeListener(countChangeListener);
 
         RatingTabFragment2 ratingTabFragment2 = new RatingTabFragment2();
-        ratingTabFragment2.setArguments(bundle);
         ratingTabFragment2.setCountChangeListener(countChangeListener);
 
         adapter.addFragment(ratingTabFragment1, "");

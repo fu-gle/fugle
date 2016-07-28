@@ -280,8 +280,6 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            intent.putExtra("user",s);
             startActivity(intent);
             finish();
         }
@@ -350,9 +348,6 @@ public class LoginActivity extends AppCompatActivity {
 
                         intent = new Intent(LoginActivity.this, SuccessActivity.class);
                         intent.putExtra("jsondata", object.toString());
-//                        intent.putExtra("userNo", user.getNo());
-//                        intent.putExtra("user",user);
-//                        startActivity(intent);
                     }
                 });
         Bundle parameters = new Bundle();
@@ -375,10 +370,8 @@ public class LoginActivity extends AppCompatActivity {
     TextView.OnClickListener onRegisterButtonClicked = new View.OnClickListener() {
         // 회원가입 버튼 클릭
         public void onClick(View v) {
-            //TextView register = (TextView)findViewById(R.id.register_button);
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
-            //finish();
         }
     };
 }

@@ -16,10 +16,11 @@ public class User {
     private String primaryKey;
     private String profileImg;
     private String message;
+    private String profileBackground;
 
     private User(){
         no = 0;
-        email = passwd = name = gender = primaryKey = profileImg = message = "";
+        email = passwd = name = gender = primaryKey = profileImg = message = profileBackground = "";
     }
 
     public static User getInstance(){
@@ -107,5 +108,13 @@ public class User {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getProfileBackground() {
+        return profileBackground;
+    }
+
+    public void setProfileBackground(String profileBackground) {
+        this.profileBackground = profileBackground;
     }
 }

@@ -31,8 +31,6 @@ import kr.fugle.recommend.RecommendActivity;
 
 public class HoActivity extends AppCompatActivity{
 
-    private User user;
-
     Toolbar toolbar;
 
     @Override
@@ -47,33 +45,10 @@ public class HoActivity extends AppCompatActivity{
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        Intent data = getIntent();
-        JSONObject jsonObject;
-
-        try {
-            Log.d("--->","user json " + data.getStringExtra("user"));
-        Log.i("----->","user json " + data.getStringExtra("user"));
-            jsonObject = new JSONObject(data.getStringExtra("user"));
-
-            user = User.getInstance();
-
-            user.setNo(jsonObject.getInt("id"));
-            user.setMessage(jsonObject.getString("message"));
-            user.setEmail(jsonObject.getString("email"));
-            user.setPasswd(jsonObject.getString("password"));
-            user.setName(jsonObject.getString("name"));
-            user.setProfileImg(jsonObject.getString("profile"));
-//            user.setUserKey(jsonObject.getString("primary"));
-            user.setGender(jsonObject.getString("gender"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         findViewById(R.id.ratingBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HoActivity.this, RatingActivity.class);
-                intent.putExtra("userNo", user.getNo());
                 startActivity(intent);
             }
         });
@@ -82,7 +57,6 @@ public class HoActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HoActivity.this, RecommendActivity.class);
-                intent.putExtra("userNo", user.getNo());
                 startActivity(intent);
             }
         });
@@ -91,7 +65,6 @@ public class HoActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(HoActivity.this, MyStarActivity.class);
-                intent.putExtra("userNo", user.getNo());
                 startActivity(intent);
             }
         });

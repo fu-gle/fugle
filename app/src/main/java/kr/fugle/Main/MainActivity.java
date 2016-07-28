@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.ic_person_white_24dp
     };
 
-    User user;
     ArrayList<Content> contentArrayList;
     int pageNo;
 

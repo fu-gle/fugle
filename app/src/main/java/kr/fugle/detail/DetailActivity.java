@@ -28,6 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import kr.fugle.Item.Content;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.webconnection.PostStar;
 import okhttp3.MediaType;
@@ -68,7 +69,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         Intent data = getIntent();
-        userNo = data.getIntExtra("userNo", 0);
+        userNo = User.getInstance().getNo();
         contentNo = data.getIntExtra("contentNo", 0);
 
         // 툴바 생성
@@ -143,6 +144,8 @@ public class DetailActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
                                     new PostStar().execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+
+                                    dialog.cancel();
                                 }
                             }
                         });
@@ -297,42 +300,6 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             summary.setText(content.getSummary());
-        }
-    }
-
-    public class OkHttpPost extends AsyncTask<String, Void, String> {
-
-        public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            // 서버로 보낼 별점 데이터
-            // 0: serverUrl, 1: userNo, 2: contentNo, 3: rating
-            String data = "userId=" + params[1] + "&webtoonId=" + params[2] + "&star=" + params[3];
-            Log.d("OkHttpPost.data", data);
-
-            RequestBody body = RequestBody.create(HTML, data);
-
-            Request request = new Request.Builder()
-                    .url(params[0] + "insert/")
-                    .post(body)
-                    .build();
-
-            try{
-                // 서버로 전송
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            Log.d("OkHttpPost","post complete");
         }
     }
 }

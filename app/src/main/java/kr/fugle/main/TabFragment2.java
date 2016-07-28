@@ -21,19 +21,9 @@ public class TabFragment2 extends Fragment {
         this.tabStatusListener = tabStatusListener;
     }
 
-    @Override
-    public void setArguments(Bundle args) {
-        super.setArguments(args);
-        Log.d("------->", "TabFragment2 setArguments " + args.getString("a"));
-        Integer num = args.getInt("num");
-        Log.d("------>", "num " + num);
-        num++;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("------>", "Tab2 onCreateView");
         View v = inflater.inflate(R.layout.tab_fragment1, container,false);
         return v;
     }
