@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
     SessionCallback callback;
 
     // 페이스북
-    //private TextView CustomloginButton;
     private CallbackManager callbackManager;
 
     // 이메일
@@ -182,8 +181,6 @@ public class LoginActivity extends AppCompatActivity {
                     //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
 
                     Log.e("UserProfile", userProfile.toString());
-
-                    String accessToken = Session.getCurrentSession().getAccessToken();
                     intent = new Intent(LoginActivity.this, MainActivity.class);
                     Session.getCurrentSession().checkAccessTokenInfo();
                     obj = new JSONObject();
@@ -204,11 +201,6 @@ public class LoginActivity extends AppCompatActivity {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
-//                    intent.putExtra("jsondata",obj.toString());
-//                    intent.putExtra("userNo",user.getNo());
-//                    intent.putExtra("user",user);
-//                    startActivity(intent);
-//                    finish();
                 }
             });
 
@@ -284,6 +276,7 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    // 페이스북 로그인 버튼 클릭시
     TextView.OnClickListener onFacebookButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

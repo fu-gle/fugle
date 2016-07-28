@@ -10,64 +10,86 @@
         android:layout_width="250dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:padding="5dp"
-        android:layout_marginTop="100dp"
         android:layout_marginBottom="30dp"
-        android:src="@drawable/toondere_logo01"/>
+        android:layout_marginTop="100dp"
+        android:padding="5dp"
+        android:src="@drawable/toondere_logo01"
+        />
 
-    <com.kakao.usermgmt.LoginButton
-        android:id="@+id/com_kakao_login"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="40dp"/>
+        android:orientation="vertical"
+        >
 
-    <TextView
-        android:id="@+id/com_facebook_login"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/round_box_facebook"
-        android:gravity="center"
-        android:text="페이스북 로그인"
-        android:textColor="#ffffffff"
-        android:textSize="20sp"
-        android:onClick="onFacebookButtonClicked"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            >
+        <com.kakao.usermgmt.LoginButton
+            android:id="@+id/com_kakao_login"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
         />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="@drawable/round_box_kakao"
+            android:gravity="center"
+            android:text="카카오 로그인"
+            android:textColor="#ffffffff"
+            android:textSize="20dp"
+            android:clickable="false"
+            />
+        </FrameLayout>
 
-    <TextView
-        android:id="@+id/com_email_login"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/round_box_button"
-        android:gravity="center"
-        android:text="이메일로 로그인"
-        android:textColor="#ffffffff"
-        android:textSize="20sp"
-        android:onClick="onEmailButtonClicked"
-        />
+        <TextView
+            android:id="@+id/com_facebook_login"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:background="@drawable/round_box_facebook"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:onClick="onFacebookButtonClicked"
+            android:text="페이스북 로그인"
+            android:textColor="#ffffffff"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            />
 
+        <TextView
+            android:id="@+id/com_email_login"
+            android:layout_width="match_parent"
+            android:layout_height="58dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/round_box_button"
+            android:gravity="center"
+            android:onClick="onEmailButtonClicked"
+            android:text="이메일로 로그인"
+            android:textColor="#ffffffff"
+            android:textSize="20dp"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
     <TextView
         android:id="@+id/register_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
-        android:layout_gravity="center"
         android:linksClickable="true"
+        android:onClick="onRegisterButtonClicked"
         android:paddingRight="30dp"
         android:text="아직 회원이 아니십니까? 회원가입"
-        android:textSize="17sp"
         android:textColor="#ffffffff"
-        android:onClick="onRegisterButtonClicked"
+        android:textSize="17dp"
         />
 
 </LinearLayout>
