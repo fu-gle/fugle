@@ -1,5 +1,6 @@
 package kr.fugle.main;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,10 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.login.CircleTransform;
 
 /**
  * Created by 김은진 on 2016-07-26.
@@ -48,9 +53,23 @@ public class TabFragment4 extends Fragment {
             }
         });
 
+        // 프로필 사진
+        Context c = getActivity().getApplicationContext();
+        ImageView profileView = (ImageView)rootView.findViewById(R.id.user_profile_photo) ;
+        String profileImagePath = User.getInstance().getProfileImg();
+        CircleTransform circleTransform = new CircleTransform();
+        Picasso.with(c).load(profileImagePath)
+                .transform(circleTransform)
+                .into(profileView);
+
+        // 이름
         String name = User.getInstance().getName();
         TextView nameView = (TextView)rootView.findViewById(R.id.prof_name);
         nameView.setText(name);
+
+        // 자기소개
+        String message = User.getInstance().getMessage();
+
         return rootView;
     }
 }
