@@ -102,6 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(data.getData())
                 .resize(800, 600)
+                .centerCrop()
                 .transform(circleTransform)
                 .into(inputImage);
     }
