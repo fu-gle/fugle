@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,17 @@ public class TabFragment4 extends Fragment {
 
         // 자기소개
         String message = User.getInstance().getMessage();
+        if(message.equals(""))
+            message = "자기소개";
+        TextView profMessage = (TextView)rootView.findViewById(R.id.prof_message);
+        profMessage.setText(message);
+        profMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 클릭시 자기소개 수정 다이얼로그
+                
+            }
+        });
 
         return rootView;
     }

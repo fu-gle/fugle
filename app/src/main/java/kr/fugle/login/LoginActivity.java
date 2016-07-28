@@ -206,10 +206,6 @@ public class LoginActivity extends AppCompatActivity {
                         e1.printStackTrace();
                     }
                     intent.putExtra("jsondata",obj.toString());
-//                    intent.putExtra("userNo",user.getNo());
-//                    intent.putExtra("user",user);
-//                    startActivity(intent);
-//                    finish();
                 }
             });
 
@@ -341,7 +337,6 @@ public class LoginActivity extends AppCompatActivity {
                                     null,
                                     null,
                                     pic_url.getString("url"));
-
                         } catch (JSONException el) {
                             el.printStackTrace();
                         }
