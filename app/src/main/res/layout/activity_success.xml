@@ -29,7 +29,7 @@
         android:background="@drawable/profile_circular_border_imageview"
         android:elevation="3dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/basicprofile"/>
+        android:src="@drawable/egg_profile"/>
 
     <TextView
         android:id="@+id/login_id"
