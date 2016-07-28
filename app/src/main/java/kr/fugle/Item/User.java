@@ -6,18 +6,43 @@ package kr.fugle.Item;
  */
 public class User {
 
+    private static User user;
+
     private int no;
     private String email;
     private String passwd;
     private String name;
     private String gender;
-    private String userKey;
+    private String primaryKey;
     private String profileImg;
     private String message;
 
-    public User(){
+    private User(){
         no = 0;
-        email = passwd = name = gender = userKey = profileImg = message = "";
+        email = passwd = name = gender = primaryKey = profileImg = message = "";
+    }
+
+    public static User getInstance(){
+
+        // 앱 실행시
+        if(user != null)
+            return user;
+
+        // 세션으로 불렸을 시
+        user = new User();
+        return user;
+    }
+
+    public void setAttributes(int no,
+                              String name,
+                              String primaryKey,
+                              String profileImg,
+                              String message){
+        this.no = no;
+        this.name = name;
+        this.primaryKey = primaryKey;
+        this.profileImg = profileImg;
+        this.message = message;
     }
 
     public int getNo() {
@@ -60,12 +85,12 @@ public class User {
         this.gender = gender;
     }
 
-    public String getUserKey() {
-        return userKey;
+    public String getPrimaryKey() {
+        return primaryKey;
     }
 
-    public void setUserKey(String userKey) {
-        this.userKey = userKey;
+    public void setPrimaryKey(String primaryKey) {
+        this.primaryKey = primaryKey;
     }
 
     public String getProfileImg() {

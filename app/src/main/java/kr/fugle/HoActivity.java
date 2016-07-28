@@ -55,7 +55,7 @@ public class HoActivity extends AppCompatActivity{
         Log.i("----->","user json " + data.getStringExtra("user"));
             jsonObject = new JSONObject(data.getStringExtra("user"));
 
-            user = new User();
+            user = User.getInstance();
 
             user.setNo(jsonObject.getInt("id"));
             user.setMessage(jsonObject.getString("message"));
@@ -63,7 +63,7 @@ public class HoActivity extends AppCompatActivity{
             user.setPasswd(jsonObject.getString("password"));
             user.setName(jsonObject.getString("name"));
             user.setProfileImg(jsonObject.getString("profile"));
-            user.setUserKey(jsonObject.getString("primary"));
+//            user.setUserKey(jsonObject.getString("primary"));
             user.setGender(jsonObject.getString("gender"));
         } catch (JSONException e) {
             e.printStackTrace();

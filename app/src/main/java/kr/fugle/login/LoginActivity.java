@@ -33,6 +33,7 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.register.RegisterActivity;
 import kr.fugle.splash.SplashActivity;
@@ -260,6 +261,26 @@ public class LoginActivity extends AppCompatActivity {
             // 서버에서 로그인 성공여부 받음
             // 성공시 startActivity. 실패시 토스트 메세지
             Log.i("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute " + s);
+
+            JSONObject jsonObject;
+
+            User user = User.getInstance();
+
+            try {
+                jsonObject = new JSONObject(s);
+
+//                int no, String name, String primaryKey, String profileImg, String message
+                user.setAttributes(
+                        jsonObject.getInt("id"),
+                        jsonObject.getString("name"),
+                        jsonObject.getString("primary"),
+                        jsonObject.getString("profile"),
+                        jsonObject.getString("message")
+                );
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             intent.putExtra("user",s);
             startActivity(intent);
             finish();
@@ -308,10 +329,13 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted(JSONObject object,
                                             GraphResponse response) {
+
                         try{
                             object.put("login_type","facebook");
                             JSONObject pic_data = new JSONObject(object.get("picture").toString());
                             JSONObject pic_url = new JSONObject(pic_data.getString("data"));
+
+                            // 서버로 로그인 데이터 전송
                             new OkHttpLogin().execute(
                                     serverUrl,
                                     object.getString("id"),
@@ -319,9 +343,11 @@ public class LoginActivity extends AppCompatActivity {
                                     null,
                                     null,
                                     pic_url.getString("url"));
+
                         } catch (JSONException el) {
                             el.printStackTrace();
                         }
+
                         intent = new Intent(LoginActivity.this, SuccessActivity.class);
                         intent.putExtra("jsondata", object.toString());
 //                        intent.putExtra("userNo", user.getNo());
