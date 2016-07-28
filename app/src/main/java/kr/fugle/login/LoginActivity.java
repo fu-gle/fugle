@@ -35,6 +35,7 @@ import java.util.Arrays;
 
 import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.main.MainActivity;
 import kr.fugle.register.RegisterActivity;
 import kr.fugle.splash.SplashActivity;
 import okhttp3.MediaType;
@@ -81,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         // Splash 화면 이동
         if(!logout) {
             startActivity(new Intent(this, SplashActivity.class));
+            finish();
         }
 
         callback = new SessionCallback();
@@ -183,9 +185,11 @@ public class LoginActivity extends AppCompatActivity {
                     Log.e("UserProfile", userProfile.toString());
 
                     String accessToken = Session.getCurrentSession().getAccessToken();
-                    Log.d("accessToken: ", accessToken);
-                    intent = new Intent(LoginActivity.this, SuccessActivity.class);
-                    intent.putExtra("accessToken", accessToken);
+
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+//                    intent = new Intent(LoginActivity.this, SuccessActivity.class);
+//                    intent.putExtra("accessToken", accessToken);
                     Session.getCurrentSession().checkAccessTokenInfo();
                     obj = new JSONObject();
                     try {
@@ -205,7 +209,7 @@ public class LoginActivity extends AppCompatActivity {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
-                    intent.putExtra("jsondata",obj.toString());
+//                    intent.putExtra("jsondata",obj.toString());
 //                    intent.putExtra("userNo",user.getNo());
 //                    intent.putExtra("user",user);
 //                    startActivity(intent);
@@ -280,8 +284,8 @@ public class LoginActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            startActivity(intent);
-            finish();
+//            startActivity(intent);
+//            finish();
         }
     }
 
@@ -346,8 +350,10 @@ public class LoginActivity extends AppCompatActivity {
                             el.printStackTrace();
                         }
 
-                        intent = new Intent(LoginActivity.this, SuccessActivity.class);
-                        intent.putExtra("jsondata", object.toString());
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                        //intent = new Intent(LoginActivity.this, SuccessActivity.class);
+                        //intent.putExtra("jsondata", object.toString());
                     }
                 });
         Bundle parameters = new Bundle();
