@@ -10,12 +10,15 @@ import kr.fugle.R;
  * Created by 김은진 on 2016-07-06.
  */
 public class SplashActivity extends Activity {
+
+    Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
-        Handler handler = new Handler();
+        handler = new Handler();
         handler.postDelayed(new Runnable() {
 
             @Override
@@ -23,5 +26,11 @@ public class SplashActivity extends Activity {
                 finish();
             }
         }, 3000);// 3 초
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        handler.removeMessages(0);
     }
 }
