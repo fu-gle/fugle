@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "910738048602",
+    "firebase_url": "https://fugle-3cc5c.firebaseio.com",
+    "project_id": "fugle-3cc5c",
+    "storage_bucket": "fugle-3cc5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:910738048602:android:b41cf51488dced5e",
+        "android_client_info": {
+          "package_name": "kr.fugle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "910738048602-dmhp1f42p9q4cj4d4oj09hfmcogsdiev.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kr.fugle",
+            "certificate_hash": "FF394A9A8422548E0C4B11C7F783D33B43C7213E"
+          }
+        },
+        {
+          "client_id": "910738048602-pjk4kimq8621h7cbs0li1utn3as9e0at.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgMOFr4_nEskzbxPGI1vJnGPnoqBsN4Uw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "910738048602-pjk4kimq8621h7cbs0li1utn3as9e0at.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
