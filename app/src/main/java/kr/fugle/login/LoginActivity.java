@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         // 이미 카톡로그인이 되어있는 경우 확인
         if(!logout && !Session.getCurrentSession().isClosed()){
             Log.d("--->","already logined");
-            new SessionCallback().onSessionOpened();
+            callback.onSessionOpened();
         }
 
 
@@ -152,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void isKakaoLogin() {
         // 카카오 세션을 오픈한다
-        callback = new SessionCallback();
+        //callback = new SessionCallback();
         com.kakao.auth.Session.getCurrentSession().addCallback(callback);
         com.kakao.auth.Session.getCurrentSession().checkAndImplicitOpen();
         com.kakao.auth.Session.getCurrentSession().open(AuthType.KAKAO_TALK_EXCLUDE_NATIVE_LOGIN, LoginActivity.this);
@@ -185,12 +185,10 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onNotSignedUp() {
                 }
-
                 @Override
                 public void onSuccess(UserProfile userProfile) {
                     //로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
                     //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
-
                     Log.e("UserProfile", userProfile.toString());
                     intent = new Intent(LoginActivity.this, MainActivity.class);
                     Session.getCurrentSession().checkAccessTokenInfo();
