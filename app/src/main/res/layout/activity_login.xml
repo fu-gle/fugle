@@ -25,18 +25,8 @@
         android:orientation="vertical"
         >
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1"
-            >
-        <com.kakao.usermgmt.LoginButton
-            android:id="@+id/com_kakao_login"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-        />
         <TextView
+            android:id="@+id/com_kakao_login"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:background="@drawable/round_box_kakao"
@@ -44,9 +34,8 @@
             android:text="카카오 로그인"
             android:textColor="#ffffffff"
             android:textSize="20dp"
-            android:clickable="false"
+            android:onClick="onKakaoButtonClicked"
             />
-        </FrameLayout>
 
         <TextView
             android:id="@+id/com_facebook_login"

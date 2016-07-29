@@ -18,6 +18,7 @@ import com.facebook.GraphResponse;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.kakao.auth.AuthType;
 import com.kakao.auth.ErrorCode;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -133,6 +134,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // 이메일 로그인
         findViewById(R.id.com_email_login).setOnClickListener(onEmailButtonClicked);
+
+        findViewById(R.id.com_kakao_login).setOnClickListener(onKakaoButtonClicked);
     }
 
     @Override
@@ -145,6 +148,14 @@ public class LoginActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void isKakaoLogin() {
+        // 카카오 세션을 오픈한다
+        callback = new SessionCallback();
+        com.kakao.auth.Session.getCurrentSession().addCallback(callback);
+        com.kakao.auth.Session.getCurrentSession().checkAndImplicitOpen();
+        com.kakao.auth.Session.getCurrentSession().open(AuthType.KAKAO_TALK_EXCLUDE_NATIVE_LOGIN, LoginActivity.this);
     }
 
     private class SessionCallback implements ISessionCallback {
@@ -275,6 +286,14 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    // 카카오톡 로그인 버튼 클릭시
+    TextView.OnClickListener onKakaoButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            isKakaoLogin();
+        }
+    };
 
     // 페이스북 로그인 버튼 클릭시
     TextView.OnClickListener onFacebookButtonClicked = new View.OnClickListener() {
