@@ -57,7 +57,6 @@ public class MyStarActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userNo = User.getInstance().getNo();
-        Log.d("----","MyStar userNo " + userNo);
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());

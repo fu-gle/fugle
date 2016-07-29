@@ -127,6 +127,14 @@ public class RatingTabFragment1 extends Fragment {
             }
         });
 
+        // 카테고리 선택 버튼
+        view.findViewById(R.id.categoryBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+
         return view;
     }
 
