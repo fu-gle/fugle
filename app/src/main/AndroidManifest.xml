@@ -15,11 +15,6 @@
         <activity
             android:name=".login.LoginActivity"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
@@ -40,7 +35,13 @@
         <activity
             android:name=".splash.SplashActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <!-- splash -->
 
         <activity android:name=".login.SuccessActivity" />
@@ -77,7 +78,8 @@
         </activity>
         <activity android:name=".mystar.MyStarActivity" />
         <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".rating.CategorySelectActivity"></activity>
+        <activity android:name=".rating.CategorySelectActivity" />
+        <activity android:name=".login.LoginProcessActivity"></activity>
     </application>
 
 </manifest>
