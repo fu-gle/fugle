@@ -18,6 +18,7 @@ import com.facebook.GraphResponse;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.kakao.auth.AuthType;
 import com.kakao.auth.ErrorCode;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -50,7 +51,6 @@ public class LoginActivity extends AppCompatActivity {
     SessionCallback callback;
 
     // 페이스북
-    //private TextView CustomloginButton;
     private CallbackManager callbackManager;
 
     // 이메일
@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         // 이미 카톡로그인이 되어있는 경우 확인
         if(!logout && !Session.getCurrentSession().isClosed()){
             Log.d("--->","already logined");
-            new SessionCallback().onSessionOpened();
+            callback.onSessionOpened();
         }
 
 
@@ -134,6 +134,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // 이메일 로그인
         findViewById(R.id.com_email_login).setOnClickListener(onEmailButtonClicked);
+
+        findViewById(R.id.com_kakao_login).setOnClickListener(onKakaoButtonClicked);
     }
 
     @Override
@@ -146,6 +148,14 @@ public class LoginActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void isKakaoLogin() {
+        // 카카오 세션을 오픈한다
+        //callback = new SessionCallback();
+        com.kakao.auth.Session.getCurrentSession().addCallback(callback);
+        com.kakao.auth.Session.getCurrentSession().checkAndImplicitOpen();
+        com.kakao.auth.Session.getCurrentSession().open(AuthType.KAKAO_TALK_EXCLUDE_NATIVE_LOGIN, LoginActivity.this);
     }
 
     private class SessionCallback implements ISessionCallback {
@@ -175,15 +185,11 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onNotSignedUp() {
                 }
-
                 @Override
                 public void onSuccess(UserProfile userProfile) {
                     //로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
                     //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
-
                     Log.e("UserProfile", userProfile.toString());
-
-                    String accessToken = Session.getCurrentSession().getAccessToken();
                     intent = new Intent(LoginActivity.this, MainActivity.class);
                     Session.getCurrentSession().checkAccessTokenInfo();
                     obj = new JSONObject();
@@ -204,11 +210,6 @@ public class LoginActivity extends AppCompatActivity {
                         // TODO Auto-generated catch block
                         e1.printStackTrace();
                     }
-//                    intent.putExtra("jsondata",obj.toString());
-//                    intent.putExtra("userNo",user.getNo());
-//                    intent.putExtra("user",user);
-//                    startActivity(intent);
-//                    finish();
                 }
             });
 
@@ -284,6 +285,15 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    // 카카오톡 로그인 버튼 클릭시
+    TextView.OnClickListener onKakaoButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            isKakaoLogin();
+        }
+    };
+
+    // 페이스북 로그인 버튼 클릭시
     TextView.OnClickListener onFacebookButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

@@ -2,33 +2,37 @@ package kr.fugle.login;
 
 import android.app.Activity;
 import android.app.Application;
+import android.util.Log;
 
 import com.kakao.auth.KakaoSDK;
 
-/**
- * Created by 김은진 on 2016-06-17.
- */
-public class GlobalApplication extends Application{
-    private static volatile GlobalApplication obj = null;
+public class GlobalApplication extends Application {
+    private static GlobalApplication mInstance;
     private static volatile Activity currentActivity = null;
+
+    public static Activity getCurrentActivity() {
+        Log.d("TAG", "++ currentActivity : " + (currentActivity != null ? currentActivity.getClass().getSimpleName() : ""));
+        return currentActivity;
+    }
+
+    public static void setCurrentActivity(Activity currentActivity) {
+        GlobalApplication.currentActivity = currentActivity;
+    }
+
+    /**
+     * singleton
+     * @return singleton
+     */
+    public static GlobalApplication getGlobalApplicationContext() {
+        if(mInstance == null)
+            throw new IllegalStateException("this application does not inherit GlobalApplication");
+        return mInstance;
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        obj = this;
+        mInstance = this;
         KakaoSDK.init(new KakaoSDKAdapter());
-    }
-
-    public static GlobalApplication getGlobalApplicationContext() {
-        return obj;
-    }
-
-    public static Activity getCurrentActivity() {
-        return currentActivity;
-    }
-
-    // Activity가 올라올때마다 Activity의 onCreate에서 호출해줘야한다.
-    public static void setCurrentActivity(Activity currentActivity) {
-        GlobalApplication.currentActivity = currentActivity;
     }
 }
