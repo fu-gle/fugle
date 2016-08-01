@@ -41,8 +41,8 @@ import okhttp3.Response;
 
 public class LoginProcessActivity extends AppCompatActivity {
 
-    // 카카오
-    SessionCallback callback;
+    // 카카오톡
+    UserProfile userProfile;
 
     // 페이스북
     private CallbackManager callbackManager;
@@ -65,14 +65,23 @@ public class LoginProcessActivity extends AppCompatActivity {
         FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)
         callbackManager = CallbackManager.Factory.create();  //로그인 응답을 처리할 콜백 관리자
 
-        callback = new SessionCallback();
-
         // 이미 카톡로그인이 되어있는 경우 확인
-        if(!Session.getCurrentSession().isClosed()){
+        if(!Session.getCurrentSession().isClosed() && Session.getCurrentSession().implicitOpen()){
 
-            Log.d("--->","already logined");
+            Log.d("--->","already kakao logined");
 
-            callback.onSessionOpened();
+            userProfile = UserProfile.loadFromCache();
+
+            // 서버로 데이터전송
+            new OkHttpLogin().execute(
+                    serverUrl,
+                    userProfile.getId() + "",
+                    userProfile.getNickname(),
+                    null,
+                    null,
+                    userProfile.getProfileImagePath());
+
+//            callback.onSessionOpened();
             isLogined = true;
 
         }
@@ -80,6 +89,8 @@ public class LoginProcessActivity extends AppCompatActivity {
         // 페이스북 로그인이 되어있는 경우 확인
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if(accessToken != null){
+
+            Log.d("--->","already facebook logined");
 
             isLogined = true;
 
@@ -111,70 +122,8 @@ public class LoginProcessActivity extends AppCompatActivity {
         if(isLogined == false){
             finish();
         }
-    }
 
-    private class SessionCallback implements ISessionCallback {
-
-        @Override
-        public void onSessionOpened() {
-
-            UserManagement.requestMe(new MeResponseCallback() {
-
-                @Override
-                public void onFailure(ErrorResult errorResult) {
-                    String message = "failed to get user info. msg=" + errorResult;
-                    Logger.d(message);
-
-                    ErrorCode result = ErrorCode.valueOf(errorResult.getErrorCode());
-                    if (result == ErrorCode.CLIENT_ERROR_CODE) {
-                        finish();
-                    } else {
-                        //redirectMainActivity();
-                    }
-                }
-
-                @Override
-                public void onSessionClosed(ErrorResult errorResult) {
-                }
-
-                @Override
-                public void onNotSignedUp() {
-                }
-                @Override
-                public void onSuccess(UserProfile userProfile) {
-                    //로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
-                    //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
-                    Log.e("UserProfile", userProfile.toString());
-                    intent = new Intent(LoginProcessActivity.this, MainActivity.class);
-                    Session.getCurrentSession().checkAccessTokenInfo();
-                    obj = new JSONObject();
-                    try {
-                        obj.put("login_type","kakao");
-                        obj.put("id", userProfile.getId()+"");
-                        obj.put("name", userProfile.getNickname());
-                        obj.put("image", userProfile.getProfileImagePath());
-                        // 서버로 데이터전송
-                        new OkHttpLogin().execute(
-                                serverUrl,
-                                obj.getString("id"),
-                                obj.getString("name"),
-                                null,
-                                null,
-                                obj.getString("image"));
-                    } catch (JSONException e1) {
-                        // TODO Auto-generated catch block
-                        e1.printStackTrace();
-                    }
-                }
-            });
-
-        }
-
-        @Override
-        public void onSessionOpenFailed(KakaoException exception) {
-            // 세션 연결이 실패했을때
-            // 어쩔때 실패되는지는 테스트를 안해보았음 ㅜㅜ
-        }
+        intent = new Intent(LoginProcessActivity.this, MainActivity.class);
     }
 
     /*
@@ -207,8 +156,6 @@ public class LoginProcessActivity extends AppCompatActivity {
                         } catch (JSONException el) {
                             el.printStackTrace();
                         }
-
-                        intent = new Intent(LoginProcessActivity.this, MainActivity.class);
                     }
                 });
         Bundle parameters = new Bundle();
