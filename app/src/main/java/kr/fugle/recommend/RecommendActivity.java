@@ -83,7 +83,7 @@ public class RecommendActivity extends AppCompatActivity {
                     public void run() {
                         Toast.makeText(RecommendActivity.this, "rating bottom", Toast.LENGTH_SHORT).show();
 
-                        new GetContentList(
+                        new GetContentList(getApplicationContext(),
                                 contentArrayList,
                                 adapter,
                                 0,
@@ -97,7 +97,7 @@ public class RecommendActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        new GetContentList(
+        new GetContentList(getApplicationContext(),
                 contentArrayList,
                 adapter,
                 0,

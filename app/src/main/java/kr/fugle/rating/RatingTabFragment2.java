@@ -92,7 +92,7 @@ public class RatingTabFragment2 extends Fragment {
                     public void run() {
                         Toast.makeText(context, "rating bottom", Toast.LENGTH_SHORT).show();
 
-                        new GetContentList(
+                        new GetContentList(getContext(),
                                 contentArrayList,
                                 adapter,
                                 1,
@@ -107,7 +107,7 @@ public class RatingTabFragment2 extends Fragment {
         recyclerView.setAdapter(adapter);
 
         // 아이템 넣기
-        new GetContentList(
+        new GetContentList(getContext(),
                 contentArrayList,
                 adapter,
                 1,

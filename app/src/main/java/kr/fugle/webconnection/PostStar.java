@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import kr.fugle.R;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -15,9 +16,13 @@ import okhttp3.Response;
  */
 public class PostStar extends AsyncTask<String, Void, String> {
 
-    final static String serverUrl = "http://58.227.42.244:8000/";
+    String serverUrl;
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
+
+    public PostStar(Context context){
+        serverUrl = context.getResources().getString(R.string.server_url);
+    }
 
     @Override
     protected String doInBackground(String... params) {

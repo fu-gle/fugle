@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     private EmailLoginDialog emailLogin;
 
     // 서버 통신 OkHttp
-    final static String serverUrl = "http://58.227.42.244:8000/";
+    String serverUrl;
     OkHttpClient client = new OkHttpClient();
 
     // User 정보 저장
@@ -69,6 +69,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        serverUrl = getString(R.string.server_url);
 
         // 페이스북 초기화
         FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)

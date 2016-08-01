@@ -183,7 +183,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                                 Toast.makeText(context, "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                                new PostStar().execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+                                new PostStar(context).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
                             }
                         }
                     });

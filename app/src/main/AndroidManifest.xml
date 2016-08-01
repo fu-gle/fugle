@@ -43,8 +43,6 @@
             android:screenOrientation="portrait" />
         <!-- splash -->
 
-        <activity android:name=".login.SuccessActivity" />
-
         <!-- 호경이의 액티비티입니당 -->
         <activity android:name=".HoActivity" />
 
