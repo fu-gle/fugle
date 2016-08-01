@@ -44,7 +44,6 @@
         <!-- splash -->
 
         <!-- 호경이의 액티비티입니당 -->
-        <activity android:name=".HoActivity" />
 
         <!-- 별점 주기용 -->
         <activity
@@ -52,9 +51,6 @@
             android:label="@string/toolbar_rating" />
 
         <!-- 추천 목록 -->
-        <activity
-            android:name=".recommend.RecommendActivity"
-            android:label="@string/toolbar_recommend" />
 
         <!-- 회원가입 -->
         <activity
