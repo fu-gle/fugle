@@ -75,10 +75,6 @@ public class LoginProcessActivity extends AppCompatActivity {
             callback.onSessionOpened();
             isLogined = true;
 
-        }else{
-
-            Session.getCurrentSession().addCallback(callback);
-
         }
 
         // 페이스북 로그인이 되어있는 경우 확인

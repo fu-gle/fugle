@@ -38,7 +38,6 @@ import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.main.MainActivity;
 import kr.fugle.register.RegisterActivity;
-import kr.fugle.splash.SplashActivity;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -78,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         // 로그아웃 버튼 클릭시의 intent 채크
 //        Intent data = getIntent();
 //        boolean logout = data.getBooleanExtra("logout",false);
-
+//
 //        // Splash 화면 이동
 //        if(!logout) {
 //            startActivity(new Intent(this, SplashActivity.class));
@@ -153,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
     private void isKakaoLogin() {
         // 카카오 세션을 오픈한다
         //callback = new SessionCallback();
-        com.kakao.auth.Session.getCurrentSession().addCallback(callback);
+        //com.kakao.auth.Session.getCurrentSession().addCallback(callback);
         com.kakao.auth.Session.getCurrentSession().checkAndImplicitOpen();
         com.kakao.auth.Session.getCurrentSession().open(AuthType.KAKAO_TALK_EXCLUDE_NATIVE_LOGIN, LoginActivity.this);
     }
