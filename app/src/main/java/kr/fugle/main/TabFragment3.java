@@ -94,7 +94,7 @@ public class TabFragment3 extends Fragment {
                                 adapter,
                                 0,
                                 userNo)
-                                .execute("", userNo.toString(), pageNo + "");
+                                .execute("recommend/", userNo.toString(), pageNo + "");
                         pageNo++;
                     }
                 }, 1500);
@@ -110,7 +110,7 @@ public class TabFragment3 extends Fragment {
                     adapter,
                     0,
                     userNo)
-                    .execute("", userNo.toString(), pageNo + "");
+                    .execute("recommend/", userNo.toString(), pageNo + "");
 
             pageNo++;
         }

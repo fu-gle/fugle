@@ -1,5 +1,6 @@
 package kr.fugle.webconnection;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,7 +15,7 @@ import okhttp3.Response;
  */
 public class PostStar extends AsyncTask<String, Void, String> {
 
-    final static String serverUrl = "http://52.79.147.163:8000/";
+    final static String serverUrl = "http://58.227.42.244:8000/";
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 

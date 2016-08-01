@@ -24,7 +24,7 @@ import okhttp3.Response;
  */
 public class GetContentList extends AsyncTask<String, Void, String> {
 
-    final static String serverUrl = "http://52.79.147.163:8000/";
+    final static String serverUrl = "http://58.227.42.244:8000/";
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
@@ -54,8 +54,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
 
         // userNo를 넘기는 경우
         if(params.length != 1) {
-            Log.d("---->","GetContentList param != 1");
-//            data = "userId=" + params[1];
+            Log.d("---->","userId=" + params[1] + "&pageNo=" + params[2]);
             data = "userId=" + params[1] + "&pageNo=" + params[2];
             body = RequestBody.create(HTML, data);
             request = new Request.Builder()

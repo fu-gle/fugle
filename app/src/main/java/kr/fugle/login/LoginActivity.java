@@ -38,6 +38,7 @@ import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.main.MainActivity;
 import kr.fugle.register.RegisterActivity;
+import kr.fugle.splash.SplashActivity;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     private EmailLoginDialog emailLogin;
 
     // 서버 통신 OkHttp
-    final static String serverUrl = "http://52.79.147.163:8000/";
+    final static String serverUrl = "http://58.227.42.244:8000/";
     OkHttpClient client = new OkHttpClient();
 
     // User 정보 저장
@@ -68,59 +69,70 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
         // 페이스북 초기화
         FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)
+        setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();  //로그인 응답을 처리할 콜백 관리자
 
         // 로그아웃 버튼 클릭시의 intent 채크
-//        Intent data = getIntent();
-//        boolean logout = data.getBooleanExtra("logout",false);
-//
-//        // Splash 화면 이동
-//        if(!logout) {
-//            startActivity(new Intent(this, SplashActivity.class));
-//        }
+        Intent data = getIntent();
+        boolean logout = data.getBooleanExtra("logout",false);
+
+        // Splash 화면 이동
+        if(!logout) {
+            startActivity(new Intent(this, SplashActivity.class));
+        }
 
         callback = new SessionCallback();
 
-//        // 이미 카톡로그인이 되어있는 경우 확인
-//        if(!logout && !Session.getCurrentSession().isClosed()){
-//            Log.d("--->","already logined");
-//            callback.onSessionOpened();
-//        }
+        // 이미 카톡로그인이 되어있는 경우 확인
+        if(!Session.getCurrentSession().isClosed()){
+            Log.d("--->","already logined");
+
+            UserProfile userProfile = UserProfile.loadFromCache();
+
+            // 서버로 데이터전송
+            new OkHttpLogin().execute(
+                    serverUrl,
+                    userProfile.getId() + "",
+                    userProfile.getNickname(),
+                    null,
+                    null,
+                    userProfile.getProfileImagePath());
+            //callback.onSessionOpened();
+        }
 
 
 
-//        // 페이스북 로그인이 되어있는 경우 확인
-//        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-//        if(accessToken != null){
-//            Log.d("-----","이미 페북로그인");
-//            //LoginManager - 요청된 읽기 또는 게시 권한으로 로그인 절차를 시작합니다.
-//            LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
-//                    Arrays.asList("public_profile", "user_friends"));
-//            LoginManager.getInstance().registerCallback(callbackManager,
-//                    new FacebookCallback<LoginResult>() {
-//
-//                        private ProfileTracker mProfileTracker;
-//
-//                        @Override
-//                        public void onSuccess(LoginResult loginResult) {
-//                            getUserInfo(loginResult);
-//                        }
-//
-//                        @Override
-//                        public void onCancel() {
-//                            Log.e("onCancel", "onCancel");
-//                        }
-//
-//                        @Override
-//                        public void onError(FacebookException exception) {
-//                            Log.e("onError", "onError " + exception.getLocalizedMessage());
-//                        }
-//                    });
-//        }
+        // 페이스북 로그인이 되어있는 경우 확인
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken != null){
+            Log.d("-----","이미 페북로그인");
+            //LoginManager - 요청된 읽기 또는 게시 권한으로 로그인 절차를 시작합니다.
+            LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
+                    Arrays.asList("public_profile", "user_friends"));
+            LoginManager.getInstance().registerCallback(callbackManager,
+                    new FacebookCallback<LoginResult>() {
+
+                        private ProfileTracker mProfileTracker;
+
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
+                            getUserInfo(loginResult);
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            Log.e("onCancel", "onCancel");
+                        }
+
+                        @Override
+                        public void onError(FacebookException exception) {
+                            Log.e("onError", "onError " + exception.getLocalizedMessage());
+                        }
+                    });
+        }
 
         Session.getCurrentSession().addCallback(callback);
         //GlobalApplication.setCurrentActivity(LoginActivity.this);
@@ -135,6 +147,9 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.com_email_login).setOnClickListener(onEmailButtonClicked);
 
         findViewById(R.id.com_kakao_login).setOnClickListener(onKakaoButtonClicked);
+
+        // 메인으로 갈 인텐트
+        intent = new Intent(LoginActivity.this, MainActivity.class);
     }
 
     @Override
@@ -189,7 +204,6 @@ public class LoginActivity extends AppCompatActivity {
                     //로그인에 성공하면 로그인한 사용자의 일련번호, 닉네임, 이미지url등을 리턴합니다.
                     //사용자 ID는 보안상의 문제로 제공하지 않고 일련번호는 제공합니다.
                     Log.e("UserProfile", userProfile.toString());
-                    intent = new Intent(LoginActivity.this, MainActivity.class);
                     Session.getCurrentSession().checkAccessTokenInfo();
                     obj = new JSONObject();
                     try {
@@ -353,8 +367,6 @@ public class LoginActivity extends AppCompatActivity {
                         } catch (JSONException el) {
                             el.printStackTrace();
                         }
-
-                        intent = new Intent(LoginActivity.this, MainActivity.class);
                         //intent.putExtra("jsondata", object.toString());
                     }
                 });

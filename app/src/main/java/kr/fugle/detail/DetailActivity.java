@@ -39,7 +39,7 @@ import okhttp3.Response;
 
 public class DetailActivity extends AppCompatActivity {
 
-    final static String serverUrl = "http://52.79.147.163:8000/";
+    final static String serverUrl = "http://58.227.42.244:8000/";
     OkHttpClient client = new OkHttpClient();
 
     Content content;

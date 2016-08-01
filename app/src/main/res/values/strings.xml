@@ -6,6 +6,9 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="facebook_app_id">1783256118555186</string>
 
+    <!-- 서버 주소 -->
+    <string name="server_url">http://58.227.42.244:8000/</string>
+
 
     <!-- 회원가입 -->
     <string name="actionbar_name">회원가입</string>
