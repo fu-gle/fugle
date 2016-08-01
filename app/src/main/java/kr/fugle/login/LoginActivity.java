@@ -84,6 +84,23 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(this, SplashActivity.class));
         }
 
+        // 이미 카톡로그인이 되어있는 경우 확인
+        if(!Session.getCurrentSession().isClosed()){
+            Log.d("--->","already logined");
+            UserProfile userProfile = UserProfile.loadFromCache();
+            Log.d("id--->",userProfile.getId()+"");
+            intent = new Intent(LoginActivity.this, MainActivity.class);
+            new OkHttpLogin().execute(
+                    serverUrl,
+                    userProfile.getId()+"",
+                    userProfile.getNickname(),
+                    null,
+                    null,
+                    userProfile.getProfileImagePath());
+            finish();
+            //callback.onSessionOpened();
+        }
+
         callback = new SessionCallback();
 
         // 이미 카톡로그인이 되어있는 경우 확인
@@ -102,8 +119,6 @@ public class LoginActivity extends AppCompatActivity {
                     userProfile.getProfileImagePath());
             //callback.onSessionOpened();
         }
-
-
 
         // 페이스북 로그인이 되어있는 경우 확인
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
