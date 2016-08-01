@@ -97,6 +97,8 @@ public class TabFragment4 extends Fragment {
             // 페이스북
             if (LoginManager.getInstance() != null) {
                 LoginManager.getInstance().logOut();
+                MainActivity activity = (MainActivity)getActivity();
+                activity.onFragmentChanged(1);
             }
 
             // 카카오톡
@@ -104,11 +106,10 @@ public class TabFragment4 extends Fragment {
                 @Override
                 public void onCompleteLogout() {
                     Session.getCurrentSession().close();
+                    MainActivity activity = (MainActivity)getActivity();
+                    activity.onFragmentChanged(1);
                 }
             });
-
-            MainActivity activity = (MainActivity)getActivity();
-            activity.onFragmentChanged(1);
         }
     };
 }

@@ -68,10 +68,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
         // 페이스북 초기화
         FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)
+        setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();  //로그인 응답을 처리할 콜백 관리자
 
         // 로그아웃 버튼 클릭시의 intent 채크
@@ -83,44 +83,53 @@ public class LoginActivity extends AppCompatActivity {
 //            startActivity(new Intent(this, SplashActivity.class));
 //        }
 
+        // 이미 카톡로그인이 되어있는 경우 확인
+        if(!Session.getCurrentSession().isClosed()){
+            Log.d("--->","already logined");
+            UserProfile userProfile = UserProfile.loadFromCache();
+            Log.d("id--->",userProfile.getId()+"");
+            intent = new Intent(LoginActivity.this, MainActivity.class);
+            new OkHttpLogin().execute(
+                    serverUrl,
+                    userProfile.getId()+"",
+                    userProfile.getNickname(),
+                    null,
+                    null,
+                    userProfile.getProfileImagePath());
+            finish();
+            //callback.onSessionOpened();
+        }
+
         callback = new SessionCallback();
 
-//        // 이미 카톡로그인이 되어있는 경우 확인
-//        if(!logout && !Session.getCurrentSession().isClosed()){
-//            Log.d("--->","already logined");
-//            callback.onSessionOpened();
-//        }
+        // 페이스북 로그인이 되어있는 경우 확인
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        if(accessToken != null){
+            Log.d("-----","이미 페북로그인");
+            //LoginManager - 요청된 읽기 또는 게시 권한으로 로그인 절차를 시작합니다.
+            LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
+                    Arrays.asList("public_profile", "user_friends"));
+            LoginManager.getInstance().registerCallback(callbackManager,
+                    new FacebookCallback<LoginResult>() {
 
+                        private ProfileTracker mProfileTracker;
 
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
+                            getUserInfo(loginResult);
+                        }
 
-//        // 페이스북 로그인이 되어있는 경우 확인
-//        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-//        if(accessToken != null){
-//            Log.d("-----","이미 페북로그인");
-//            //LoginManager - 요청된 읽기 또는 게시 권한으로 로그인 절차를 시작합니다.
-//            LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
-//                    Arrays.asList("public_profile", "user_friends"));
-//            LoginManager.getInstance().registerCallback(callbackManager,
-//                    new FacebookCallback<LoginResult>() {
-//
-//                        private ProfileTracker mProfileTracker;
-//
-//                        @Override
-//                        public void onSuccess(LoginResult loginResult) {
-//                            getUserInfo(loginResult);
-//                        }
-//
-//                        @Override
-//                        public void onCancel() {
-//                            Log.e("onCancel", "onCancel");
-//                        }
-//
-//                        @Override
-//                        public void onError(FacebookException exception) {
-//                            Log.e("onError", "onError " + exception.getLocalizedMessage());
-//                        }
-//                    });
-//        }
+                        @Override
+                        public void onCancel() {
+                            Log.e("onCancel", "onCancel");
+                        }
+
+                        @Override
+                        public void onError(FacebookException exception) {
+                            Log.e("onError", "onError " + exception.getLocalizedMessage());
+                        }
+                    });
+        }
 
         Session.getCurrentSession().addCallback(callback);
         //GlobalApplication.setCurrentActivity(LoginActivity.this);

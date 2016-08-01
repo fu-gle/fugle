@@ -20,7 +20,6 @@ import kr.fugle.Item.Content;
 import kr.fugle.R;
 import kr.fugle.login.LoginActivity;
 import kr.fugle.rating.RatingActivity;
-import kr.fugle.splash.SplashActivity;
 
 /**
  * Created by 김은진 on 2016-07-26.
@@ -123,7 +122,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else if(index == 1) { // 로그아웃 버튼 눌렀을시
             // 로그인 액티비티로 이동
-            startActivity(new Intent(MainActivity.this, SplashActivity.class));
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            intent.putExtra("logout",true);
+            startActivity(intent);
             finish();
         }
     }
