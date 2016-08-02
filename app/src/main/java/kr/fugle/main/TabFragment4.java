@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 import com.kakao.auth.Session;
 import com.kakao.usermgmt.UserManagement;
@@ -97,10 +99,11 @@ public class TabFragment4 extends Fragment {
         @Override
         public void onClick(View v) {
             // 페이스북
-            if (LoginManager.getInstance() != null) {
+            if (AccessToken.getCurrentAccessToken() != null) {
                 LoginManager.getInstance().logOut();
                 MainActivity activity = (MainActivity)getActivity();
                 activity.onFragmentChanged(1);
+                Log.d("---->","페북로그아웃");
             }
 
             // 카카오톡
@@ -110,8 +113,11 @@ public class TabFragment4 extends Fragment {
                     Session.getCurrentSession().close();
                     MainActivity activity = (MainActivity)getActivity();
                     activity.onFragmentChanged(1);
+                    Log.d("---->","카톡로그아웃");
                 }
             });
+            Log.d("---->","if밖로그아웃");
         }
     };
+
 }
