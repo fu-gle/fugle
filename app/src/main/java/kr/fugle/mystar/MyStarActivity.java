@@ -55,7 +55,6 @@ public class MyStarActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        Intent intent = getIntent();
         userNo = User.getInstance().getNo();
 
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
@@ -99,7 +98,7 @@ public class MyStarActivity extends AppCompatActivity {
                                 adapter,
                                 2,
                                 userNo)
-                                .execute("", userNo.toString(), pageNo + "");
+                                .execute("mystar/", userNo.toString(), pageNo + "");
                         pageNo++;
                     }
                 }, 1500);
@@ -113,7 +112,7 @@ public class MyStarActivity extends AppCompatActivity {
                 adapter,
                 2,
                 userNo)
-                .execute("", userNo.toString(), pageNo + "");
+                .execute("mystar/", userNo.toString(), pageNo + "");
 
         pageNo++;
 

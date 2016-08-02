@@ -118,7 +118,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
             vhItem.no = content.getNo();
 
             Picasso.with(myStarContext.getApplicationContext())
-                    .load(content.getThumbnail())
+                    .load(content.getThumbnailBig())
                     .into(vhItem.thumbnailImg);
 
             // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.

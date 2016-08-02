@@ -126,19 +126,18 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
             final ContentVH vhItem = (ContentVH)holder;
             final Content content = list.get(position);
 
-            Picasso.with(ratingContext.getApplicationContext())
-                    .load(content.getThumbnail())
-                    .into(vhItem.thumbnailImg);
-
             // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
             DisplayMetrics metrics = new DisplayMetrics();
             WindowManager windowManager = (WindowManager) ratingContext
                             .getApplicationContext()
                             .getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
-            vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            ViewGroup.LayoutParams params = vhItem.thumbnailImg.getLayoutParams();
-            params.height = metrics.heightPixels / 3;
+
+            Picasso.with(ratingContext.getApplicationContext())
+                    .load(content.getThumbnailBig())
+                    .resize(metrics.widthPixels, metrics.heightPixels)
+                    .centerInside()
+                    .into(vhItem.thumbnailImg);
 
             vhItem.title.setText(content.getTitle());
 

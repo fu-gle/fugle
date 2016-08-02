@@ -117,15 +117,19 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                     content.setGenre2(obj.getString("genre2"));
                     content.setGenre3(obj.getString("genre3"));
                     content.setAge(obj.getString("age"));
-                    content.setThumbnail(obj.getString("thumbnail"));
+                    content.setThumbnailSmall(obj.getString("thumbnail_small"));
+                    content.setThumbnailBig(obj.getString("thumbnail_big"));
                     if(!obj.isNull("star__star")) {
+                        Log.d("------>", "star__star" + obj.getInt("star__star"));
                         content.setRating((float) (obj.getInt("star__star") * 1.0) / 10);
                     }
                     if(!obj.isNull("preference")){  // 보고싶어요 버튼 예시
+                        Log.d("----->", "preference " + obj.getBoolean("preference"));
                         content.setHeart(obj.getBoolean("preference"));
                     }
-                    if(!obj.isNull("recommendStar"))
-                        Log.d("------>","recommendStar " + obj.getString("recommendStar"));
+                    if(!obj.isNull("recommendStar")) {
+                        Log.d("------>", "recommendStar " + obj.getString("recommendStar"));
+                    }
 
                     tempList.add(content);
                 }

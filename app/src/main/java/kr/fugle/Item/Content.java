@@ -13,8 +13,9 @@ public class Content {
     String media;
     Boolean publish;
     String age;
-    String thumbnail;
-    String href;
+    String thumbnailSmall;
+    String thumbnailBig;
+    String link;
     Float prediction;   // 예상 별점
     Float rating;   // 내가 준 별점
     Boolean heart;  // 보고싶어요 클릭 여부
@@ -22,7 +23,7 @@ public class Content {
 
     public Content(){
         no = 0;
-        title = author1 = author2 = genre1 = genre2 = genre3 = summary = media = age = thumbnail = href = "";
+        title = author1 = author2 = genre1 = genre2 = genre3 = summary = media = age = thumbnailSmall = thumbnailBig = link = "";
         publish = heart = false;
         prediction = rating = average = 0.0f;
     }
@@ -115,20 +116,28 @@ public class Content {
         this.age = age;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
+    public String getThumbnailSmall() {
+        return thumbnailSmall;
     }
 
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setThumbnailSmall(String thumbnailSmall) {
+        this.thumbnailSmall = thumbnailSmall;
     }
 
-    public String getHref() {
-        return href;
+    public String getThumbnailBig() {
+        return thumbnailBig;
     }
 
-    public void setHref(String href) {
-        this.href = href;
+    public void setThumbnailBig(String thumbnailBig) {
+        this.thumbnailBig = thumbnailBig;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 
     public Float getPrediction() {
