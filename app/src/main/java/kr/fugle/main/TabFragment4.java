@@ -37,7 +37,7 @@ public class TabFragment4 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.profile, container,false);
+        View rootView = inflater.inflate(R.layout.tab_fragment4, container,false);
 
         // 취향분석 버튼
         Button favoriteBtn = (Button)rootView.findViewById(R.id.prof_favorite_button);
@@ -59,6 +59,9 @@ public class TabFragment4 extends Fragment {
             }
         });
 
+        // 커버사진 (프로필 사진 뒤에 사진)
+
+
         // 프로필 사진
         Context c = getActivity().getApplicationContext();
         ImageView profileView = (ImageView)rootView.findViewById(R.id.user_profile_photo) ;
@@ -75,8 +78,8 @@ public class TabFragment4 extends Fragment {
 
         // 자기소개
         String message = User.getInstance().getMessage();
-        if(message.equals(""))
-            message = "자기소개";
+        if(message.equals("") || message == null)
+            message = "자기소개 글을 입력해주세요";
         TextView profMessage = (TextView)rootView.findViewById(R.id.prof_message);
         profMessage.setText(message);
         profMessage.setOnClickListener(new View.OnClickListener() {
