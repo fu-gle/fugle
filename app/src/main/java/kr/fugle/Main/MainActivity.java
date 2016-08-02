@@ -18,8 +18,8 @@ import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
 import kr.fugle.R;
-import kr.fugle.login.LoginActivity;
 import kr.fugle.rating.RatingActivity;
+import kr.fugle.splash.SplashActivity;
 
 /**
  * Created by 김은진 on 2016-07-26.
@@ -30,10 +30,10 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     public int[] tabIcons = {
-            R.drawable.ic_home_white_24dp,
-            R.drawable.ic_trending_up_white_24dp,
-            R.drawable.ic_favorite_white_24dp,
-            R.drawable.ic_person_white_24dp
+            R.drawable.ic_home_white,
+            R.drawable.ic_trending_up_white,
+            R.drawable.ic_favorite_white,
+            R.drawable.ic_person_white
     };
 
     ArrayList<Content> contentArrayList;
@@ -122,8 +122,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else if(index == 1) { // 로그아웃 버튼 눌렀을시
             // 로그인 액티비티로 이동
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            intent.putExtra("logout",true);
+            Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+            //intent.putExtra("logout",true);
             startActivity(intent);
             finish();
         }
