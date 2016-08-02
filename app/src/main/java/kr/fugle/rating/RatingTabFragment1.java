@@ -1,6 +1,7 @@
 package kr.fugle.rating;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -22,6 +23,7 @@ import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.rating.category.CategorySelectActivity;
 import kr.fugle.webconnection.GetContentList;
 
 /**
@@ -29,14 +31,19 @@ import kr.fugle.webconnection.GetContentList;
  */
 public class RatingTabFragment1 extends Fragment {
 
+    final int REQUEST_CODE = 1004;
+    final int CATEGORY_RESULT_CODE = 333;
+
     private CountChangeListener countChangeListener;
 
     private ArrayList<Content> contentArrayList;
     private RecyclerView recyclerView;
     private RatingRecyclerAdapter adapter;
     private Integer userNo;
-    static Integer pageNo;
+    private static Integer pageNo;
+    private Integer categoryNo;
 
+    OnLoadMoreListener onLoadMoreListener;
     private Context context;
     Handler handler;
 
@@ -53,6 +60,7 @@ public class RatingTabFragment1 extends Fragment {
 
         userNo = User.getInstance().getNo();
         pageNo = 1;
+        categoryNo = 0;     // 카테고리별로 받아오는 것 구현해야함. 기본이 0.
 
         View view = inflater.inflate(R.layout.tab_rating_fragment, container, false);
 
@@ -74,14 +82,13 @@ public class RatingTabFragment1 extends Fragment {
         dialog.getWindow().setAttributes(params);
 
         adapter = new RatingRecyclerAdapter(
-                getContext().getApplicationContext(),
                 getContext(),
                 dialog,
                 contentArrayList,
                 userNo,
                 recyclerView);
 
-        adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+        onLoadMoreListener = new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 // add null , so the adapter will check view_type and show progress bar at bottom
@@ -93,27 +100,29 @@ public class RatingTabFragment1 extends Fragment {
                     public void run() {
                         Toast.makeText(context, "rating bottom", Toast.LENGTH_SHORT).show();
 
-                        new GetContentList(
+                        new GetContentList(getContext(),
                                 contentArrayList,
                                 adapter,
                                 1,
                                 userNo)
-                                .execute("", userNo + "", pageNo + ""); // 웹툰 표시 추가
+                                .execute("", userNo + "", pageNo + "", categoryNo + ""); // 웹툰 표시 추가
                         pageNo++;
                     }
                 }, 1500);
             }
-        });
+        };
+
+        adapter.setOnLoadMoreListener(onLoadMoreListener);
 
         recyclerView.setAdapter(adapter);
 
         // 아이템 넣기
-        new GetContentList(
+        new GetContentList(getContext(),
                 contentArrayList,
                 adapter,
                 1,
                 userNo)
-                .execute("", userNo + "", pageNo + ""); // 웹툰 표시 추가
+                .execute("", userNo + "", pageNo + "", categoryNo + ""); // 웹툰 표시 추가
 
         pageNo++;
 
@@ -131,11 +140,62 @@ public class RatingTabFragment1 extends Fragment {
         view.findViewById(R.id.categoryBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                startActivityForResult(new Intent(getContext(), CategorySelectActivity.class), 1);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // 카테고리 변경시
+        if(requestCode == REQUEST_CODE && resultCode == CATEGORY_RESULT_CODE){
+
+            categoryNo = data.getIntExtra("categoryNo", 0);
+            pageNo = 1;
+
+            onLoadMoreListener = new OnLoadMoreListener() {
+                @Override
+                public void onLoadMore() {
+                    // add null , so the adapter will check view_type and show progress bar at bottom
+                    contentArrayList.add(null);
+                    adapter.notifyItemInserted(contentArrayList.size() - 1);
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "rating bottom", Toast.LENGTH_SHORT).show();
+
+                            new GetContentList(getContext(),
+                                    contentArrayList,
+                                    adapter,
+                                    1,
+                                    userNo)
+                                    .execute("", userNo + "", pageNo + "", categoryNo + ""); // 웹툰 표시 추가
+                            pageNo++;
+                        }
+                    }, 1500);
+                }
+            };
+
+            contentArrayList.clear();
+            adapter.notifyDataSetChanged();
+
+            adapter.setOnLoadMoreListener(onLoadMoreListener);
+
+            // 아이템 넣기
+            new GetContentList(getContext(),
+                    contentArrayList,
+                    adapter,
+                    1,
+                    userNo)
+                    .execute("", userNo + "", pageNo + "", categoryNo + ""); // 웹툰 표시 추가
+
+            pageNo++;
+        }
     }
 
     @Override

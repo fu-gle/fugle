@@ -1,5 +1,6 @@
 package kr.fugle.webconnection;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
+import kr.fugle.R;
 import kr.fugle.mystar.MyStarAdapter;
 import kr.fugle.rating.RatingRecyclerAdapter;
 import kr.fugle.recommend.RecommendAdapter;
@@ -24,7 +26,7 @@ import okhttp3.Response;
  */
 public class GetContentList extends AsyncTask<String, Void, String> {
 
-    final static String serverUrl = "http://58.227.42.244:8000/";
+    String serverUrl;
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
@@ -33,10 +35,12 @@ public class GetContentList extends AsyncTask<String, Void, String> {
     int activity;
     int userNo;
 
-    public GetContentList(ArrayList<Content> list,
+    public GetContentList(Context context,
+                          ArrayList<Content> list,
                           RecyclerView.Adapter adapter,
                           int activity,
                           int userNo){
+        serverUrl = context.getResources().getString(R.string.server_url);
         this.list = list;
         this.adapter = adapter;
         this.activity = activity;
@@ -120,6 +124,8 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                     if(!obj.isNull("preference")){  // 보고싶어요 버튼 예시
                         content.setHeart(obj.getBoolean("preference"));
                     }
+                    if(!obj.isNull("recommendStar"))
+                        Log.d("------>","recommendStar " + obj.getString("recommendStar"));
 
                     tempList.add(content);
                 }

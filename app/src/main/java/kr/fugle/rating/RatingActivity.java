@@ -32,9 +32,6 @@ public class RatingActivity extends AppCompatActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
 
-    ArrayList<Content> contentArrayList;
-    RecyclerView recyclerView;
-    RatingRecyclerAdapter adapter;
     int userNo;
     int count;
 
@@ -96,7 +93,8 @@ public class RatingActivity extends AppCompatActivity {
         RatingTabFragment1 ratingTabFragment1 = new RatingTabFragment1();
         ratingTabFragment1.setCountChangeListener(countChangeListener);
 
-        RatingTabFragment2 ratingTabFragment2 = new RatingTabFragment2();
+        // 1로 변경 실험
+        RatingTabFragment1 ratingTabFragment2 = new RatingTabFragment1();
         ratingTabFragment2.setCountChangeListener(countChangeListener);
 
         adapter.addFragment(ratingTabFragment1, "");

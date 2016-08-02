@@ -1,5 +1,6 @@
 package kr.fugle.main;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -70,7 +71,6 @@ public class TabFragment3 extends Fragment {
         dialog.getWindow().setAttributes(params);
 
         adapter = new RecommendAdapter(
-                getContext().getApplicationContext(),
                 getContext(),
                 dialog,
                 contentArrayList,
@@ -89,7 +89,7 @@ public class TabFragment3 extends Fragment {
                     public void run() {
                         Toast.makeText(getContext().getApplicationContext(), "rating bottom", Toast.LENGTH_SHORT).show();
 
-                        new GetContentList(
+                        new GetContentList(getContext(),
                                 contentArrayList,
                                 adapter,
                                 0,
@@ -105,7 +105,7 @@ public class TabFragment3 extends Fragment {
 
         // 맨 처음으로 만들어 질 때만
         if(contentArrayList.size() == 0) {
-            new GetContentList(
+            new GetContentList(getContext(),
                     contentArrayList,
                     adapter,
                     0,

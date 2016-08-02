@@ -39,7 +39,7 @@ import okhttp3.Response;
 
 public class DetailActivity extends AppCompatActivity {
 
-    final static String serverUrl = "http://58.227.42.244:8000/";
+    String serverUrl;
     OkHttpClient client = new OkHttpClient();
 
     Content content;
@@ -67,6 +67,8 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        serverUrl = this.getResources().getString(R.string.server_url);
 
         Intent data = getIntent();
         userNo = User.getInstance().getNo();
@@ -143,7 +145,7 @@ public class DetailActivity extends AppCompatActivity {
 
                                     Toast.makeText(getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                                    new PostStar().execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+                                    new PostStar(getApplicationContext()).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
 
                                     dialog.cancel();
                                 }

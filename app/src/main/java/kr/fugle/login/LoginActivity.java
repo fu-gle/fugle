@@ -47,12 +47,10 @@ public class LoginActivity extends AppCompatActivity {
     private EmailLoginDialog emailLogin;
 
     // 서버통신
-    final static String serverUrl = "http://58.227.42.244:8000/";
+    String serverUrl;
     LoginExecuteListener loginExecuteListener;
 
     // User 정보 저장
-//    User user;
-    String user;
     JSONObject obj;
     Intent intent;
 
@@ -72,7 +70,6 @@ public class LoginActivity extends AppCompatActivity {
 //        FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)
         setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();  //로그인 응답을 처리할 콜백 관리자
-
 
         // 회원가입
         findViewById(R.id.register_button).setOnClickListener(onRegisterButtonClicked);
@@ -149,10 +146,10 @@ public class LoginActivity extends AppCompatActivity {
                         obj.put("name", userProfile.getNickname());
                         obj.put("image", userProfile.getProfileImagePath());
                         // 서버로 데이터전송
-                        OkHttpLogin okHttpLogin = new OkHttpLogin();
+                        OkHttpLogin okHttpLogin = new OkHttpLogin(getApplication());
                         okHttpLogin.setLoginExecuteListener(loginExecuteListener);
                         okHttpLogin.execute(
-                                serverUrl,
+                                "login/",
                                 obj.getString("id"),
                                 obj.getString("name"),
                                 null,
@@ -232,11 +229,11 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject pic_url = new JSONObject(pic_data.getString("data"));
 
                             // 서버로 로그인 데이터 전송
-                            OkHttpLogin okHttpLogin = new OkHttpLogin();
+                            OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
                             okHttpLogin.setLoginExecuteListener(loginExecuteListener);
 
                             okHttpLogin.execute(
-                                    serverUrl,
+                                    "login/",
                                     object.getString("id"),
                                     object.getString("name"),
                                     null,

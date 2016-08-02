@@ -27,8 +27,6 @@ import kr.fugle.main.MainActivity;
  */
 public class SplashActivity extends Activity {
 
-    final static String serverUrl = "http://58.227.42.244:8000/";
-
     Handler handler;
     LoginExecuteListener loginExecuteListener;
 
@@ -79,11 +77,11 @@ public class SplashActivity extends Activity {
             UserProfile userProfile = UserProfile.loadFromCache();
             Log.d("id--->", userProfile.getId() + "");
 
-            OkHttpLogin okHttpLogin = new OkHttpLogin();
+            OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
             okHttpLogin.setLoginExecuteListener(loginExecuteListener);
 
             okHttpLogin.execute(
-                    serverUrl,
+                    "login/",
                     userProfile.getId() + "",
                     userProfile.getNickname(),
                     null,
@@ -105,11 +103,11 @@ public class SplashActivity extends Activity {
                                 JSONObject pic_url = new JSONObject(pic_data.getString("data"));
 
                                 // 서버로 로그인 데이터 전송
-                                OkHttpLogin okHttpLogin = new OkHttpLogin();
+                                OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
                                 okHttpLogin.setLoginExecuteListener(loginExecuteListener);
 
                                 okHttpLogin.execute(
-                                        serverUrl,
+                                        "login/",
                                         object.getString("id"),
                                         object.getString("name"),
                                         null,

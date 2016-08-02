@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
             //intent.putExtra("userNo", user.getNo());
             startActivity(intent);
         } else if(index == 1) { // 로그아웃 버튼 눌렀을시
-            // 로그인 액티비티로 이동
             Intent intent = new Intent(MainActivity.this, SplashActivity.class);
             //intent.putExtra("logout",true);
             startActivity(intent);

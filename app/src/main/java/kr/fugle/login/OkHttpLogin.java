@@ -1,5 +1,6 @@
 package kr.fugle.login;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -7,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import kr.fugle.Item.User;
+import kr.fugle.R;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -20,14 +22,17 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
 
     LoginExecuteListener loginExecuteListener;
 
+    String serverUrl;
+    public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
+    OkHttpClient client = new OkHttpClient();
+
+    public OkHttpLogin(Context context) {
+        serverUrl = context.getResources().getString(R.string.server_url);
+    }
+
     public void setLoginExecuteListener(LoginExecuteListener loginExecuteListener) {
         this.loginExecuteListener = loginExecuteListener;
     }
-
-    public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-    // 서버 통신 OkHttp
-    //final static String serverUrl = "http://58.227.42.244:8000/";
-    OkHttpClient client = new OkHttpClient();
 
     @Override
     protected String doInBackground(String... params) {
@@ -41,7 +46,7 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
         RequestBody body = RequestBody.create(HTML, data);
 
         Request request = new Request.Builder()
-                .url(params[0] + "login/")
+                .url(serverUrl + params[0])
                 .post(body)
                 .build();
 

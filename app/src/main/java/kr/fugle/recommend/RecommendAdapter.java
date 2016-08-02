@@ -26,6 +26,7 @@ import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
+import kr.fugle.webconnection.PostChoiceTraces;
 import kr.fugle.webconnection.PostStar;
 
 //import com.afollestad.materialdialogs.MaterialDialog;
@@ -39,7 +40,6 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_PROG = 2;
 
-    private Context context;
     private Context recommendContext;
     Dialog dialog;
     private ArrayList<Content> list;
@@ -53,13 +53,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
-    public RecommendAdapter(Context context,
-                            Context recommendContext,
+    public RecommendAdapter(Context recommendContext,
                             Dialog dialog,
                             ArrayList<Content> list,
                             int userNo,
                             RecyclerView recyclerView){
-        this.context = context;
         this.recommendContext = recommendContext;
         this.dialog = dialog;
         this.list = list;
@@ -121,13 +119,13 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             vhItem.no = content.getNo();
 
-            Picasso.with(context.getApplicationContext())
+            Picasso.with(recommendContext.getApplicationContext())
                     .load(content.getThumbnail())
                     .into(vhItem.thumbnailImg);
 
             // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
             DisplayMetrics metrics = new DisplayMetrics();
-            WindowManager windowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+            WindowManager windowManager = (WindowManager) recommendContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
             vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -138,6 +136,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             vhItem.thumbnailImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    // 상세보기 누른 흔적 전송
+                    new PostChoiceTraces(recommendContext.getApplicationContext())
+                            .execute("traces/", userNo.toString(), content.getNo().toString());
+
                     Intent intent = new Intent(recommendContext, DetailActivity.class);
                     intent.putExtra("userNo", userNo);
                     intent.putExtra("contentNo", content.getNo());
@@ -154,7 +157,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             vhItem.preference.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context.getApplicationContext(), "만화 : " + vhItem.no + "'s preference", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(recommendContext.getApplicationContext(), "만화 : " + vhItem.no + "'s preference", Toast.LENGTH_SHORT).show();
                     if(content.getHeart()){
                         vhItem.preference.setTextColor(Color.parseColor("#777777"));
                         content.setHeart(false);
@@ -181,9 +184,9 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                                 content.setRating(rating);
 
-                                Toast.makeText(context, "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(recommendContext, "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                                new PostStar().execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+                                new PostStar(recommendContext).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
                             }
                         }
                     });
@@ -194,7 +197,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             vhItem.comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context.getApplicationContext(), "만화 : " + vhItem.no + "'s comment", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(recommendContext, "만화 : " + vhItem.no + "'s comment", Toast.LENGTH_SHORT).show();
                 }
             });
 

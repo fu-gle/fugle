@@ -43,10 +43,7 @@
             android:screenOrientation="portrait" />
         <!-- splash -->
 
-        <activity android:name=".login.SuccessActivity" />
-
         <!-- 호경이의 액티비티입니당 -->
-        <activity android:name=".HoActivity" />
 
         <!-- 별점 주기용 -->
         <activity
@@ -54,9 +51,6 @@
             android:label="@string/toolbar_rating" />
 
         <!-- 추천 목록 -->
-        <activity
-            android:name=".recommend.RecommendActivity"
-            android:label="@string/toolbar_recommend" />
 
         <!-- 회원가입 -->
         <activity
@@ -77,7 +71,7 @@
         </activity>
         <activity android:name=".mystar.MyStarActivity" />
         <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".rating.CategorySelectActivity"></activity>
+        <activity android:name=".rating.category.CategorySelectActivity"></activity>
     </application>
 
 </manifest>

@@ -76,7 +76,6 @@ public class MyStarActivity extends AppCompatActivity {
         dialog.getWindow().setAttributes(params);
 
         adapter = new MyStarAdapter(
-                getApplicationContext(),
                 MyStarActivity.this,
                 dialog,
                 contentArrayList,
@@ -95,7 +94,7 @@ public class MyStarActivity extends AppCompatActivity {
                     public void run() {
                         Toast.makeText(MyStarActivity.this, "rating bottom", Toast.LENGTH_SHORT).show();
 
-                        new GetContentList(
+                        new GetContentList(getApplicationContext(),
                                 contentArrayList,
                                 adapter,
                                 2,
@@ -109,7 +108,7 @@ public class MyStarActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        new GetContentList(
+        new GetContentList(getApplicationContext(),
                 contentArrayList,
                 adapter,
                 2,
