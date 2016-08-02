@@ -26,6 +26,8 @@ import kr.fugle.login.CircleTransform;
  */
 public class TabFragment4 extends Fragment {
 
+    // 액티비티간 데이터 통신을 위한 코드
+
     TabStatusListener tabStatusListener;
 
     public void setTabStatusListener(TabStatusListener tabStatusListener){

@@ -71,7 +71,6 @@ public class TabFragment3 extends Fragment {
         dialog.getWindow().setAttributes(params);
 
         adapter = new RecommendAdapter(
-                getContext().getApplicationContext(),
                 getContext(),
                 dialog,
                 contentArrayList,

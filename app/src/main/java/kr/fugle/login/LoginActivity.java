@@ -61,8 +61,6 @@ public class LoginActivity extends AppCompatActivity {
     OkHttpClient client = new OkHttpClient();
 
     // User 정보 저장
-//    User user;
-    String user;
     JSONObject obj;
     Intent intent;
 
@@ -79,12 +77,12 @@ public class LoginActivity extends AppCompatActivity {
 
         // 로그아웃 버튼 클릭시의 intent 채크
         Intent data = getIntent();
-        boolean logout = data.getBooleanExtra("logout",false);
+//        boolean logout = data.getBooleanExtra("logout",false);
 
         // Splash 화면 이동
-        if(!logout) {
+//        if(!logout) {
             startActivity(new Intent(this, SplashActivity.class));
-        }
+//        }
 
         // 이미 카톡로그인이 되어있는 경우 확인
         if(!Session.getCurrentSession().isClosed()){

@@ -32,6 +32,7 @@ import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
 import kr.fugle.webconnection.GetContentList;
+import kr.fugle.webconnection.PostChoiceTraces;
 import kr.fugle.webconnection.PostStar;
 
 /**
@@ -42,7 +43,6 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;    // 프로그래스바
 
-    private Context context;
     private ArrayList<Content> list;
     private Context ratingContext;
     private AppCompatDialog dialog;
@@ -56,13 +56,11 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
-    public RatingRecyclerAdapter(Context context,
-                                 Context ratingContext,
+    public RatingRecyclerAdapter(Context ratingContext,
                                  AppCompatDialog dialog,
                                  ArrayList<Content> list,
                                  int userNo,
                                  RecyclerView recyclerView){
-        this.context = context;
         this.ratingContext = ratingContext;
         this.dialog = dialog;
         this.list = list;
@@ -107,10 +105,14 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
         RecyclerView.ViewHolder vh;
 
         if(viewType == VIEW_ITEM){
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rating, parent, false);
+            View v = LayoutInflater
+                    .from(parent.getContext())
+                    .inflate(R.layout.item_rating, parent, false);
             vh = new ContentVH(v);
         }else{
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progressbar, parent, false);
+            View v = LayoutInflater
+                    .from(parent.getContext())
+                    .inflate(R.layout.item_progressbar, parent, false);
             vh = new ProgressVH(v);
         }
 
@@ -124,18 +126,18 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
             final ContentVH vhItem = (ContentVH)holder;
             final Content content = list.get(position);
 
-            vhItem.no = content.getNo();
-
-            Picasso.with(context.getApplicationContext())
+            Picasso.with(ratingContext.getApplicationContext())
                     .load(content.getThumbnail())
                     .into(vhItem.thumbnailImg);
 
             // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
             DisplayMetrics metrics = new DisplayMetrics();
-            WindowManager windowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+            WindowManager windowManager = (WindowManager) ratingContext
+                            .getApplicationContext()
+                            .getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
             vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) vhItem.thumbnailImg.getLayoutParams();
+            ViewGroup.LayoutParams params = vhItem.thumbnailImg.getLayoutParams();
             params.height = metrics.heightPixels / 3;
 
             vhItem.title.setText(content.getTitle());
@@ -159,7 +161,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
             vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ratingContext, "clicked", Toast.LENGTH_SHORT).show();
 
                     dialog.show();
 
@@ -169,7 +171,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             .setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(context, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ratingContext, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
                             dialog.cancel();
                         }
                     });
@@ -179,7 +181,12 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             .setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(context, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
+
+                            // 상세보기 누른 흔적 전송
+                            new PostChoiceTraces(ratingContext)
+                                    .execute("traces/", userNo.toString(), content.getNo().toString());
+
+                            Toast.makeText(ratingContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(ratingContext, DetailActivity.class);
                             intent.putExtra("userNo", userNo);
                             intent.putExtra("contentNo", content.getNo());
@@ -192,7 +199,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             .setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(context, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ratingContext, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
                             dialog.cancel();
                         }
                     });
@@ -210,9 +217,13 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
                         content.setRating(rating);
 
-                        Toast.makeText(context.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ratingContext.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                        new PostStar(context).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+                        new PostStar(ratingContext)
+                                .execute("insert/",
+                                        userNo.toString(),
+                                        content.getNo().toString(),
+                                        Rating.toString());
                     }
                 }
             });
@@ -233,9 +244,6 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
     }
 
     public static class ContentVH extends RecyclerView.ViewHolder {
-
-        // 작품 번호
-        Integer no;
 
         // 위젯들
         ImageView thumbnailImg;

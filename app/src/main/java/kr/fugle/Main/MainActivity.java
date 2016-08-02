@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         } else if(index == 1) { // 로그아웃 버튼 눌렀을시
             // 로그인 액티비티로 이동
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            intent.putExtra("logout",true);
+//            intent.putExtra("logout",true);
             startActivity(intent);
             finish();
         }

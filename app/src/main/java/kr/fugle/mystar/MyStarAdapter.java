@@ -36,7 +36,6 @@ public class MyStarAdapter extends RecyclerView.Adapter {
     private final int VIEW_ITEM = 1;
     private final int VIEW_PROG = 0;    // 프로그래스바
 
-    private Context context;
     private Context myStarContext;
     private Dialog dialog;
     private List<Content> list;
@@ -50,13 +49,11 @@ public class MyStarAdapter extends RecyclerView.Adapter {
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
-    public MyStarAdapter(Context context,
-                         Context myStarContext,
+    public MyStarAdapter(Context myStarContext,
                          Dialog dialog,
                          List<Content> list,
                          int userNo,
                          RecyclerView recyclerView){
-        this.context = context;
         this.myStarContext = myStarContext;
         this.dialog = dialog;
         this.list = list;
@@ -120,13 +117,13 @@ public class MyStarAdapter extends RecyclerView.Adapter {
 
             vhItem.no = content.getNo();
 
-            Picasso.with(context.getApplicationContext())
+            Picasso.with(myStarContext.getApplicationContext())
                     .load(content.getThumbnail())
                     .into(vhItem.thumbnailImg);
 
             // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
             DisplayMetrics metrics = new DisplayMetrics();
-            WindowManager windowManager = (WindowManager) context.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+            WindowManager windowManager = (WindowManager) myStarContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
             vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
             ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) vhItem.thumbnailImg.getLayoutParams();
@@ -153,7 +150,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
             vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, "clicked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(myStarContext, "clicked", Toast.LENGTH_SHORT).show();
 
                     dialog.show();
 
@@ -163,7 +160,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Toast.makeText(context, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(myStarContext, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
                                     dialog.cancel();
                                 }
                             });
@@ -173,7 +170,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Toast.makeText(context, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(myStarContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(myStarContext, DetailActivity.class);
                                     intent.putExtra("userNo", userNo);
                                     intent.putExtra("contentNo", content.getNo());
@@ -186,7 +183,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Toast.makeText(context, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(myStarContext, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
                                     dialog.cancel();
                                 }
                             });
@@ -204,9 +201,9 @@ public class MyStarAdapter extends RecyclerView.Adapter {
 
                         content.setRating(rating);
 
-                        Toast.makeText(context.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(myStarContext.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                        new PostStar(context).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+                        new PostStar(myStarContext).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
                     }
                 }
             });

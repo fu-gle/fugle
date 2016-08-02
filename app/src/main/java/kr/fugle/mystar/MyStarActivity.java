@@ -76,7 +76,6 @@ public class MyStarActivity extends AppCompatActivity {
         dialog.getWindow().setAttributes(params);
 
         adapter = new MyStarAdapter(
-                getApplicationContext(),
                 MyStarActivity.this,
                 dialog,
                 contentArrayList,

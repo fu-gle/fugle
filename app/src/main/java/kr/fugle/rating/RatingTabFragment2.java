@@ -73,7 +73,6 @@ public class RatingTabFragment2 extends Fragment {
         dialog.getWindow().setAttributes(params);
 
         adapter = new RatingRecyclerAdapter(
-                getContext().getApplicationContext(),
                 getContext(),
                 dialog,
                 contentArrayList,
