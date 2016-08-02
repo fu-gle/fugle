@@ -58,8 +58,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        serverUrl = getString(R.string.server_url);
-
         loginExecuteListener = new LoginExecuteListener() {
             @Override
             public void startMainActivity() {
@@ -148,10 +146,10 @@ public class LoginActivity extends AppCompatActivity {
                         obj.put("name", userProfile.getNickname());
                         obj.put("image", userProfile.getProfileImagePath());
                         // 서버로 데이터전송
-                        OkHttpLogin okHttpLogin = new OkHttpLogin();
+                        OkHttpLogin okHttpLogin = new OkHttpLogin(getApplication());
                         okHttpLogin.setLoginExecuteListener(loginExecuteListener);
                         okHttpLogin.execute(
-                                serverUrl,
+                                "login/",
                                 obj.getString("id"),
                                 obj.getString("name"),
                                 null,
@@ -231,11 +229,11 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject pic_url = new JSONObject(pic_data.getString("data"));
 
                             // 서버로 로그인 데이터 전송
-                            OkHttpLogin okHttpLogin = new OkHttpLogin();
+                            OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
                             okHttpLogin.setLoginExecuteListener(loginExecuteListener);
 
                             okHttpLogin.execute(
-                                    serverUrl,
+                                    "login/",
                                     object.getString("id"),
                                     object.getString("name"),
                                     null,
