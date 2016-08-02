@@ -60,7 +60,7 @@ public class PostStar extends AsyncTask<String, Void, String> {
         if(s == null){
             Log.d("PostStar", "rating is 0");
         }else {
-            Log.d("PostStar", "post complete");
+            Log.d("PostStar", "post complete " + s);
         }
     }
 }

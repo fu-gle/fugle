@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
 import kr.fugle.R;
+import kr.fugle.mystar.MyStarActivity;
 import kr.fugle.rating.RatingActivity;
 import kr.fugle.splash.SplashActivity;
 
@@ -125,6 +126,8 @@ public class MainActivity extends AppCompatActivity {
             //intent.putExtra("logout",true);
             startActivity(intent);
             finish();
+        } else if(index == 2) { // 내 웹툰 별점 버튼 눌렀을시
+            startActivity(new Intent(MainActivity.this, MyStarActivity.class));
         }
     }
 

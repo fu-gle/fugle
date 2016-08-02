@@ -1,6 +1,7 @@
 package kr.fugle.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -92,11 +93,22 @@ public class TabFragment4 extends Fragment {
             }
         });
 
+        rootView.findViewById(R.id.prof_webtoon_btn).setOnClickListener(onProfWebtoonButtonClicked);
+
         // 로그아웃
         rootView.findViewById(R.id.logout_btn).setOnClickListener(onProfLogoutButtonClicked);
 
         return rootView;
     }
+
+    Button.OnClickListener onProfWebtoonButtonClicked = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Log.d("------->", "MyStarActivity로 간다");
+            MainActivity activity = (MainActivity)getActivity();
+            activity.onFragmentChanged(2);
+        }
+    };
 
     Button.OnClickListener onProfLogoutButtonClicked = new View.OnClickListener() {
         @Override

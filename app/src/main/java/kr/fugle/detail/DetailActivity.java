@@ -166,7 +166,7 @@ public class DetailActivity extends AppCompatActivity {
         hrefBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(content.getHref()));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(content.getLink()));
                 startActivity(intent);
             }
         });
@@ -244,12 +244,14 @@ public class DetailActivity extends AppCompatActivity {
                         content.setGenre2(obj.getString("genre2"));
                         content.setGenre3(obj.getString("genre3"));
                         content.setAge(obj.getString("age"));
-                        content.setThumbnail(obj.getString("thumbnail"));
+                        content.setThumbnailSmall(obj.getString("thumbnail_small"));
+                        content.setThumbnailBig(obj.getString("thumbnail_big"));
 //                        content.setRating((float)(obj.getInt("star")*1.0)/10);
 //                        content.setAverage((float)obj.getDouble("average"));
+
 //                        content.setPrediction((float)(obj.getInt("prediction")*1.0)/10);
 //                        content.setHeart(obj.getBoolean("heart"));
-                        content.setHref(obj.getString("href"));
+                        content.setLink(obj.getString("link"));
                         content.setSummary(obj.getString("summary"));
                         content.setMedia(obj.getString("media"));
                         content.setPublish(obj.getBoolean("publish"));
@@ -259,17 +261,16 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
 
-            Picasso.with(getApplicationContext())
-                    .load(content.getThumbnail())
-                    .into(thumbnailImg);
-
             // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
             DisplayMetrics metrics = new DisplayMetrics();
             WindowManager windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
-            thumbnailImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            ViewGroup.LayoutParams params = (ViewGroup.LayoutParams)thumbnailImg.getLayoutParams();
-            params.height = metrics.heightPixels / 3;
+
+            Picasso.with(getApplicationContext())
+                    .load(content.getThumbnailBig())
+                    .resize(metrics.widthPixels, metrics.heightPixels)
+                    .centerInside()
+                    .into(thumbnailImg);
 
             title.setText(content.getTitle());
             average.setText(content.getAverage().toString());

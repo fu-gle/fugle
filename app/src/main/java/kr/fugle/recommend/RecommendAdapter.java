@@ -119,18 +119,16 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             vhItem.no = content.getNo();
 
-            Picasso.with(recommendContext.getApplicationContext())
-                    .load(content.getThumbnail())
-                    .into(vhItem.thumbnailImg);
-
             // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
             DisplayMetrics metrics = new DisplayMetrics();
             WindowManager windowManager = (WindowManager) recommendContext.getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
-            vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            ViewGroup.LayoutParams params = (ViewGroup.LayoutParams) vhItem.thumbnailImg.getLayoutParams();
-            params.height = metrics.heightPixels / 3;
+            Picasso.with(recommendContext.getApplicationContext())
+                    .load(content.getThumbnailBig())
+                    .resize(metrics.widthPixels, metrics.heightPixels)
+                    .centerInside()
+                    .into(vhItem.thumbnailImg);
 
             // 이미지 클릭시 상세보기로 넘어간다
             vhItem.thumbnailImg.setOnClickListener(new View.OnClickListener() {
