@@ -40,6 +40,10 @@ public class TabFragment1 extends Fragment {
                 .resize(width, height)
                 .into((ImageView) rootView.findViewById(R.id.today_webtoon_img));
 
+//        Picasso.with(getContext()).load(R.drawable.frog)
+//                .resize(width, height)
+//                .into((ImageView) rootView.findViewById(R.id.today_cartoon_img));
+
         Picasso.with(getContext()).load(R.drawable.frog)
                 .resize(width, height)
                 .into((ImageView) rootView.findViewById(R.id.today_cartoon_img));
