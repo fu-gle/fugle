@@ -133,10 +133,10 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             .getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
+            vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
             Picasso.with(ratingContext.getApplicationContext())
                     .load(content.getThumbnailBig())
-                    .resize(metrics.widthPixels, metrics.heightPixels)
-                    .centerInside()
                     .into(vhItem.thumbnailImg);
 
             vhItem.title.setText(content.getTitle());

@@ -65,6 +65,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter {
                 
                 Intent intent = new Intent();
                 intent.putExtra("categoryNo", category.getNo());
+                intent.putExtra("categoryName", category.getName());
                 categoryClickListener.startRatingActivity(intent);
             }
         });

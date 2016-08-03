@@ -41,8 +41,10 @@ public class CategorySelectActivity extends AppCompatActivity {
 
         categoryArrayList = new ArrayList<>();
 
-        for(int i = 0; i < 7; i++){
-            categoryArrayList.add(new Category(i, "카테고리 " + i, ""));
+        String[] categoryNames = getResources().getStringArray(R.array.category);
+
+        for(int i = 0; i < categoryNames.length; i++){
+            categoryArrayList.add(new Category(i, categoryNames[i], ""));
         }
 
         adapter = new CategoryRecyclerAdapter(categoryArrayList, this);

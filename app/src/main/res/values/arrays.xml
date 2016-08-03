@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="category">
+        <item>랜덤 웹툰</item>
+        <item>네이버</item>
+        <item>다음</item>
+        <item>레진코믹스</item>
+    </string-array>
+
+</resources>

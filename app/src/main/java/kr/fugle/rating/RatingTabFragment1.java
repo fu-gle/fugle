@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -38,6 +39,7 @@ public class RatingTabFragment1 extends Fragment {
 
     private ArrayList<Content> contentArrayList;
     private RecyclerView recyclerView;
+    private TextView categoryName;
     private RatingRecyclerAdapter adapter;
     private Integer userNo;
     private static Integer pageNo;
@@ -63,6 +65,8 @@ public class RatingTabFragment1 extends Fragment {
         categoryNo = 0;     // 카테고리별로 받아오는 것 구현해야함. 기본이 0.
 
         View view = inflater.inflate(R.layout.tab_rating_fragment, container, false);
+
+        categoryName = (TextView)view.findViewById(R.id.categoryName);
 
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
         LinearLayoutManager manager = new LinearLayoutManager(getContext().getApplicationContext());
@@ -105,7 +109,7 @@ public class RatingTabFragment1 extends Fragment {
                                 adapter,
                                 1,
                                 userNo)
-                                .execute("", userNo + "", pageNo + "", categoryNo + ""); // 웹툰 표시 추가
+                                .execute("", userNo + "", pageNo + "", ""); // 웹툰 표시 추가
                         pageNo++;
                     }
                 }, 1500);
@@ -122,7 +126,7 @@ public class RatingTabFragment1 extends Fragment {
                 adapter,
                 1,
                 userNo)
-                .execute("", userNo + "", pageNo + "", categoryNo + ""); // 웹툰 표시 추가
+                .execute("", userNo + "", pageNo + "", ""); // 웹툰 표시 추가
 
         pageNo++;
 
@@ -140,7 +144,7 @@ public class RatingTabFragment1 extends Fragment {
         view.findViewById(R.id.categoryBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getContext(), CategorySelectActivity.class), 1);
+                startActivityForResult(new Intent(getContext(), CategorySelectActivity.class), REQUEST_CODE);
             }
         });
 
@@ -154,8 +158,21 @@ public class RatingTabFragment1 extends Fragment {
         // 카테고리 변경시
         if(requestCode == REQUEST_CODE && resultCode == CATEGORY_RESULT_CODE){
 
+            Log.d("------->", "카테고리 변경 " + data.getIntExtra("categoryNo", 0) + " " + data.getStringExtra("categoryName"));
+
             categoryNo = data.getIntExtra("categoryNo", 0);
             pageNo = 1;
+
+            categoryName.setText(data.getStringExtra("categoryName"));
+
+            String parameterName = "";
+
+            if(categoryNo != 0){
+                parameterName = categoryName.getText().toString();
+            }
+
+            // inner class 호출을 위한 상수화
+            final String CATEGORYNAME = parameterName;
 
             onLoadMoreListener = new OnLoadMoreListener() {
                 @Override
@@ -174,7 +191,7 @@ public class RatingTabFragment1 extends Fragment {
                                     adapter,
                                     1,
                                     userNo)
-                                    .execute("", userNo + "", pageNo + "", categoryNo + ""); // 웹툰 표시 추가
+                                    .execute("", userNo + "", pageNo + "", CATEGORYNAME); // 웹툰 표시 추가
                             pageNo++;
                         }
                     }, 1500);
@@ -192,7 +209,7 @@ public class RatingTabFragment1 extends Fragment {
                     adapter,
                     1,
                     userNo)
-                    .execute("", userNo + "", pageNo + "", categoryNo + ""); // 웹툰 표시 추가
+                    .execute("", userNo + "", pageNo + "", CATEGORYNAME); // 웹툰 표시 추가
 
             pageNo++;
         }

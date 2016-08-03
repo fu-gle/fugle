@@ -58,8 +58,11 @@ public class GetContentList extends AsyncTask<String, Void, String> {
 
         // userNo를 넘기는 경우
         if(params.length != 1) {
-            Log.d("---->","userId=" + params[1] + "&pageNo=" + params[2]);
             data = "userId=" + params[1] + "&pageNo=" + params[2];
+            if(params.length > 3 && !params[3].equals("")){
+                data += "&media=" + params[3];
+            }
+            Log.d("----->", "GetContentList data " + data);
             body = RequestBody.create(HTML, data);
             request = new Request.Builder()
                     .url(serverUrl + params[0])
