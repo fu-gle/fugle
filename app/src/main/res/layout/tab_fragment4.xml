@@ -219,7 +219,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="150dp"
                 android:orientation="horizontal"
                 android:padding="10dp"
                 >
@@ -230,7 +230,10 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
                     android:layout_weight="1"
-                    android:paddingTop="50dp"
+                    android:paddingTop="40dp"
+                    android:background="@drawable/round_box_button3"
+                    android:textColor="@color/whiteColor"
+                    android:drawableTop="@drawable/egg1"
                     android:text="웹툰 0"
                     />
 
@@ -240,7 +243,10 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="5dp"
                     android:layout_weight="1"
-                    android:paddingTop="50dp"
+                    android:paddingTop="40dp"
+                    android:background="@drawable/round_box_button3"
+                    android:textColor="@color/whiteColor"
+                    android:drawableTop="@drawable/egg2"
                     android:text="만화책 0"
                     />
 
