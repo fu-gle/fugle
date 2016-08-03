@@ -132,6 +132,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                     }
                     if(!obj.isNull("recommendStar")) {
                         Log.d("------>", "recommendStar " + obj.getString("recommendStar"));
+                        content.setPrediction(Float.parseFloat(obj.getString("recommendStar")) / 1000000);
                     }
 
                     tempList.add(content);
