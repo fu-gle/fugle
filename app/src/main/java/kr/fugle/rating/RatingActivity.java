@@ -28,9 +28,13 @@ import kr.fugle.webconnection.GetContentList;
 
 public class RatingActivity extends AppCompatActivity {
 
+    final int RATING_RESULT_CODE = 505;
+
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    RatingTabFragment1 ratingTabFragment1;
+    RatingTabFragment1 ratingTabFragment2;
 
     int userNo;
     int count;
@@ -75,26 +79,41 @@ public class RatingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(count > 0){
+            Log.d("----->", "count " + count);
+            setResult(RATING_RESULT_CODE);
+            finish();
+        }
+        super.onBackPressed();
+    }
+
     private void setupViewPager(ViewPager viewPager) {
         RatingViewpagerAdapter adapter = new RatingViewpagerAdapter(getSupportFragmentManager());
 
         CountChangeListener countChangeListener = new CountChangeListener() {
             @Override
             public void setTitle(String title) {
-                getSupportActionBar().setTitle("title");
+                getSupportActionBar().setTitle(title);
             }
 
             @Override
             public void addCount() {
                 count++;
             }
+
+            @Override
+            public void subCount() {
+                count--;
+            }
         };
 
-        RatingTabFragment1 ratingTabFragment1 = new RatingTabFragment1();
+        ratingTabFragment1 = new RatingTabFragment1();
         ratingTabFragment1.setCountChangeListener(countChangeListener);
 
         // 1로 변경 실험
-        RatingTabFragment1 ratingTabFragment2 = new RatingTabFragment1();
+        ratingTabFragment2 = new RatingTabFragment1();
         ratingTabFragment2.setCountChangeListener(countChangeListener);
 
         adapter.addFragment(ratingTabFragment1, "");

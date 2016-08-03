@@ -12,4 +12,6 @@ public interface TabStatusListener {
     public ArrayList<Content> getContentList();
     public void setPageNo(int pageNum);
     public int getPageNo();
+    public boolean getRefresh();
+    public void setRefresh(boolean re);
 }

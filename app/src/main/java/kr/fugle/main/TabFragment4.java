@@ -20,6 +20,9 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+
+import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.login.CircleTransform;
@@ -29,8 +32,10 @@ import kr.fugle.login.CircleTransform;
  */
 public class TabFragment4 extends Fragment {
 
-    // 액티비티간 데이터 통신을 위한 코드
+    final int RATING_REQUEST_CODE = 501;
+    final int RATING_RESULT_CODE = 505;
 
+    // 액티비티간 데이터 통신을 위한 코드
     TabStatusListener tabStatusListener;
 
     public void setTabStatusListener(TabStatusListener tabStatusListener){
@@ -134,5 +139,4 @@ public class TabFragment4 extends Fragment {
             Log.d("---->","if밖로그아웃");
         }
     };
-
 }

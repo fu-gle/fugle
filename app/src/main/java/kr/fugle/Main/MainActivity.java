@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -27,6 +28,9 @@ import kr.fugle.splash.SplashActivity;
  */
 public class MainActivity extends AppCompatActivity {
 
+    final int RATING_REQUEST_CODE = 501;
+    final int RATING_RESULT_CODE = 505;
+
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -39,11 +43,16 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Content> contentArrayList;
     int pageNo;
+    TabStatusListener tabStatusListener;
+    boolean refresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 추천 뷰 탭을 초기화 해야하는지 판별하는 값
+        refresh = true;
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -77,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-        TabStatusListener tabStatusListener = new TabStatusListener() {
+        tabStatusListener = new TabStatusListener() {
             @Override
             public void setContentList(ArrayList<Content> list) {
                 contentArrayList = list;
@@ -96,6 +105,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public int getPageNo() {
                 return pageNo;
+            }
+
+            @Override
+            public boolean getRefresh() {
+                return refresh;
+            }
+
+            @Override
+            public void setRefresh(boolean re) {
+                refresh = re;
             }
         };
 
@@ -120,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
         if(index == 0)  {
             Intent intent = new Intent(MainActivity.this, RatingActivity.class);
             //intent.putExtra("userNo", user.getNo());
-            startActivity(intent);
+            startActivityForResult(intent, RATING_REQUEST_CODE);
         } else if(index == 1) { // 로그아웃 버튼 눌렀을시
             Intent intent = new Intent(MainActivity.this, SplashActivity.class);
             //intent.putExtra("logout",true);
@@ -148,5 +167,15 @@ public class MainActivity extends AppCompatActivity {
             searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
         }
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // 평점을 매겼는지 확인
+        if(requestCode == RATING_REQUEST_CODE && resultCode == RATING_RESULT_CODE) {
+            refresh = true;
+        }
     }
 }

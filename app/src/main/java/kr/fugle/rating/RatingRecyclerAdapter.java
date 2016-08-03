@@ -56,6 +56,8 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
 
+    private CountChangeListener countChangeListener;
+
     public RatingRecyclerAdapter(Context ratingContext,
                                  AppCompatDialog dialog,
                                  ArrayList<Content> list,
@@ -92,6 +94,10 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener){
         this.onLoadMoreListener = onLoadMoreListener;
+    }
+
+    public void setCountChangeListener(CountChangeListener countChangeListener) {
+        this.countChangeListener = countChangeListener;
     }
 
     @Override
@@ -133,10 +139,10 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             .getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
-            vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
             Picasso.with(ratingContext.getApplicationContext())
                     .load(content.getThumbnailBig())
+                    .resize(metrics.widthPixels, metrics.heightPixels/3)
+                    .centerCrop()
                     .into(vhItem.thumbnailImg);
 
             vhItem.title.setText(content.getTitle());
@@ -212,6 +218,13 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if(fromUser){
+                        // 별점 준 갯수 증가
+                        if(rating == 0){
+                            countChangeListener.subCount();
+                        }else{
+                            countChangeListener.addCount();
+                        }
+
                         Integer Rating = (int)(rating * 10);
 
                         content.setRating(rating);

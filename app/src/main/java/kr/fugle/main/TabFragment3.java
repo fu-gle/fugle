@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,31 @@ public class TabFragment3 extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        // 초기해야하는지 확인 후 초기화
+        if(tabStatusListener.getRefresh()){
+
+            contentArrayList.clear();
+            adapter.notifyDataSetChanged();
+
+            pageNo = 1;
+
+            new GetContentList(getContext(),
+                    contentArrayList,
+                    adapter,
+                    0,
+                    userNo)
+                    .execute("recommend/", userNo.toString(), pageNo + "");
+
+            pageNo++;
+
+            tabStatusListener.setRefresh(false);
+        }
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contentArrayList = tabStatusListener.getContentList();
@@ -74,7 +100,7 @@ public class TabFragment3 extends Fragment {
 
         adapter = new RecommendAdapter(
                 getContext(),
-                dialog,
+//                dialog,
                 contentArrayList,
                 userNo,
                 recyclerView);
@@ -112,23 +138,12 @@ public class TabFragment3 extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
-        // 맨 처음으로 만들어 질 때만
-        if(contentArrayList.size() == 0) {
-            new GetContentList(getContext(),
-                    contentArrayList,
-                    adapter,
-                    0,
-                    userNo)
-                    .execute("recommend/", userNo.toString(), pageNo + "");
-
-            pageNo++;
-        }
-
         // 위로가기 버튼 Floating Action Button
         v.findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext().getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
+                recyclerView.scrollToPosition(3);
                 recyclerView.smoothScrollToPosition(0);
             }
         });

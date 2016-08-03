@@ -32,7 +32,7 @@ import kr.fugle.webconnection.GetContentList;
  */
 public class RatingTabFragment1 extends Fragment {
 
-    final int REQUEST_CODE = 1004;
+    final int CATEGORY_REQUEST_CODE = 1004;
     final int CATEGORY_RESULT_CODE = 333;
 
     private CountChangeListener countChangeListener;
@@ -118,6 +118,8 @@ public class RatingTabFragment1 extends Fragment {
 
         adapter.setOnLoadMoreListener(onLoadMoreListener);
 
+        adapter.setCountChangeListener(countChangeListener);
+
         recyclerView.setAdapter(adapter);
 
         // 아이템 넣기
@@ -144,7 +146,7 @@ public class RatingTabFragment1 extends Fragment {
         view.findViewById(R.id.categoryBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getContext(), CategorySelectActivity.class), REQUEST_CODE);
+                startActivityForResult(new Intent(getContext(), CategorySelectActivity.class), CATEGORY_REQUEST_CODE);
             }
         });
 
@@ -156,7 +158,7 @@ public class RatingTabFragment1 extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         // 카테고리 변경시
-        if(requestCode == REQUEST_CODE && resultCode == CATEGORY_RESULT_CODE){
+        if(requestCode == CATEGORY_REQUEST_CODE && resultCode == CATEGORY_RESULT_CODE){
 
             Log.d("------->", "카테고리 변경 " + data.getIntExtra("categoryNo", 0) + " " + data.getStringExtra("categoryName"));
 

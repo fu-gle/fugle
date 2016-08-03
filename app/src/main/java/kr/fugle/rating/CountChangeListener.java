@@ -6,4 +6,5 @@ package kr.fugle.rating;
 public interface CountChangeListener {
     public void setTitle(String title);
     public void addCount();
+    public void subCount();
 }

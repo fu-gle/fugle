@@ -43,7 +43,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_PROG = 2;
 
     private Context recommendContext;
-    Dialog dialog;
+//    Dialog dialog;
     private ArrayList<Content> list;
     private Integer userNo;
 
@@ -58,12 +58,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private ActivityStartListener activityStartListener;
 
     public RecommendAdapter(Context recommendContext,
-                            Dialog dialog,
+//                            Dialog dialog,
                             ArrayList<Content> list,
                             int userNo,
                             RecyclerView recyclerView){
         this.recommendContext = recommendContext;
-        this.dialog = dialog;
+//        this.dialog = dialog;
         this.list = list;
         this.userNo = userNo;
 
@@ -89,6 +89,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
         }
+    }
+
+    public void setList(ArrayList<Content> list){
+        this.list = list;
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener){
@@ -134,10 +138,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
-            vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
             Picasso.with(recommendContext.getApplicationContext())
                     .load(content.getThumbnailBig())
+                    .resize(metrics.widthPixels, metrics.heightPixels/3)
+                    .centerCrop()
                     .into(vhItem.thumbnailImg);
 
             // 이미지 클릭시 상세보기로 넘어간다

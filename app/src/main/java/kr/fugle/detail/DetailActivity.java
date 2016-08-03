@@ -265,10 +265,10 @@ public class DetailActivity extends AppCompatActivity {
             WindowManager windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
-            thumbnailImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
             Picasso.with(getApplicationContext())
                     .load(content.getThumbnailBig())
+                    .resize(metrics.widthPixels, metrics.heightPixels/3)
+                    .centerCrop()
                     .into(thumbnailImg);
 
             title.setText(content.getTitle());
