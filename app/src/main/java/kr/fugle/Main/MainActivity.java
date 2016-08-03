@@ -1,14 +1,11 @@
 package kr.fugle.main;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -20,6 +17,7 @@ import kr.fugle.Item.Content;
 import kr.fugle.R;
 import kr.fugle.mystar.MyStarActivity;
 import kr.fugle.rating.RatingActivity;
+import kr.fugle.search.SearchActivity;
 import kr.fugle.splash.SplashActivity;
 
 /**
@@ -117,36 +115,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onFragmentChanged(int index) {
-        if(index == 0)  {
+        if (index == 0) {
             Intent intent = new Intent(MainActivity.this, RatingActivity.class);
             //intent.putExtra("userNo", user.getNo());
             startActivity(intent);
-        } else if(index == 1) { // 로그아웃 버튼 눌렀을시
+        } else if (index == 1) { // 로그아웃 버튼 눌렀을시
             Intent intent = new Intent(MainActivity.this, SplashActivity.class);
             //intent.putExtra("logout",true);
             startActivity(intent);
             finish();
-        } else if(index == 2) { // 내 웹툰 별점 버튼 눌렀을시
+        } else if (index == 2) { // 내 웹툰 별점 버튼 눌렀을시
             startActivity(new Intent(MainActivity.this, MyStarActivity.class));
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu_main, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-        SearchManager searchManager = (SearchManager) MainActivity.this.getSystemService(Context.SEARCH_SERVICE);
-
-        SearchView searchView = null;
-        if (searchItem != null) {
-            searchView = (SearchView) searchItem.getActionView();
+        if(id == R.id.action_search) {
+            startActivity(new Intent(MainActivity.this, SearchActivity.class));
+//            finish();
+            return true;
         }
-        if (searchView != null) {
-            searchView.setSearchableInfo(searchManager.getSearchableInfo(MainActivity.this.getComponentName()));
-        }
-        return super.onCreateOptionsMenu(menu);
+
+        return super.onOptionsItemSelected(item);
     }
 }
