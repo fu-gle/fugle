@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.Item.Category;
 import kr.fugle.R;
 
@@ -23,15 +24,15 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter {
 
     ArrayList<Category> categoryArrayList;
     Context categoryContext;
-    CategoryClickListener categoryClickListener;
+    ActivityStartListener activityStartListener;
 
     public CategoryRecyclerAdapter(ArrayList<Category> categoryArrayList, Context categoryContext) {
         this.categoryArrayList = categoryArrayList;
         this.categoryContext = categoryContext;
     }
 
-    public void setCategoryClickListener(CategoryClickListener categoryClickListener) {
-        this.categoryClickListener = categoryClickListener;
+    public void setActivityStartListener(ActivityStartListener activityStartListener) {
+        this.activityStartListener = activityStartListener;
     }
 
     @Override
@@ -66,7 +67,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter {
                 Intent intent = new Intent();
                 intent.putExtra("categoryNo", category.getNo());
                 intent.putExtra("categoryName", category.getName());
-                categoryClickListener.startRatingActivity(intent);
+                activityStartListener.activityStart(intent);
             }
         });
     }

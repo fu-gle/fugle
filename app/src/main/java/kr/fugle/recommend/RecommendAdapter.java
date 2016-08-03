@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
@@ -52,6 +54,8 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private int totalItemCount;
     private boolean loading;
     private OnLoadMoreListener onLoadMoreListener;
+
+    private ActivityStartListener activityStartListener;
 
     public RecommendAdapter(Context recommendContext,
                             Dialog dialog,
@@ -89,6 +93,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener){
         this.onLoadMoreListener = onLoadMoreListener;
+    }
+
+    public void setActivityStartListener(ActivityStartListener activityStartListener) {
+        this.activityStartListener = activityStartListener;
     }
 
     @Override
@@ -169,36 +177,40 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-            // 평가하기 버튼
-            vhItem.rating.setOnClickListener(new View.OnClickListener() {
+            // 보기싫어요 버튼
+            vhItem.hate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    dialog.show();
+                    Toast.makeText(recommendContext, "만화 : " + vhItem.no + "'s 보기싫어요", Toast.LENGTH_SHORT).show();
 
-                    ((RatingBar)dialog.findViewById(R.id.ratingBar))
-                            .setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                        @Override
-                        public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                            if(fromUser){
-                                Integer Rating = (int)(rating * 10);
-
-                                content.setRating(rating);
-
-                                Toast.makeText(recommendContext, "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
-
-                                new PostStar(recommendContext).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
-                            }
-                        }
-                    });
+//                    dialog.show();
+//
+//                    ((RatingBar)dialog.findViewById(R.id.ratingBar))
+//                            .setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//                        @Override
+//                        public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+//                            if(fromUser){
+//                                Integer Rating = (int)(rating * 10);
+//
+//                                content.setRating(rating);
+//
+//                                Toast.makeText(recommendContext, "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+//
+//                                new PostStar(recommendContext).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+//                            }
+//                        }
+//                    });
                 }
             });
 
-            // 코멘트 버튼
-            vhItem.comment.setOnClickListener(new View.OnClickListener() {
+            // 지금볼래요 버튼
+            vhItem.link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(recommendContext, "만화 : " + vhItem.no + "'s comment", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(recommendContext, "만화 : " + vhItem.no + "'s 지금볼래요", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(content.getLink()));
+                    activityStartListener.activityStart(intent);
                 }
             });
 
@@ -250,8 +262,8 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView tag;
         TextView friends;
         TextView preference;
-        TextView rating;
-        TextView comment;
+        TextView hate;
+        TextView link;
 
         public VHItem(View itemView) {
             super(itemView);
@@ -262,8 +274,8 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             tag = (TextView)itemView.findViewById(R.id.tag);
             friends = (TextView)itemView.findViewById(R.id.friends);
             preference = (TextView)itemView.findViewById(R.id.preference);
-            rating = (TextView)itemView.findViewById(R.id.rating);
-            comment = (TextView)itemView.findViewById(R.id.comment);
+            hate = (TextView)itemView.findViewById(R.id.hate);
+            link = (TextView)itemView.findViewById(R.id.link);
         }
     }
 

@@ -1,6 +1,7 @@
 package kr.fugle.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.Item.User;
@@ -98,6 +100,13 @@ public class TabFragment3 extends Fragment {
                         pageNo++;
                     }
                 }, 1500);
+            }
+        });
+
+        adapter.setActivityStartListener(new ActivityStartListener() {
+            @Override
+            public void activityStart(Intent intent) {
+                startActivity(intent);
             }
         });
 

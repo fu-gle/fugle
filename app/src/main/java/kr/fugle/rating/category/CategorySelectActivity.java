@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
+import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.Item.Category;
 import kr.fugle.R;
 
@@ -49,9 +50,9 @@ public class CategorySelectActivity extends AppCompatActivity {
 
         adapter = new CategoryRecyclerAdapter(categoryArrayList, this);
 
-        adapter.setCategoryClickListener(new CategoryClickListener() {
+        adapter.setActivityStartListener(new ActivityStartListener() {
             @Override
-            public void startRatingActivity(Intent intent) {
+            public void activityStart(Intent intent) {
                 setResult(RESULT_CODE, intent);
                 finish();
             }

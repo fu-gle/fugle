@@ -52,7 +52,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView preferenceBtn;
     TextView ratingBtn;
     TextView commentBtn;
-    TextView hrefBtn;
+    TextView linkBtn;
     TextView prediction;
     TextView tag;
     TextView friends;
@@ -88,7 +88,7 @@ public class DetailActivity extends AppCompatActivity {
         preferenceBtn = (TextView)findViewById(R.id.preferenceBtn);
         ratingBtn = (TextView)findViewById(R.id.ratingBtn);
         commentBtn = (TextView)findViewById(R.id.commentBtn);
-        hrefBtn = (TextView)findViewById(R.id.hrefBtn);
+        linkBtn = (TextView)findViewById(R.id.linkBtn);
         prediction = (TextView)findViewById(R.id.prediction);
         tag = (TextView)findViewById(R.id.tag);
         friends = (TextView)findViewById(R.id.friends);
@@ -163,7 +163,7 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         // 보러가기 버튼
-        hrefBtn.setOnClickListener(new View.OnClickListener() {
+        linkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(content.getLink()));
@@ -248,8 +248,7 @@ public class DetailActivity extends AppCompatActivity {
                         content.setThumbnailBig(obj.getString("thumbnail_big"));
 //                        content.setRating((float)(obj.getInt("star")*1.0)/10);
 //                        content.setAverage((float)obj.getDouble("average"));
-
-//                        content.setPrediction((float)(obj.getInt("prediction")*1.0)/10);
+                        content.setPrediction(Float.parseFloat(String.format("%.1f",Float.parseFloat(obj.getString("recommendStar")) / 1000000)));
 //                        content.setHeart(obj.getBoolean("heart"));
                         content.setLink(obj.getString("link"));
                         content.setSummary(obj.getString("summary"));
@@ -266,10 +265,10 @@ public class DetailActivity extends AppCompatActivity {
             WindowManager windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
+            thumbnailImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
             Picasso.with(getApplicationContext())
                     .load(content.getThumbnailBig())
-                    .resize(metrics.widthPixels, metrics.heightPixels)
-                    .centerInside()
                     .into(thumbnailImg);
 
             title.setText(content.getTitle());
