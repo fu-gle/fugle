@@ -253,7 +253,8 @@ public class DetailActivity extends AppCompatActivity {
 //                        content.setRating((float)(obj.getInt("star")*1.0)/10);
 //                        content.setAverage((float)obj.getDouble("average"));
                         content.setPrediction(Float.parseFloat(String.format("%.1f",Float.parseFloat(obj.getString("recommendStar")) / 1000000)));
-//                        content.setHeart(obj.getBoolean("heart"));
+                        if(!obj.isNull("like") && obj.getBoolean("like"))
+                            content.setLike(obj.getBoolean("like"));
                         content.setLink(obj.getString("link"));
                         content.setSummary(obj.getString("summary"));
                         content.setMedia(obj.getString("media"));

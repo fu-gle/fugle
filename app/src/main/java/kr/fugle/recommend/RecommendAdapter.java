@@ -164,21 +164,28 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //        vhItem.tag.setText("선호하는 테그 #" + content.getTag());
 //        vhItem.friends.setText(content.getFriends + "님 왜 7명의 친구가 봤어요");
 
+            // 보고싶어요 버튼 보고싶어요 색 적용
+            if(content.getLike()){
+                vhItem.like.setTextColor(Color.parseColor("#F13839"));
+            }else{
+                vhItem.like.setTextColor(Color.parseColor("#777777"));
+            }
+
             // 보고싶어요 버튼
-            vhItem.preference.setOnClickListener(new View.OnClickListener() {
+            vhItem.like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(recommendContext.getApplicationContext(), "만화 : " + vhItem.no + "'s preference", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(recommendContext.getApplicationContext(), "만화 : " + vhItem.no + "'s like " + content.getLike(), Toast.LENGTH_SHORT).show();
 
                     // 서버로 데이터 전송
                     new PostSingleData(recommendContext.getApplicationContext())
                             .execute("like/", userNo.toString(), content.getNo().toString());
 
-                    if(content.getLike()){
-                        vhItem.preference.setTextColor(Color.parseColor("#777777"));
+                    if(content.getLike()){  // 이미 보고싶어요가 눌렸던 상태
+                        vhItem.like.setTextColor(Color.parseColor("#777777"));
                         content.setLike(false);
                     }else {
-                        vhItem.preference.setTextColor(Color.parseColor("#F13839"));
+                        vhItem.like.setTextColor(Color.parseColor("#F13839"));
                         content.setLike(true);
                     }
                 }
@@ -268,7 +275,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         TextView title;
         TextView tag;
         TextView friends;
-        TextView preference;
+        TextView like;
         TextView hate;
         TextView link;
 
@@ -280,7 +287,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             title = (TextView)itemView.findViewById(R.id.title);
             tag = (TextView)itemView.findViewById(R.id.tag);
             friends = (TextView)itemView.findViewById(R.id.friends);
-            preference = (TextView)itemView.findViewById(R.id.preference);
+            like = (TextView)itemView.findViewById(R.id.like);
             hate = (TextView)itemView.findViewById(R.id.hate);
             link = (TextView)itemView.findViewById(R.id.link);
         }

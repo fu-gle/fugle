@@ -110,7 +110,7 @@
                     android:gravity="center"
                     android:textColor="#777"
                     android:textSize="16sp"
-                    android:id="@+id/preference"
+                    android:id="@+id/like"
                     android:text="보고싶어요"/>
 
                 <TextView
