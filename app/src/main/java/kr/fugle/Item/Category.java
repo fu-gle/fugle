@@ -2,6 +2,7 @@ package kr.fugle.Item;
 
 /**
  * Created by hokyung on 16. 8. 1..
+ * 카테고리 정보를 담기위한 클래스
  */
 public class Category {
 

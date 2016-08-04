@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -26,7 +25,7 @@ import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
-import kr.fugle.webconnection.PostStar;
+import kr.fugle.webconnection.PostSingleData;
 
 /**
  * Created by hokyung on 16. 7. 24..
@@ -161,6 +160,10 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onClick(View v) {
                                     Toast.makeText(myStarContext, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
+
+                                    new PostSingleData(myStarContext.getApplicationContext())
+                                            .execute("like/", userNo.toString(), content.getNo().toString());
+
                                     dialog.cancel();
                                 }
                             });
@@ -203,7 +206,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
 
                         Toast.makeText(myStarContext.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                        new PostStar(myStarContext).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+                        new PostSingleData(myStarContext).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
                     }
                 }
             });

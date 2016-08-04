@@ -128,7 +128,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                     }
                     if(!obj.isNull("preference")){  // 보고싶어요 버튼 예시
                         Log.d("----->", "preference " + obj.getBoolean("preference"));
-                        content.setHeart(obj.getBoolean("preference"));
+                        content.setLike(obj.getBoolean("preference"));
                     }
                     if(!obj.isNull("recommendStar")) {
                         Log.d("------>", "recommendStar " + obj.getString("recommendStar"));

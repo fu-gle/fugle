@@ -2,6 +2,7 @@ package kr.fugle.Item;
 
 /**
  * Created by hokyung on 16. 7. 11..
+ * 작품(웹툰, 만화) 정보를 담는 클래스
  */
 public class Content {
 
@@ -18,13 +19,13 @@ public class Content {
     String link;
     Float prediction;   // 예상 별점
     Float rating;   // 내가 준 별점
-    Boolean heart;  // 보고싶어요 클릭 여부
+    Boolean like;  // 보고싶어요 클릭 여부
     Float average;  // 평균 별
 
     public Content(){
         no = 0;
         title = author1 = author2 = genre1 = genre2 = genre3 = summary = media = age = thumbnailSmall = thumbnailBig = link = "";
-        publish = heart = false;
+        publish = like = false;
         prediction = rating = average = 0.0f;
     }
 
@@ -156,12 +157,12 @@ public class Content {
         this.rating = rating;
     }
 
-    public Boolean getHeart() {
-        return heart;
+    public Boolean getLike() {
+        return like;
     }
 
-    public void setHeart(Boolean heart) {
-        this.heart = heart;
+    public void setLike(Boolean like) {
+        this.like = like;
     }
 
     public Float getAverage() {

@@ -14,7 +14,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -30,7 +29,7 @@ import org.json.JSONObject;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
 import kr.fugle.R;
-import kr.fugle.webconnection.PostStar;
+import kr.fugle.webconnection.PostSingleData;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -117,12 +116,17 @@ public class DetailActivity extends AppCompatActivity {
         preferenceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(content.getHeart()){
+
+                // 서버로 데이터 전송
+                new PostSingleData(getApplicationContext())
+                        .execute("like/", userNo.toString(), content.getNo().toString());
+
+                if(content.getLike()){
                     preferenceBtn.setTextColor(Color.parseColor("#777777"));
-                    content.setHeart(false);
+                    content.setLike(false);
                 }else{
                     preferenceBtn.setTextColor(Color.parseColor("#F13839"));
-                    content.setHeart(true);
+                    content.setLike(true);
                 }
             }
         });
@@ -145,7 +149,7 @@ public class DetailActivity extends AppCompatActivity {
 
                                     Toast.makeText(getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                                    new PostStar(getApplicationContext()).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+                                    new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
 
                                     dialog.cancel();
                                 }

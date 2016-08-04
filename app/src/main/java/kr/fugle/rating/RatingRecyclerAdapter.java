@@ -2,20 +2,15 @@ package kr.fugle.rating;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -25,15 +20,13 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
-import kr.fugle.webconnection.GetContentList;
 import kr.fugle.webconnection.PostChoiceTraces;
-import kr.fugle.webconnection.PostStar;
+import kr.fugle.webconnection.PostSingleData;
 
 /**
  * Created by hokyung on 16. 7. 24..
@@ -177,6 +170,10 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(ratingContext, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
+
+                            new PostSingleData(ratingContext.getApplicationContext())
+                                    .execute("like/", userNo.toString(), content.getNo().toString());
+
                             dialog.cancel();
                         }
                     });
@@ -231,7 +228,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
                         Toast.makeText(ratingContext.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                        new PostStar(ratingContext)
+                        new PostSingleData(ratingContext)
                                 .execute("insert/",
                                         userNo.toString(),
                                         content.getNo().toString(),

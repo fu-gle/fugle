@@ -1,6 +1,5 @@
 package kr.fugle.recommend;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +27,7 @@ import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
 import kr.fugle.webconnection.PostChoiceTraces;
-import kr.fugle.webconnection.PostStar;
+import kr.fugle.webconnection.PostSingleData;
 
 //import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -171,12 +169,17 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(recommendContext.getApplicationContext(), "만화 : " + vhItem.no + "'s preference", Toast.LENGTH_SHORT).show();
-                    if(content.getHeart()){
+
+                    // 서버로 데이터 전송
+                    new PostSingleData(recommendContext.getApplicationContext())
+                            .execute("like/", userNo.toString(), content.getNo().toString());
+
+                    if(content.getLike()){
                         vhItem.preference.setTextColor(Color.parseColor("#777777"));
-                        content.setHeart(false);
+                        content.setLike(false);
                     }else {
                         vhItem.preference.setTextColor(Color.parseColor("#F13839"));
-                        content.setHeart(true);
+                        content.setLike(true);
                     }
                 }
             });
@@ -201,7 +204,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //
 //                                Toast.makeText(recommendContext, "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 //
-//                                new PostStar(recommendContext).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+//                                new PostSingleData(recommendContext).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
 //                            }
 //                        }
 //                    });
