@@ -58,7 +58,14 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         Request request;
 
         // userNo를 넘기는 경우
-        if(params.length != 1) {
+        if(params.length == 2) {    // 작가명or작품명 넘겨줄경우
+            data = "searchName=" + params[1];
+            body = RequestBody.create(HTML, data);
+            request = new Request.Builder()
+                    .url(serverUrl + params[0])
+                    .post(body)
+                    .build();
+        }else if(params.length != 1) {
             data = "userId=" + params[1] + "&pageNo=" + params[2];
             if(params.length > 3 && !params[3].equals("")){
                 data += "&media=" + params[3];
