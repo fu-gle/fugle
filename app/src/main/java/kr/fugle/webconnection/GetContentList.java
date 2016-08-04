@@ -112,34 +112,42 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                 for(int i=0;i<dataList.length();i++){
                     JSONObject obj = dataList.getJSONObject(i);
 
-                    content = new Content();
-                    content.setNo(obj.getInt("id"));
-                    content.setTitle(obj.getString("title"));
-                    content.setAuthor1(obj.getString("author1"));
-                    content.setAuthor2(obj.getString("author2"));
-                    content.setGenre1(obj.getString("genre1"));
-                    content.setGenre2(obj.getString("genre2"));
-                    content.setGenre3(obj.getString("genre3"));
-                    content.setAge(obj.getString("age"));
-                    content.setThumbnailSmall(obj.getString("thumbnail_small"));
-                    content.setThumbnailBig(obj.getString("thumbnail_big"));
-                    if(!obj.isNull("star__star")) {
-                        Log.d("------>", "star__star" + obj.getInt("star__star"));
-                        content.setRating((float) (obj.getInt("star__star") * 1.0) / 10);
-                    }
-                    if(!obj.isNull("like") && obj.getBoolean("like")){
-                        Log.d("----->", "like " + obj.getBoolean("like"));
-                        content.setLike(obj.getBoolean("like"));
-                    }
-                    if(!obj.isNull("recommendStar")) {
-                        Log.d("------>", "recommendStar " + obj.getString("recommendStar"));
-                        content.setPrediction(Float.parseFloat(String.format("%.1f",Float.parseFloat(obj.getString("recommendStar")) / 1000000)));
-                    }
-                    if(!obj.isNull("link")) {
-                        content.setLink(obj.getString("link"));
-                    }
+                    if(!obj.isNull("searchName")){  // 검색용 리스트 데이터
 
-                    tempList.add(content);
+                    }else {
+                        content = new Content();
+
+                        if (!obj.isNull("id"))
+                            content.setNo(obj.getInt("id"));
+                        if (!obj.isNull("title"))
+                            content.setTitle(obj.getString("title"));
+                        if (!obj.isNull("author1"))
+                            content.setAuthor1(obj.getString("author1"));
+                        if (!obj.isNull("author2"))
+                            content.setAuthor2(obj.getString("author2"));
+                        if (!obj.isNull("genre1"))
+                            content.setGenre1(obj.getString("genre1"));
+                        if (!obj.isNull("genre2"))
+                            content.setGenre2(obj.getString("genre2"));
+                        if (!obj.isNull("genre3"))
+                            content.setGenre3(obj.getString("genre3"));
+                        if (!obj.isNull("age"))
+                            content.setAge(obj.getString("age"));
+                        if (!obj.isNull("thumbnail_small"))
+                            content.setThumbnailSmall(obj.getString("thumbnail_small"));
+                        if (!obj.isNull("thumbnail_big"))
+                            content.setThumbnailBig(obj.getString("thumbnail_big"));
+                        if (!obj.isNull("star__star"))
+                            content.setRating((float) (obj.getInt("star__star") * 1.0) / 10);
+                        if (!obj.isNull("like") && obj.getBoolean("like"))
+                            content.setLike(obj.getBoolean("like"));
+                        if (!obj.isNull("recommendStar"))
+                            content.setPrediction(Float.parseFloat(String.format("%.1f", Float.parseFloat(obj.getString("recommendStar")) / 1000000)));
+                        if (!obj.isNull("link"))
+                            content.setLink(obj.getString("link"));
+
+                        tempList.add(content);
+                    }
                 }
             }catch(Exception e){
                 e.printStackTrace();
