@@ -7,12 +7,16 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import java.util.ArrayList;
+
+import kr.fugle.Item.SearchData;
 import kr.fugle.R;
 
 public class SearchActivity extends AppCompatActivity {
 
-    String[] items = { "SM3", "SM5", "SM7", "SONATA", "AVANTE", "SOUL", "K5",
-            "K7" };
+    ArrayList<String> searchItem = SearchData.getInstance().getList();
+//    String[] items = { "SM3", "SM5", "SM7", "SONATA", "AVANTE", "SOUL", "K5",
+//            "K7" };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +31,7 @@ public class SearchActivity extends AppCompatActivity {
         AutoCompleteTextView edit = (AutoCompleteTextView) findViewById(R.id.edit);
 
         edit.setAdapter(new ArrayAdapter<String>(this,
-                android.R.layout.simple_dropdown_item_1line, items));
+                android.R.layout.simple_dropdown_item_1line, searchItem));
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
+import kr.fugle.Item.SearchData;
 import kr.fugle.R;
 import kr.fugle.mystar.MyStarAdapter;
 import kr.fugle.rating.RatingRecyclerAdapter;
@@ -107,6 +108,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
 
         Content content;
         ArrayList<Content> tempList = new ArrayList<>();
+        ArrayList<String> tempSearch = new ArrayList<>();
 
         if(s != null && s != ""){
             try{
@@ -120,7 +122,8 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                     JSONObject obj = dataList.getJSONObject(i);
 
                     if(!obj.isNull("searchName")){  // 검색용 리스트 데이터
-
+                        tempSearch.add(obj.getString("searchName"));
+                        continue;
                     }else {
                         content = new Content();
 
@@ -159,6 +162,11 @@ public class GetContentList extends AsyncTask<String, Void, String> {
             }catch(Exception e){
                 e.printStackTrace();
             }
+        }
+
+        if(tempSearch.size() != 0){
+            SearchData.getInstance().getList().addAll(tempSearch);
+            return;
         }
 
         // 리스트를 추가로 불러오는 경우는 리스트 맨 뒤에 null이 들어가있다
