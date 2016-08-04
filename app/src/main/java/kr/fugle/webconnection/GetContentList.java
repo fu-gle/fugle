@@ -23,6 +23,7 @@ import okhttp3.Response;
 
 /**
  * Created by hokyung on 16. 7. 21..
+ * 추천 리스트, 평가 리스트 등 리스트로 된 데이터를 받아오기 위한 클래스
  */
 public class GetContentList extends AsyncTask<String, Void, String> {
 

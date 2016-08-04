@@ -13,6 +13,7 @@ import okhttp3.Response;
 
 /**
  * Created by hokyung on 16. 7. 21..
+ * 별점, 좋아요같은 한개의 데이터를 전송하기 위한 클래스
  */
 public class PostSingleData extends AsyncTask<String, Void, String> {
 

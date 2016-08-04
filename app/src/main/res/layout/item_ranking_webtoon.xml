@@ -4,42 +4,59 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="15dp"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:id="@+id/rankingItem">
 
     <ImageView
         android:layout_width="80dp"
         android:layout_height="110dp"
         android:id="@+id/thumbnailImg"/>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:paddingLeft="5dp">
+        android:layout_height="110dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/title"
-            android:text="제목"
-            android:textSize="20sp"
-            android:padding="5dp"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="30dp"
+            android:id="@+id/detailBtn"
+            android:src="@drawable/overflow_icon2"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/description"
-            android:text="작가/장르"
-            android:textSize="16sp"
-            android:padding="5dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/star"
-            android:text="평점 ★0.0 / 예상 ★0.0"
-            android:textSize="16sp"
-            android:padding="5dp"/>
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/title"
+                android:text="제목"
+                android:textSize="20sp"
+                android:padding="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/description"
+                android:text="작가/장르"
+                android:textSize="16sp"
+                android:padding="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/star"
+                android:text="평점 ★0.0 / 예상 ★0.0"
+                android:textSize="16sp"
+                android:padding="5dp"/>
+        </LinearLayout>
+
+    </RelativeLayout>
 </LinearLayout>

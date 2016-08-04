@@ -45,9 +45,9 @@ public class RatingTabFragment1 extends Fragment {
     private static Integer pageNo;
     private Integer categoryNo;
 
-    OnLoadMoreListener onLoadMoreListener;
+    private OnLoadMoreListener onLoadMoreListener;
     private Context context;
-    Handler handler;
+    private Handler handler;
 
     public void setCountChangeListener(CountChangeListener countChangeListener){
         this.countChangeListener = countChangeListener;
@@ -69,7 +69,7 @@ public class RatingTabFragment1 extends Fragment {
         categoryName = (TextView)view.findViewById(R.id.categoryName);
 
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext().getApplicationContext());
+        LinearLayoutManager manager = new LinearLayoutManager(context);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
 

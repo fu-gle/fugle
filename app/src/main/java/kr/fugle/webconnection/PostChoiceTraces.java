@@ -13,6 +13,7 @@ import okhttp3.Response;
 
 /**
  * Created by hokyung on 16. 7. 21..
+ * 유저의 클릭정보를 전송하기 위한 클래스
  */
 public class PostChoiceTraces extends AsyncTask<String, Void, String> {
 
