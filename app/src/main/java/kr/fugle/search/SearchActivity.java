@@ -2,6 +2,7 @@ package kr.fugle.search;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -15,7 +16,10 @@ import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.SearchData;
+import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.commonlist.CommonRecyclerAdapter;
+import kr.fugle.webconnection.GetContentList;
 
 public class SearchActivity extends AppCompatActivity {
 
@@ -26,10 +30,15 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<Content> contentArrayList;
     private RecyclerView recyclerView;
 
+    private CommonRecyclerAdapter adapter;
+    private Integer userNo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        userNo = User.getInstance().getNo();
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.search_toolbar);
         toolbar.setTitle("검색하기");
@@ -38,22 +47,34 @@ public class SearchActivity extends AppCompatActivity {
 
         final AutoCompleteTextView edit = (AutoCompleteTextView) findViewById(R.id.edit);
 
-        // 레이아웃 초기화
+        // 레이아웃 초기화 (RecyclerView) - start
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(getApplicationContext());
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+        // 레이아웃 초기화 (RecyclerView) - finish
 
         edit.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, searchItem));
+
+        adapter = new CommonRecyclerAdapter(
+                getApplicationContext(),
+                contentArrayList,
+                userNo,
+                recyclerView);
 
         // 자동 완성 된 것중 선택했을 때
         edit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                new GetContentList(getApplicationContext(),
-//                        contentArrayList,
-//                        adapter,
-//                        2,
-//                        userNo)
-//                        .execute("searchName/", edit.getText());
+
+                new GetContentList(getApplicationContext(),
+                        contentArrayList,
+                        adapter,
+                        2,
+                        userNo)
+                        .execute("searchName/", edit.getText().toString());
                 Toast.makeText(SearchActivity.this, "name:"+edit.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
