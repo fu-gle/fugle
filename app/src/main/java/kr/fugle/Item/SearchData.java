@@ -10,7 +10,7 @@ public class SearchData {
 
     private static SearchData searchData;
 
-    ArrayList<String> searchName;
+    private ArrayList<String> searchName;
 
     private SearchData() {
         searchName = new ArrayList<String>();

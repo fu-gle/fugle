@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -20,6 +19,7 @@ import kr.fugle.mystar.MyStarActivity;
 import kr.fugle.rating.RatingActivity;
 import kr.fugle.search.SearchActivity;
 import kr.fugle.splash.SplashActivity;
+import kr.fugle.webconnection.GetContentList;
 
 /**
  * Created by 김은진 on 2016-07-26.
@@ -48,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        new GetContentList(getApplicationContext()).execute("searchName/");
 
         // 추천 뷰 탭을 초기화 해야하는지 판별하는 값
         refresh = true;

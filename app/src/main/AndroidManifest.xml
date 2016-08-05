@@ -90,7 +90,7 @@
         </activity>
 
         <!-- 랭킹 보기 -->
-        <activity android:name=".ranking.RankingActivity"></activity>
+        <activity android:name=".ranking.RankingActivity"/>
     </application>
 
 </manifest>
