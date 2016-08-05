@@ -49,6 +49,7 @@ public class DetailActivity extends AppCompatActivity {
     Toolbar toolbar;
     Integer userNo, contentNo;
 
+    ImageView adultImg;
     ImageView thumbnailImg;
     TextView title;
     TextView average;
@@ -85,6 +86,7 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         // 위젯 할당
+        adultImg = (ImageView)findViewById(R.id.adultImg);
         thumbnailImg = (ImageView)findViewById(R.id.thumbnailImg);
         title = (TextView)findViewById(R.id.title);
         average = (TextView)findViewById(R.id.average);
@@ -253,16 +255,16 @@ public class DetailActivity extends AppCompatActivity {
                         content = new Content();
                         content.setNo(obj.getInt("id"));
                         content.setTitle(obj.getString("title"));
-                        content.setAuthor1(obj.getString("author1"));
-                        content.setAuthor2(obj.getString("author2"));
-                        content.setGenre1(obj.getString("genre1"));
-                        content.setGenre2(obj.getString("genre2"));
-                        content.setGenre3(obj.getString("genre3"));
-                        content.setAge(obj.getString("age"));
+                        content.setAuthor(obj.getString("author"));
+                        content.setGenre(obj.getString("genre"));
+                        content.setAdult(obj.getBoolean("adult"));
                         content.setThumbnailSmall(obj.getString("thumbnail_small"));
                         content.setThumbnailBig(obj.getString("thumbnail_big"));
-//                        content.setRating((float)(obj.getInt("star")*1.0)/10);
+                        if (!obj.isNull("star__star"))
+                            content.setRating((float) (obj.getInt("star__star") * 1.0) / 10);
 //                        content.setAverage((float)obj.getDouble("average"));
+                        if (!obj.isNull("recommendStar"))
+                            content.setPrediction(Float.parseFloat(String.format("%.1f", Float.parseFloat(obj.getString("recommendStar")) / 1000000)));
                         content.setPrediction(Float.parseFloat(String.format("%.1f",Float.parseFloat(obj.getString("recommendStar")) / 1000000)));
                         if(!obj.isNull("like") && obj.getBoolean("like"))
                             content.setLike(obj.getBoolean("like"));
@@ -270,10 +272,19 @@ public class DetailActivity extends AppCompatActivity {
                         content.setSummary(obj.getString("summary"));
                         content.setMedia(obj.getString("media"));
                         content.setPublish(obj.getBoolean("publish"));
+                        if (!obj.isNull("tags"))
+                            content.setTags("tags");
                     }
                 }catch(Exception e){
                     e.printStackTrace();
                 }
+            }
+
+            // 성인물인 경우
+            if(content.getAdult()){
+                Picasso.with(getApplicationContext())
+                        .load(R.drawable.heart_full)
+                        .into(adultImg);
             }
 
             // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
@@ -290,24 +301,13 @@ public class DetailActivity extends AppCompatActivity {
             title.setText(content.getTitle());
             average.setText(content.getAverage().toString());
             prediction.setText(content.getPrediction().toString());
-            tag.setText("");
+            tag.setText(content.getTags());
             friends.setText("");
             title2.setText(content.getTitle());
 
-            String authorData = content.getAuthor1();
-            if(!content.getAuthor2().equals("null")){
-                authorData += ", " + content.getAuthor2();
-            }
-            author.setText(authorData);
+            author.setText(content.getAuthor());
 
-            String genreData = content.getGenre1();
-            if(!content.getGenre2().equals("null")){
-                genreData += ", " + content.getGenre2();
-                if(!content.getGenre3().equals("null")){
-                    genreData += ", " + content.getGenre3();
-                }
-            }
-            genre.setText(genreData);
+            genre.setText(content.getGenre());
 
             media.setText(content.getMedia());
 

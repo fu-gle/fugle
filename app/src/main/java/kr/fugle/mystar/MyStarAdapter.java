@@ -130,20 +130,13 @@ public class MyStarAdapter extends RecyclerView.Adapter {
 
             vhItem.title.setText(content.getTitle());
 
-            String author = content.getAuthor1();
-            if(!content.getAuthor2().equals("null")){
-                author += ", " + content.getAuthor2();
+            String description = content.getAuthor();
+            if(content.getAdult()){
+                description += " / 성인";
             }
-            vhItem.description.setText(author + " / " + content.getAge());
+            vhItem.description.setText(description);
 
-            String genre = content.getGenre1();
-            if(!content.getGenre2().equals("null")){
-                genre += ", " + content.getGenre2();
-                if(!content.getGenre3().equals("null")){
-                    genre += ", " + content.getGenre3();
-                }
-            }
-            vhItem.genre.setText(genre);
+            vhItem.genre.setText(content.getGenre());
 
             // 땡땡이 버튼(overflow icon) 클릭시 dialog
             vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {

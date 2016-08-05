@@ -143,7 +143,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                         if (!obj.isNull("genre"))
                             content.setGenre(obj.getString("genre"));
                         if (!obj.isNull("adult"))
-                            content.setAge(obj.getString("adult"));
+                            content.setAdult(obj.getBoolean("adult"));
                         if (!obj.isNull("thumbnail_small"))
                             content.setThumbnailSmall(obj.getString("thumbnail_small"));
                         if (!obj.isNull("thumbnail_big"))

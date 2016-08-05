@@ -165,7 +165,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             vhItem.prediction.setText(content.getPrediction().toString());
             vhItem.title.setText(content.getTitle());
-//        vhItem.tag.setText("선호하는 테그 #" + content.getTag());
+        vhItem.tag.setText("선호하는 테그 #" + content.getTags());
 //        vhItem.friends.setText(content.getFriends + "님 왜 7명의 친구가 봤어요");
 
             // 보고싶어요 버튼 보고싶어요 색 적용
@@ -201,24 +201,6 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onClick(View v) {
 
                     Toast.makeText(recommendContext, "만화 : " + vhItem.no + "'s 보기싫어요", Toast.LENGTH_SHORT).show();
-
-//                    dialog.show();
-//
-//                    ((RatingBar)dialog.findViewById(R.id.ratingBar))
-//                            .setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//                        @Override
-//                        public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-//                            if(fromUser){
-//                                Integer Rating = (int)(rating * 10);
-//
-//                                content.setRating(rating);
-//
-//                                Toast.makeText(recommendContext, "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
-//
-//                                new PostSingleData(recommendContext).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
-//                            }
-//                        }
-//                    });
                 }
             });
 

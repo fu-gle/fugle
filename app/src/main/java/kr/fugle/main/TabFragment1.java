@@ -199,7 +199,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                         content.setTitle(obj.getString("title"));
                         content.setAuthor(obj.getString("author"));
                         content.setGenre(obj.getString("genre"));
-                        content.setAge(obj.getString("age"));
+                        content.setAdult(obj.getBoolean("adult"));
                         content.setThumbnailSmall(obj.getString("thumbnail_small"));
                         content.setThumbnailBig(obj.getString("thumbnail_big"));
                         if(!obj.isNull("star__star")) {

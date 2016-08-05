@@ -60,7 +60,7 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAd
         // 평점
         viewHolder.cStarView.setText("★ "+itemList.get(position).getRating());
         // 작가명
-        viewHolder.cAuthorView.setText(itemList.get(position).getAuthor1()+", "+itemList.get(position).getAuthor2());
+        viewHolder.cAuthorView.setText(itemList.get(position).getAuthor());
     }
 
     @Override
