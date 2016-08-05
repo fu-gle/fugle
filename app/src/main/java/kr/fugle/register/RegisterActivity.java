@@ -1,7 +1,6 @@
 package kr.fugle.register;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -9,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,13 +18,10 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.R;
 import kr.fugle.login.CircleTransform;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import kr.fugle.login.OkHttpLogin;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -40,9 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
     // 갤러리에서 사진가져오기
     private int REQ_PICK_CODE = 100;
 
-    // 서버 통신 OkHttp
-    final static String serverUrl = "http://52.79.147.163:8000/";
-    OkHttpClient client = new OkHttpClient();
+    ActivityStartListener activityStartListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +85,19 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        activityStartListener = new ActivityStartListener() {
+            @Override
+            public void activityStart(Intent intent) {
+
+            }
+
+            @Override
+            public void activityStart() {
+                Toast.makeText(RegisterActivity.this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        };
+
     }
 
     @Override
@@ -134,13 +140,16 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         // name, email, password, message
-        new OkHttpLogin().execute(
-                serverUrl,
-                inputName.getText().toString(),
+        OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
+        okHttpLogin.setActivityStartListener(activityStartListener);
+        okHttpLogin.execute(
+                "login/",
                 inputEmail.getText().toString(),
+                inputName.getText().toString(),
                 inputPassword.getText().toString(),
-                inputMessage.getText().toString()
-        );
+                inputMessage.getText().toString(),
+                null);  // 사진 업로드 기능 추가해야함
+
         Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }
 
@@ -218,48 +227,6 @@ public class RegisterActivity extends AppCompatActivity {
                     validatePassword();
                     break;
             }
-        }
-    }
-
-    // 서버 통신
-    private class OkHttpLogin extends AsyncTask<String, Void, String> {
-
-        public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-
-        @Override
-        protected String doInBackground(String... params) {
-            // 서버로 보낼 사용자 데이터
-            // 0: server address, 1: primary number, 2: nickname, 3: profileImgPath
-            String data = "name=" + params[1] + "&email=" + params[2]
-                    + "&password=" + params[3] + "&message=" + params[4] + "&image=" + params[5];  // 변경 필요
-            Log.d("OkHttpLogin.data", data);
-
-            RequestBody body = RequestBody.create(HTML, data);
-
-            Request request = new Request.Builder()
-                    .url(params[0] + "login/")     // 임시 로그인 주소
-                    .post(body)
-                    .build();
-
-            Log.d("OkHttpLogin.request", request.toString());
-
-            try {
-                // 서버로 전송
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-            // 서버에서 로그인 성공여부 받음
-            // 성공시 startActivity. 실패시 토스트 메세지
-            Log.d("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute " + s);
         }
     }
 }

@@ -3,10 +3,12 @@ package kr.fugle.login;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import okhttp3.MediaType;
@@ -20,18 +22,20 @@ import okhttp3.Response;
  */
 public class OkHttpLogin extends AsyncTask<String, Void, String> {
 
-    LoginExecuteListener loginExecuteListener;
+    ActivityStartListener activityStartListener;
 
     String serverUrl;
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
+    Context context;
 
     public OkHttpLogin(Context context) {
+        this.context = context;
         serverUrl = context.getResources().getString(R.string.server_url);
     }
 
-    public void setLoginExecuteListener(LoginExecuteListener loginExecuteListener) {
-        this.loginExecuteListener = loginExecuteListener;
+    public void setActivityStartListener(ActivityStartListener activityStartListener) {
+        this.activityStartListener = activityStartListener;
     }
 
     @Override
@@ -77,7 +81,6 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
         try {
             jsonObject = new JSONObject(s);
 
-//                int no, String name, String primaryKey, String profileImg, String message
             user.setAttributes(
                     jsonObject.getInt("id"),
                     jsonObject.getString("name"),
@@ -89,6 +92,7 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
             e.printStackTrace();
         }
 
-        loginExecuteListener.startMainActivity();
+        if(activityStartListener != null)
+            activityStartListener.activityStart();
     }
 }

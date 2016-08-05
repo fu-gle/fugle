@@ -19,13 +19,15 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
-import kr.fugle.webconnection.PostChoiceTraces;
+import kr.fugle.webconnection.PostUserLog;
 import kr.fugle.webconnection.PostSingleData;
 
 /**
@@ -140,20 +142,13 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
             vhItem.title.setText(content.getTitle());
 
-            String author = content.getAuthor1();
-            if(!content.getAuthor2().equals("null")){
-                author += ", " + content.getAuthor2();
+            String description = content.getAuthor();
+            if(content.getAdult()){
+                description += " / 성인";
             }
-            vhItem.description.setText(author + " / " + content.getAge());
+            vhItem.description.setText(description);
 
-            String genre = content.getGenre1();
-            if(!content.getGenre2().equals("null")){
-                genre += ", " + content.getGenre2();
-                if(!content.getGenre3().equals("null")){
-                    genre += ", " + content.getGenre3();
-                }
-            }
-            vhItem.genre.setText(genre);
+            vhItem.genre.setText(content.getGenre());
 
             // 땡땡이 버튼(overflow icon) 클릭시 dialog
             vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
@@ -185,8 +180,10 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                         public void onClick(View v) {
 
                             // 상세보기 누른 흔적 전송
-                            new PostChoiceTraces(ratingContext)
-                                    .execute("traces/", userNo.toString(), content.getNo().toString());
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            String time = dateFormat.format(new Date());
+                            new PostUserLog(ratingContext.getApplicationContext())
+                                    .execute("log/", userNo.toString(), content.getNo().toString(), time);
 
                             Toast.makeText(ratingContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(ratingContext, DetailActivity.class);

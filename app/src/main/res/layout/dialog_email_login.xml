@@ -1,46 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:paddingLeft="20dp"
-              android:paddingRight="20dp"
-              android:paddingTop="20dp"
-              android:paddingBottom="20dp"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
 
-    <EditText
-        android:id="@+id/et_old_password"
-        android:hint="Old Password"
-        android:drawableRight="@drawable/ic_password"
-        android:inputType="textPassword"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_email"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <EditText
-        android:layout_marginTop="10dp"
-        android:id="@+id/et_new_password"
-        android:drawableRight="@drawable/ic_password"
-        android:hint="New Password"
-        android:inputType="textPassword"
+        <EditText
+            android:id="@+id/input_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_email"
+            android:inputType="textEmailAddress"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout_password"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/tv_message"
-        android:layout_marginTop="10dp"
-        android:drawableLeft="@drawable/ic_password"
-        android:gravity="center"
+        <EditText
+            android:id="@+id/input_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/hint_password"
+            android:inputType="textPassword"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <CheckBox
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <ProgressBar
-        style="@style/Base.Widget.AppCompat.ProgressBar"
-        android:id="@+id/progress"
-        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:id="@+id/check_auto_login"
         android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:hint="자동 로그인"
+        android:textSize="16sp"/>
+
+    <Button
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:indeterminate="true" />
+        android:layout_marginTop="20dp"
+        android:background="@color/mainColor"
+        android:text="로그인"
+        android:textColor="@android:color/white"/>
 
 </LinearLayout>

@@ -131,18 +131,12 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                             content.setNo(obj.getInt("id"));
                         if (!obj.isNull("title"))
                             content.setTitle(obj.getString("title"));
-                        if (!obj.isNull("author1"))
-                            content.setAuthor1(obj.getString("author1"));
-                        if (!obj.isNull("author2"))
-                            content.setAuthor2(obj.getString("author2"));
-                        if (!obj.isNull("genre1"))
-                            content.setGenre1(obj.getString("genre1"));
-                        if (!obj.isNull("genre2"))
-                            content.setGenre2(obj.getString("genre2"));
-                        if (!obj.isNull("genre3"))
-                            content.setGenre3(obj.getString("genre3"));
-                        if (!obj.isNull("age"))
-                            content.setAge(obj.getString("age"));
+                        if (!obj.isNull("author"))
+                            content.setAuthor(obj.getString("author"));
+                        if (!obj.isNull("genre"))
+                            content.setGenre(obj.getString("genre"));
+                        if (!obj.isNull("adult"))
+                            content.setAge(obj.getString("adult"));
                         if (!obj.isNull("thumbnail_small"))
                             content.setThumbnailSmall(obj.getString("thumbnail_small"));
                         if (!obj.isNull("thumbnail_big"))
@@ -155,6 +149,8 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                             content.setPrediction(Float.parseFloat(String.format("%.1f", Float.parseFloat(obj.getString("recommendStar")) / 1000000)));
                         if (!obj.isNull("link"))
                             content.setLink(obj.getString("link"));
+                        if (!obj.isNull("tags"))
+                            content.setTags("tags");
 
                         tempList.add(content);
                     }

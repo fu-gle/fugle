@@ -8,12 +8,11 @@ public class Content {
 
     Integer no;
     String title;
-    String author1, author2;
-    String genre1, genre2, genre3;
+    String author;
+    String genre;
     String summary;
     String media;
     Boolean publish;
-    String age;
     String thumbnailSmall;
     String thumbnailBig;
     String link;
@@ -21,11 +20,13 @@ public class Content {
     Float rating;   // 내가 준 별점
     Boolean like;  // 보고싶어요 클릭 여부
     Float average;  // 평균 별
+    String tags;    // 테그 들
+    Boolean adult;
 
     public Content(){
         no = 0;
-        title = author1 = author2 = genre1 = genre2 = genre3 = summary = media = age = thumbnailSmall = thumbnailBig = link = "";
-        publish = like = false;
+        title = author = genre = summary = media = thumbnailSmall = thumbnailBig = link = tags = "";
+        publish = like = adult = false;
         prediction = rating = average = 0.0f;
     }
 
@@ -45,44 +46,20 @@ public class Content {
         this.title = title;
     }
 
-    public String getAuthor1() {
-        return author1;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthor1(String author1) {
-        this.author1 = author1;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public String getAuthor2() {
-        return author2;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setAuthor2(String author2) {
-        this.author2 = author2;
-    }
-
-    public String getGenre1() {
-        return genre1;
-    }
-
-    public void setGenre1(String genre1) {
-        this.genre1 = genre1;
-    }
-
-    public String getGenre2() {
-        return genre2;
-    }
-
-    public void setGenre2(String genre2) {
-        this.genre2 = genre2;
-    }
-
-    public String getGenre3() {
-        return genre3;
-    }
-
-    public void setGenre3(String genre3) {
-        this.genre3 = genre3;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public String getSummary() {
@@ -107,14 +84,6 @@ public class Content {
 
     public void setPublish(Boolean publish) {
         this.publish = publish;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
     }
 
     public String getThumbnailSmall() {
@@ -171,5 +140,21 @@ public class Content {
 
     public void setAverage(Float average) {
         this.average = average;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public Boolean getAdult() {
+        return adult;
+    }
+
+    public void setAdult(Boolean adult) {
+        this.adult = adult;
     }
 }

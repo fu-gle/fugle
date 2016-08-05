@@ -51,10 +51,16 @@
 
     <!-- 다이얼로그 스타일 -->
     <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">#ff673ab7</item>
+        <!--<item name="colorAccent">#ff673ab7</item>-->
         <item name="android:textColorPrimary">#000000</item>
         <item name="android:textColorSecondary">#666666</item>
         <item name="android:background">#ffffff</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="android:textSize">17sp</item>
+        <item name="colorAccent">@color/subColor1</item>
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <item name="colorControlActivated">@color/mainColor</item>
+        <item name="colorControlHighlight">@color/subColor1</item>
     </style>
 
 </resources>

@@ -56,6 +56,11 @@ public class CategorySelectActivity extends AppCompatActivity {
                 setResult(RESULT_CODE, intent);
                 finish();
             }
+
+            @Override
+            public void activityStart() {
+
+            }
         });
 
         recyclerView.setAdapter(adapter);

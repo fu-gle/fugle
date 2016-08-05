@@ -8,4 +8,5 @@ import android.content.Intent;
  */
 public interface ActivityStartListener {
     public void activityStart(Intent intent);
+    public void activityStart();
 }

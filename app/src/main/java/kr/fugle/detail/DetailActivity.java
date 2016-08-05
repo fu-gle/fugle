@@ -26,10 +26,14 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.webconnection.PostSingleData;
+import kr.fugle.webconnection.PostUserLog;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -170,6 +174,13 @@ public class DetailActivity extends AppCompatActivity {
         linkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                // 상세보기 누른 흔적 전송
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String time = dateFormat.format(new Date());
+                new PostUserLog(getApplicationContext())
+                        .execute("log/", userNo.toString(), content.getNo().toString(), time);
+
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(content.getLink()));
                 startActivity(intent);
             }

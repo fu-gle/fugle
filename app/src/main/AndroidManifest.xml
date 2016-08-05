@@ -62,7 +62,6 @@
             android:theme="@style/TextLabel"/>
 
         <!-- 회원가입 -->
-        <activity android:name=".login.EmailLoginDialog"/>
 
         <!-- 메인 -->
         <activity

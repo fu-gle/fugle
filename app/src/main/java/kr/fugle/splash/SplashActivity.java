@@ -16,9 +16,9 @@ import com.kakao.usermgmt.response.model.UserProfile;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.R;
 import kr.fugle.login.LoginActivity;
-import kr.fugle.login.LoginExecuteListener;
 import kr.fugle.login.OkHttpLogin;
 import kr.fugle.main.MainActivity;
 
@@ -28,15 +28,20 @@ import kr.fugle.main.MainActivity;
 public class SplashActivity extends Activity {
 
     Handler handler;
-    LoginExecuteListener loginExecuteListener;
+    ActivityStartListener activityStartListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loginExecuteListener = new LoginExecuteListener() {
+        activityStartListener = new ActivityStartListener() {
             @Override
-            public void startMainActivity() {
+            public void activityStart(Intent intent) {
+
+            }
+
+            @Override
+            public void activityStart() {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
             }
@@ -78,7 +83,7 @@ public class SplashActivity extends Activity {
             Log.d("id--->", userProfile.getId() + "");
 
             OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
-            okHttpLogin.setLoginExecuteListener(loginExecuteListener);
+            okHttpLogin.setActivityStartListener(activityStartListener);
 
             okHttpLogin.execute(
                     "login/",
@@ -104,7 +109,7 @@ public class SplashActivity extends Activity {
 
                                 // 서버로 로그인 데이터 전송
                                 OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
-                                okHttpLogin.setLoginExecuteListener(loginExecuteListener);
+                                okHttpLogin.setActivityStartListener(activityStartListener);
 
                                 okHttpLogin.execute(
                                         "login/",

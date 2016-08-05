@@ -19,14 +19,16 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
-import kr.fugle.webconnection.PostChoiceTraces;
+import kr.fugle.webconnection.PostUserLog;
 import kr.fugle.webconnection.PostSingleData;
 
 //import com.afollestad.materialdialogs.MaterialDialog;
@@ -148,8 +150,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onClick(View v) {
 
                     // 상세보기 누른 흔적 전송
-                    new PostChoiceTraces(recommendContext.getApplicationContext())
-                            .execute("traces/", userNo.toString(), content.getNo().toString());
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String time = dateFormat.format(new Date());
+                    new PostUserLog(recommendContext.getApplicationContext())
+                            .execute("log/", userNo.toString(), content.getNo().toString(), time);
 
                     Intent intent = new Intent(recommendContext, DetailActivity.class);
                     intent.putExtra("userNo", userNo);
@@ -223,6 +227,13 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(recommendContext, "만화 : " + vhItem.no + "'s 지금볼래요", Toast.LENGTH_SHORT).show();
+
+                    // 상세보기 누른 흔적 전송
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String time = dateFormat.format(new Date());
+                    new PostUserLog(recommendContext.getApplicationContext())
+                            .execute("log/", userNo.toString(), content.getNo().toString(), time);
+
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(content.getLink()));
                     activityStartListener.activityStart(intent);
                 }

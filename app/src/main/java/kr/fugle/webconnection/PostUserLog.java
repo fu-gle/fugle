@@ -13,25 +13,27 @@ import okhttp3.Response;
 
 /**
  * Created by hokyung on 16. 7. 21..
- * 유저의 클릭정보를 전송하기 위한 클래스
+ * 유저의 클릭정보(로그)를 전송하기 위한 클래스
  */
-public class PostChoiceTraces extends AsyncTask<String, Void, String> {
+public class PostUserLog extends AsyncTask<String, Void, String> {
 
     String serverUrl;
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
-    public PostChoiceTraces(Context context){
+    public PostUserLog(Context context){
         serverUrl = context.getResources().getString(R.string.server_url);
     }
 
     @Override
     protected String doInBackground(String... params) {
 
-        // 서버로 보낼 별점 데이터
-        // 0: serverUrl, 1: userNo, 2: contentNo
-        String data = "userId=" + params[1] + "&webtoonId=" + params[2];
-        Log.d("PostChoiceTraces.data", data);
+        // 서버로 보낼 로그 데이터
+        // 0: serverUrl, 1: userNo, 2: contentNo, 3: time
+        String data = "userId=" + params[1]
+                + "&webtoonId=" + params[2]
+                + "&time=" + params[3];
+        Log.d("PostUserLog.data", data);
 
         RequestBody body = RequestBody.create(HTML, data);
 
@@ -53,10 +55,6 @@ public class PostChoiceTraces extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String s) {
-//        if(s == null){
-//            Log.d("PostChoiceTraces", "post");
-//        }else {
-            Log.d("PostChoiceTraces", "post complete");
-//        }
+            Log.d("PostUserLog", "post complete " + s);
     }
 }

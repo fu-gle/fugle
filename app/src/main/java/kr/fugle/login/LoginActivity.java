@@ -1,11 +1,19 @@
 package kr.fugle.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -29,8 +37,11 @@ import com.kakao.util.helper.log.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.util.Arrays;
+import java.util.Date;
 
+import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.R;
 import kr.fugle.main.MainActivity;
 import kr.fugle.register.RegisterActivity;
@@ -44,11 +55,10 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
 
     // 이메일
-    private EmailLoginDialog emailLogin;
+    private AppCompatDialog dialog;
 
     // 서버통신
-    String serverUrl;
-    LoginExecuteListener loginExecuteListener;
+    ActivityStartListener activityStartListener;
 
     // User 정보 저장
     JSONObject obj;
@@ -58,9 +68,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        loginExecuteListener = new LoginExecuteListener() {
+        activityStartListener = new ActivityStartListener() {
             @Override
-            public void startMainActivity() {
+            public void activityStart(Intent intent) {
+
+            }
+
+            @Override
+            public void activityStart() {
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
             }
@@ -82,8 +97,22 @@ public class LoginActivity extends AppCompatActivity {
 
         findViewById(R.id.com_kakao_login).setOnClickListener(onKakaoButtonClicked);
 
-        // 메인으로 갈 인텐트
-        //intent = new Intent(LoginActivity.this, MainActivity.class);
+        // 이메일 로그인 다이얼로그
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.AppCompatAlertDialogStyle);
+        builder.setCancelable(true)
+                .setView(R.layout.dialog_email_login);
+
+        dialog = builder.create();
+
+        // 다이얼로그 크기 정하기
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager)getApplicationContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = (int)(metrics.widthPixels * 0.9);
+        dialog.getWindow().setAttributes(params);
     }
 
     @Override
@@ -147,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
                         obj.put("image", userProfile.getProfileImagePath());
                         // 서버로 데이터전송
                         OkHttpLogin okHttpLogin = new OkHttpLogin(getApplication());
-                        okHttpLogin.setLoginExecuteListener(loginExecuteListener);
+                        okHttpLogin.setActivityStartListener(activityStartListener);
                         okHttpLogin.execute(
                                 "login/",
                                 obj.getString("id"),
@@ -230,7 +259,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             // 서버로 로그인 데이터 전송
                             OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
-                            okHttpLogin.setLoginExecuteListener(loginExecuteListener);
+                            okHttpLogin.setActivityStartListener(activityStartListener);
 
                             okHttpLogin.execute(
                                     "login/",
@@ -256,11 +285,38 @@ public class LoginActivity extends AppCompatActivity {
     TextView.OnClickListener onEmailButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            //emailLogin = new EmailLoginDialog();
-           //emailLogin.show
+            // 로그인 다이얼로그
+            Toast.makeText(LoginActivity.this, "email login clicked", Toast.LENGTH_SHORT).show();
+
+            dialog.show();
+
+            dialog.findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    EditText inputEmail = (EditText)dialog.findViewById(R.id.input_email);
+                    EditText inputPassword = (EditText)dialog.findViewById(R.id.input_password);
+                    CheckBox checkAutoLogin = (CheckBox)dialog.findViewById(R.id.check_auto_login);
+
+                    String email = inputEmail.getText().toString();
+                    String password = inputPassword.getText().toString();
+                    Boolean auto = checkAutoLogin.isChecked();
+
+                    // 자동로그인 채크상태일시 SharedPreference 써야함
+
+                    // 서버로 전송
+                    OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
+                    okHttpLogin.setActivityStartListener(activityStartListener);
+                    okHttpLogin.execute(
+                            "login/",
+                            email,
+                            null,
+                            password,
+                            null,
+                            null);
+                }
+            });
         }
     };
-
 
     // 회원가입 버튼 클릭시
     TextView.OnClickListener onRegisterButtonClicked = new View.OnClickListener() {

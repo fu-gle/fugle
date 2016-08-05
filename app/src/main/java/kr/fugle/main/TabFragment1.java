@@ -197,11 +197,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                         Content content = new Content();
                         content.setNo(obj.getInt("id"));
                         content.setTitle(obj.getString("title"));
-                        content.setAuthor1(obj.getString("author1"));
-                        content.setAuthor2(obj.getString("author2"));
-                        content.setGenre1(obj.getString("genre1"));
-                        content.setGenre2(obj.getString("genre2"));
-                        content.setGenre3(obj.getString("genre3"));
+                        content.setAuthor(obj.getString("author"));
+                        content.setGenre(obj.getString("genre"));
                         content.setAge(obj.getString("age"));
                         content.setThumbnailSmall(obj.getString("thumbnail_small"));
                         content.setThumbnailBig(obj.getString("thumbnail_big"));
@@ -220,6 +217,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                         if(!obj.isNull("link")) {
                             content.setLink(obj.getString("link"));
                         }
+                        if(!obj.isNull("tags")){
+                            content.setTags(obj.getString("tags"));
+                        }
 
                         contentArrayList.add(content);
                     }
@@ -227,6 +227,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                     e.printStackTrace();
                 }
             }
+
+            if(contentArrayList.size() == 0)
+                return;
 
             Picasso.with(getContext())
                     .load(contentArrayList.get(0).getThumbnailBig())

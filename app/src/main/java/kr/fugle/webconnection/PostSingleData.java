@@ -28,8 +28,24 @@ public class PostSingleData extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
 
-        // 별점을 보내는 경우
-        if(params.length > 3) {
+        Request request = null;
+
+        if(params.length == 3){
+            // 보고싶어요 보내는 경우
+
+            // 서버로 보낼 데이터
+            // 0: serverUrl, 1: userNo, 2: contentNo
+            String data = "userId=" + params[1] + "&webtoonId=" + params[2];
+            Log.d("PostLike.data", data);
+
+            RequestBody body = RequestBody.create(HTML, data);
+
+            request = new Request.Builder()
+                    .url(serverUrl + params[0])
+                    .post(body)
+                    .build();
+        }else if(params.length == 4) {
+            // 별점을 보내는 경우
 
             // 서버로 보낼 별점 데이터
             // 0: serverUrl, 1: userNo, 2: contentNo, 3: rating
@@ -38,40 +54,20 @@ public class PostSingleData extends AsyncTask<String, Void, String> {
 
             RequestBody body = RequestBody.create(HTML, data);
 
-            Request request = new Request.Builder()
+            request = new Request.Builder()
                     .url(serverUrl + params[0])
                     .post(body)
                     .build();
+        }
 
-            try {
-                // 서버로 전송
+        try {
+            // 서버로 전송
+            if(request != null) {
                 Response response = client.newCall(request).execute();
                 return response.body().string();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
-        }else{
-            // 보고싶어요 보내는 경우
-
-            // 서버로 보낼 별점 데이터
-            // 0: serverUrl, 1: userNo, 2: contentNo
-            String data = "userId=" + params[1] + "&webtoonId=" + params[2];
-            Log.d("PostLike.data", data);
-
-            RequestBody body = RequestBody.create(HTML, data);
-
-            Request request = new Request.Builder()
-                    .url(serverUrl + params[0])
-                    .post(body)
-                    .build();
-
-            try {
-                // 서버로 전송
-                Response response = client.newCall(request).execute();
-                return response.body().string();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return null;

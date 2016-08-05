@@ -134,6 +134,11 @@ public class TabFragment3 extends Fragment {
             public void activityStart(Intent intent) {
                 startActivity(intent);
             }
+
+            @Override
+            public void activityStart() {
+
+            }
         });
 
         recyclerView.setAdapter(adapter);
