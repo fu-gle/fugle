@@ -49,6 +49,10 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         this.userNo = userNo;
     }
 
+    public GetContentList(Context context){
+        serverUrl = context.getResources().getString(R.string.server_url);
+    }
+
     @Override
     protected String doInBackground(String... params) {
 
@@ -81,6 +85,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
             request = new Request.Builder()
                     .url(serverUrl + params[0])
                     .build();
+            Log.d("----->", "GetContentList data search");
         }
 
         // json 데이터가 담길 변수
@@ -89,9 +94,12 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         try{
             // 서버 통신 실행
             Response response = client.newCall(request).execute();
-
+            String responseBody = response.body().string();
+            if("<".equals(responseBody.charAt(0))){
+                return null;
+            }
             // json 형태로의 변환을 위해 { "" :  } 추가
-            result = "{\"\":" + response.body().string() + "}";
+            result = "{\"\":" + responseBody + "}";
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -120,7 +128,6 @@ public class GetContentList extends AsyncTask<String, Void, String> {
 
                 for(int i=0;i<dataList.length();i++){
                     JSONObject obj = dataList.getJSONObject(i);
-
                     if(!obj.isNull("searchName")){  // 검색용 리스트 데이터
                         tempSearch.add(obj.getString("searchName"));
                         continue;
@@ -162,6 +169,8 @@ public class GetContentList extends AsyncTask<String, Void, String> {
             }catch(Exception e){
                 e.printStackTrace();
             }
+        }else{
+            return;
         }
 
         if(tempSearch.size() != 0){

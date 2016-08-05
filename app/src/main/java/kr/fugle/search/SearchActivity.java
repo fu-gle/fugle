@@ -2,21 +2,29 @@ package kr.fugle.search;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import kr.fugle.Item.Content;
 import kr.fugle.Item.SearchData;
 import kr.fugle.R;
 
 public class SearchActivity extends AppCompatActivity {
 
-    ArrayList<String> searchItem = SearchData.getInstance().getList();
-//    String[] items = { "SM3", "SM5", "SM7", "SONATA", "AVANTE", "SOUL", "K5",
-//            "K7" };
+    // 작가명, 작품명만 들어있는 리스트
+    private ArrayList<String> searchItem = SearchData.getInstance().getList();
+
+    // 작가명, 작품명에 맞는 작품 정보 리스트
+    private ArrayList<Content> contentArrayList;
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +36,29 @@ public class SearchActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        AutoCompleteTextView edit = (AutoCompleteTextView) findViewById(R.id.edit);
+        final AutoCompleteTextView edit = (AutoCompleteTextView) findViewById(R.id.edit);
+
+        // 레이아웃 초기화
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
 
         edit.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, searchItem));
+
+        // 자동 완성 된 것중 선택했을 때
+        edit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                new GetContentList(getApplicationContext(),
+//                        contentArrayList,
+//                        adapter,
+//                        2,
+//                        userNo)
+//                        .execute("searchName/", edit.getText());
+                Toast.makeText(SearchActivity.this, "name:"+edit.getText().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
