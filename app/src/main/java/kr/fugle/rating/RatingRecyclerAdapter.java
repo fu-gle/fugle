@@ -215,7 +215,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                         // 별점 준 갯수 증가
                         if(rating == 0){
                             countChangeListener.subCount();
-                        }else{
+                        }else if(content.getRating() == 0){
                             countChangeListener.addCount();
                         }
 

@@ -260,8 +260,8 @@ public class DetailActivity extends AppCompatActivity {
                         content.setAdult(obj.getBoolean("adult"));
                         content.setThumbnailSmall(obj.getString("thumbnail_small"));
                         content.setThumbnailBig(obj.getString("thumbnail_big"));
-                        if (!obj.isNull("star__star"))
-                            content.setRating((float) (obj.getInt("star__star") * 1.0) / 10);
+                        if (!obj.isNull("star"))
+                            content.setRating((float) (obj.getInt("star") * 1.0) / 10);
 //                        content.setAverage((float)obj.getDouble("average"));
                         if (!obj.isNull("recommendStar"))
                             content.setPrediction(Float.parseFloat(String.format("%.1f", Float.parseFloat(obj.getString("recommendStar")) / 1000000)));

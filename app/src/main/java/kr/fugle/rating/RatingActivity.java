@@ -101,11 +101,13 @@ public class RatingActivity extends AppCompatActivity {
             @Override
             public void addCount() {
                 count++;
+                setTitle(count + "개 평가하셨습니다");
             }
 
             @Override
             public void subCount() {
                 count--;
+                setTitle(count + "개 평가하셨습니다");
             }
         };
 

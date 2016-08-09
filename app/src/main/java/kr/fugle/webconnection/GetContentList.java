@@ -148,8 +148,8 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                             content.setThumbnailSmall(obj.getString("thumbnail_small"));
                         if (!obj.isNull("thumbnail_big"))
                             content.setThumbnailBig(obj.getString("thumbnail_big"));
-                        if (!obj.isNull("star__star"))
-                            content.setRating((float) (obj.getInt("star__star") * 1.0) / 10);
+                        if (!obj.isNull("star"))
+                            content.setRating((float) (obj.getInt("star") * 1.0) / 10);
                         if (!obj.isNull("like") && obj.getBoolean("like"))
                             content.setLike(obj.getBoolean("like"));
                         if (!obj.isNull("recommendStar"))
