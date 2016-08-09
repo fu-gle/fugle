@@ -198,6 +198,9 @@ public class GetContentList extends AsyncTask<String, Void, String> {
             // MyStar Activity
             Log.d("ho's activity", "GetContentList MyStar Activity");
             ((MyStarAdapter)adapter).setLoaded();
+        } else if(activity == 3){
+            // Search Activity
+            Log.d("uwangg's activity", "GetContentList Search Activity");
         }
     }
 }

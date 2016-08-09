@@ -49,7 +49,7 @@ public class SearchActivity extends AppCompatActivity {
 
         // 레이아웃 초기화 (RecyclerView) - start
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
-        LinearLayoutManager layoutManager =
+        final LinearLayoutManager layoutManager =
                 new LinearLayoutManager(getApplicationContext());
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -57,6 +57,8 @@ public class SearchActivity extends AppCompatActivity {
 
         edit.setAdapter(new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, searchItem));
+
+        contentArrayList = new ArrayList<>();
 
         adapter = new CommonRecyclerAdapter(
                 getApplicationContext(),
@@ -72,9 +74,12 @@ public class SearchActivity extends AppCompatActivity {
                 new GetContentList(getApplicationContext(),
                         contentArrayList,
                         adapter,
-                        2,
+                        3,
                         userNo)
-                        .execute("searchName/", edit.getText().toString());
+                        .execute("search/", edit.getText().toString());
+
+                recyclerView.setAdapter(adapter);
+                
                 Toast.makeText(SearchActivity.this, "name:"+edit.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
