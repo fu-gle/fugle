@@ -49,9 +49,18 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         this.tabStatusListener = tabStatusListener;
     }
 
+    // 서버 통신
+    public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
+    OkHttpClient client;
+    String serverUrl;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        // 서버 통신용 객체
+        client = new OkHttpClient();
+        serverUrl = getContext().getApplicationContext().getResources().getString(R.string.server_url);
 
         contentArrayList = new ArrayList<>();
 
@@ -112,7 +121,11 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         TextView moreWebtoon = (TextView) rootView.findViewById(R.id.more_today_webtoon);
         moreWebtoon.setOnClickListener(this);
 
+        // 오늘의 추천 리스트 가져오기
         new GetMainList().execute("mainPage/", User.getInstance().getNo() + "");
+
+        // 내 정보(보고싶어요 갯수, 별점준 작품 갯수) 가져오기
+        new GetMyData().execute("mypage/", User.getInstance().getNo() + "");
 
         return rootView;
     }
@@ -139,17 +152,10 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
     private class GetMainList extends AsyncTask<String, Void, String>{
 
-        public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-        OkHttpClient client;
-
         @Override
         protected String doInBackground(String... params) {
 
             Log.d("ho's activity", "GetMainList.doInBackground");
-
-            client = new OkHttpClient();
-
-            String serverUrl = getContext().getApplicationContext().getResources().getString(R.string.server_url);
 
             String data = "userId=" + params[1];
             Log.d("ho's activity", "GetMainList data " + data);
@@ -236,6 +242,67 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                     .resize(width, height)
                     .centerCrop()
                     .into(todayWebtoonImg);
+        }
+    }
+
+    private class GetMyData extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            Log.d("ho's activity", "GetMyData.doInBackground");
+
+            String data = "userId=" + params[1];
+            Log.d("ho's activity", "GetMyData data " + data);
+
+            RequestBody body = RequestBody.create(HTML, data);
+
+            Request request = new Request.Builder()
+                    .url(serverUrl + params[0])
+                    .post(body)
+                    .build();
+
+            // json 데이터가 담길 변수
+            String result = "";
+
+            try{
+                // 서버 통신 실행
+                Response response = client.newCall(request).execute();
+
+                // json 형태로의 변환을 위해 { "" :  } 추가
+                result = "{\"\":" + response.body().string() + "}";
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            Log.d("ho's activity", "GetMyData.onPostExecute " + s);
+
+            if(s != null && s != ""){
+                try{
+                    JSONObject reader = new JSONObject(s);
+
+                    // 하나씩 잘라서 adapter에 저장해야 한다
+                    JSONArray dataList = reader.getJSONArray("");
+
+                    JSONObject object = dataList.getJSONObject(0);
+
+                    User user = User.getInstance();
+
+                    if(!object.isNull("likecount"))
+                        user.setLikes(object.getInt("likecount"));
+                    if(!object.isNull("starcount"))
+                        user.setStars(object.getInt("starcount"));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

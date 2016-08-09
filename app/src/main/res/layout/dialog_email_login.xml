@@ -5,6 +5,14 @@
     android:layout_height="wrap_content"
     android:padding="20dp">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="이메일 로그인"
+        android:textSize="22sp"
+        android:textColor="@color/mainColor"
+        android:layout_marginBottom="5dp"/>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/input_layout_email"
         android:layout_width="match_parent"

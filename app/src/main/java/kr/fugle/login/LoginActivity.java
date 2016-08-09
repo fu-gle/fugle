@@ -2,6 +2,8 @@ package kr.fugle.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -103,6 +105,9 @@ public class LoginActivity extends AppCompatActivity {
                 .setView(R.layout.dialog_email_login);
 
         dialog = builder.create();
+
+        // 다이얼로그 배경 설정
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 
         // 다이얼로그 크기 정하기
         DisplayMetrics metrics = new DisplayMetrics();
@@ -301,13 +306,21 @@ public class LoginActivity extends AppCompatActivity {
                     String password = inputPassword.getText().toString();
                     Boolean auto = checkAutoLogin.isChecked();
 
+                    if("".equals(email) || "".equals(password)){
+                        Toast.makeText(LoginActivity.this, "제대로 입력해", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     // 자동로그인 채크상태일시 SharedPreference 써야함
+                    if(auto){
+
+                    }
 
                     // 서버로 전송
                     OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
                     okHttpLogin.setActivityStartListener(activityStartListener);
                     okHttpLogin.execute(
-                            "login/",
+                            "emailLogin/",
                             email,
                             null,
                             password,

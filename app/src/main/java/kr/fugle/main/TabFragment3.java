@@ -41,6 +41,8 @@ public class TabFragment3 extends Fragment {
     private static int pageNo;
     private TabStatusListener tabStatusListener;
 
+    private Handler handler;
+
     public void setTabStatusListener(TabStatusListener tabStatusListener){
         this.tabStatusListener = tabStatusListener;
     }
@@ -105,6 +107,8 @@ public class TabFragment3 extends Fragment {
                 userNo,
                 recyclerView);
 
+        handler = new Handler();
+
         adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -112,7 +116,7 @@ public class TabFragment3 extends Fragment {
                 contentArrayList.add(null);
                 adapter.notifyItemInserted(contentArrayList.size() - 1);
 
-                new Handler().postDelayed(new Runnable() {
+                handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(getContext().getApplicationContext(), "rating bottom", Toast.LENGTH_SHORT).show();
@@ -159,6 +163,9 @@ public class TabFragment3 extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
+        // Handler 종료
+        handler.removeMessages(0);
 
         // 여기서 list를 메인으로 넘겨서 저장한다.
         tabStatusListener.setContentList(contentArrayList);

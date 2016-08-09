@@ -17,9 +17,11 @@ public class User {
     private String profileImg;
     private String message;
     private String profileBackground;
+    private Integer likes;
+    private Integer stars;
 
     private User(){
-        no = 0;
+        no = likes = stars = 0;
         email = passwd = name = gender = primaryKey = profileImg = message = profileBackground = "";
     }
 
@@ -116,5 +118,21 @@ public class User {
 
     public void setProfileBackground(String profileBackground) {
         this.profileBackground = profileBackground;
+    }
+
+    public Integer getStars() {
+        return stars;
+    }
+
+    public void setStars(Integer stars) {
+        this.stars = stars;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
     }
 }

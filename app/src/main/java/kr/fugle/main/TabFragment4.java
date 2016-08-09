@@ -86,7 +86,7 @@ public class TabFragment4 extends Fragment {
 
         // 자기소개
         String message = User.getInstance().getMessage();
-        if(message.equals("") || message == null)
+        if(message.equals("") || message.equals("null") || message == null)
             message = "자기소개 글을 입력해주세요";
         TextView profMessage = (TextView)rootView.findViewById(R.id.prof_message);
         profMessage.setText(message);
@@ -98,7 +98,12 @@ public class TabFragment4 extends Fragment {
             }
         });
 
-        rootView.findViewById(R.id.prof_webtoon_btn).setOnClickListener(onProfWebtoonButtonClicked);
+        TextView like = (TextView) rootView.findViewById(R.id.like);
+        like.setText(User.getInstance().getLikes().toString());
+
+        Button profWebtoonBtn = (Button)rootView.findViewById(R.id.prof_webtoon_btn);
+        profWebtoonBtn.setText("웹툰 " + User.getInstance().getStars());
+        profWebtoonBtn.setOnClickListener(onProfWebtoonButtonClicked);
 
         // 로그아웃
         rootView.findViewById(R.id.logout_btn).setOnClickListener(onProfLogoutButtonClicked);
