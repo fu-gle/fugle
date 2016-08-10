@@ -9,6 +9,9 @@ import com.kakao.auth.IApplicationConfig;
 import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
 
+/**
+ * Created by 김은진 on 2016-07-04.
+ */
 public class KakaoSDKAdapter extends KakaoAdapter {
 
     @Override

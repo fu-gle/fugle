@@ -63,6 +63,7 @@
 
         <!-- 회원가입 -->
 
+
         <!-- 메인 -->
         <activity
             android:name=".main.MainActivity"
@@ -91,6 +92,8 @@
 
         <!-- 랭킹 보기 -->
         <activity android:name=".ranking.RankingActivity"/>
+        <activity android:name=".tab1.MoreWebtoonActivity">
+        </activity>
     </application>
 
 </manifest>

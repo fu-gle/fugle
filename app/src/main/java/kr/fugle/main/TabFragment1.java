@@ -144,6 +144,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             }
             case R.id.more_today_webtoon: { // 오늘의 웹툰 더보기
                 // 여기서 액티비티 갑니당
+                MainActivity activity = (MainActivity)getActivity();
+                activity.onFragmentChanged(3);
+                break;
             }
             default:
                 break;

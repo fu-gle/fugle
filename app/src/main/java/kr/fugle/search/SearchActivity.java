@@ -5,12 +5,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,9 @@ import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.commonlist.CommonRecyclerAdapter;
 import kr.fugle.webconnection.GetContentList;
-
+/**
+ * Created by 김은진 on 2016-08-03.
+ */
 public class SearchActivity extends AppCompatActivity {
 
     // 작가명, 작품명만 들어있는 리스트
@@ -30,6 +33,8 @@ public class SearchActivity extends AppCompatActivity {
     private ArrayList<Content> contentArrayList;
     private RecyclerView recyclerView;
 
+//    AutoCompleteTextView edit;
+    ClearableAutoCompleteTextView edit;
     private CommonRecyclerAdapter adapter;
     private Integer userNo;
 
@@ -45,7 +50,8 @@ public class SearchActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final AutoCompleteTextView edit = (AutoCompleteTextView) findViewById(R.id.edit);
+//        edit = (AutoCompleteTextView) findViewById(R.id.edit);
+        edit = (ClearableAutoCompleteTextView) findViewById(R.id.edit);
 
         // 레이아웃 초기화 (RecyclerView) - start
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
@@ -66,23 +72,41 @@ public class SearchActivity extends AppCompatActivity {
                 userNo,
                 recyclerView);
 
+        recyclerView.setAdapter(adapter);
+
         // 자동 완성 된 것중 선택했을 때
         edit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                new GetContentList(getApplicationContext(),
-                        contentArrayList,
-                        adapter,
-                        3,
-                        userNo)
-                        .execute("search/", edit.getText().toString());
-
-                recyclerView.setAdapter(adapter);
-                
-                Toast.makeText(SearchActivity.this, "name:"+edit.getText().toString(), Toast.LENGTH_SHORT).show();
+                performSearch();
+//                Toast.makeText(SearchActivity.this, "name:"+edit.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
+        // 키보드로 actionSearch를 이용할때
+        edit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    performSearch();
+                    // action_search버튼 클릭시 자동완성 기능 사라지게 함
+                    edit.dismissDropDown();
+                    return true;
+                }
+                    return false;
+            }
+        });
+    }
+
+    // 작가명, 작품명 입력받았을때 서버로 보냄
+    // 파라미터에 맞는 리스트 받아옴
+    public void performSearch() {
+        contentArrayList.clear();
+        new GetContentList(getApplicationContext(),
+                contentArrayList,
+                adapter,
+                3,
+                userNo)
+                .execute("search/", edit.getText().toString());
     }
 
 
@@ -95,38 +119,4 @@ public class SearchActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.search, menu);
-//        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-//
-//        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-//        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(getApplicationContext(), SearchActivity.class)));
-//        searchView.setMaxWidth(Integer.MAX_VALUE);
-//        MenuItemCompat.expandActionView(menu.findItem(R.id.action_search));
-//        searchView.setIconifiedByDefault(true);
-//        searchView.setIconified(false);
-//
-//        MenuItem searchItem = menu.findItem(R.id.action_search);
-//
-//        MenuItemCompat.setOnActionExpandListener(searchItem, new MenuItemCompat.OnActionExpandListener() {
-//            @Override
-//            public boolean onMenuItemActionExpand(MenuItem item) {
-//                return true;
-//            }
-//
-//            @Override
-//            public boolean onMenuItemActionCollapse(MenuItem item) {
-//                // TODO do your stuff when back button is pressed
-////                Intent intent = new Intent(SearchActivity.this, MainActivity.class);
-////                startActivity(intent);
-//                finish();
-//                return true;
-//            }
-//        });
-//
-//        return super.onCreateOptionsMenu(menu);
-//    }
 }
