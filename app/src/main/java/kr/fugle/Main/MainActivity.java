@@ -127,11 +127,14 @@ public class MainActivity extends AppCompatActivity {
         TabFragment3 tabFragment3 = new TabFragment3();
         tabFragment3.setTabStatusListener(tabStatusListener);
 
+        TabFragment4 tabFragment4 = new TabFragment4();
+        tabFragment4.setTabStatusListener(tabStatusListener);
+
         // 홈, 순위, 추천, 마이페이지
         adapter.addFragment(tabFragment1, "");
         adapter.addFragment(tabFragment2, "");
         adapter.addFragment(tabFragment3, "");
-        adapter.addFragment(new TabFragment4(), "");
+        adapter.addFragment(tabFragment4, "");
         viewPager.setAdapter(adapter);
     }
 

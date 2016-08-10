@@ -2,6 +2,7 @@ package kr.fugle.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,12 +21,20 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.login.CircleTransform;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by 김은진 on 2016-07-26.
@@ -38,6 +47,15 @@ public class TabFragment4 extends Fragment {
     // 액티비티간 데이터 통신을 위한 코드
     TabStatusListener tabStatusListener;
 
+    // 서버 통신
+    public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
+    OkHttpClient client;
+    String serverUrl;
+
+    // 위젯 객체
+    TextView like;
+    Button profWebtoonBtn;
+
     public void setTabStatusListener(TabStatusListener tabStatusListener){
         this.tabStatusListener = tabStatusListener;
     }
@@ -46,6 +64,10 @@ public class TabFragment4 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_fragment4, container,false);
+
+        // 서버 통신용 객체
+        client = new OkHttpClient();
+        serverUrl = getContext().getApplicationContext().getResources().getString(R.string.server_url);
 
         // 취향분석 버튼
         Button favoriteBtn = (Button)rootView.findViewById(R.id.prof_favorite_button);
@@ -98,15 +120,18 @@ public class TabFragment4 extends Fragment {
             }
         });
 
-        TextView like = (TextView) rootView.findViewById(R.id.like);
-        like.setText(User.getInstance().getLikes().toString());
+        // 보고싶어요 갯수
+        like = (TextView) rootView.findViewById(R.id.like);
 
-        Button profWebtoonBtn = (Button)rootView.findViewById(R.id.prof_webtoon_btn);
-        profWebtoonBtn.setText("웹툰 " + User.getInstance().getStars());
+        // 내가 별점 준 웹툰 버튼
+        profWebtoonBtn = (Button)rootView.findViewById(R.id.prof_webtoon_btn);
         profWebtoonBtn.setOnClickListener(onProfWebtoonButtonClicked);
 
         // 로그아웃
         rootView.findViewById(R.id.logout_btn).setOnClickListener(onProfLogoutButtonClicked);
+
+        // 내 정보(보고싶어요 갯수, 별점준 작품 갯수) 가져오기
+        new GetMyData().execute("mypage/", User.getInstance().getNo() + "");
 
         return rootView;
     }
@@ -144,4 +169,84 @@ public class TabFragment4 extends Fragment {
             Log.d("---->","if밖로그아웃");
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.d("ho's activity", "TabFragment4.onResume");
+
+        // 초기해야하는지 확인 후 초기화
+        if(tabStatusListener.getRefresh()){
+
+            new GetMyData().execute("mypage/", User.getInstance().getNo() + "");
+
+            tabStatusListener.setRefresh(false);
+        }
+    }
+
+    private class GetMyData extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            Log.d("ho's activity", "GetMyData.doInBackground");
+
+            String data = "userId=" + params[1];
+            Log.d("ho's activity", "GetMyData data " + data);
+
+            RequestBody body = RequestBody.create(HTML, data);
+
+            Request request = new Request.Builder()
+                    .url(serverUrl + params[0])
+                    .post(body)
+                    .build();
+
+            // json 데이터가 담길 변수
+            String result = "";
+
+            try{
+                // 서버 통신 실행
+                Response response = client.newCall(request).execute();
+
+                // json 형태로의 변환을 위해 { "" :  } 추가
+                result = "{\"\":" + response.body().string() + "}";
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            Log.d("ho's activity", "GetMyData.onPostExecute " + s);
+
+            if(s != null && s != ""){
+                try{
+                    JSONObject reader = new JSONObject(s);
+
+                    // 하나씩 잘라서 adapter에 저장해야 한다
+                    JSONArray dataList = reader.getJSONArray("");
+
+                    JSONObject object = dataList.getJSONObject(0);
+
+                    User user = User.getInstance();
+
+                    if(!object.isNull("likecount"))
+                        user.setLikes(object.getInt("likecount"));
+                    if(!object.isNull("starcount"))
+                        user.setStars(object.getInt("starcount"));
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+                like.setText(User.getInstance().getLikes().toString());
+                profWebtoonBtn.setText("웹툰 " + User.getInstance().getStars());
+
+            }
+        }
+    }
 }

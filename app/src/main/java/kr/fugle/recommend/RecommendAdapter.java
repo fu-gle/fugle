@@ -231,7 +231,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemViewType(int position) {
         if(position == 0)
             return TYPE_HEADER;
-        else if(list.size() == position)
+        else if(list.get(position - 1) == null)
             return TYPE_PROG;
         else
             return TYPE_ITEM;
