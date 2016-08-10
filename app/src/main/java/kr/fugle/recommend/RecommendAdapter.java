@@ -214,7 +214,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String time = dateFormat.format(new Date());
                     new PostUserLog(recommendContext.getApplicationContext())
-                            .execute("log/", userNo.toString(), content.getNo().toString(), time);
+                            .execute("", userNo.toString(), content.getNo().toString(), time);
 
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(content.getLink()));
                     activityStartListener.activityStart(intent);

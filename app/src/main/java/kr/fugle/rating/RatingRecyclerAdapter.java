@@ -134,6 +134,8 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             .getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
+//            vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
             Picasso.with(ratingContext.getApplicationContext())
                     .load(content.getThumbnailBig())
                     .resize(metrics.widthPixels, metrics.heightPixels/3)
@@ -183,7 +185,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             String time = dateFormat.format(new Date());
                             new PostUserLog(ratingContext.getApplicationContext())
-                                    .execute("log/", userNo.toString(), content.getNo().toString(), time);
+                                    .execute("", userNo.toString(), content.getNo().toString(), time);
 
                             Toast.makeText(ratingContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(ratingContext, DetailActivity.class);
