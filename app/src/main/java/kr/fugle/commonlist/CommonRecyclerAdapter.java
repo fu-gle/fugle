@@ -60,7 +60,7 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAd
         // 타이틀
         viewHolder.cTitleView.setText(itemList.get(position).getTitle());
         // 평점
-        viewHolder.cStarView.setText("★ "+itemList.get(position).getRating());
+        viewHolder.cStarView.setText("★ "+itemList.get(position).getAverage());
         // 작가명
         viewHolder.cAuthorView.setText(itemList.get(position).getAuthor());
     }

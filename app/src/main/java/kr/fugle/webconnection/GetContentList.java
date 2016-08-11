@@ -143,6 +143,8 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                             aut = aut.substring(0,aut.length()-1);
                             content.setAuthor(aut);
                         }
+                        if(!obj.isNull("average"))
+                            content.setAverage((float)obj.getInt("average")/1000);
                         if (!obj.isNull("genre"))
                             content.setGenre(obj.getString("genre"));
                         if (!obj.isNull("adult"))
