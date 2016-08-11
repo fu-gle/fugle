@@ -91,7 +91,14 @@
 
         <!-- 랭킹 보기 -->
         <activity android:name=".ranking.RankingActivity" />
+
+        <!-- 코멘트 액티비티 -->
         <activity android:name=".comment.CommentActivity"></activity>
+
+        <!-- 메인에서 웹툰 더보기 -->
+        <activity android:name=".tab1.MoreWebtoonActivity">
+        </activity>
+        
     </application>
 
 </manifest>

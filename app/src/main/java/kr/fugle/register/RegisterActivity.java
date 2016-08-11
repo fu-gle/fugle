@@ -24,6 +24,9 @@ import kr.fugle.R;
 import kr.fugle.login.CircleTransform;
 import kr.fugle.login.OkHttpLogin;
 
+/**
+ * Created by 김은진 on 2016-07-15.
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     private Toolbar toolbar;

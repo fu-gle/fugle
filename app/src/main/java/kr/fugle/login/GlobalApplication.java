@@ -6,6 +6,9 @@ import android.util.Log;
 
 import com.kakao.auth.KakaoSDK;
 
+/**
+ * Created by 김은진 on 2016-07-04.
+ */
 public class GlobalApplication extends Application {
     private static GlobalApplication mInstance;
     private static volatile Activity currentActivity = null;

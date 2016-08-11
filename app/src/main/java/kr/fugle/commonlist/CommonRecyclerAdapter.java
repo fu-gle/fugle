@@ -1,8 +1,10 @@
 package kr.fugle.commonlist;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -65,13 +67,16 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAd
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = View.inflate(parent.getContext(), R.layout.common_list_view_item, null);
+//        View itemView = View.inflate(parent.getContext(), R.layout.common_list_view_item, null);
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.common_list_view_item, parent, false);
         return new ViewHolder(itemView);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         // 이미지, 작품명, 평점, 작가
+        public CardView card;
         public ImageView cImageView;
         public TextView cTitleView;
         public TextView cStarView;
@@ -79,6 +84,7 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAd
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
+            card = (CardView) itemLayoutView.findViewById(R.id.common_card);
             cImageView = (ImageView) itemLayoutView.findViewById(R.id.cImage);
             cTitleView = (TextView) itemLayoutView.findViewById(R.id.cTitle);
             cStarView = (TextView) itemLayoutView.findViewById(R.id.cStar);

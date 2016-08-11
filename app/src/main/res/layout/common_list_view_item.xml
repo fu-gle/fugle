@@ -1,45 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:layout_height="70dp"
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/common_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="2dp"
+    card_view:cardElevation="4dp"
+    android:layout_marginBottom="5dp"
     >
 
-    <ImageView
-        android:id="@+id/cImage"
-        android:layout_width="120dp"
-        android:layout_height="70dp"
-        android:scaleType="centerCrop"
-        android:layout_gravity="center_vertical"
-        />
-    
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="vertical"
-        android:layout_gravity="center_vertical"
-        android:paddingLeft="16dp"
+        android:orientation="horizontal"
         >
-        <TextView
-            android:id="@+id/cTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="작품명"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            />
-        <TextView
-            android:id="@+id/cStar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="평점"
-            />
-        <TextView
-            android:id="@+id/cAuthor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="작가"
+
+        <ImageView
+            android:id="@+id/cImage"
+            android:layout_width="130dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerCrop"
             />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="6dp"
+            >
+
+            <TextView
+                android:id="@+id/cTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="작품명"
+                android:textAppearance="?android:attr/textAppearanceSearchResultSubtitle"
+                />
+
+            <TextView
+                android:id="@+id/cStar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="평점"
+                />
+
+            <TextView
+                android:id="@+id/cAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="작가"
+                />
+
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</android.support.v7.widget.CardView>

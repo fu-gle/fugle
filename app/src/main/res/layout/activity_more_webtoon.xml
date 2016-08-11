@@ -20,7 +20,7 @@
             >
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/search_toolbar"
+                android:id="@+id/more_webtoon_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
@@ -30,30 +30,10 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <kr.fugle.search.ClearableAutoCompleteTextView
-            android:id="@+id/edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/search_hint"
-            android:singleLine="true"
-            android:completionHint="원하는 작가 or 작품명을 선택해주세요."
-            android:completionThreshold="1"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:imeOptions="actionSearch"
-            >
-            <requestFocus/>
-
-        </kr.fugle.search.ClearableAutoCompleteTextView>
-
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
+            android:id="@+id/more_web_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
             >
         </android.support.v7.widget.RecyclerView>
 

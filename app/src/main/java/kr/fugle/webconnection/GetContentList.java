@@ -138,8 +138,11 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                             content.setNo(obj.getInt("id"));
                         if (!obj.isNull("title"))
                             content.setTitle(obj.getString("title"));
-                        if (!obj.isNull("author"))
-                            content.setAuthor(obj.getString("author"));
+                        if (!obj.isNull("author")) {
+                            String aut = obj.getString("author");
+                            aut = aut.substring(0,aut.length()-1);
+                            content.setAuthor(aut);
+                        }
                         if (!obj.isNull("genre"))
                             content.setGenre(obj.getString("genre"));
                         if (!obj.isNull("adult"))

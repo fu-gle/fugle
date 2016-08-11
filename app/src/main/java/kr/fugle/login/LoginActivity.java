@@ -39,15 +39,16 @@ import com.kakao.util.helper.log.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.DateFormat;
 import java.util.Arrays;
-import java.util.Date;
 
 import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.R;
 import kr.fugle.main.MainActivity;
 import kr.fugle.register.RegisterActivity;
 
+/**
+ * Created by 김은진 on 2016-07-04.
+ */
 public class LoginActivity extends AppCompatActivity {
 
     // 카카오

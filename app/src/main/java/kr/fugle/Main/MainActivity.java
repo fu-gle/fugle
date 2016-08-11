@@ -16,11 +16,13 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
+import kr.fugle.Item.SearchData;
 import kr.fugle.R;
 import kr.fugle.mystar.MyStarActivity;
 import kr.fugle.rating.RatingActivity;
 import kr.fugle.search.SearchActivity;
 import kr.fugle.splash.SplashActivity;
+import kr.fugle.tab1.MoreWebtoonActivity;
 import kr.fugle.webconnection.GetContentList;
 
 /**
@@ -50,12 +52,17 @@ public class MainActivity extends AppCompatActivity {
     TabStatusListener tabStatusListener;
     boolean refresh;
 
+    // 작가명, 작품명만 들어있는 리스트
+    private ArrayList<String> searchItem = SearchData.getInstance().getList();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new GetContentList(getApplicationContext()).execute("searchName/");
+        if(searchItem.isEmpty()) {
+            new GetContentList(getApplicationContext()).execute("searchName/");
+        }
 
         // 추천 뷰 탭을 초기화 해야하는지 판별하는 값
         refresh = true;
@@ -156,6 +163,11 @@ public class MainActivity extends AppCompatActivity {
             finish();
         } else if (index == 2) { // 내 웹툰 별점 버튼 눌렀을시
             startActivity(new Intent(MainActivity.this, MyStarActivity.class));
+        } else if (index == 3) { // 오늘의 웹툰 더보기 눌렀을시
+//            Intent intent = new Intent(MainActivity.this, MoreWebtoonActivity.class);
+//            intent.putExtra("contentArrayList",contentArrayList);
+//            intent.putParcelableArrayListExtra("contentArrayList", contentArrayList);
+            startActivity(new Intent(MainActivity.this, MoreWebtoonActivity.class));
         }
     }
 
