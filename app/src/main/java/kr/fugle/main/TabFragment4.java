@@ -135,7 +135,7 @@ public class TabFragment4 extends Fragment {
         rootView.findViewById(R.id.logout_btn).setOnClickListener(onProfLogoutButtonClicked);
 
         // 내 정보(보고싶어요 갯수, 별점준 작품 갯수) 가져오기
-        new GetMyData().execute("mypage/", User.getInstance().getNo() + "");
+//        new GetMyData().execute("mypage/", User.getInstance().getNo() + "");
 
         return rootView;
     }
@@ -181,76 +181,9 @@ public class TabFragment4 extends Fragment {
         Log.d("ho's activity", "TabFragment4.onResume");
         User user = User.getInstance();
 
-        like.setText(user.getLikes());
-        profWebtoonBtn.setText(user.getStars());
-        hate.setText(user.getHates());
-    }
-
-    private class GetMyData extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            Log.d("ho's activity", "GetMyData.doInBackground");
-
-            String data = "userId=" + params[1];
-            Log.d("ho's activity", "GetMyData data " + data);
-
-            RequestBody body = RequestBody.create(HTML, data);
-
-            Request request = new Request.Builder()
-                    .url(serverUrl + params[0])
-                    .post(body)
-                    .build();
-
-            // json 데이터가 담길 변수
-            String result = "";
-
-            try{
-                // 서버 통신 실행
-                Response response = client.newCall(request).execute();
-
-                // json 형태로의 변환을 위해 { "" :  } 추가
-                result = "{\"\":" + response.body().string() + "}";
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-
-            return result;
-        }
-
-        @Override
-        protected void onPostExecute(String s) {
-            super.onPostExecute(s);
-
-            Log.d("ho's activity", "GetMyData.onPostExecute " + s);
-
-            if(s != null && s != ""){
-                try{
-                    JSONObject reader = new JSONObject(s);
-
-                    // 하나씩 잘라서 adapter에 저장해야 한다
-                    JSONArray dataList = reader.getJSONArray("");
-
-                    JSONObject object = dataList.getJSONObject(0);
-
-                    User user = User.getInstance();
-
-                    if(!object.isNull("likecount"))
-                        user.setLikes(object.getInt("likecount"));
-                    if(!object.isNull("starcount"))
-                        user.setStars(object.getInt("starcount"));
-                    if(!object.isNull("dontsee"))
-                        user.setHates(object.getInt("dontsee"));    // 보기싫어요 받는 파라미터 정해야함
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-
-                like.setText(User.getInstance().getLikes().toString());
-                profWebtoonBtn.setText("웹툰 " + User.getInstance().getStars());
-                hate.setText(User.getInstance().getHates());
-
-            }
-        }
+        // 유저의 정보 적용
+        like.setText(user.getLikes().toString());
+        hate.setText(user.getHates().toString());
+        profWebtoonBtn.setText("웹툰 " + user.getStars().toString());
     }
 }

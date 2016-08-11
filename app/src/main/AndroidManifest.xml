@@ -61,9 +61,6 @@
             android:label="@string/actionbar_name"
             android:theme="@style/TextLabel" />
 
-        <!-- 회원가입 -->
-
-
         <!-- 메인 -->
         <activity
             android:name=".main.MainActivity"
@@ -98,7 +95,7 @@
         <!-- 메인에서 웹툰 더보기 -->
         <activity android:name=".tab1.MoreWebtoonActivity">
         </activity>
-        
+
     </application>
 
 </manifest>

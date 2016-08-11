@@ -188,7 +188,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         // 리스트를 추가로 불러오는 경우는 리스트 맨 뒤에 null이 들어가있다
         if(list.size() != 0){
             Log.d("ho's activity", "list.size != 0");
-            list.remove(list.indexOf(null));
+            list.remove(list.size() - 1);
             adapter.notifyItemRemoved(list.size());
         }
 

@@ -82,6 +82,11 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
             }
+
+            @Override
+            public void activityFinish() {
+
+            }
         };
 
         // 페이스북 초기화

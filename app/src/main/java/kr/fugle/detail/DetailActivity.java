@@ -172,7 +172,7 @@ public class DetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(DetailActivity.this, CommentActivity.class);
 
                 intent.putExtra("title", content.getTitle());
-                intent.putExtra("no", content.getNo());
+                intent.putExtra("contentNo", content.getNo());
                 intent.putExtra("star", content.getRating());
 
                 startActivity(intent);

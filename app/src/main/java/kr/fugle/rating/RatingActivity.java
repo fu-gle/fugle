@@ -44,13 +44,17 @@ public class RatingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
 
-        count = 0;
+        count = User.getInstance().getStars();
 
         // 툴바 생성
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("15개 평가해");
+        if(count == 0) {
+            getSupportActionBar().setTitle("15개 평가해");
+        }else{
+            getSupportActionBar().setTitle(count + "개 평가했구나?");
+        }
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -107,7 +111,11 @@ public class RatingActivity extends AppCompatActivity {
             @Override
             public void subCount() {
                 count--;
-                setTitle(count + "개 평가하셨습니다");
+                if(count == 0){
+                    setTitle("15개 평가해");
+                }else {
+                    setTitle(count + "개 평가했어");
+                }
             }
         };
 

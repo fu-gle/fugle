@@ -187,12 +187,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .execute("like/", userNo.toString(), content.getNo().toString());
 
                     if(content.getLike()){  // 이미 보고싶어요가 눌렸던 상태
-//                        likeChangeListener.changeLikes(-1);
                         User.getInstance().setLikes(User.getInstance().getLikes() - 1);
                         vhItem.like.setTextColor(Color.parseColor("#777777"));
                         content.setLike(false);
                     }else {
-//                        likeChangeListener.changeLikes(1);
                         vhItem.like.setTextColor(Color.parseColor("#F13839"));
                         User.getInstance().setLikes(User.getInstance().getLikes() + 1);
                         content.setLike(true);
@@ -212,8 +210,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .execute("dontsee/", userNo.toString(), content.getNo().toString());
 
                     if(content.getHate()){  // 이미 보기싫어요 상태..는 없지않나?
+                        vhItem.hate.setTextColor(Color.parseColor("#000000"));
                         User.getInstance().setHates(User.getInstance().getHates() - 1);
                     }else{  // 여기서 보기 싫어요 액션부분
+                        vhItem.hate.setTextColor(Color.parseColor("#AAAAAA"));
                         User.getInstance().setHates(User.getInstance().getHates() + 1);
                     }
                 }
