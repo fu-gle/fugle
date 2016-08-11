@@ -277,6 +277,8 @@ public class DetailActivity extends AppCompatActivity {
                         content.setPublish(obj.getBoolean("publish"));
                         if (!obj.isNull("tags"))
                             content.setTags(obj.getString("tags").substring(0, obj.getString("tags").length() - 1));
+                        if (!obj.isNull("star"))
+                            content.setRating((float) (obj.getInt("star") * 1.0) / 10);
                     }
                 }catch(Exception e){
                     e.printStackTrace();

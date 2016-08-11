@@ -24,6 +24,7 @@ import java.util.List;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.R;
+import kr.fugle.comment.CommentActivity;
 import kr.fugle.detail.DetailActivity;
 import kr.fugle.webconnection.PostSingleData;
 
@@ -180,6 +181,14 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onClick(View v) {
                                     Toast.makeText(myStarContext, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent(myStarContext, CommentActivity.class);
+                                    intent.putExtra("contentNo", content.getNo());
+                                    intent.putExtra("title", content.getTitle());
+                                    intent.putExtra("star", content.getRating());
+
+                                    myStarContext.startActivity(intent);
+
                                     dialog.cancel();
                                 }
                             });

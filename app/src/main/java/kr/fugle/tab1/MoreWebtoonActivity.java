@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.commonlist.CommonRecyclerAdapter;
 
@@ -24,7 +25,6 @@ public class MoreWebtoonActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     private CommonRecyclerAdapter adapter;
-    private Integer userNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class MoreWebtoonActivity extends AppCompatActivity {
         adapter = new CommonRecyclerAdapter(
                 getApplicationContext(),
                 contentArrayList,
-                userNo,
+                User.getInstance().getNo(),
                 recyclerView);
 
         recyclerView.setAdapter(adapter);

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +22,6 @@ public class CommentActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private RatingBar ratingBar;
-    private TextView doneBtn;
     private EditText commentInput;
 
     private int contentNo;
@@ -45,15 +46,19 @@ public class CommentActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(title);
 
         ratingBar = (RatingBar) findViewById(R.id.ratingBar);
-        doneBtn = (TextView) findViewById(R.id.doneBtn);
         commentInput = (EditText) findViewById(R.id.comment_input);
 
         ratingBar.setRating(star);
         ratingBar.setOnRatingBarChangeListener(onRatingBarChangeListener);
 
-        doneBtn.setOnClickListener(onClickListener);
-
         commentInput.setHint(title + "에 대한 생각을 자유롭게 표현해주세요.");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_comment, menu);
+        return true;
     }
 
     @Override
@@ -61,7 +66,10 @@ public class CommentActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
-                return true;
+                break;
+            case R.id.doneBtn:  // 완료버튼
+                done();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -94,27 +102,27 @@ public class CommentActivity extends AppCompatActivity {
                 }
             };
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
+    // 코멘트 완료버튼
+    private void done(){
 
-            String comment = commentInput.getText().toString();
+        String comment = commentInput.getText().toString();
 
-            if(star == 0){
-                Toast.makeText(CommentActivity.this, "별점을 입력해 주세요", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if(comment.equals("")){
-                Toast.makeText(CommentActivity.this, "코멘트를 입력해 주세요", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            new PostSingleData(CommentActivity.this)
-                    .execute("comment/",
-                            User.getInstance().getNo() + "",
-                            contentNo + "",
-                            comment);
+        if(star == 0){
+            Toast.makeText(CommentActivity.this, "별점을 입력해 주세요", Toast.LENGTH_SHORT).show();
+            return;
         }
-    };
+
+        if(comment.equals("")){
+            Toast.makeText(CommentActivity.this, "코멘트를 입력해 주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new PostSingleData(CommentActivity.this)
+                .execute("comment/",
+                        User.getInstance().getNo() + "",
+                        contentNo + "",
+                        comment);
+
+        finish();
+    }
 }
