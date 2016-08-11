@@ -45,6 +45,11 @@ public class SplashActivity extends Activity {
                 startActivity(new Intent(SplashActivity.this, MainActivity.class));
                 finish();
             }
+
+            @Override
+            public void activityFinish() {
+                finish();
+            }
         };
 
         // 페이스북 초기화

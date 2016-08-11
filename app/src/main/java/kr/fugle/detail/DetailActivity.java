@@ -32,6 +32,7 @@ import java.util.Date;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.comment.CommentActivity;
 import kr.fugle.webconnection.PostSingleData;
 import kr.fugle.webconnection.PostUserLog;
 import okhttp3.MediaType;
@@ -168,7 +169,13 @@ public class DetailActivity extends AppCompatActivity {
         commentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(DetailActivity.this, CommentActivity.class);
 
+                intent.putExtra("title", content.getTitle());
+                intent.putExtra("contentNo", content.getNo());
+                intent.putExtra("star", content.getRating());
+
+                startActivity(intent);
             }
         });
 
@@ -181,7 +188,7 @@ public class DetailActivity extends AppCompatActivity {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String time = dateFormat.format(new Date());
                 new PostUserLog(getApplicationContext())
-                        .execute("log/", userNo.toString(), content.getNo().toString(), time);
+                        .execute("", userNo.toString(), content.getNo().toString(), time);
 
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(content.getLink()));
                 startActivity(intent);
@@ -260,12 +267,8 @@ public class DetailActivity extends AppCompatActivity {
                         content.setAdult(obj.getBoolean("adult"));
                         content.setThumbnailSmall(obj.getString("thumbnail_small"));
                         content.setThumbnailBig(obj.getString("thumbnail_big"));
-                        if (!obj.isNull("star"))
-                            content.setRating((float) (obj.getInt("star") * 1.0) / 10);
-//                        content.setAverage((float)obj.getDouble("average"));
                         if (!obj.isNull("recommendStar"))
                             content.setPrediction(Float.parseFloat(String.format("%.1f", Float.parseFloat(obj.getString("recommendStar")) / 1000000)));
-                        content.setPrediction(Float.parseFloat(String.format("%.1f",Float.parseFloat(obj.getString("recommendStar")) / 1000000)));
                         if(!obj.isNull("like") && obj.getBoolean("like"))
                             content.setLike(obj.getBoolean("like"));
                         content.setLink(obj.getString("link"));
@@ -273,7 +276,7 @@ public class DetailActivity extends AppCompatActivity {
                         content.setMedia(obj.getString("media"));
                         content.setPublish(obj.getBoolean("publish"));
                         if (!obj.isNull("tags"))
-                            content.setTags("tags");
+                            content.setTags(obj.getString("tags").substring(0, obj.getString("tags").length() - 1));
                     }
                 }catch(Exception e){
                     e.printStackTrace();

@@ -45,12 +45,21 @@ public class PostSingleData extends AsyncTask<String, Void, String> {
                     .post(body)
                     .build();
         }else if(params.length == 4) {
-            // 별점을 보내는 경우
+            // 별점 혹은 코멘트를 보내는 경우
 
-            // 서버로 보낼 별점 데이터
-            // 0: serverUrl, 1: userNo, 2: contentNo, 3: rating
-            String data = "userId=" + params[1] + "&webtoonId=" + params[2] + "&star=" + params[3];
-            Log.d("PostStar.data", data);
+            String data = "";
+
+            if(params[0].equals("insert/")) {
+                // 서버로 보낼 별점 데이터
+                // 0: serverUrl, 1: userNo, 2: contentNo, 3: rating
+                data += "userId=" + params[1] + "&webtoonId=" + params[2] + "&star=" + params[3];
+                Log.d("PostStar.data", data);
+            }else if(params[0].equals("comment/")){
+                // 서버로 보낼 코멘트 데이터
+                // 0: serverUrl, 1: userNo, 2: contentNo, 3: comment
+                data += "userId=" + params[1] + "&webtoonId=" + params[2] + "&comment=" + params[3];
+                Log.d("PostComment.data", data);
+            }
 
             RequestBody body = RequestBody.create(HTML, data);
 

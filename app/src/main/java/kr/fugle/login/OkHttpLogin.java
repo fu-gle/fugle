@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -74,23 +75,45 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
         // 성공시 startActivity. 실패시 토스트 메세지
         Log.i("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute " + s);
 
-        JSONObject jsonObject;
+        JSONObject mypage, userInfo;
 
         User user = User.getInstance();
 
         try {
-            jsonObject = new JSONObject(s);
+            JSONArray array = new JSONArray(s);
+            mypage = array.getJSONObject(0);
+            userInfo = array.getJSONObject(1);
 
             user.setAttributes(
-                    jsonObject.getInt("id"),
-                    jsonObject.getString("name"),
-                    jsonObject.getString("primary"),
-                    jsonObject.getString("profile"),
-                    jsonObject.getString("message")
+                    userInfo.getInt("id"),
+                    userInfo.getString("name"),
+                    userInfo.getString("primary"),
+                    userInfo.getString("profile"),
+                    userInfo.getString("message")
             );
+
+            if(!mypage.isNull("likecount"))
+                user.setLikes(mypage.getInt("likecount"));
+            if(!mypage.isNull("starcount"))
+                user.setStars(mypage.getInt("starcount"));
+            if(!mypage.isNull("dontseecount"))
+                user.setHates(mypage.getInt("dontseecount"));
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(context, "로그인에 실패하였습니다", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "로그인에 실패하였습니다(서버 페이지 에러)", Toast.LENGTH_SHORT).show();
+
+            if(activityStartListener != null)
+                activityStartListener.activityFinish();
+
+            return;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            Toast.makeText(context, "로그인에 실패하였습니다(서버 커넥션 에러)", Toast.LENGTH_SHORT).show();
+
+            if(activityStartListener != null)
+                activityStartListener.activityFinish();
+
+            return;
         }
 
         if(activityStartListener != null)

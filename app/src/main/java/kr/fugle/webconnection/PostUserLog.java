@@ -38,7 +38,7 @@ public class PostUserLog extends AsyncTask<String, Void, String> {
         RequestBody body = RequestBody.create(HTML, data);
 
         Request request = new Request.Builder()
-                .url(serverUrl + params[0])
+                .url(serverUrl + "userLog/")
                 .post(body)
                 .build();
 

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -38,6 +39,9 @@ public class RegisterActivity extends AppCompatActivity {
     // 갤러리에서 사진가져오기
     private int REQ_PICK_CODE = 100;
 
+    // 프로필 사진 이미지 주소
+    private String imgPath;
+
     ActivityStartListener activityStartListener;
 
     @Override
@@ -50,6 +54,9 @@ public class RegisterActivity extends AppCompatActivity {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+        // 기본 이미지 주소
+        imgPath = "";
 
         inputLayoutImage = (TextInputLayout) findViewById(R.id.input_layout_profileimg);
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
@@ -99,6 +106,11 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show();
                 finish();
             }
+
+            @Override
+            public void activityFinish() {
+
+            }
         };
 
     }
@@ -107,9 +119,12 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(data == null) return;
         super.onActivityResult(requestCode, resultCode, data);
+
+        imgPath = data.getData().toString();
+
         CircleTransform circleTransform = new CircleTransform();
         Picasso.with(this)
-                .load(data.getData())
+                .load(data.getData().toString())
                 .resize(800, 600)
                 .centerCrop()
                 .transform(circleTransform)
@@ -151,7 +166,7 @@ public class RegisterActivity extends AppCompatActivity {
                 inputName.getText().toString(),
                 inputPassword.getText().toString(),
                 inputMessage.getText().toString(),
-                null);  // 사진 업로드 기능 추가해야함
+                imgPath);
 
         Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }

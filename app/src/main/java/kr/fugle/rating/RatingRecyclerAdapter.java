@@ -25,7 +25,9 @@ import java.util.Date;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
+import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.comment.CommentActivity;
 import kr.fugle.detail.DetailActivity;
 import kr.fugle.webconnection.PostUserLog;
 import kr.fugle.webconnection.PostSingleData;
@@ -134,6 +136,8 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             .getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
+//            vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
             Picasso.with(ratingContext.getApplicationContext())
                     .load(content.getThumbnailBig())
                     .resize(metrics.widthPixels, metrics.heightPixels/3)
@@ -169,6 +173,14 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             new PostSingleData(ratingContext.getApplicationContext())
                                     .execute("like/", userNo.toString(), content.getNo().toString());
 
+                            if(content.getLike()){  // 보고싶어요가 이미 눌려있던 상태
+                                User.getInstance().setLikes(User.getInstance().getLikes() - 1);
+                                content.setLike(false);
+                            }else{
+                                User.getInstance().setLikes(User.getInstance().getLikes() + 1);
+                                content.setLike(true);
+                            }
+
                             dialog.cancel();
                         }
                     });
@@ -183,7 +195,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             String time = dateFormat.format(new Date());
                             new PostUserLog(ratingContext.getApplicationContext())
-                                    .execute("log/", userNo.toString(), content.getNo().toString(), time);
+                                    .execute("", userNo.toString(), content.getNo().toString(), time);
 
                             Toast.makeText(ratingContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(ratingContext, DetailActivity.class);
@@ -199,6 +211,14 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(ratingContext, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(ratingContext, CommentActivity.class);
+                            intent.putExtra("contentNo", content.getNo());
+                            intent.putExtra("title", content.getTitle());
+                            intent.putExtra("star", content.getRating());
+
+                            ratingContext.startActivity(intent);
+
                             dialog.cancel();
                         }
                     });
@@ -214,8 +234,10 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                     if(fromUser){
                         // 별점 준 갯수 증가
                         if(rating == 0){
+                            User.getInstance().setStars(User.getInstance().getStars() - 1);
                             countChangeListener.subCount();
                         }else if(content.getRating() == 0){
+                            User.getInstance().setStars(User.getInstance().getStars() + 1);
                             countChangeListener.addCount();
                         }
 

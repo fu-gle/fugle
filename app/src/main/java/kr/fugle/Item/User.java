@@ -19,9 +19,10 @@ public class User {
     private String profileBackground;
     private Integer likes;
     private Integer stars;
+    private Integer hates;
 
     private User(){
-        no = likes = stars = 0;
+        no = likes = stars = hates = 0;
         email = passwd = name = gender = primaryKey = profileImg = message = profileBackground = "";
     }
 
@@ -134,5 +135,13 @@ public class User {
 
     public void setLikes(Integer likes) {
         this.likes = likes;
+    }
+
+    public Integer getHates() {
+        return hates;
+    }
+
+    public void setHates(Integer hates) {
+        this.hates = hates;
     }
 }

@@ -26,6 +26,7 @@ import java.util.Date;
 import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
 import kr.fugle.webconnection.PostUserLog;
@@ -153,7 +154,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String time = dateFormat.format(new Date());
                     new PostUserLog(recommendContext.getApplicationContext())
-                            .execute("log/", userNo.toString(), content.getNo().toString(), time);
+                            .execute("", userNo.toString(), content.getNo().toString(), time);
 
                     Intent intent = new Intent(recommendContext, DetailActivity.class);
                     intent.putExtra("userNo", userNo);
@@ -186,10 +187,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .execute("like/", userNo.toString(), content.getNo().toString());
 
                     if(content.getLike()){  // 이미 보고싶어요가 눌렸던 상태
+                        User.getInstance().setLikes(User.getInstance().getLikes() - 1);
                         vhItem.like.setTextColor(Color.parseColor("#777777"));
                         content.setLike(false);
                     }else {
                         vhItem.like.setTextColor(Color.parseColor("#F13839"));
+                        User.getInstance().setLikes(User.getInstance().getLikes() + 1);
                         content.setLike(true);
                     }
                 }
@@ -201,6 +204,18 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onClick(View v) {
 
                     Toast.makeText(recommendContext, "만화 : " + vhItem.no + "'s 보기싫어요", Toast.LENGTH_SHORT).show();
+
+                    // 서버로 데이터 전송
+                    new PostSingleData(recommendContext.getApplicationContext())
+                            .execute("dontsee/", userNo.toString(), content.getNo().toString());
+
+                    if(content.getHate()){  // 이미 보기싫어요 상태..는 없지않나?
+                        vhItem.hate.setTextColor(Color.parseColor("#000000"));
+                        User.getInstance().setHates(User.getInstance().getHates() - 1);
+                    }else{  // 여기서 보기 싫어요 액션부분
+                        vhItem.hate.setTextColor(Color.parseColor("#AAAAAA"));
+                        User.getInstance().setHates(User.getInstance().getHates() + 1);
+                    }
                 }
             });
 
@@ -210,11 +225,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 public void onClick(View v) {
                     Toast.makeText(recommendContext, "만화 : " + vhItem.no + "'s 지금볼래요", Toast.LENGTH_SHORT).show();
 
-                    // 상세보기 누른 흔적 전송
+                    // 지금볼래요 누른 흔적 전송
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String time = dateFormat.format(new Date());
                     new PostUserLog(recommendContext.getApplicationContext())
-                            .execute("log/", userNo.toString(), content.getNo().toString(), time);
+                            .execute("", userNo.toString(), content.getNo().toString(), time);
 
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(content.getLink()));
                     activityStartListener.activityStart(intent);
@@ -231,7 +246,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemViewType(int position) {
         if(position == 0)
             return TYPE_HEADER;
-        else if(list.size() == position)
+        else if(list.get(position - 1) == null)
             return TYPE_PROG;
         else
             return TYPE_ITEM;

@@ -2,6 +2,7 @@ package kr.fugle.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,12 +21,20 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.login.CircleTransform;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by 김은진 on 2016-07-26.
@@ -38,6 +47,16 @@ public class TabFragment4 extends Fragment {
     // 액티비티간 데이터 통신을 위한 코드
     TabStatusListener tabStatusListener;
 
+    // 서버 통신
+    public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
+    OkHttpClient client;
+    String serverUrl;
+
+    // 위젯 객체
+    TextView like;
+    TextView hate;
+    Button profWebtoonBtn;
+
     public void setTabStatusListener(TabStatusListener tabStatusListener){
         this.tabStatusListener = tabStatusListener;
     }
@@ -46,6 +65,10 @@ public class TabFragment4 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_fragment4, container,false);
+
+        // 서버 통신용 객체
+        client = new OkHttpClient();
+        serverUrl = getContext().getApplicationContext().getResources().getString(R.string.server_url);
 
         // 취향분석 버튼
         Button favoriteBtn = (Button)rootView.findViewById(R.id.prof_favorite_button);
@@ -98,15 +121,21 @@ public class TabFragment4 extends Fragment {
             }
         });
 
-        TextView like = (TextView) rootView.findViewById(R.id.like);
-        like.setText(User.getInstance().getLikes().toString());
+        // 보고싶어요 갯수
+        like = (TextView) rootView.findViewById(R.id.like);
 
-        Button profWebtoonBtn = (Button)rootView.findViewById(R.id.prof_webtoon_btn);
-        profWebtoonBtn.setText("웹툰 " + User.getInstance().getStars());
+        // 보기싫어요 갯수
+        hate = (TextView) rootView.findViewById(R.id.hate);
+
+        // 내가 별점 준 웹툰 버튼
+        profWebtoonBtn = (Button)rootView.findViewById(R.id.prof_webtoon_btn);
         profWebtoonBtn.setOnClickListener(onProfWebtoonButtonClicked);
 
         // 로그아웃
         rootView.findViewById(R.id.logout_btn).setOnClickListener(onProfLogoutButtonClicked);
+
+        // 내 정보(보고싶어요 갯수, 별점준 작품 갯수) 가져오기
+//        new GetMyData().execute("mypage/", User.getInstance().getNo() + "");
 
         return rootView;
     }
@@ -144,4 +173,17 @@ public class TabFragment4 extends Fragment {
             Log.d("---->","if밖로그아웃");
         }
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.d("ho's activity", "TabFragment4.onResume");
+        User user = User.getInstance();
+
+        // 유저의 정보 적용
+        like.setText(user.getLikes().toString());
+        hate.setText(user.getHates().toString());
+        profWebtoonBtn.setText("웹툰 " + user.getStars().toString());
+    }
 }

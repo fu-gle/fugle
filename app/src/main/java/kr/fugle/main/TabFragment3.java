@@ -51,6 +51,8 @@ public class TabFragment3 extends Fragment {
     public void onResume() {
         super.onResume();
 
+        Log.d("ho's activity", "TabFragment3.onResume");
+
         // 초기해야하는지 확인 후 초기화
         if(tabStatusListener.getRefresh()){
 
@@ -141,6 +143,11 @@ public class TabFragment3 extends Fragment {
 
             @Override
             public void activityStart() {
+
+            }
+
+            @Override
+            public void activityFinish() {
 
             }
         });

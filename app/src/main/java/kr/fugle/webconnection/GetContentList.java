@@ -62,7 +62,6 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         RequestBody body;
         Request request;
 
-        // userNo를 넘기는 경우
         if(params.length == 2) {    // 작가명or작품명 넘겨줄경우
             data = "searchName=" + params[1];
             body = RequestBody.create(HTML, data);
@@ -70,7 +69,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                     .url(serverUrl + params[0])
                     .post(body)
                     .build();
-        }else if(params.length != 1) {
+        }else if(params.length != 1) {  // 유저번호, 페이지번호, 미디어 이름까지 넘기는 경우
             data = "userId=" + params[1] + "&pageNo=" + params[2];
             if(params.length > 3 && !params[3].equals("")){
                 data += "&media=" + params[3];
@@ -81,7 +80,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                     .url(serverUrl + params[0])
                     .post(body)
                     .build();
-        }else{
+        }else{  // 맨 처음 검색용 데이터를 받아올 때
             request = new Request.Builder()
                     .url(serverUrl + params[0])
                     .build();
@@ -95,7 +94,8 @@ public class GetContentList extends AsyncTask<String, Void, String> {
             // 서버 통신 실행
             Response response = client.newCall(request).execute();
             String responseBody = response.body().string();
-            if("<".equals(responseBody.charAt(0))){
+            if(responseBody.contains("<!DOCTYPE html>")){
+                Log.d("ho's activity", "server response error " + responseBody);
                 return null;
             }
             // json 형태로의 변환을 위해 { "" :  } 추가
@@ -112,7 +112,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
 
         super.onPostExecute(s);
-        Log.d("ho's activity", "GetContentList " + s);
+        Log.d("ho's activity", "GetContentList.onPostExecute " + s);
 
         Content content;
         ArrayList<Content> tempList = new ArrayList<>();
@@ -163,6 +163,8 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                             content.setLink(obj.getString("link"));
                         if (!obj.isNull("tags"))
                             content.setTags("tags");
+                        if (!obj.isNull("dontsee"))
+                            content.setHate(obj.getBoolean("dontsee"));
 
                         tempList.add(content);
                     }
@@ -171,6 +173,12 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                 e.printStackTrace();
             }
         }else{
+            Log.d("ho's activity", "GetContentList.onPostExecute s is null");
+            if(list.size() != 0){
+                Log.d("ho's activity", "list.size != 0");
+                list.remove(list.indexOf(null));
+                adapter.notifyItemRemoved(list.size());
+            }
             return;
         }
 
