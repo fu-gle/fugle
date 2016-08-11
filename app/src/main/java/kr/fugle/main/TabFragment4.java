@@ -54,6 +54,7 @@ public class TabFragment4 extends Fragment {
 
     // 위젯 객체
     TextView like;
+    TextView hate;
     Button profWebtoonBtn;
 
     public void setTabStatusListener(TabStatusListener tabStatusListener){
@@ -123,6 +124,9 @@ public class TabFragment4 extends Fragment {
         // 보고싶어요 갯수
         like = (TextView) rootView.findViewById(R.id.like);
 
+        // 보기싫어요 갯수
+        hate = (TextView) rootView.findViewById(R.id.hate);
+
         // 내가 별점 준 웹툰 버튼
         profWebtoonBtn = (Button)rootView.findViewById(R.id.prof_webtoon_btn);
         profWebtoonBtn.setOnClickListener(onProfWebtoonButtonClicked);
@@ -175,14 +179,11 @@ public class TabFragment4 extends Fragment {
         super.onResume();
 
         Log.d("ho's activity", "TabFragment4.onResume");
+        User user = User.getInstance();
 
-        // 초기해야하는지 확인 후 초기화
-        if(tabStatusListener.getRefresh()){
-
-            new GetMyData().execute("mypage/", User.getInstance().getNo() + "");
-
-            tabStatusListener.setRefresh(false);
-        }
+        like.setText(user.getLikes());
+        profWebtoonBtn.setText(user.getStars());
+        hate.setText(user.getHates());
     }
 
     private class GetMyData extends AsyncTask<String, Void, String> {
@@ -239,12 +240,15 @@ public class TabFragment4 extends Fragment {
                         user.setLikes(object.getInt("likecount"));
                     if(!object.isNull("starcount"))
                         user.setStars(object.getInt("starcount"));
+                    if(!object.isNull("dontsee"))
+                        user.setHates(object.getInt("dontsee"));    // 보기싫어요 받는 파라미터 정해야함
                 }catch (Exception e){
                     e.printStackTrace();
                 }
 
                 like.setText(User.getInstance().getLikes().toString());
                 profWebtoonBtn.setText("웹툰 " + User.getInstance().getStars());
+                hate.setText(User.getInstance().getHates());
 
             }
         }

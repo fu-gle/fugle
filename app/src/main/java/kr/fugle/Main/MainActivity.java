@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.ic_favorite_white,
             R.drawable.ic_person_white
     };
+    TabFragment1 tabFragment1;
+    TabFragment2 tabFragment2;
+    TabFragment3 tabFragment3;
+    TabFragment4 tabFragment4;
 
     ArrayList<Content> contentArrayList;
     int pageNo;
@@ -118,16 +124,16 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        TabFragment1 tabFragment1 = new TabFragment1();
+        tabFragment1 = new TabFragment1();
         tabFragment1.setTabStatusListener(tabStatusListener);
 
-        TabFragment2 tabFragment2 = new TabFragment2();
+        tabFragment2 = new TabFragment2();
         tabFragment2.setTabStatusListener(tabStatusListener);
 
-        TabFragment3 tabFragment3 = new TabFragment3();
+        tabFragment3 = new TabFragment3();
         tabFragment3.setTabStatusListener(tabStatusListener);
 
-        TabFragment4 tabFragment4 = new TabFragment4();
+        tabFragment4 = new TabFragment4();
         tabFragment4.setTabStatusListener(tabStatusListener);
 
         // 홈, 순위, 추천, 마이페이지

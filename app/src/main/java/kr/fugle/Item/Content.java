@@ -22,11 +22,12 @@ public class Content {
     Float average;  // 평균 별
     String tags;    // 테그 들
     Boolean adult;
+    Boolean hate;
 
     public Content(){
         no = 0;
         title = author = genre = summary = media = thumbnailSmall = thumbnailBig = link = tags = "";
-        publish = like = adult = false;
+        publish = like = adult = hate = false;
         prediction = rating = average = 0.0f;
     }
 
@@ -156,5 +157,13 @@ public class Content {
 
     public void setAdult(Boolean adult) {
         this.adult = adult;
+    }
+
+    public Boolean getHate() {
+        return hate;
+    }
+
+    public void setHate(Boolean hate) {
+        this.hate = hate;
     }
 }
