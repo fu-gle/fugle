@@ -275,6 +275,8 @@ public class DetailActivity extends AppCompatActivity {
                         content.setSummary(obj.getString("summary"));
                         content.setMedia(obj.getString("media"));
                         content.setPublish(obj.getBoolean("publish"));
+                        if(!obj.isNull("average"))
+                            content.setAverage((float)obj.getInt("average")/1000);
                         if (!obj.isNull("tags"))
                             content.setTags(obj.getString("tags").substring(0, obj.getString("tags").length() - 1));
                     }
@@ -302,7 +304,7 @@ public class DetailActivity extends AppCompatActivity {
                     .into(thumbnailImg);
 
             title.setText(content.getTitle());
-            average.setText(content.getAverage().toString());
+            average.setText("★ "+ String.format("%.1f",content.getAverage()));
             prediction.setText(content.getPrediction().toString());
             tag.setText(content.getTags());
             friends.setText("");
@@ -313,6 +315,8 @@ public class DetailActivity extends AppCompatActivity {
             genre.setText(content.getGenre());
 
             media.setText(content.getMedia());
+
+            toolbar.setTitle(content.getTitle());
 
             if(content.getPublish()){
                 publish.setText("연재중");

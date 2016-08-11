@@ -1,6 +1,7 @@
 package kr.fugle.commonlist;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -13,10 +14,15 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
+import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.Item.Content;
 import kr.fugle.R;
+import kr.fugle.detail.DetailActivity;
+import kr.fugle.webconnection.PostUserLog;
 
 /**
  * Created by 김은진 on 2016-08-05.
@@ -24,6 +30,8 @@ import kr.fugle.R;
 public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAdapter.ViewHolder> {
     private ArrayList<Content> itemList;
     private Context commonContext;
+
+    private ActivityStartListener activityStartListener;
 
     private Integer userNo;
 
@@ -36,13 +44,17 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAd
         this.userNo = userNo;
     }
 
+    public void setActivityStartListener(ActivityStartListener activityStartListener) {
+        this.activityStartListener = activityStartListener;
+    }
+
     @Override
     public int getItemCount() {
         return itemList.size();
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
         // 이미지
         DisplayMetrics metrics = new DisplayMetrics();
@@ -60,9 +72,26 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAd
         // 타이틀
         viewHolder.cTitleView.setText(itemList.get(position).getTitle());
         // 평점
-        viewHolder.cStarView.setText("★ "+itemList.get(position).getAverage());
+        viewHolder.cStarView.setText("★ "+ String.format("%.1f",itemList.get(position).getAverage()));
         // 작가명
         viewHolder.cAuthorView.setText(itemList.get(position).getAuthor());
+
+        viewHolder.card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String time = dateFormat.format(new Date());
+                new PostUserLog(commonContext)
+                        .execute("", userNo.toString(), itemList.get(position).getNo().toString(), time);
+
+                Intent intent = new Intent(commonContext, DetailActivity.class);
+                intent.putExtra("userNo", userNo);
+                intent.putExtra("contentNo", itemList.get(position).getNo());
+
+                activityStartListener.activityStart(intent);
+            }
+        });
+
     }
 
     @Override

@@ -1,5 +1,6 @@
 package kr.fugle.search;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,11 +16,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.SearchData;
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.commonlist.CommonRecyclerAdapter;
+import kr.fugle.detail.DetailActivity;
 import kr.fugle.webconnection.GetContentList;
 /**
  * Created by 김은진 on 2016-08-03.
@@ -71,6 +74,25 @@ public class SearchActivity extends AppCompatActivity {
                 contentArrayList,
                 userNo,
                 recyclerView);
+
+        ActivityStartListener activityStartListener = new ActivityStartListener() {
+            @Override
+            public void activityStart(Intent intent) {
+                startActivity(intent);
+            }
+
+            @Override
+            public void activityStart() {
+                startActivity(new Intent(SearchActivity.this, DetailActivity.class));
+            }
+
+            @Override
+            public void activityFinish() {
+
+            }
+        };
+
+        adapter.setActivityStartListener(activityStartListener);
 
         recyclerView.setAdapter(adapter);
 
