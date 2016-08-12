@@ -163,9 +163,9 @@ public class DetailActivity extends AppCompatActivity {
 
                                     content.setRating(rating);
 
-                                    Toast.makeText(getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "작품 번호 : " + contentNo.toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                                    new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+                                    new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), contentNo.toString(), Rating.toString());
 
                                     dialog.cancel();
                                 }
@@ -317,8 +317,19 @@ public class DetailActivity extends AppCompatActivity {
             title.setText(content.getTitle());
             average.setText("★ "+ String.format("%.1f",content.getAverage()));
             prediction.setText(content.getPrediction().toString());
-            tag.setText(content.getTags());
-            friends.setText("");
+
+            String tags = content.getTags();
+            String [] tagList = tags.split(",");
+            tags = "";
+            for(int i = 0; i < tagList.length; i++){
+                tags += "#" + tagList[i];
+                if(i != tagList.length - 1){
+                    tags += " ";
+                }
+            }
+            tag.setText(tags);
+
+            friends.setText("");    // 친구목록 넣어야함
             title2.setText(content.getTitle());
 
             author.setText(content.getAuthor());

@@ -162,7 +162,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                         if (!obj.isNull("link"))
                             content.setLink(obj.getString("link"));
                         if (!obj.isNull("tags"))
-                            content.setTags(obj.getString("tags"));
+                            content.setTags(obj.getString("tags").substring(0, obj.getString("tags").length() - 1));
                         if (!obj.isNull("dontsee"))
                             content.setHate(obj.getBoolean("dontsee"));
 
