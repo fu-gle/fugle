@@ -145,11 +145,20 @@ public class DetailActivity extends AppCompatActivity {
                 Log.d("ho's activity", "DetailActivity ratingBtn clicked");
                 dialog.show();
 
-                ((RatingBar)dialog.findViewById(R.id.ratingBar))
-                        .setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                RatingBar ratingBar = (RatingBar)dialog.findViewById(R.id.ratingBar);
+                ratingBar.setRating(content.getRating());
+                ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                             @Override
                             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                                 if(fromUser){
+
+                                    // 별점 준 갯수 증가
+                                    if(rating == 0){
+                                        User.getInstance().setStars(User.getInstance().getStars() - 1);
+                                    }else if(content.getRating() == 0){
+                                        User.getInstance().setStars(User.getInstance().getStars() + 1);
+                                    }
+
                                     Integer Rating = (int)(rating * 10);
 
                                     content.setRating(rating);
@@ -262,8 +271,8 @@ public class DetailActivity extends AppCompatActivity {
                         content = new Content();
                         content.setNo(obj.getInt("id"));
                         content.setTitle(obj.getString("title"));
-                        content.setAuthor(obj.getString("author"));
-                        content.setGenre(obj.getString("genre"));
+                        content.setAuthor(obj.getString("author").substring(0, obj.getString("author").length() - 1));
+                        content.setGenre(obj.getString("genre").substring(0, obj.getString("genre").length() - 1));
                         content.setAdult(obj.getBoolean("adult"));
                         content.setThumbnailSmall(obj.getString("thumbnail_small"));
                         content.setThumbnailBig(obj.getString("thumbnail_big"));

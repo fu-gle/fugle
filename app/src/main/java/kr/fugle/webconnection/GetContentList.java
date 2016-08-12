@@ -146,7 +146,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                         if(!obj.isNull("average"))
                             content.setAverage((float)obj.getInt("average")/1000);
                         if (!obj.isNull("genre"))
-                            content.setGenre(obj.getString("genre"));
+                            content.setGenre(obj.getString("genre").substring(0, obj.getString("genre").length() - 1));
                         if (!obj.isNull("adult"))
                             content.setAdult(obj.getBoolean("adult"));
                         if (!obj.isNull("thumbnail_small"))
@@ -162,7 +162,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                         if (!obj.isNull("link"))
                             content.setLink(obj.getString("link"));
                         if (!obj.isNull("tags"))
-                            content.setTags("tags");
+                            content.setTags(obj.getString("tags"));
                         if (!obj.isNull("dontsee"))
                             content.setHate(obj.getBoolean("dontsee"));
 
