@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +20,7 @@ import kr.fugle.mystar.MyStarActivity;
 import kr.fugle.rating.RatingActivity;
 import kr.fugle.search.SearchActivity;
 import kr.fugle.splash.SplashActivity;
-import kr.fugle.tab1.MoreWebtoonActivity;
+import kr.fugle.main.tab1.MoreWebtoonActivity;
 import kr.fugle.webconnection.GetContentList;
 
 /**
@@ -164,10 +162,10 @@ public class MainActivity extends AppCompatActivity {
         } else if (index == 2) { // 내 웹툰 별점 버튼 눌렀을시
             startActivity(new Intent(MainActivity.this, MyStarActivity.class));
         } else if (index == 3) { // 오늘의 웹툰 더보기 눌렀을시
-//            Intent intent = new Intent(MainActivity.this, MoreWebtoonActivity.class);
-//            intent.putExtra("contentArrayList",contentArrayList);
-//            intent.putParcelableArrayListExtra("contentArrayList", contentArrayList);
-            startActivity(new Intent(MainActivity.this, MoreWebtoonActivity.class));
+            Intent intent = new Intent(MainActivity.this, MoreWebtoonActivity.class);
+            intent.putExtra("contentArrayList", tabFragment1.contentArrayList);
+            startActivity(intent);
+//            startActivity(new Intent(MainActivity.this, MoreWebtoonActivity.class));
         }
     }
 

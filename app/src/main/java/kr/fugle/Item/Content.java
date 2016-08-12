@@ -1,10 +1,12 @@
 package kr.fugle.Item;
 
+import java.io.Serializable;
+
 /**
  * Created by hokyung on 16. 7. 11..
  * 작품(웹툰, 만화) 정보를 담는 클래스
  */
-public class Content {
+public class Content implements Serializable {
 
     Integer no;
     String title;

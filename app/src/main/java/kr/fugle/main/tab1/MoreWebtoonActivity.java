@@ -1,5 +1,6 @@
-package kr.fugle.tab1;
+package kr.fugle.main.tab1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
 import kr.fugle.R;
@@ -48,11 +51,31 @@ public class MoreWebtoonActivity extends AppCompatActivity {
         // 리스트뷰 띄우기
 //        contentArrayList = getIntent().getSerializableExtra("contentArrayList");
 
+        Intent intent = getIntent();
+        Serializable intentListData = intent.getSerializableExtra("contentArrayList");
+        contentArrayList = (ArrayList<Content>)intentListData;
+
         adapter = new CommonRecyclerAdapter(
                 getApplicationContext(),
                 contentArrayList,
                 User.getInstance().getNo(),
                 recyclerView);
+
+        adapter.setActivityStartListener(new ActivityStartListener() {
+            @Override
+            public void activityStart(Intent intent) {
+                startActivity(intent);
+            }
+
+            @Override
+            public void activityStart() {
+            }
+
+            @Override
+            public void activityFinish() {
+
+            }
+        });
 
         recyclerView.setAdapter(adapter);
     }
