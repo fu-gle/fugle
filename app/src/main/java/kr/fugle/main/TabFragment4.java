@@ -83,7 +83,6 @@ public class TabFragment4 extends Fragment {
 
         // 커버사진 (프로필 사진 뒤에 사진)
 
-
         // 프로필 사진
         Context c = getActivity().getApplicationContext();
         ImageView profileView = (ImageView)rootView.findViewById(R.id.user_profile_photo) ;

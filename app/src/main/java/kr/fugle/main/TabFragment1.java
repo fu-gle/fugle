@@ -150,7 +150,15 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         moreWebtoon.setOnClickListener(this);
 
         // 오늘의 추천 리스트 가져오기
-        new GetMainList().execute("mainPage/", User.getInstance().getNo() + "");
+        if(contentArrayList.isEmpty()) {
+            new GetMainList().execute("mainPage/", User.getInstance().getNo() + "");
+        }else{
+            Picasso.with(getContext())
+                    .load(contentArrayList.get(0).getThumbnailBig())
+                    .resize(width, height)
+                    .centerCrop()
+                    .into(todayWebtoonImg);
+        }
 
         return rootView;
     }

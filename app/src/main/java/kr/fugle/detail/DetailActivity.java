@@ -146,7 +146,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 // 서버로 데이터 전송
                 new PostSingleData(getApplicationContext())
-                        .execute("like/", userNo.toString(), content.getNo().toString());
+                        .execute("like/", userNo.toString(), contentNo.toString());
 
                 if(content.getLike()){
                     preferenceBtn.setTextColor(Color.parseColor("#777777"));
@@ -166,11 +166,21 @@ public class DetailActivity extends AppCompatActivity {
                 dialog.show();
 
                 RatingBar ratingBar = (RatingBar)dialog.findViewById(R.id.ratingBar);
-                ratingBar.setRating(content.getRating());
+                if(content != null) {
+                    ratingBar.setRating(content.getRating());
+                }
                 ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                             @Override
                             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                                if(fromUser){
+                                if(content == null){
+
+                                    Integer Rating = (int)(rating * 10);
+
+                                    Toast.makeText(getApplicationContext(), "작품 번호 : " + contentNo.toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+
+                                    new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), contentNo.toString(), Rating.toString());
+
+                                }else if(fromUser){
 
                                     // 별점 준 갯수 증가
                                     if(rating == 0){
