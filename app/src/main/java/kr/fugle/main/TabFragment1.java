@@ -1,5 +1,7 @@
 package kr.fugle.main;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -159,7 +161,16 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             case R.id.tab1_like_btn1: {    // 1번 - 나중에하기 or 나중에보기
                 Toast.makeText(getContext(), "나중에할끄양", Toast.LENGTH_SHORT).show();
                 firstCardview = false;
-                cardView.setVisibility(View.GONE);
+                cardView.animate().translationY(0)
+                        .alpha(0.0f)
+                        .setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                super.onAnimationEnd(animation);
+                                cardView.setVisibility(View.GONE);
+                            }
+                        });
+//                cardView.setVisibility(View.GONE);
                 break;
             }
             case R.id.tab1_like_btn2: { // 1번 - 평가하기 or 취향분석보기

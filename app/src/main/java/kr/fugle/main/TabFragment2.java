@@ -8,10 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import kr.fugle.R;
-import kr.fugle.ranking.RankingActivity;
+import kr.fugle.main.tab2.cartoon.CartoonRankActivity;
+import kr.fugle.main.tab2.webtoon.WebtoonRankActivity;
 
 /**
  * Created by 김은진 on 2016-07-26.
@@ -41,10 +41,10 @@ public class TabFragment2 extends Fragment {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.webtoonBtn:
-                    startActivity(new Intent(getContext(), RankingActivity.class));
+                    startActivity(new Intent(getContext(), WebtoonRankActivity.class));
                     break;
                 case R.id.cartoonBtn:
-
+                    startActivity(new Intent(getContext(), CartoonRankActivity.class));
                     break;
                 case R.id.authorBtn:
 

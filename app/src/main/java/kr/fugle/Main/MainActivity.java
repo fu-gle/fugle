@@ -147,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(tabFragment3, "");
         adapter.addFragment(tabFragment4, "");
         viewPager.setAdapter(adapter);
+
+        viewPager.setOffscreenPageLimit(3);
     }
 
     public void onFragmentChanged(int index) {
@@ -165,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MoreWebtoonActivity.class);
             intent.putExtra("contentArrayList", tabFragment1.contentArrayList);
             startActivity(intent);
-//            startActivity(new Intent(MainActivity.this, MoreWebtoonActivity.class));
         }
     }
 

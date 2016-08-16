@@ -214,6 +214,9 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         } else if(activity == 3){
             // Search Activity
             Log.d("uwangg's activity", "GetContentList Search Activity");
+        } else if(activity == 4) {
+            // WebtoonRank Activity
+            Log.d("uwangg's activity", "GetContentList WebtoonRank Activity");
         }
     }
 }

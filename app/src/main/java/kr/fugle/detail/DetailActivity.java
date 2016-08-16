@@ -228,6 +228,8 @@ public class DetailActivity extends AppCompatActivity {
             // 0: serverUrl , 1: userNo, 2:contentNo
             String data = "userId=" + params[1] + "&webtoonId=" + params[2];
 
+            Log.e("------->", "data " + data);
+
             RequestBody body = RequestBody.create(HTML, data);
 
             // OkHttp 사용을 위한 문법
