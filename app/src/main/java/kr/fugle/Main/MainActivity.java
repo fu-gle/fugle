@@ -147,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(tabFragment3, "");
         adapter.addFragment(tabFragment4, "");
         viewPager.setAdapter(adapter);
+
+        viewPager.setOffscreenPageLimit(2);
     }
 
     public void onFragmentChanged(int index) {

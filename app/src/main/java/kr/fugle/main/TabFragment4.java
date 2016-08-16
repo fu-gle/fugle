@@ -47,11 +47,6 @@ public class TabFragment4 extends Fragment {
     // 액티비티간 데이터 통신을 위한 코드
     TabStatusListener tabStatusListener;
 
-    // 서버 통신
-    public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-    OkHttpClient client;
-    String serverUrl;
-
     // 위젯 객체
     TextView like;
     TextView hate;
@@ -65,10 +60,6 @@ public class TabFragment4 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_fragment4, container,false);
-
-        // 서버 통신용 객체
-        client = new OkHttpClient();
-        serverUrl = getContext().getApplicationContext().getResources().getString(R.string.server_url);
 
         // 취향분석 버튼
         Button favoriteBtn = (Button)rootView.findViewById(R.id.prof_favorite_button);

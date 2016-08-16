@@ -85,7 +85,7 @@ public class PostSingleData extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         if(s == null){
-            Log.d("PostSingleData", "rating is 0");
+            Log.d("PostSingleData", "post failed");
         }else {
             Log.d("PostSingleData", "post complete " + s);
         }
