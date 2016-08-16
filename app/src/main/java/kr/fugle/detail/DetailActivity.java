@@ -9,6 +9,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialog;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -27,8 +29,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
+import kr.fugle.Item.Comment;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
 import kr.fugle.R;
@@ -45,6 +49,10 @@ public class DetailActivity extends AppCompatActivity {
 
     String serverUrl;
     OkHttpClient client = new OkHttpClient();
+    public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
+
+    CommentRecyclerAdapter commentAdapter;
+    ArrayList<Comment> commentArrayList;
 
     Content content;
     Toolbar toolbar;
@@ -67,6 +75,8 @@ public class DetailActivity extends AppCompatActivity {
     TextView media;
     TextView publish;
     TextView summary;
+    CardView commentCard;
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +114,8 @@ public class DetailActivity extends AppCompatActivity {
         media = (TextView)findViewById(R.id.media);
         publish = (TextView)findViewById(R.id.publish);
         summary  = (TextView)findViewById(R.id.summary);
+        commentCard = (CardView)findViewById(R.id.commentCard);
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
 
         // 0: serverUrl , 1: userNo, 2:contentNo
         new OkHttpGet().execute(serverUrl, userNo.toString(), contentNo.toString());
@@ -118,6 +130,14 @@ public class DetailActivity extends AppCompatActivity {
         WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
         params.width = 1200;
         dialog.getWindow().setAttributes(params);
+
+        // 코멘트 목록
+        commentArrayList = new ArrayList<>();
+        commentAdapter = new CommentRecyclerAdapter(DetailActivity.this, commentArrayList, recyclerView);
+        recyclerView.setAdapter(commentAdapter);
+
+        // 코멘트 불러오기
+        new GetCommentList().execute(serverUrl, contentNo.toString());
 
         // 보고싶어요 버튼
         preferenceBtn.setOnClickListener(new View.OnClickListener() {
@@ -218,8 +238,6 @@ public class DetailActivity extends AppCompatActivity {
     // 서버로부터 데이터를 json 형태로 긁어온다
     private class OkHttpGet extends AsyncTask<String, Void, String> {
 
-        public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-
         // 서버와 통신을 하는 doInBackground 메소드
         @Override
         protected String doInBackground(String... params) {
@@ -232,7 +250,7 @@ public class DetailActivity extends AppCompatActivity {
 
             // OkHttp 사용을 위한 문법
             Request request = new Request.Builder()
-                    .url(params[0] + "detail/")     // 주소 확인 필요
+                    .url(params[0] + "detail/")
                     .post(body)
                     .build();
 
@@ -290,6 +308,7 @@ public class DetailActivity extends AppCompatActivity {
                             content.setTags(obj.getString("tags").substring(0, obj.getString("tags").length() - 1));
                         if (!obj.isNull("star"))
                             content.setRating((float) (obj.getInt("star") * 1.0) / 10);
+
                     }
                 }catch(Exception e){
                     e.printStackTrace();
@@ -347,6 +366,85 @@ public class DetailActivity extends AppCompatActivity {
             }
 
             summary.setText(content.getSummary());
+        }
+    }
+
+    private class GetCommentList extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            Log.d("ho's activity", "DetailActivity.GetCommentList.doInBackground");
+
+            // 0: serverUrl , 1: webtoonId
+            String data = "webtoonId=" + params[1];
+            Log.d("------>", "getCommentList data" + data);
+
+            RequestBody body = RequestBody.create(HTML, data);
+
+            // OkHttp 사용을 위한 문법
+            Request request = new Request.Builder()
+                    .url(params[0] + "getComment/")
+                    .post(body)
+                    .build();
+
+            // json 데이터가 담길 변수
+            String result = "";
+
+            try{
+                // 서버 통신 실행
+                Response response = client.newCall(request).execute();
+
+                // json 형태로의 변환을 위해 { "" :  } 추가
+                result = "{\"\":" + response.body().string() + "}";
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            Log.d("ho's activity", "DetailActivity.GetCommentList.onPostExecute" + s);
+
+            if(s != null && s != ""){
+                try{
+                    // 통째로 받아들여서 하나씩 자르기 위한 json object
+                    JSONObject reader = new JSONObject(s);
+
+                    // 하나씩 잘라서 adapter에 저장해야 한다
+                    JSONArray list = reader.getJSONArray("");
+
+                    Comment comment;
+
+                    for(int i=0;i<list.length();i++){
+                        JSONObject obj = list.getJSONObject(i);
+
+                        comment = new Comment(
+                                contentNo,
+                                0,
+                                obj.getString("name"),
+                                obj.getString("comment"),
+                                obj.getString("profile"));
+
+                        commentArrayList.add(comment);
+
+                    }
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+            }
+
+//            if(commentArrayList.size() > 0){
+//                commentCard.setVisibility(View.VISIBLE);
+//            }
+//            for(int i=0;i<commentArrayList.size();i++){
+//                Log.d("------>", commentArrayList.get(i).getMessage());
+//            }
+
+            commentAdapter.notifyDataSetChanged();
         }
     }
 }
