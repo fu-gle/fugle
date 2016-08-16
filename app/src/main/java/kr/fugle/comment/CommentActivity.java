@@ -123,6 +123,7 @@ public class CommentActivity extends AppCompatActivity {
                         contentNo + "",
                         comment);
 
+        Toast.makeText(CommentActivity.this, "입력되었습니다", Toast.LENGTH_SHORT).show();
         finish();
     }
 }

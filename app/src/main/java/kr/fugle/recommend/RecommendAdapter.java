@@ -132,6 +132,20 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             vhItem.no = content.getNo();
 
+            vhItem.prediction.setText(content.getPrediction().toString());
+            vhItem.title.setText(content.getTitle());
+
+            String tags = content.getTags();
+            String [] tagList = tags.split(",");
+            tags = "";
+            for(int i = 0; i < tagList.length; i++){
+                tags += "#" + tagList[i];
+                if(i != tagList.length - 1){
+                    tags += " ";
+                }
+            }
+            vhItem.tag.setText("선호하는 테그 " + tags);
+
             // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
             DisplayMetrics metrics = new DisplayMetrics();
             WindowManager windowManager = (WindowManager) recommendContext
@@ -164,9 +178,6 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
-            vhItem.prediction.setText(content.getPrediction().toString());
-            vhItem.title.setText(content.getTitle());
-        vhItem.tag.setText("선호하는 테그 #" + content.getTags());
 //        vhItem.friends.setText(content.getFriends + "님 왜 7명의 친구가 봤어요");
 
             // 보고싶어요 버튼 보고싶어요 색 적용
@@ -212,9 +223,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     if(content.getHate()){  // 이미 보기싫어요 상태..는 없지않나?
                         vhItem.hate.setTextColor(Color.parseColor("#000000"));
                         User.getInstance().setHates(User.getInstance().getHates() - 1);
+                        content.setHate(false);
                     }else{  // 여기서 보기 싫어요 액션부분
                         vhItem.hate.setTextColor(Color.parseColor("#AAAAAA"));
                         User.getInstance().setHates(User.getInstance().getHates() + 1);
+                        content.setHate(true);
                     }
                 }
             });

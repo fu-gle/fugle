@@ -146,11 +146,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
             vhItem.title.setText(content.getTitle());
 
-            String description = content.getAuthor();
-            if(content.getAdult()){
-                description += " / 성인";
-            }
-            vhItem.description.setText(description);
+            vhItem.description.setText(content.getAuthor());
 
             vhItem.genre.setText(content.getGenre());
 
