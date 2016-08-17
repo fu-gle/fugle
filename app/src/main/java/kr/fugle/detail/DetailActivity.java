@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -132,8 +133,17 @@ public class DetailActivity extends AppCompatActivity {
         dialog.getWindow().setAttributes(params);
 
         // 코멘트 목록
+        LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(manager);
+
         commentArrayList = new ArrayList<>();
-        commentAdapter = new CommentRecyclerAdapter(DetailActivity.this, commentArrayList, recyclerView);
+
+        commentAdapter = new CommentRecyclerAdapter(
+                DetailActivity.this,
+                commentArrayList,
+                recyclerView);
+
         recyclerView.setAdapter(commentAdapter);
 
         // 코멘트 불러오기
