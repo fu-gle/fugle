@@ -2,9 +2,14 @@ package kr.fugle.splash;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
@@ -56,6 +61,10 @@ public class SplashActivity extends Activity {
         FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)
         setContentView(R.layout.splash);
 
+        // 로고 이미지 할당
+        ImageView logo = (ImageView)findViewById(R.id.logo);
+        logo.setImageDrawable(new BitmapDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.splash_test03)));
+
         handler = new Handler();
         handler.postDelayed(new Runnable() {
 
@@ -78,6 +87,30 @@ public class SplashActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         handler.removeMessages(0);
+
+        recycleView(R.id.logo);
+
+        System.gc();
+    }
+
+    // 할당된 이미지 메모리 반환
+    private void recycleView(int id){
+        View view = findViewById(id);
+
+        if(view == null){
+            return;
+        }
+
+        switch (id){
+            case R.id.logo:
+                Drawable image = ((ImageView)view).getDrawable();
+                if(image != null){
+                    image.setCallback(null);
+                    ((BitmapDrawable)image).getBitmap().recycle();
+                    ((ImageView)view).setImageDrawable(null);
+                }
+                break;
+        }
     }
 
     public void SessionCall() {

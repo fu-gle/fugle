@@ -2,8 +2,12 @@ package kr.fugle.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +18,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
 
         activityStartListener = new ActivityStartListener() {
             @Override
@@ -89,9 +96,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
+        // 배경 이미지 할당
+        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.linearLayout);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            linearLayout.setBackground(new BitmapDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.background1)));
+        }else {
+            linearLayout.setBackgroundDrawable(new BitmapDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.background1)));
+        }
+
+        // 타이틀 이미지 할당
+        ImageView logo = (ImageView)findViewById(R.id.logo);
+        logo.setImageDrawable(new BitmapDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.toondere_logo01)));
+
         // 페이스북 초기화
 //        FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)
-        setContentView(R.layout.activity_login);
         callbackManager = CallbackManager.Factory.create();  //로그인 응답을 처리할 콜백 관리자
 
         // 회원가입
@@ -346,5 +364,46 @@ public class LoginActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        recyleView(R.id.linearLayout);
+        recyleView(R.id.logo);
+
+        System.gc();
+    }
+
+    // 할당된 이미지 메모리 반환
+    private void recyleView(int id){
+        View view = findViewById(id);
+
+        if(view == null){
+            return;
+        }
+
+        switch (id){
+            case R.id.linearLayout:
+                Drawable background = view.getBackground();
+                if(background != null){
+                    background.setCallback(null);
+                    ((BitmapDrawable)background).getBitmap().recycle();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        view.setBackground(null);
+                    }else{
+                        view.setBackgroundDrawable(null);
+                    }
+                }
+                break;
+            case R.id.logo:
+                Drawable image = ((ImageView)view).getDrawable();
+                if(image != null){
+                    image.setCallback(null);
+                    ((BitmapDrawable)image).getBitmap().recycle();
+                    ((ImageView)view).setImageDrawable(null);
+                }
+                break;
+        }
+    }
 }
 
