@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(tabFragment4, "");
         viewPager.setAdapter(adapter);
 
-        viewPager.setOffscreenPageLimit(3);
+//        viewPager.setOffscreenPageLimit(2);
     }
 
     public void onFragmentChanged(int index) {
@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
             //intent.putExtra("logout",true);
             startActivity(intent);
             finish();
+            System.gc();
         } else if (index == 2) { // 내 웹툰 별점 버튼 눌렀을시
             startActivity(new Intent(MainActivity.this, MyStarActivity.class));
         } else if (index == 3) { // 오늘의 웹툰 더보기 눌렀을시

@@ -13,55 +13,100 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_marginBottom="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
 
-                <TextView
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:id="@+id/webtoonBtn"
-                    android:gravity="center"
-                    android:text="웹툰 랭킹"
-                    android:textSize="25sp"/>
+                    android:layout_height="150dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/webtoon_ranking_logo"
+                        />
+
+                    <TextView
+                        android:id="@+id/webtoonBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#20000000"
+                        android:gravity="center"
+                        android:text="웹툰 랭킹"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="25dp"
+                        />
+                </FrameLayout>
 
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
 
-                <TextView
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:id="@+id/cartoonBtn"
-                    android:gravity="center"
-                    android:text="만화책 랭킹"
-                    android:textSize="25sp"/>
+                    android:layout_height="150dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/cartoon_ranking_logo"
+                        />
+
+                    <TextView
+                        android:id="@+id/cartoonBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#20000000"
+                        android:gravity="center"
+                        android:text="만화책 랭킹"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="25dp"
+                        />
+                </FrameLayout>
 
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp">
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp">
 
-                <TextView
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:id="@+id/authorBtn"
-                    android:gravity="center"
-                    android:text="작가 랭킹"
-                    android:textSize="25sp"/>
+                    android:layout_height="150dp">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/author_ranking_logo"
+                        />
+
+                    <TextView
+                        android:id="@+id/authorBtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#20000000"
+                        android:gravity="center"
+                        android:text="작가 랭킹"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="25dp"
+                        />
+                </FrameLayout>
 
             </android.support.v7.widget.CardView>
 
