@@ -40,6 +40,8 @@ public class MyStarActivity extends AppCompatActivity {
     Toolbar toolbar;
     Integer userNo;
     static int pageNo;
+    boolean category;   // true : webtoon, false : cartoon
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +50,27 @@ public class MyStarActivity extends AppCompatActivity {
 
         pageNo = 1;
 
+        // 웹툰인지 만화인지 확인
+        Intent intent = getIntent();
+        String type = intent.getStringExtra("category");
+
+        if("webtoon".equals(type)){
+            category = true;
+            url = "myWebtoonStar/";
+        }else{
+            category = false;
+            url = "myCartoonStar/";
+        }
+
         // 툴바 생성
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            if(category)
+                getSupportActionBar().setTitle("웹툰 목록");
+            else
+                getSupportActionBar().setTitle("만화 목록");
         }
 
         userNo = User.getInstance().getNo();
@@ -98,7 +116,7 @@ public class MyStarActivity extends AppCompatActivity {
                                 adapter,
                                 2,
                                 userNo)
-                                .execute("mystar/", userNo.toString(), pageNo + "");
+                                .execute(url, userNo.toString(), pageNo + "");
                         pageNo++;
                     }
                 }, 1500);
@@ -112,7 +130,7 @@ public class MyStarActivity extends AppCompatActivity {
                 adapter,
                 2,
                 userNo)
-                .execute("mystar/", userNo.toString(), pageNo + "");
+                .execute(url, userNo.toString(), pageNo + "");
 
         pageNo++;
 

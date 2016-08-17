@@ -51,6 +51,7 @@ public class TabFragment4 extends Fragment {
     TextView like;
     TextView hate;
     Button profWebtoonBtn;
+    Button profCartoonBtn;
 
     public void setTabStatusListener(TabStatusListener tabStatusListener){
         this.tabStatusListener = tabStatusListener;
@@ -119,7 +120,11 @@ public class TabFragment4 extends Fragment {
 
         // 내가 별점 준 웹툰 버튼
         profWebtoonBtn = (Button)rootView.findViewById(R.id.prof_webtoon_btn);
-        profWebtoonBtn.setOnClickListener(onProfWebtoonButtonClicked);
+        profWebtoonBtn.setOnClickListener(onToonClicked);
+
+        // 내가 별점 준 만화 버튼
+        profCartoonBtn = (Button)rootView.findViewById(R.id.prof_cartoon_btn);
+        profCartoonBtn.setOnClickListener(onToonClicked);
 
         // 로그아웃
         rootView.findViewById(R.id.logout_btn).setOnClickListener(onProfLogoutButtonClicked);
@@ -130,12 +135,21 @@ public class TabFragment4 extends Fragment {
         return rootView;
     }
 
-    Button.OnClickListener onProfWebtoonButtonClicked = new View.OnClickListener() {
+    Button.OnClickListener onToonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d("------->", "MyStarActivity로 간다");
-            MainActivity activity = (MainActivity)getActivity();
-            activity.onFragmentChanged(2);
+            switch (v.getId()){
+                case R.id.prof_webtoon_btn: {   // 내가 별점 준 웹툰 목록
+                    MainActivity activity = (MainActivity)getActivity();
+                    activity.onFragmentChanged(2);
+                    break;
+                }
+                case R.id.prof_cartoon_btn: {   // 내가 별점 준 만화 목록
+                    MainActivity activity = (MainActivity)getActivity();
+                    activity.onFragmentChanged(4);
+                    break;
+                }
+            }
         }
     };
 

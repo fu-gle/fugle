@@ -147,8 +147,6 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(tabFragment3, "");
         adapter.addFragment(tabFragment4, "");
         viewPager.setAdapter(adapter);
-
-//        viewPager.setOffscreenPageLimit(2);
     }
 
     public void onFragmentChanged(int index) {
@@ -163,10 +161,16 @@ public class MainActivity extends AppCompatActivity {
             finish();
             System.gc();
         } else if (index == 2) { // 내 웹툰 별점 버튼 눌렀을시
-            startActivity(new Intent(MainActivity.this, MyStarActivity.class));
+            Intent intent = new Intent(MainActivity.this, MyStarActivity.class);
+            intent.putExtra("category", "webtoon");
+            startActivity(intent);
         } else if (index == 3) { // 오늘의 웹툰 더보기 눌렀을시
             Intent intent = new Intent(MainActivity.this, MoreWebtoonActivity.class);
             intent.putExtra("contentArrayList", tabFragment1.contentArrayList);
+            startActivity(intent);
+        } else if (index == 4) { // 내 만화 별점 버튼 눌렀을시
+            Intent intent = new Intent(MainActivity.this, MyStarActivity.class);
+            intent.putExtra("category", "cartoon");
             startActivity(intent);
         }
     }

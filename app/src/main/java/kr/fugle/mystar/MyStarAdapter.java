@@ -3,6 +3,7 @@ package kr.fugle.mystar;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -234,6 +236,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
         Integer no;
 
         // 위젯들
+        CardView cardView;
         ImageView thumbnailImg;
         TextView title;
         TextView description;
@@ -243,6 +246,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
 
         public ContentVH(View itemView) {
             super(itemView);
+            cardView = (CardView)itemView.findViewById(R.id.ratingCardView);
             thumbnailImg = (ImageView)itemView.findViewById(R.id.thumbnailImg);
             title = (TextView)itemView.findViewById(R.id.title);
             description = (TextView)itemView.findViewById(R.id.description);

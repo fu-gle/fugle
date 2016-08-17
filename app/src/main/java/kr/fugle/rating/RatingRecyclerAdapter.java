@@ -152,13 +152,6 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
             vhItem.genre.setText(content.getGenre());
 
-            if(position - 1 == list.size()) {
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                params.setMargins(0,0,0,200);
-                vhItem.cardView.setLayoutParams(params);
-            }
-
-
             // 땡땡이 버튼(overflow icon) 클릭시 dialog
             vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

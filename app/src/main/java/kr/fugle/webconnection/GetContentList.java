@@ -174,11 +174,14 @@ public class GetContentList extends AsyncTask<String, Void, String> {
             }
         }else{
             Log.d("ho's activity", "GetContentList.onPostExecute s is null");
+
             if(list.size() != 0){
                 Log.d("ho's activity", "list.size != 0");
-                list.remove(list.indexOf(null));
+                if(list.indexOf(null) != -1)
+                    list.remove(list.indexOf(null));
                 adapter.notifyItemRemoved(list.size());
             }
+
             return;
         }
 
