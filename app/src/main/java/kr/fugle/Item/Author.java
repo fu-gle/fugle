@@ -6,15 +6,17 @@ package kr.fugle.Item;
  */
 public class Author {
     private int no;
-    private String name;
-    private Float avgStar;
+    private String name;    // 작가
+    private Float avgStar;  // 평점
     private Integer comments;
     private String thumbnailImg;
+    private Integer countStar;  // 평가갯수
 
     public Author() {
         no = comments = 0;
         name = thumbnailImg = "";
         avgStar = 0.0f;
+        countStar = 0;
     }
 
     public int getNo() {
@@ -55,5 +57,13 @@ public class Author {
 
     public void setThumbnailImg(String thumbnailImg) {
         this.thumbnailImg = thumbnailImg;
+    }
+
+    public Integer getCountStar() {
+        return countStar;
+    }
+
+    public void setCountStar(Integer countStar) {
+        this.countStar = countStar;
     }
 }

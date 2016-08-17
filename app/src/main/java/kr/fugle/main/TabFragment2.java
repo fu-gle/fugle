@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import kr.fugle.R;
+import kr.fugle.main.tab2.author.AuthorRankActivity;
 import kr.fugle.main.tab2.cartoon.CartoonRankActivity;
 import kr.fugle.main.tab2.webtoon.WebtoonRankActivity;
 
@@ -47,7 +48,7 @@ public class TabFragment2 extends Fragment {
                     startActivity(new Intent(getContext(), CartoonRankActivity.class));
                     break;
                 case R.id.authorBtn:
-
+                    startActivity(new Intent(getContext(), AuthorRankActivity.class));
                     break;
             }
         }
