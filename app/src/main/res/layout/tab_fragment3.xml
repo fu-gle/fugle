@@ -23,8 +23,8 @@
             android:id="@+id/topBtn"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="15dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/arrow_up"/>
 
     </RelativeLayout>

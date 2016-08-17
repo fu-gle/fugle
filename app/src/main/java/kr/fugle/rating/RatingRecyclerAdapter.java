@@ -3,6 +3,7 @@ package kr.fugle.rating;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -150,6 +152,13 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
             vhItem.genre.setText(content.getGenre());
 
+            if(position - 1 == list.size()) {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                params.setMargins(0,0,0,200);
+                vhItem.cardView.setLayoutParams(params);
+            }
+
+
             // 땡땡이 버튼(overflow icon) 클릭시 dialog
             vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -270,6 +279,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
     public static class ContentVH extends RecyclerView.ViewHolder {
 
         // 위젯들
+        CardView cardView;
         ImageView thumbnailImg;
         TextView title;
         TextView description;
@@ -279,6 +289,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
         public ContentVH(View itemView) {
             super(itemView);
+            cardView = (CardView)itemView.findViewById(R.id.ratingCardView);
             thumbnailImg = (ImageView)itemView.findViewById(R.id.thumbnailImg);
             title = (TextView)itemView.findViewById(R.id.title);
             description = (TextView)itemView.findViewById(R.id.description);
