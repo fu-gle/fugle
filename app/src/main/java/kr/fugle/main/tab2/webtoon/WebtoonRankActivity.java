@@ -58,44 +58,6 @@ public class WebtoonRankActivity extends AppCompatActivity {
         // 탭 클릭시 indicator height
         //tabLayout.setSelectedTabIndicatorHeight((int) (2 * getResources().getDisplayMetrics().density));
         tabLayout.setSelectedTabIndicatorHeight(10);
-
-
-//        // 레이아웃 초기화 (RecyclerView) - start
-//        recyclerView = (RecyclerView) findViewById(R.id.more_web_rank_recyclerview);
-//        final LinearLayoutManager layoutManager =
-//                new LinearLayoutManager(getApplicationContext());
-//        recyclerView.setHasFixedSize(true);
-//        recyclerView.setLayoutManager(layoutManager);
-//        // 레이아웃 초기화 (RecyclerView) - finish
-//
-//        adapter = new CommonRecyclerAdapter(
-//                getApplicationContext(),
-//                contentArrayList,
-//                User.getInstance().getNo(),
-//                recyclerView);
-//
-//        adapter.setActivityStartListener(new ActivityStartListener() {
-//            @Override
-//            public void activityStart(Intent intent) {
-//                startActivity(intent);
-//            }
-//
-//            @Override
-//            public void activityStart() {
-//            }
-//
-//            @Override
-//            public void activityFinish() {
-//
-//            }
-//        });
-//
-//        // 랭킹 가져오기
-//        performSearch();
-//
-//        recyclerView.setAdapter(adapter);
-
-
     }
 
     // 뒤로가기 버튼 눌렀을때 (backbutton)
