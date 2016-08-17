@@ -32,12 +32,12 @@ public class CountOfWebtoonRankFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.webtoon_rank_count, container, false);
+        View rootView = inflater.inflate(R.layout.tab2_rank_count, container, false);
 
         contentArrayList = new ArrayList<>();
 
         // 레이아웃 초기화 (RecyclerView) - start
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.count_web_rank_recyclerview);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.count_rank_recyclerview);
         final LinearLayoutManager layoutManager =
                 new LinearLayoutManager(getContext());
         recyclerView.setHasFixedSize(true);
