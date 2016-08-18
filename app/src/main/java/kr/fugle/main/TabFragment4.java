@@ -1,8 +1,6 @@
 package kr.fugle.main;
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,20 +19,9 @@ import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-
-import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.login.CircleTransform;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 /**
  * Created by 김은진 on 2016-07-26.
@@ -146,7 +133,7 @@ public class TabFragment4 extends Fragment {
                 }
                 case R.id.prof_cartoon_btn: {   // 내가 별점 준 만화 목록
                     MainActivity activity = (MainActivity)getActivity();
-                    activity.onFragmentChanged(4);
+                    activity.onFragmentChanged(5);
                     break;
                 }
             }

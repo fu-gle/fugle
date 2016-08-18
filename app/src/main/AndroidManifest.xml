@@ -103,6 +103,8 @@
         </activity>
         <activity android:name=".main.tab2.author.AuthorContentActivity">
         </activity>
+        <activity android:name=".preference.PreferenceAnalysisActivity">
+        </activity>
     </application>
 
 </manifest>

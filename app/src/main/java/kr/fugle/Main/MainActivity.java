@@ -17,6 +17,7 @@ import kr.fugle.Item.Content;
 import kr.fugle.Item.SearchData;
 import kr.fugle.R;
 import kr.fugle.mystar.MyStarActivity;
+import kr.fugle.preference.PreferenceAnalysisActivity;
 import kr.fugle.rating.RatingActivity;
 import kr.fugle.search.SearchActivity;
 import kr.fugle.splash.SplashActivity;
@@ -160,17 +161,24 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
             System.gc();
-        } else if (index == 2) { // 내 웹툰 별점 버튼 눌렀을시
+        } else if (index == 2) {    // 내 웹툰 별점 버튼 눌렀을시
             Intent intent = new Intent(MainActivity.this, MyStarActivity.class);
             intent.putExtra("category", "webtoon");
             startActivity(intent);
-        } else if (index == 3) { // 오늘의 웹툰 더보기 눌렀을시
+        } else if (index == 3) {    // 오늘의 웹툰 더보기 눌렀을시
             Intent intent = new Intent(MainActivity.this, MoreWebtoonActivity.class);
             intent.putExtra("contentArrayList", tabFragment1.contentArrayList1);
             startActivity(intent);
-        } else if (index == 4) { // 내 만화 별점 버튼 눌렀을시
+        } else if (index == 4) {    // 오늘의 만화 더보기 눌렀을시
+            Intent intent = new Intent(MainActivity.this, MoreWebtoonActivity.class);
+            intent.putExtra("contentArrayList", tabFragment1.contentArrayList2);
+            startActivity(intent);
+        } else if (index == 5) {    // 내 만화 별점 버튼 눌렀을시
             Intent intent = new Intent(MainActivity.this, MyStarActivity.class);
             intent.putExtra("category", "cartoon");
+            startActivity(intent);
+        } else if (index == 6) {    // 내 만화 별점 버튼 눌렀을시
+            Intent intent = new Intent(MainActivity.this, PreferenceAnalysisActivity.class);
             startActivity(intent);
         }
     }

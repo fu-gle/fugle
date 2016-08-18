@@ -18,11 +18,9 @@ import kr.fugle.R;
 import kr.fugle.commonlist.CommonRecyclerAdapter;
 
 /**
- * Created by 김은진 on 2016-08-10.
+ * Created by 김은진 on 2016-08-18.
  */
-// 오늘의 웹툰 더보기 activity
-public class MoreWebtoonActivity extends AppCompatActivity {
-
+public class MoreCartoonActivity extends AppCompatActivity {
     // 리스트뷰
     private ArrayList<Content> contentArrayList;
     private RecyclerView recyclerView;
@@ -36,7 +34,7 @@ public class MoreWebtoonActivity extends AppCompatActivity {
 
         // 툴바 설정
         Toolbar toolbar = (Toolbar)findViewById(R.id.more_webtoon_toolbar);
-        toolbar.setTitle("웹툰 랭킹 - 보고싶어요");
+        toolbar.setTitle("만화책 랭킹 - 보고싶어요");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

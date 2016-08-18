@@ -40,6 +40,9 @@ import okhttp3.Response;
  */
 public class TabFragment1 extends Fragment implements View.OnClickListener {
 
+    // 첫번째 카드뷰 버튼
+    Boolean checkBtn;   // true:취향분석, false:평가하기
+
     ArrayList<Content> contentArrayList1, contentArrayList2;
     int width, height;
 
@@ -49,14 +52,14 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     // 웹툰 정보
     ImageView todayWebtoonImg;
     TextView todayWebtoonTitle; // 제목
-    TextView todayWebtoonAverage;   // 평균평점
     TextView todayWebtoonPrediction;    // 예상별점
+    TextView todayWebtoonText;  // 이미지 밑에 있는 텍스트
 
     // 카툰 정보
     ImageView todayCartoonImg;
     TextView todayCartoonTitle; // 제목
-    TextView todayCartoonAverage;   // 평균평점
     TextView todayCartoonPrediction;    // 예상별점
+    TextView todayCartoonText;
 
     CardView cardView;
 
@@ -87,14 +90,14 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         // 웹툰
         todayWebtoonImg = (ImageView) rootView.findViewById(R.id.today_webtoon_img);
         todayWebtoonTitle = (TextView) rootView.findViewById(R.id.today_webtoon_title);
-//        todayWebtoonAverage = (TextView) rootView.findViewById(R.id.today_webtoon_average);
         todayWebtoonPrediction = (TextView) rootView.findViewById(R.id.today_webtoon_prediction);
+        todayWebtoonText = (TextView) rootView.findViewById(R.id.today_webtoon_text);
 
         // 카툰
         todayCartoonImg = (ImageView) rootView.findViewById(R.id.today_cartoon_img);
         todayCartoonTitle = (TextView) rootView.findViewById(R.id.today_cartoon_title);
-//        todayCartoonAverage = (TextView) rootView.findViewById(R.id.today_cartoon_average);
         todayCartoonPrediction = (TextView) rootView.findViewById(R.id.today_cartoon_prediction);
+        todayCartoonText = (TextView) rootView.findViewById(R.id.today_cartoon_text);
 
         // 추천 이미지
         DisplayMetrics metrics = new DisplayMetrics();
@@ -138,6 +141,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         TextView likeBtn1 = (TextView) rootView.findViewById(R.id.tab1_like_btn1);
         TextView likeBtn2 = (TextView) rootView.findViewById(R.id.tab1_like_btn2);
         TextView moreWebtoon = (TextView) rootView.findViewById(R.id.more_today_webtoon);
+        TextView moreCartoon = (TextView) rootView.findViewById(R.id.more_today_cartoon);
 
         if(firstCardview == false) {
             cardView.setVisibility(View.GONE);
@@ -145,18 +149,23 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             cardView.setVisibility(View.VISIBLE);
         }
 
-        String tabLikeContent = User.getInstance().getName()
-                + "님 아직 취향을 입력하지 않으셨네요\n"
-                + User.getInstance().getName()
-                + "님의 취향을 더 알아야 취향분석을 할수 있어요!"
-                + "평가를 입력해주세요~";
-        if(User.getInstance().getStars() != 0) {
+        // true:취향분석, false:평가하기
+        String tabLikeContent;
+        if(User.getInstance().getStars() == 0) {
+            tabLikeContent = User.getInstance().getName()
+                    + "님 아직 취향을 입력하지 않으셨네요\n"
+                    + User.getInstance().getName()
+                    + "님의 취향을 더 알아야 취향분석을 할수 있어요!"
+                    + "평가를 입력해주세요~";
+            checkBtn = false;
+        } else {
             tabLikeContent = User.getInstance().getName()
                     + "님과 맞는 웹툰, 만화책이 궁금하세요?"
                     + User.getInstance().getName()
                     + "님 취향분석 한번 보고가세요~!\n";
             likeBtn1.setText("나중에볼래요");
             likeBtn2.setText("취향분석보기");
+            checkBtn = true;
         }
 
 //        TextView likeView = (TextView)rootView.findViewById(R.id.tab1_like_content);
@@ -168,6 +177,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         likeBtn2.setOnClickListener(this);
 //        TextView moreWebtoon = (TextView) rootView.findViewById(R.id.more_today_webtoon);
         moreWebtoon.setOnClickListener(this);
+        moreCartoon.setOnClickListener(this);
 
         // 오늘의 추천 리스트 가져오기
         if(contentArrayList1.isEmpty() || contentArrayList2.isEmpty()) {
@@ -220,13 +230,23 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             }
             case R.id.tab1_like_btn2: { // 1번 - 평가하기 or 취향분석보기
                 MainActivity activity = (MainActivity) getActivity();
-                activity.onFragmentChanged(0);
+                // true:취향분석, false:평가하기
+                if(checkBtn == false) {
+                    activity.onFragmentChanged(0);
+                } else {
+                    activity.onFragmentChanged(6);
+                }
                 break;
             }
             case R.id.more_today_webtoon: { // 오늘의 웹툰 더보기
                 // 여기서 액티비티 갑니당
                 MainActivity activity = (MainActivity) getActivity();
                 activity.onFragmentChanged(3);
+                break;
+            }
+            case R.id.more_today_cartoon: { // 오늘의 만화 더보기
+                MainActivity activity = (MainActivity) getActivity();
+                activity.onFragmentChanged(4);
                 break;
             }
             default:
@@ -335,25 +355,38 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 //                    .centerCrop()
 //                    .into(todayWebtoonImg);
 
+            Content content = new Content();
+            content = contentArrayList.get(0);
+
             if(idx == 1) {  // 웹툰 정보 불러오기
                 // 웹툰 정보 불러오기
                 Picasso.with(getContext())
-                        .load(contentArrayList.get(0).getThumbnailBig())
+                        .load(content.getThumbnailBig())
                         .resize(width, height)
                         .centerCrop()
                         .into(todayWebtoonImg);
-                todayWebtoonTitle.setText(contentArrayList.get(0).getTitle());
-                todayWebtoonPrediction.setText(contentArrayList.get(0).getPrediction().toString());
+                todayWebtoonTitle.setText(content.getTitle());
+                todayWebtoonPrediction.setText(content.getPrediction().toString());
+                todayWebtoonText.setText(
+                        "태그 : "
+                        +content.getTags()
+                        +"\n"
+                        +"0명의 분들이 보고싶어요를 눌러주셨어요!");
             }
             if(idx == 2) {   // 카툰 정보 불러오기
                 // 카툰 정보 불러오기
                 Picasso.with(getContext())
-                        .load(contentArrayList.get(0).getThumbnailBig())
+                        .load(content.getThumbnailBig())
                         .resize(width, height)
                         .centerInside()
                         .into(todayCartoonImg);
-                todayCartoonTitle.setText(contentArrayList.get(0).getTitle());
-                todayCartoonPrediction.setText(contentArrayList.get(0).getPrediction().toString());
+                todayCartoonTitle.setText(content.getTitle());
+                todayCartoonPrediction.setText(content.getPrediction().toString());
+                todayCartoonText.setText(
+                        "태그 : "
+                        +content.getTags()
+                        +"\n"
+                        +"0명의 분들이 보고싶어요를 눌러주셨어요!");
             }
         }
     }
