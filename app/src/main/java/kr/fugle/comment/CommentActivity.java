@@ -31,6 +31,7 @@ public class CommentActivity extends AppCompatActivity {
     private int contentNo;
     private String title;
     private Float star;
+    private Boolean isCartoon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +43,7 @@ public class CommentActivity extends AppCompatActivity {
         contentNo = data.getIntExtra("contentNo", 0);
         title = data.getStringExtra("title");
         star = data.getFloatExtra("star", 0.0f);
+        isCartoon = data.getBooleanExtra("isCartoon", false);
 
         // 툴바 생성
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -95,9 +97,15 @@ public class CommentActivity extends AppCompatActivity {
 
                     // 별점 준 갯수 증가
                     if(rating == 0){
-                        User.getInstance().setStars(User.getInstance().getStars() - 1);
+                        if(isCartoon)
+                            User.getInstance().setCartoonStars(User.getInstance().getCartoonStars() - 1);
+                        else
+                            User.getInstance().setWebtoonStars(User.getInstance().getWebtoonStars() - 1);
                     }else if(star == 0){
-                        User.getInstance().setStars(User.getInstance().getStars() + 1);
+                        if(isCartoon)
+                            User.getInstance().setCartoonStars(User.getInstance().getCartoonStars() + 1);
+                        else
+                            User.getInstance().setWebtoonStars(User.getInstance().getWebtoonStars() + 1);
                     }
 
                     Integer Rating = (int)(rating * 10);

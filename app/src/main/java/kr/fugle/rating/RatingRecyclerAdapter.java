@@ -214,6 +214,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             intent.putExtra("contentNo", content.getNo());
                             intent.putExtra("title", content.getTitle());
                             intent.putExtra("star", content.getRating());
+                            intent.putExtra("isCartoon", content.getCartoon());
 
                             ratingContext.startActivity(intent);
 
@@ -232,10 +233,16 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                     if(fromUser){
                         // 별점 준 갯수 증가
                         if(rating == 0){
-                            User.getInstance().setStars(User.getInstance().getStars() - 1);
+                            if(content.getCartoon())
+                                User.getInstance().setCartoonStars(User.getInstance().getCartoonStars() - 1);
+                            else
+                                User.getInstance().setWebtoonStars(User.getInstance().getWebtoonStars() - 1);
                             countChangeListener.subCount();
                         }else if(content.getRating() == 0){
-                            User.getInstance().setStars(User.getInstance().getStars() + 1);
+                            if(content.getCartoon())
+                                User.getInstance().setCartoonStars(User.getInstance().getCartoonStars() + 1);
+                            else
+                                User.getInstance().setWebtoonStars(User.getInstance().getWebtoonStars() + 1);
                             countChangeListener.addCount();
                         }
 

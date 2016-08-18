@@ -25,11 +25,12 @@ public class Content implements Serializable {
     String tags;    // 테그 들
     Boolean adult;
     Boolean hate;
+    Boolean isCartoon;  // 웹툰이면 false, 만화면 true
 
     public Content(){
         no = 0;
         title = author = genre = summary = media = thumbnailSmall = thumbnailBig = link = tags = "";
-        publish = like = adult = hate = false;
+        publish = like = adult = hate = isCartoon = false;
         prediction = rating = average = 0.0f;
     }
 
@@ -167,5 +168,13 @@ public class Content implements Serializable {
 
     public void setHate(Boolean hate) {
         this.hate = hate;
+    }
+
+    public Boolean getCartoon() {
+        return isCartoon;
+    }
+
+    public void setCartoon(Boolean cartoon) {
+        isCartoon = cartoon;
     }
 }

@@ -148,10 +148,10 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         } else {
             cardView.setVisibility(View.VISIBLE);
         }
-
+        
         // true:취향분석, false:평가하기
         String tabLikeContent;
-        if(User.getInstance().getStars() == 0) {
+        if(User.getInstance().getWebtoonStars() + User.getInstance().getCartoonStars() == 0) {
             tabLikeContent = User.getInstance().getName()
                     + "님 아직 취향을 입력하지 않으셨네요\n"
                     + User.getInstance().getName()

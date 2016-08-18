@@ -194,9 +194,15 @@ public class DetailActivity extends AppCompatActivity {
 
                                     // 별점 준 갯수 증가
                                     if(rating == 0){
-                                        User.getInstance().setStars(User.getInstance().getStars() - 1);
+                                        if(content.getCartoon())
+                                            User.getInstance().setCartoonStars(User.getInstance().getCartoonStars() - 1);
+                                        else
+                                            User.getInstance().setWebtoonStars(User.getInstance().getWebtoonStars() - 1);
                                     }else if(content.getRating() == 0){
-                                        User.getInstance().setStars(User.getInstance().getStars() + 1);
+                                        if(content.getCartoon())
+                                            User.getInstance().setCartoonStars(User.getInstance().getCartoonStars() + 1);
+                                        else
+                                            User.getInstance().setWebtoonStars(User.getInstance().getWebtoonStars() + 1);
                                     }
 
                                     Integer Rating = (int)(rating * 10);
@@ -223,6 +229,7 @@ public class DetailActivity extends AppCompatActivity {
                 intent.putExtra("title", content.getTitle());
                 intent.putExtra("contentNo", content.getNo());
                 intent.putExtra("star", content.getRating());
+                intent.putExtra("isCartoon", content.getCartoon());
 
                 startActivity(intent);
             }
@@ -330,6 +337,8 @@ public class DetailActivity extends AppCompatActivity {
                             content.setTags(obj.getString("tags").substring(0, obj.getString("tags").length() - 1));
                         if (!obj.isNull("star"))
                             content.setRating((float) (obj.getInt("star") * 1.0) / 10);
+                        if (!obj.isNull("isCartoon"))
+                            content.setCartoon(obj.getBoolean("isCartoon"));
 
                     }
                 }catch(Exception e){

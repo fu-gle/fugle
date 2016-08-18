@@ -94,8 +94,10 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
 
             if(!mypage.isNull("likecount"))
                 user.setLikes(mypage.getInt("likecount"));
-            if(!mypage.isNull("starcount"))
-                user.setStars(mypage.getInt("starcount"));
+            if(!mypage.isNull("webtooncount"))
+                user.setWebtoonStars(mypage.getInt("webtooncount"));
+            if(!mypage.isNull("cartooncount"))
+                user.setCartoonStars(mypage.getInt("cartooncount"));
             if(!mypage.isNull("dontseecount"))
                 user.setHates(mypage.getInt("dontseecount"));
         } catch (JSONException e) {

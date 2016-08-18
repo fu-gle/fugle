@@ -44,7 +44,7 @@ public class RatingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
 
-        count = User.getInstance().getStars();
+        count = User.getInstance().getWebtoonStars() + User.getInstance().getCartoonStars();
 
         // 툴바 생성
         toolbar = (Toolbar) findViewById(R.id.toolbar);
