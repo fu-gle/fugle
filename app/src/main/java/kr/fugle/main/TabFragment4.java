@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.facebook.AccessToken;
@@ -35,6 +36,8 @@ public class TabFragment4 extends Fragment {
     TabStatusListener tabStatusListener;
 
     // 위젯 객체
+    LinearLayout profLike;  // 보고싶어요 목록 가는 버튼
+    LinearLayout profHate;  // 보기싫어요 목록 가는 버튼
     TextView like;
     TextView hate;
     Button profWebtoonBtn;
@@ -99,6 +102,14 @@ public class TabFragment4 extends Fragment {
             }
         });
 
+        // 보고싶어요 목록 버튼
+        profLike = (LinearLayout) rootView.findViewById(R.id.prof_like);
+        profLike.setOnClickListener(onClicked);
+
+        // 보기싫어요 목록 버튼
+        profHate = (LinearLayout) rootView.findViewById(R.id.prof_hate);
+        profHate.setOnClickListener(onClicked);
+
         // 보고싶어요 갯수
         like = (TextView) rootView.findViewById(R.id.like);
 
@@ -107,11 +118,11 @@ public class TabFragment4 extends Fragment {
 
         // 내가 별점 준 웹툰 버튼
         profWebtoonBtn = (Button)rootView.findViewById(R.id.prof_webtoon_btn);
-        profWebtoonBtn.setOnClickListener(onToonClicked);
+        profWebtoonBtn.setOnClickListener(onClicked);
 
         // 내가 별점 준 만화 버튼
         profCartoonBtn = (Button)rootView.findViewById(R.id.prof_cartoon_btn);
-        profCartoonBtn.setOnClickListener(onToonClicked);
+        profCartoonBtn.setOnClickListener(onClicked);
 
         // 로그아웃
         rootView.findViewById(R.id.logout_btn).setOnClickListener(onProfLogoutButtonClicked);
@@ -122,18 +133,27 @@ public class TabFragment4 extends Fragment {
         return rootView;
     }
 
-    Button.OnClickListener onToonClicked = new View.OnClickListener() {
+    Button.OnClickListener onClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            MainActivity activity = (MainActivity)getActivity();
+
             switch (v.getId()){
                 case R.id.prof_webtoon_btn: {   // 내가 별점 준 웹툰 목록
-                    MainActivity activity = (MainActivity)getActivity();
                     activity.onFragmentChanged(2);
                     break;
                 }
                 case R.id.prof_cartoon_btn: {   // 내가 별점 준 만화 목록
-                    MainActivity activity = (MainActivity)getActivity();
                     activity.onFragmentChanged(5);
+                    break;
+                }
+                case R.id.prof_like: {  // 보고싶어요 목록
+                    activity.onFragmentChanged(7);
+                    break;
+                }
+                case R.id.prof_hate: {  // 보기싫어요 목록
+                    activity.onFragmentChanged(8);
                     break;
                 }
             }

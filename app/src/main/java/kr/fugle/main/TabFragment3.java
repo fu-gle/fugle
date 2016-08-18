@@ -99,19 +99,8 @@ public class TabFragment3 extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AppCompatAlertDialogStyle);
-        builder.setCancelable(true)
-                .setView(R.layout.dialog_rating);
-
-        AppCompatDialog dialog = builder.create();
-
-        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
-        params.width = 1200;
-        dialog.getWindow().setAttributes(params);
-
         adapter = new RecommendAdapter(
                 getContext(),
-//                dialog,
                 contentArrayList,
                 tagList,
                 userNo,

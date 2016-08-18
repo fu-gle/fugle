@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MyStarActivity.class);
             intent.putExtra("category", "cartoon");
             startActivity(intent);
-        } else if (index == 6) {    // 내 만화 별점 버튼 눌렀을시
+        } else if (index == 6) {    // 취향 분석
             Intent intent = new Intent(MainActivity.this, PreferenceAnalysisActivity.class);
             startActivity(intent);
         }

@@ -373,6 +373,10 @@ public class DetailActivity extends AppCompatActivity {
             average.setText("★ "+ String.format("%.1f",content.getAverage()));
             prediction.setText(content.getPrediction().toString());
 
+            if(content.getLike()){
+                preferenceBtn.setTextColor(Color.parseColor("#F13839"));
+            }
+
             String tags = content.getTags();
             String [] tagList = tags.split(",");
             tags = "";
