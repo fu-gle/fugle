@@ -85,6 +85,7 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
         }
         if(s.equals("result:3")) {
             Toast.makeText(context, "Thank You!", Toast.LENGTH_SHORT).show();
+            activityStartListener.activityStart();
             return;
         }
 
