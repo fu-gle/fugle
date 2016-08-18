@@ -48,8 +48,8 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.2.0'
 
     // TextInputLayout을 위해
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:design:23.0.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:design:23.2.1'
 
     // Firebase
     compile 'com.firebase:firebase-client-android:2.5.2'

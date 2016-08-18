@@ -96,7 +96,7 @@ public class CountOfAuthorRankFragment extends Fragment {
     // 파라미터에 맞는 리스트 받아옴
     public void performSearch() {
         if (authorArrayList.isEmpty()) {
-            new GetAuthorList().execute("countOfAuthorRank/", User.getInstance().getNo() + "");
+            new GetAuthorList().execute("authorRank/", User.getInstance().getNo() + "");
         }
     }
 
