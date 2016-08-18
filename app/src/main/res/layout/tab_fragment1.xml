@@ -142,7 +142,7 @@
                         android:id="@+id/today_webtoon_prediction_title"
                         android:paddingLeft="5dp"
                         android:paddingTop="3dp"
-                        android:text="예상 별점 "
+                        android:text="평균 별점 "
                         android:layout_above="@+id/today_webtoon_title"
                         android:layout_alignLeft="@+id/today_webtoon_title"
                         android:background="#9FFF"/>
@@ -300,7 +300,7 @@
                         android:id="@+id/today_cartoon_prediction_title"
                         android:paddingLeft="5dp"
                         android:paddingTop="3dp"
-                        android:text="예상 별점 "
+                        android:text="평균 별점 "
                         android:layout_above="@+id/today_cartoon_title"
                         android:layout_alignLeft="@+id/today_cartoon_title"
                         android:background="#9FFF"/>

@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -161,14 +160,14 @@ public class RegisterActivity extends AppCompatActivity {
         OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
         okHttpLogin.setActivityStartListener(activityStartListener);
         okHttpLogin.execute(
-                "login/",
+                "emailRegi/",
                 inputEmail.getText().toString(),
                 inputName.getText().toString(),
                 inputPassword.getText().toString(),
                 inputMessage.getText().toString(),
                 imgPath);
 
-        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }
 
     private boolean validateName() {

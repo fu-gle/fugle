@@ -26,6 +26,7 @@ public class Content implements Serializable {
     Boolean adult;
     Boolean hate;
     Boolean isCartoon;  // 웹툰이면 false, 만화면 true
+    Integer likeCnt;    // 보고싶어요 누른사람수
 
     public Content(){
         no = 0;
@@ -176,5 +177,13 @@ public class Content implements Serializable {
 
     public void setCartoon(Boolean cartoon) {
         isCartoon = cartoon;
+    }
+
+    public Integer getLikeCnt() {
+        return likeCnt;
+    }
+
+    public void setLikeCnt(Integer likeCnt) {
+        this.likeCnt = likeCnt;
     }
 }

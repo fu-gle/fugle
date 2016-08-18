@@ -148,7 +148,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         } else {
             cardView.setVisibility(View.VISIBLE);
         }
-        
+
         // true:취향분석, false:평가하기
         String tabLikeContent;
         if(User.getInstance().getWebtoonStars() + User.getInstance().getCartoonStars() == 0) {
@@ -182,10 +182,10 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         // 오늘의 추천 리스트 가져오기
         if(contentArrayList1.isEmpty() || contentArrayList2.isEmpty()) {
             if(contentArrayList1.isEmpty()) {
-                new GetMainList(contentArrayList1, 1).execute("countOfWebtoonRank/", User.getInstance().getNo() + "");
+                new GetMainList(contentArrayList1, 1).execute("webtoonLike/", User.getInstance().getNo() + "");
             }
             if(contentArrayList2.isEmpty()) {
-                new GetMainList(contentArrayList2, 2).execute("countOfCartoonRank/", User.getInstance().getNo() + "");
+                new GetMainList(contentArrayList2, 2).execute("cartoonLike/", User.getInstance().getNo() + "");
             }
         } else {
             // 웹툰 정보 불러오기
@@ -338,6 +338,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                         if (!obj.isNull("tags")) {
                             content.setTags(obj.getString("tags"));
                         }
+                        if (!obj.isNull("likecnt")) {
+                            content.setLikeCnt(obj.getInt("likecnt"));
+                        }
 
                         contentArrayList.add(content);
                     }
@@ -366,12 +369,12 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                         .centerCrop()
                         .into(todayWebtoonImg);
                 todayWebtoonTitle.setText(content.getTitle());
-                todayWebtoonPrediction.setText(content.getPrediction().toString());
+                todayWebtoonPrediction.setText(content.getAverage().toString());
                 todayWebtoonText.setText(
                         "태그 : "
                         +content.getTags()
-                        +"\n"
-                        +"0명의 분들이 보고싶어요를 눌러주셨어요!");
+                        +"\n" + content.getLikeCnt()
+                        +"명의 분들이 보고싶어요를 눌러주셨어요!");
             }
             if(idx == 2) {   // 카툰 정보 불러오기
                 // 카툰 정보 불러오기
@@ -381,12 +384,12 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                         .centerInside()
                         .into(todayCartoonImg);
                 todayCartoonTitle.setText(content.getTitle());
-                todayCartoonPrediction.setText(content.getPrediction().toString());
+                todayCartoonPrediction.setText(content.getAverage().toString());
                 todayCartoonText.setText(
                         "태그 : "
                         +content.getTags()
-                        +"\n"
-                        +"0명의 분들이 보고싶어요를 눌러주셨어요!");
+                        +"\n" + content.getLikeCnt()
+                        +"명의 분들이 보고싶어요를 눌러주셨어요!");
             }
         }
     }

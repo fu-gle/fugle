@@ -75,6 +75,19 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
         // 성공시 startActivity. 실패시 토스트 메세지
         Log.i("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute " + s);
 
+        if(s.equals("result:1")) {  // 로그인 실패시
+            Toast.makeText(context, "존재하지 않는 이메일이거나 틀린비밀번호 입니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(s.equals("result:2")) {  // 회원가입 실패시
+            Toast.makeText(context, "존재하는 이메일입니다", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(s.equals("result:3")) {
+            Toast.makeText(context, "Thank You!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         JSONObject mypage, userInfo;
 
         User user = User.getInstance();
