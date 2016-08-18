@@ -313,34 +313,41 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                         JSONObject obj = dataList.getJSONObject(i);
 
                         Content content = new Content();
-                        content.setNo(obj.getInt("id"));
-                        content.setTitle(obj.getString("title"));
-                        content.setAuthor(obj.getString("author"));
-                        content.setGenre(obj.getString("genre"));
-                        content.setAdult(obj.getBoolean("adult"));
-                        content.setThumbnailSmall(obj.getString("thumbnail_small"));
-                        content.setThumbnailBig(obj.getString("thumbnail_big"));
-                        if (!obj.isNull("star__star")) {
-                            Log.d("------>", "star__star" + obj.getInt("star__star"));
-                            content.setRating((float) (obj.getInt("star__star") * 1.0) / 10);
+                        if (!obj.isNull("id"))
+                            content.setNo(obj.getInt("id"));
+                        if (!obj.isNull("title"))
+                            content.setTitle(obj.getString("title"));
+                        if (!obj.isNull("author")) {
+                            String aut = obj.getString("author");
+                            aut = aut.substring(0, aut.length() - 1);
+                            content.setAuthor(aut);
                         }
-                        if (!obj.isNull("like") && obj.getBoolean("like")) {
-                            Log.d("----->", "like " + obj.getBoolean("like"));
+                        if (!obj.isNull("average"))
+                            content.setAverage((float) obj.getInt("average") / 1000);
+                        if (!obj.isNull("genre"))
+                            content.setGenre(obj.getString("genre").substring(0, obj.getString("genre").length() - 1));
+                        if (!obj.isNull("adult"))
+                            content.setAdult(obj.getBoolean("adult"));
+                        if (!obj.isNull("thumbnail_small"))
+                            content.setThumbnailSmall(obj.getString("thumbnail_small"));
+                        if (!obj.isNull("thumbnail_big"))
+                            content.setThumbnailBig(obj.getString("thumbnail_big"));
+                        if (!obj.isNull("star"))
+                            content.setRating((float) (obj.getInt("star") * 1.0) / 10);
+                        if (!obj.isNull("like") && obj.getBoolean("like"))
                             content.setLike(obj.getBoolean("like"));
-                        }
-                        if (!obj.isNull("recommendStar")) {
-                            Log.d("------>", "recommendStar " + obj.getString("recommendStar"));
+                        if (!obj.isNull("recommendStar"))
                             content.setPrediction(Float.parseFloat(String.format("%.1f", Float.parseFloat(obj.getString("recommendStar")) / 1000000)));
-                        }
-                        if (!obj.isNull("link")) {
+                        if (!obj.isNull("link"))
                             content.setLink(obj.getString("link"));
-                        }
-                        if (!obj.isNull("tags")) {
-                            content.setTags(obj.getString("tags"));
-                        }
-                        if (!obj.isNull("likecnt")) {
+                        if (!obj.isNull("tags"))
+                            content.setTags(obj.getString("tags").substring(0, obj.getString("tags").length() - 1));
+                        if (!obj.isNull("dontsee"))
+                            content.setHate(obj.getBoolean("dontsee"));
+                        if (!obj.isNull("isCartoon"))
+                            content.setCartoon(obj.getBoolean("isCartoon"));
+                        if (!obj.isNull("likecnt"))
                             content.setLikeCnt(obj.getInt("likecnt"));
-                        }
 
                         contentArrayList.add(content);
                     }
@@ -352,14 +359,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             if (contentArrayList.size() == 0)
                 return;
 
-//            Picasso.with(getContext())
-//                    .load(contentArrayList.get(0).getThumbnailBig())
-//                    .resize(width, height)
-//                    .centerCrop()
-//                    .into(todayWebtoonImg);
-
-            Content content = new Content();
-            content = contentArrayList.get(0);
+            Content content = contentArrayList.get(0);
 
             if(idx == 1) {  // 웹툰 정보 불러오기
                 // 웹툰 정보 불러오기
