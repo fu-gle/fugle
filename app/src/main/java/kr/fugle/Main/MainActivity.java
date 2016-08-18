@@ -172,6 +172,10 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, MyStarActivity.class);
             intent.putExtra("category", "cartoon");
             startActivity(intent);
+        } else if (index == 5) { // 보고싶어요 목록 버튼 눌렀을시
+
+        } else if (index == 6) { // 보기싫어요 목록 버튼 눌렀을시
+
         }
     }
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="kr.fugle">
+    package="kr.fugle">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".login.GlobalApplication"
@@ -17,31 +17,31 @@
             android:name=".splash.SplashActivity"
             android:label="@string/app_name">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="f38f436c283edf2e94e26961d9139527"/>
+            android:value="f38f436c283edf2e94e26961d9139527" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id" />
 
         <!-- facebook popup -->
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- splash -->
         <activity
             android:name=".login.LoginActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <!-- splash -->
 
 
@@ -51,7 +51,7 @@
         <!-- 별점 주기용 -->
         <activity
             android:name=".rating.RatingActivity"
-            android:label="@string/toolbar_rating"/>
+            android:label="@string/toolbar_rating" />
 
         <!-- 추천 목록 -->
 
@@ -60,49 +60,45 @@
         <activity
             android:name=".register.RegisterActivity"
             android:label="@string/actionbar_name"
-            android:theme="@style/TextLabel"/>
+            android:theme="@style/TextLabel" />
 
         <!-- 메인 -->
         <activity
             android:name=".main.MainActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
 
         <!-- 내 별점 보기 -->
-        <activity android:name=".mystar.MyStarActivity"/>
+        <activity android:name=".mystar.MyStarActivity" />
 
         <!-- 상세 보기 -->
-        <activity android:name=".detail.DetailActivity"/>
+        <activity android:name=".detail.DetailActivity" />
 
         <!-- 평가하기 액티비티에서 카테고리 고르기 -->
-        <activity android:name=".rating.category.CategorySelectActivity"/>
+        <activity android:name=".rating.category.CategorySelectActivity" />
 
         <!-- 검색 -->
         <activity android:name=".search.SearchActivity">
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
             <meta-data
                 android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+                android:resource="@xml/searchable" />
         </activity>
 
         <!-- 코멘트 액티비티 -->
-        <activity android:name=".comment.CommentActivity"/>
+        <activity android:name=".comment.CommentActivity" />
 
         <!-- 메인에서 웹툰 더보기 -->
-        <activity android:name=".main.tab1.MoreWebtoonActivity">
-        </activity>
+        <activity android:name=".main.tab1.MoreWebtoonActivity"></activity>
 
         <!-- 랭킹 -->
-        <activity android:name=".main.tab2.webtoon.WebtoonRankActivity">
-        </activity>
-        <activity android:name=".main.tab2.cartoon.CartoonRankActivity">
-        </activity>
-        <activity android:name=".main.tab2.author.AuthorRankActivity">
-        </activity>
-        <activity android:name=".main.tab2.author.AuthorContentActivity">
-        </activity>
+        <activity android:name=".main.tab2.webtoon.WebtoonRankActivity"></activity>
+        <activity android:name=".main.tab2.cartoon.CartoonRankActivity"></activity>
+        <activity android:name=".main.tab2.author.AuthorRankActivity"></activity>
+        <activity android:name=".main.tab2.author.AuthorContentActivity"></activity>
+        <activity android:name=".main.tab4.like.LikeActivity"></activity>
     </application>
 
 </manifest>
