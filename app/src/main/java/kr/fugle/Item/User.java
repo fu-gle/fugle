@@ -18,11 +18,12 @@ public class User {
     private String message;
     private String profileBackground;
     private Integer likes;
-    private Integer stars;
+    private Integer webtoonStars;
+    private Integer cartoonStars;
     private Integer hates;
 
     private User(){
-        no = likes = stars = hates = 0;
+        no = likes = webtoonStars = cartoonStars = hates = 0;
         email = passwd = name = gender = primaryKey = profileImg = message = profileBackground = "";
     }
 
@@ -121,12 +122,20 @@ public class User {
         this.profileBackground = profileBackground;
     }
 
-    public Integer getStars() {
-        return stars;
+    public Integer getWebtoonStars() {
+        return webtoonStars;
     }
 
-    public void setStars(Integer stars) {
-        this.stars = stars;
+    public void setWebtoonStars(Integer webtoonStars) {
+        this.webtoonStars = webtoonStars;
+    }
+
+    public Integer getCartoonStars() {
+        return cartoonStars;
+    }
+
+    public void setCartoonStars(Integer cartoonStars) {
+        this.cartoonStars = cartoonStars;
     }
 
     public Integer getLikes() {

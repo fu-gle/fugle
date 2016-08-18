@@ -150,7 +150,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 + User.getInstance().getName()
                 + "님의 취향을 더 알아야 취향분석을 할수 있어요!"
                 + "평가를 입력해주세요~";
-        if(User.getInstance().getStars() != 0) {
+        if((User.getInstance().getWebtoonStars() + User.getInstance().getCartoonStars()) != 0) {
             tabLikeContent = User.getInstance().getName()
                     + "님과 맞는 웹툰, 만화책이 궁금하세요?"
                     + User.getInstance().getName()

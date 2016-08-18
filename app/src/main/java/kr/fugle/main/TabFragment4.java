@@ -188,6 +188,7 @@ public class TabFragment4 extends Fragment {
         // 유저의 정보 적용
         like.setText(user.getLikes().toString());
         hate.setText(user.getHates().toString());
-        profWebtoonBtn.setText("웹툰 " + user.getStars().toString());
+        profWebtoonBtn.setText("웹툰 " + user.getWebtoonStars().toString());
+        profCartoonBtn.setText("만화 " + user.getCartoonStars().toString());
     }
 }
