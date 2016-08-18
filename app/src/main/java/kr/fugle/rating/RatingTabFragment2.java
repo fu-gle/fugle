@@ -1,6 +1,7 @@
 package kr.fugle.rating;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -9,10 +10,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.rating.category.CategorySelectActivity;
 import kr.fugle.webconnection.GetContentList;
 
 /**
@@ -28,16 +32,22 @@ import kr.fugle.webconnection.GetContentList;
  */
 public class RatingTabFragment2 extends Fragment {
 
+    final int CATEGORY_REQUEST_CODE = 1004;
+    final int CATEGORY_RESULT_CODE = 333;
+
     private CountChangeListener countChangeListener;
 
     private ArrayList<Content> contentArrayList;
     private RecyclerView recyclerView;
+    private TextView categoryName;
     private RatingRecyclerAdapter adapter;
     private Integer userNo;
     private static Integer pageNo;
+    private Integer categoryNo;
 
+    private OnLoadMoreListener onLoadMoreListener;
     private Context context;
-    Handler handler;
+    private Handler handler;
 
     public void setCountChangeListener(CountChangeListener countChangeListener){
         this.countChangeListener = countChangeListener;
@@ -52,11 +62,14 @@ public class RatingTabFragment2 extends Fragment {
 
         userNo = User.getInstance().getNo();
         pageNo = 1;
+        categoryNo = 0;     // 카테고리별로 받아오는 것 구현해야함. 기본이 0.
 
         View view = inflater.inflate(R.layout.tab_rating_fragment, container, false);
 
+        categoryName = (TextView)view.findViewById(R.id.categoryName);
+
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerview);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext().getApplicationContext());
+        LinearLayoutManager manager = new LinearLayoutManager(context);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
 
@@ -79,7 +92,7 @@ public class RatingTabFragment2 extends Fragment {
                 userNo,
                 recyclerView);
 
-        adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
+        onLoadMoreListener = new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 // add null , so the adapter will check view_type and show progress bar at bottom
@@ -96,12 +109,16 @@ public class RatingTabFragment2 extends Fragment {
                                 adapter,
                                 1,
                                 userNo)
-                                .execute("", userNo + "", pageNo + ""); // 웹툰 표시 추가
+                                .execute("cartoonEvaluate/", userNo + "", pageNo + "", ""); // 웹툰 표시 추가
                         pageNo++;
                     }
                 }, 1500);
             }
-        });
+        };
+
+        adapter.setOnLoadMoreListener(onLoadMoreListener);
+
+        adapter.setCountChangeListener(countChangeListener);
 
         recyclerView.setAdapter(adapter);
 
@@ -111,7 +128,7 @@ public class RatingTabFragment2 extends Fragment {
                 adapter,
                 1,
                 userNo)
-                .execute("", userNo + "", pageNo + ""); // 웹툰 표시 추가
+                .execute("cartoonEvaluate/", userNo + "", pageNo + "", ""); // 웹툰 표시 추가
 
         pageNo++;
 
@@ -119,13 +136,85 @@ public class RatingTabFragment2 extends Fragment {
         view.findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "위로가자!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext().getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
 
                 recyclerView.smoothScrollToPosition(0);
             }
         });
 
+        // 카테고리 선택 버튼
+        view.findViewById(R.id.categoryBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getContext(), CategorySelectActivity.class), CATEGORY_REQUEST_CODE);
+            }
+        });
+
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // 카테고리 변경시
+        if(requestCode == CATEGORY_REQUEST_CODE && resultCode == CATEGORY_RESULT_CODE){
+
+            Log.d("------->", "카테고리 변경 " + data.getIntExtra("categoryNo", 0) + " " + data.getStringExtra("categoryName"));
+
+            categoryNo = data.getIntExtra("categoryNo", 0);
+            pageNo = 1;
+
+            categoryName.setText(data.getStringExtra("categoryName"));
+
+            String parameterName = "";
+
+            if(categoryNo != 0){
+                parameterName = categoryName.getText().toString();
+            }
+
+            // inner class 호출을 위한 상수화
+            final String CATEGORYNAME = parameterName;
+
+            onLoadMoreListener = new OnLoadMoreListener() {
+                @Override
+                public void onLoadMore() {
+                    // add null , so the adapter will check view_type and show progress bar at bottom
+                    contentArrayList.add(null);
+                    adapter.notifyItemInserted(contentArrayList.size() - 1);
+
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "rating bottom", Toast.LENGTH_SHORT).show();
+
+                            new GetContentList(getContext(),
+                                    contentArrayList,
+                                    adapter,
+                                    1,
+                                    userNo)
+                                    .execute("cartoonEvaluate/", userNo + "", pageNo + "", CATEGORYNAME); // 웹툰 표시 추가
+                            pageNo++;
+                        }
+                    }, 1500);
+                }
+            };
+
+            contentArrayList.clear();
+            adapter.notifyDataSetChanged();
+
+            adapter.setOnLoadMoreListener(onLoadMoreListener);
+
+            // 아이템 넣기
+            new GetContentList(getContext(),
+                    contentArrayList,
+                    adapter,
+                    1,
+                    userNo)
+                    .execute("cartoonEvaluate/", userNo + "", pageNo + "", CATEGORYNAME); // 웹툰 표시 추가
+
+            pageNo++;
+        }
     }
 
     @Override

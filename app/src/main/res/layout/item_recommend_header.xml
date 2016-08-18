@@ -46,7 +46,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="미국"
-                        android:background="@drawable/round_box_button2"/>
+                        android:background="@drawable/round_box_button2"
+                        android:visibility="gone"/>
 
                     <Button
                         android:id="@+id/tag2"
@@ -54,7 +55,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="블록버스터"
-                        android:background="@drawable/round_box_button2"/>
+                        android:background="@drawable/round_box_button2"
+                        android:visibility="gone"/>
 
                     <Button
                         android:id="@+id/tag3"
@@ -62,7 +64,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="2010년대"
-                        android:background="@drawable/round_box_button2"/>
+                        android:background="@drawable/round_box_button2"
+                        android:visibility="gone"/>
 
                     <Button
                         android:id="@+id/tag4"
@@ -70,7 +73,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="2000년대"
-                        android:background="@drawable/round_box_button2"/>
+                        android:background="@drawable/round_box_button2"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -85,7 +89,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="미국"
-                        android:background="@drawable/round_box_button2"/>
+                        android:background="@drawable/round_box_button2"
+                        android:visibility="gone"/>
 
                     <Button
                         android:id="@+id/tag6"
@@ -93,7 +98,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="블록버스터"
-                        android:background="@drawable/round_box_button2"/>
+                        android:background="@drawable/round_box_button2"
+                        android:visibility="gone"/>
 
                     <Button
                         android:id="@+id/tag7"
@@ -101,7 +107,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="2010년대"
-                        android:background="@drawable/round_box_button2"/>
+                        android:background="@drawable/round_box_button2"
+                        android:visibility="gone"/>
 
                     <Button
                         android:id="@+id/tag8"
@@ -109,7 +116,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="2000년대"
-                        android:background="@drawable/round_box_button2"/>
+                        android:background="@drawable/round_box_button2"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 

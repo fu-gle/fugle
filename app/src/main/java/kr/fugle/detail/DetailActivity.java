@@ -337,6 +337,11 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
 
+            if(content == null){
+                Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             // 성인물인 경우
             if(content.getAdult()){
                 Picasso.with(getApplicationContext())

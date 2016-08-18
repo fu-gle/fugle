@@ -109,7 +109,7 @@ public class RatingTabFragment1 extends Fragment {
                                 adapter,
                                 1,
                                 userNo)
-                                .execute("", userNo + "", pageNo + "", ""); // 웹툰 표시 추가
+                                .execute("webtoonEvaluate/", userNo + "", pageNo + "", ""); // 웹툰 표시 추가
                         pageNo++;
                     }
                 }, 1500);
@@ -128,7 +128,7 @@ public class RatingTabFragment1 extends Fragment {
                 adapter,
                 1,
                 userNo)
-                .execute("", userNo + "", pageNo + "", ""); // 웹툰 표시 추가
+                .execute("webtoonEvaluate/", userNo + "", pageNo + "", ""); // 웹툰 표시 추가
 
         pageNo++;
 
@@ -193,7 +193,7 @@ public class RatingTabFragment1 extends Fragment {
                                     adapter,
                                     1,
                                     userNo)
-                                    .execute("", userNo + "", pageNo + "", CATEGORYNAME); // 웹툰 표시 추가
+                                    .execute("webtoonEvaluate/", userNo + "", pageNo + "", CATEGORYNAME); // 웹툰 표시 추가
                             pageNo++;
                         }
                     }, 1500);
@@ -211,7 +211,7 @@ public class RatingTabFragment1 extends Fragment {
                     adapter,
                     1,
                     userNo)
-                    .execute("", userNo + "", pageNo + "", CATEGORYNAME); // 웹툰 표시 추가
+                    .execute("webtoonEvaluate/", userNo + "", pageNo + "", CATEGORYNAME); // 웹툰 표시 추가
 
             pageNo++;
         }

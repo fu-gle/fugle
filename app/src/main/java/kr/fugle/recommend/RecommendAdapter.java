@@ -130,6 +130,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             VHHeader vhHeader = (VHHeader)holder;
 
             for(int i = 0; i < tagList.size(); i++){
+                vhHeader.tags[i].setVisibility(View.VISIBLE);
                 vhHeader.tags[i].setText(tagList.get(i));
             }
 
