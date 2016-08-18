@@ -129,12 +129,53 @@
                     android:layout_height="2dp"
                     android:background="@drawable/textview_border"/>
 
-                <ImageView
-                    android:id="@+id/today_webtoon_img"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="fitXY"
-                    />
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/today_webtoon_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/today_webtoon_prediction_title"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="3dp"
+                        android:text="예상 별점 "
+                        android:layout_above="@+id/today_webtoon_title"
+                        android:layout_alignLeft="@+id/today_webtoon_title"
+                        android:background="#9FFF"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/today_webtoon_prediction"
+                        android:paddingRight="5dp"
+                        android:paddingTop="3dp"
+                        android:layout_above="@+id/today_webtoon_title"
+                        android:layout_toRightOf="@+id/today_webtoon_prediction_title"
+                        android:text="0.0"
+                        android:background="#9FFF"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="제목"
+                        android:id="@+id/today_webtoon_title"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="3dp"
+                        android:layout_alignBottom="@+id/today_webtoon_img"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="25sp"
+                        android:background="#9FFF"/>
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -248,12 +289,56 @@
                     android:layout_height="2dp"
                     android:background="@drawable/textview_border"/>
 
-                <ImageView
-                    android:id="@+id/today_cartoon_img"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="fitXY"
-                    />
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/today_cartoon_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/today_cartoon_prediction_title"
+                        android:paddingLeft="5dp"
+                        android:paddingTop="3dp"
+                        android:text="예상 별점 "
+                        android:layout_above="@+id/today_cartoon_title"
+                        android:layout_alignLeft="@+id/today_cartoon_title"
+                        android:background="#9FFF"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/today_cartoon_prediction"
+                        android:paddingRight="5dp"
+                        android:paddingTop="3dp"
+                        android:layout_above="@+id/today_cartoon_title"
+                        android:layout_toRightOf="@+id/today_cartoon_prediction_title"
+                        android:text="0.0"
+                        android:background="#9FFF"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="제목"
+                        android:id="@+id/today_cartoon_title"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:paddingBottom="3dp"
+                        android:layout_alignBottom="@+id/today_cartoon_img"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="25sp"
+                        android:background="#9FFF"/>
+
+                </RelativeLayout>
+
+
+
 
                 <TextView
                     android:layout_width="match_parent"

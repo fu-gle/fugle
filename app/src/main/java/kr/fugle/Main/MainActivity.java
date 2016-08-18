@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else if (index == 3) { // 오늘의 웹툰 더보기 눌렀을시
             Intent intent = new Intent(MainActivity.this, MoreWebtoonActivity.class);
-            intent.putExtra("contentArrayList", tabFragment1.contentArrayList);
+            intent.putExtra("contentArrayList", tabFragment1.contentArrayList1);
             startActivity(intent);
         } else if (index == 4) { // 내 만화 별점 버튼 눌렀을시
             Intent intent = new Intent(MainActivity.this, MyStarActivity.class);

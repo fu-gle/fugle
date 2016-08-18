@@ -40,14 +40,24 @@ import okhttp3.Response;
  */
 public class TabFragment1 extends Fragment implements View.OnClickListener {
 
-    ArrayList<Content> contentArrayList;
+    ArrayList<Content> contentArrayList1, contentArrayList2;
     int width, height;
 
     // 1번째 카드뷰
     static boolean firstCardview = true;
 
+    // 웹툰 정보
     ImageView todayWebtoonImg;
+    TextView todayWebtoonTitle; // 제목
+    TextView todayWebtoonAverage;   // 평균평점
+    TextView todayWebtoonPrediction;    // 예상별점
+
+    // 카툰 정보
     ImageView todayCartoonImg;
+    TextView todayCartoonTitle; // 제목
+    TextView todayCartoonAverage;   // 평균평점
+    TextView todayCartoonPrediction;    // 예상별점
+
     CardView cardView;
 
     TabStatusListener tabStatusListener;
@@ -69,12 +79,22 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         client = new OkHttpClient();
         serverUrl = getContext().getApplicationContext().getResources().getString(R.string.server_url);
 
-        contentArrayList = new ArrayList<>();
+        contentArrayList1 = new ArrayList<>();
+        contentArrayList2 = new ArrayList<>();
 
         View rootView = inflater.inflate(R.layout.tab_fragment1, container, false);
 
+        // 웹툰
         todayWebtoonImg = (ImageView) rootView.findViewById(R.id.today_webtoon_img);
+        todayWebtoonTitle = (TextView) rootView.findViewById(R.id.today_webtoon_title);
+//        todayWebtoonAverage = (TextView) rootView.findViewById(R.id.today_webtoon_average);
+        todayWebtoonPrediction = (TextView) rootView.findViewById(R.id.today_webtoon_prediction);
+
+        // 카툰
         todayCartoonImg = (ImageView) rootView.findViewById(R.id.today_cartoon_img);
+        todayCartoonTitle = (TextView) rootView.findViewById(R.id.today_cartoon_title);
+//        todayCartoonAverage = (TextView) rootView.findViewById(R.id.today_cartoon_average);
+        todayCartoonPrediction = (TextView) rootView.findViewById(R.id.today_cartoon_prediction);
 
         // 추천 이미지
         DisplayMetrics metrics = new DisplayMetrics();
@@ -150,14 +170,31 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         moreWebtoon.setOnClickListener(this);
 
         // 오늘의 추천 리스트 가져오기
-        if(contentArrayList.isEmpty()) {
-            new GetMainList().execute("mainPage/", User.getInstance().getNo() + "");
-        }else{
+        if(contentArrayList1.isEmpty() || contentArrayList2.isEmpty()) {
+            if(contentArrayList1.isEmpty()) {
+                new GetMainList(contentArrayList1, 1).execute("countOfWebtoonRank/", User.getInstance().getNo() + "");
+            }
+            if(contentArrayList2.isEmpty()) {
+                new GetMainList(contentArrayList2, 2).execute("countOfCartoonRank/", User.getInstance().getNo() + "");
+            }
+        } else {
+            // 웹툰 정보 불러오기
             Picasso.with(getContext())
-                    .load(contentArrayList.get(0).getThumbnailBig())
+                    .load(contentArrayList1.get(0).getThumbnailBig())
                     .resize(width, height)
                     .centerCrop()
                     .into(todayWebtoonImg);
+            todayWebtoonTitle.setText(contentArrayList1.get(0).getTitle());
+            todayWebtoonPrediction.setText(contentArrayList1.get(0).getPrediction().toString());
+
+            // 카툰 정보 불러오기
+            Picasso.with(getContext())
+                    .load(contentArrayList2.get(0).getThumbnailBig())
+                    .resize(width, height)
+                    .centerInside()
+                    .into(todayCartoonImg);
+            todayCartoonTitle.setText(contentArrayList2.get(0).getTitle());
+            todayCartoonPrediction.setText(contentArrayList2.get(0).getPrediction().toString());
         }
 
         return rootView;
@@ -198,6 +235,14 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     }
 
     private class GetMainList extends AsyncTask<String, Void, String> {
+
+        ArrayList<Content> contentArrayList;
+        int idx = 0;
+
+        GetMainList(ArrayList<Content> contentArrayList, int idx) {
+            this.contentArrayList = contentArrayList;
+            this.idx = idx;
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -284,11 +329,32 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             if (contentArrayList.size() == 0)
                 return;
 
-            Picasso.with(getContext())
-                    .load(contentArrayList.get(0).getThumbnailBig())
-                    .resize(width, height)
-                    .centerCrop()
-                    .into(todayWebtoonImg);
+//            Picasso.with(getContext())
+//                    .load(contentArrayList.get(0).getThumbnailBig())
+//                    .resize(width, height)
+//                    .centerCrop()
+//                    .into(todayWebtoonImg);
+
+            if(idx == 1) {  // 웹툰 정보 불러오기
+                // 웹툰 정보 불러오기
+                Picasso.with(getContext())
+                        .load(contentArrayList.get(0).getThumbnailBig())
+                        .resize(width, height)
+                        .centerCrop()
+                        .into(todayWebtoonImg);
+                todayWebtoonTitle.setText(contentArrayList.get(0).getTitle());
+                todayWebtoonPrediction.setText(contentArrayList.get(0).getPrediction().toString());
+            }
+            if(idx == 2) {   // 카툰 정보 불러오기
+                // 카툰 정보 불러오기
+                Picasso.with(getContext())
+                        .load(contentArrayList.get(0).getThumbnailBig())
+                        .resize(width, height)
+                        .centerInside()
+                        .into(todayCartoonImg);
+                todayCartoonTitle.setText(contentArrayList.get(0).getTitle());
+                todayCartoonPrediction.setText(contentArrayList.get(0).getPrediction().toString());
+            }
         }
     }
 }
