@@ -32,8 +32,7 @@ public class AuthorRankRecyclerAdapter extends RecyclerView.Adapter<RecyclerView
 
     public AuthorRankRecyclerAdapter(Context authorRankContext,
                                      ArrayList<Author> itemList,
-                                     int userNo,
-                                     RecyclerView recyclerView) {
+                                     int userNo) {
         this.authorRankContext = authorRankContext;
         this.itemList = itemList;
         this.userNo = userNo;

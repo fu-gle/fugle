@@ -64,7 +64,7 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAd
         windowManager.getDefaultDisplay().getMetrics(metrics);
 
         Picasso.with(commonContext.getApplicationContext())
-                .load(itemList.get(position).getThumbnailSmall())
+                .load(itemList.get(position).getThumbnailBig())
                 .resize(metrics.widthPixels, metrics.heightPixels/3)
                 .centerCrop()
                 .into(viewHolder.cImageView);

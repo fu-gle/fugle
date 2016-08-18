@@ -3,7 +3,6 @@
               android:orientation="horizontal"
               android:layout_width="match_parent"
               android:layout_height="50dp"
-              android:paddingRight="10dp"
     >
     <TextView
         android:id="@+id/rank_num"
@@ -44,7 +43,7 @@
     <ImageView
         android:id="@+id/detail_button"
         android:layout_weight="0.4"
-        android:layout_width="0dp"
+        android:layout_width="15dp"
         android:gravity="center"
         android:layout_height="match_parent"
         android:src="@drawable/ic_chevron_right_black"
