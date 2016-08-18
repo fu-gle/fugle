@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private Context recommendContext;
 //    Dialog dialog;
     private ArrayList<Content> list;
+    private ArrayList<String> tagList;
     private Integer userNo;
 
     // The minimum amount of items to have below your current scroll position
@@ -61,11 +63,13 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public RecommendAdapter(Context recommendContext,
 //                            Dialog dialog,
                             ArrayList<Content> list,
+                            ArrayList<String> tagList,
                             int userNo,
                             RecyclerView recyclerView){
         this.recommendContext = recommendContext;
 //        this.dialog = dialog;
         this.list = list;
+        this.tagList = tagList;
         this.userNo = userNo;
 
         if(recyclerView.getLayoutManager() instanceof LinearLayoutManager){
@@ -124,6 +128,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if(holder instanceof VHHeader){
 
             VHHeader vhHeader = (VHHeader)holder;
+
+            for(int i = 0; i < tagList.size(); i++){
+                vhHeader.tags[i].setText(tagList.get(i));
+            }
 
         }else if(holder instanceof VHItem){
             final VHItem vhItem = (VHItem)holder;
@@ -276,11 +284,18 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public class VHHeader extends RecyclerView.ViewHolder{
 
-        TextView headerText;
+        Button [] tags = new Button[8];
 
         public VHHeader(View itemView) {
             super(itemView);
-            headerText = (TextView)itemView.findViewById(R.id.headerText);
+            tags[0] = (Button)itemView.findViewById(R.id.tag1);
+            tags[1] = (Button)itemView.findViewById(R.id.tag2);
+            tags[2] = (Button)itemView.findViewById(R.id.tag3);
+            tags[3] = (Button)itemView.findViewById(R.id.tag4);
+            tags[4] = (Button)itemView.findViewById(R.id.tag5);
+            tags[5] = (Button)itemView.findViewById(R.id.tag6);
+            tags[6] = (Button)itemView.findViewById(R.id.tag7);
+            tags[7] = (Button)itemView.findViewById(R.id.tag8);
         }
     }
 

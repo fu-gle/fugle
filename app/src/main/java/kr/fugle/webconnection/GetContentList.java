@@ -33,6 +33,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
     OkHttpClient client = new OkHttpClient();
 
     ArrayList<Content> list;
+    ArrayList<String> tagList;
     RecyclerView.Adapter adapter;
     int activity;
     int userNo;
@@ -51,6 +52,11 @@ public class GetContentList extends AsyncTask<String, Void, String> {
 
     public GetContentList(Context context){
         serverUrl = context.getResources().getString(R.string.server_url);
+        activity = -1;
+    }
+
+    public void setTagList(ArrayList<String> tagList) {
+        this.tagList = tagList;
     }
 
     @Override
@@ -99,7 +105,11 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                 return null;
             }
             // json 형태로의 변환을 위해 { "" :  } 추가
-            result = "{\"\":" + responseBody + "}";
+            if(activity == 0)
+                result = responseBody;
+            else {
+                result = "{\"\":" + responseBody + "}";
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -124,14 +134,19 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                 JSONObject reader = new JSONObject(s);
 
                 // 하나씩 잘라서 adapter에 저장해야 한다
-                JSONArray dataList = reader.getJSONArray("");
+                JSONArray dataList = null;
 
-                for(int i=0;i<dataList.length();i++){
+                if(activity == 0)
+                    dataList = reader.getJSONArray("webtoon");
+                else
+                    dataList = reader.getJSONArray("");
+
+                for (int i = 0; i < dataList.length(); i++) {
                     JSONObject obj = dataList.getJSONObject(i);
-                    if(!obj.isNull("searchName")){  // 검색용 리스트 데이터
+                    if (!obj.isNull("searchName")) {  // 검색용 리스트 데이터
                         tempSearch.add(obj.getString("searchName"));
                         continue;
-                    }else {
+                    } else {
                         content = new Content();
 
                         if (!obj.isNull("id"))
@@ -140,11 +155,11 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                             content.setTitle(obj.getString("title"));
                         if (!obj.isNull("author")) {
                             String aut = obj.getString("author");
-                            aut = aut.substring(0,aut.length()-1);
+                            aut = aut.substring(0, aut.length() - 1);
                             content.setAuthor(aut);
                         }
-                        if(!obj.isNull("average"))
-                            content.setAverage((float)obj.getInt("average")/1000);
+                        if (!obj.isNull("average"))
+                            content.setAverage((float) obj.getInt("average") / 1000);
                         if (!obj.isNull("genre"))
                             content.setGenre(obj.getString("genre").substring(0, obj.getString("genre").length() - 1));
                         if (!obj.isNull("adult"))
@@ -169,6 +184,19 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                         tempList.add(content);
                     }
                 }
+
+                // 추천 리스트의 경우
+                if(activity == 0){
+                    JSONArray tags = reader.getJSONArray("tags");
+
+                    for(int i = 0; i < tags.length(); i++){
+                        JSONObject obj = tags.getJSONObject(i);
+
+                        if(!obj.isNull("tag"))
+                            tagList.add(obj.getString("tag"));
+                    }
+                }
+
             }catch(Exception e){
                 e.printStackTrace();
             }
@@ -205,6 +233,10 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         if(activity == 0){
             // Recommend Activity
             Log.d("ho's activity", "GetContentList Recommend Activity");
+            if(tagList.size() == 0)
+                Log.d("----->", "tag is empty");
+            else
+                Log.d("------>", "tags 0 " + tagList.get(0) + " size " + tagList.size());
             ((RecommendAdapter)adapter).setLoaded();
         } else if(activity == 1){
             // Rating Activity

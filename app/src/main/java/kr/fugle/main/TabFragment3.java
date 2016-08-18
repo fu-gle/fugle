@@ -35,6 +35,7 @@ import kr.fugle.webconnection.GetContentList;
 public class TabFragment3 extends Fragment {
 
     private ArrayList<Content> contentArrayList;
+    private ArrayList<String> tagList;
     private RecyclerView recyclerView;
     private RecommendAdapter adapter;
     private Integer userNo;
@@ -61,12 +62,16 @@ public class TabFragment3 extends Fragment {
 
             pageNo = 1;
 
-            new GetContentList(getContext(),
+            GetContentList getContentList = new GetContentList(getContext(),
                     contentArrayList,
                     adapter,
                     0,
-                    userNo)
-                    .execute("recommend/", userNo.toString(), pageNo + "");
+                    userNo);
+
+            if(tagList.size() == 0)
+                getContentList.setTagList(tagList);
+
+            getContentList.execute("recommend/", userNo.toString(), pageNo + "");
 
             pageNo++;
 
@@ -78,6 +83,8 @@ public class TabFragment3 extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contentArrayList = tabStatusListener.getContentList();
+        if(tagList == null)
+            tagList = new ArrayList<>();
         pageNo = tabStatusListener.getPageNo();
         userNo = User.getInstance().getNo();
     }
@@ -106,6 +113,7 @@ public class TabFragment3 extends Fragment {
                 getContext(),
 //                dialog,
                 contentArrayList,
+                tagList,
                 userNo,
                 recyclerView);
 
@@ -123,12 +131,17 @@ public class TabFragment3 extends Fragment {
                     public void run() {
                         Toast.makeText(getContext().getApplicationContext(), "rating bottom", Toast.LENGTH_SHORT).show();
 
-                        new GetContentList(getContext(),
-                                contentArrayList,
-                                adapter,
-                                0,
-                                userNo)
-                                .execute("recommend/", userNo.toString(), pageNo + "");
+                        GetContentList getContentList = new GetContentList(getContext(),
+                                    contentArrayList,
+                                    adapter,
+                                    0,
+                                    userNo);
+
+                        if(tagList.size() == 0)
+                            getContentList.setTagList(tagList);
+
+                        getContentList.execute("recommend/", userNo.toString(), pageNo + "");
+
                         pageNo++;
                     }
                 }, 1500);

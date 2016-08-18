@@ -378,8 +378,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/summary"
                         android:text="블라블라블라블라"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"/>
+                        android:paddingTop="15dp"/>
 
                 </LinearLayout>
 
