@@ -192,7 +192,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
                     for(int i = 0; i < tags.length(); i++){
                         JSONObject obj = tags.getJSONObject(i);
 
-                        if(!obj.isNull("tag"))
+                        if(!obj.isNull("tag") && tagList != null)
                             tagList.add(obj.getString("tag"));
                     }
                 }
@@ -233,7 +233,7 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         if(activity == 0){
             // Recommend Activity
             Log.d("ho's activity", "GetContentList Recommend Activity");
-            if(tagList.size() == 0)
+            if(tagList == null || tagList.size() == 0)
                 Log.d("----->", "tag is empty");
             else
                 Log.d("------>", "tags 0 " + tagList.get(0) + " size " + tagList.size());
