@@ -47,5 +47,12 @@
 
         </LinearLayout>
     </android.support.design.widget.CoordinatorLayout>
+    
+    <View
+        android:id="@+id/view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        >
+    </View>
 
 </android.support.v4.widget.DrawerLayout>

@@ -182,10 +182,10 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         // 오늘의 추천 리스트 가져오기
         if(contentArrayList1.isEmpty() || contentArrayList2.isEmpty()) {
             if(contentArrayList1.isEmpty()) {
-                new GetMainList(contentArrayList1, 1).execute("webtoonLike/", User.getInstance().getNo() + "");
+                new GetMainList(contentArrayList1, 1).execute("webtoonLog/", User.getInstance().getNo() + "");
             }
             if(contentArrayList2.isEmpty()) {
-                new GetMainList(contentArrayList2, 2).execute("cartoonLike/", User.getInstance().getNo() + "");
+                new GetMainList(contentArrayList2, 2).execute("cartoonLog/", User.getInstance().getNo() + "");
             }
         } else {
             // 웹툰 정보 불러오기

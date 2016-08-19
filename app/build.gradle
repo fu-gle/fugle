@@ -55,6 +55,8 @@ dependencies {
     compile 'com.firebase:firebase-client-android:2.5.2'
     compile 'com.google.firebase:firebase-auth:9.0.0'
 
+    // 튜토리얼을 위해
+    compile 'com.github.wooplr:Spotlight:1.2.2'
 }
 // Firebase
 apply plugin: 'com.google.gms.google-services'

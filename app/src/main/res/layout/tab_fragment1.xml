@@ -95,9 +95,9 @@
 
         <TextView
             android:id="@+id/more_today_webtoon"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right"
+            android:layout_gravity="right"
             android:paddingRight="16dp"
             android:paddingTop="16dp"
             android:paddingBottom="5dp"

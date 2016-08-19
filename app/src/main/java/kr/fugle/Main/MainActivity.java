@@ -3,31 +3,54 @@ package kr.fugle.main;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.wooplr.spotlight.SpotlightView;
+import com.wooplr.spotlight.prefs.PreferencesManager;
+import com.wooplr.spotlight.utils.SpotlightListener;
 
 import java.util.ArrayList;
 
+import kr.fugle.Intro.TutorialActivity;
+import kr.fugle.Intro.TutorialTestActivity;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.SearchData;
+import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.main.tab1.MoreWebtoonActivity;
 import kr.fugle.mystar.MyStarActivity;
-import kr.fugle.preference.PreferenceAnalysisActivity;
 import kr.fugle.rating.RatingActivity;
 import kr.fugle.search.SearchActivity;
 import kr.fugle.splash.SplashActivity;
-import kr.fugle.main.tab1.MoreWebtoonActivity;
 import kr.fugle.webconnection.GetContentList;
 
 /**
  * Created by 김은진 on 2016-07-26.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SpotlightListener {
+    final int CHECK_FINISH = 1234;
+
+    // tutorial
+    private static int order = 0;
+    private boolean isRevealEnabled = false;
+    PreferencesManager mPreferencesManager;
+    View v;
+    int right;
+    int bottom;
+    int top;
+    int left;
+
 
     final int RATING_REQUEST_CODE = 501;
     final int RATING_RESULT_CODE = 505;
@@ -46,6 +69,9 @@ public class MainActivity extends AppCompatActivity {
     TabFragment3 tabFragment3;
     TabFragment4 tabFragment4;
 
+    // test
+    CoordinatorLayout rootlayout;
+
     ArrayList<Content> contentArrayList;
     int pageNo;
     TabStatusListener tabStatusListener;
@@ -58,6 +84,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // tutorial
+        mPreferencesManager = new PreferencesManager(MainActivity.this);
+        startActivityForResult(new Intent(MainActivity.this, TutorialActivity.class), CHECK_FINISH);
+        mPreferencesManager.resetAll();
+        v = findViewById(R.id.view);
 
         if(searchItem.isEmpty()) {
             new GetContentList(getApplicationContext()).execute("searchName/");
@@ -178,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("category", "cartoon");
             startActivity(intent);
         } else if (index == 6) {    // 취향 분석
-            Intent intent = new Intent(MainActivity.this, PreferenceAnalysisActivity.class);
+            Intent intent = new Intent(MainActivity.this, TutorialTestActivity.class);
             startActivity(intent);
         }
     }
@@ -211,5 +243,156 @@ public class MainActivity extends AppCompatActivity {
         if(requestCode == RATING_REQUEST_CODE && resultCode == RATING_RESULT_CODE) {
             refresh = true;
         }
+
+        if(requestCode == CHECK_FINISH) {
+            right = tabLayout.getWidth()/4;
+            bottom = tabLayout.getBottom();
+            top = tabLayout.getTop();
+            left = tabLayout.getLeft() ;
+
+            v.setRight(right);
+            v.setBottom(bottom);
+            v.setTop(top);
+            v.setLeft(left);
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+//                    showIntro(findViewById(R.id.action_search), order+"", "검색기능", "작가와 작품을 검색할 수 있습니다.");
+                    showIntro(v, order+"", "Home", "평가하기, 취향분석, " +
+                            "사용자분들이 관심있어하는 웹툰, 만화책 랭킹을 볼수있습니다.");
+                }
+            }, 400);
+        }
+    }
+
+    public void showIntro(View view, String usageId, String title, String text) {
+        new SpotlightView.Builder(this)
+                .introAnimationDuration(400)
+                .enableRevalAnimation(isRevealEnabled)
+                .performClick(true)
+                .fadeinTextDuration(400)
+                //.setTypeface(FontUtil.get(this, "RemachineScript_Personal_Use"))
+                .headingTvColor(Color.parseColor("#eb273f"))
+                .headingTvSize(32)
+                .headingTvText(title)
+                .subHeadingTvColor(Color.parseColor("#ffffff"))
+                .subHeadingTvSize(16)
+                .subHeadingTvText(text)
+                .maskColor(Color.parseColor("#dc000000"))
+                .target(view)
+                .lineAnimDuration(400)
+                .lineAndArcColor(Color.parseColor("#eb273f"))
+                .dismissOnTouch(true)
+                .dismissOnBackPress(true)
+                .enableDismissAfterShown(false)
+                .usageId(usageId) //UNIQUE ID
+                .setListener(this)
+                .show();
+    }
+
+    @Override
+    public void onUserClicked(String s) {
+
+        Log.d("onUserClickd--->", s);
+        switch (s) {
+
+            case "0": { // 랭킹부분
+                right = tabLayout.getWidth()/4*2;
+                bottom = tabLayout.getBottom();
+                top = tabLayout.getTop();
+                left = tabLayout.getLeft()+tabLayout.getWidth()/4;
+                v.setRight(right);
+                v.setBottom(bottom);
+                v.setTop(top);
+                v.setLeft(left);
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showIntro(v, "1", "웹툰, 만화책, 작가 랭킹",
+                                "웹툰, 만화책, 작가의 평균별점순 평가갯수순 랭킹을 확인해볼수있어요!");
+                    }
+                }, 100);
+                break;
+            }
+            case "1": { // 취향 분석
+                right = tabLayout.getWidth()/4*3;
+                bottom = tabLayout.getBottom();
+                top = tabLayout.getTop();
+                left = tabLayout.getLeft()+tabLayout.getWidth()/2;
+                v.setRight(right);
+                v.setBottom(bottom);
+                v.setTop(top);
+                v.setLeft(left);
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showIntro(v, "2", User.getInstance().getName() + "님에 맞는 웹툰, 만화책 추천",
+                                "평가하기를 완료하셨다면"
+                                        + User.getInstance().getName() +
+                                        "님에 맞는 웹툰과 만화책 취향을 볼수있어요!");
+                    }
+                }, 100);
+                break;
+            }
+            case "2": {
+                right = tabLayout.getWidth();
+                bottom = tabLayout.getBottom();
+                top = tabLayout.getTop();
+                left = tabLayout.getLeft()+tabLayout.getWidth()/4*3;
+                v.setRight(right);
+                v.setBottom(bottom);
+                v.setTop(top);
+                v.setLeft(left);
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showIntro(v, "3", "마이페이지",
+                                "지금까지" + User.getInstance().getName()
+                                        + "님이 툰데레에서 활동하신 내역을 볼 수있어요 ♡");
+                    }
+                }, 100);
+                break;
+            }
+            case "3": {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showIntro(findViewById(R.id.action_search), "4", "검색기능",
+                                "원하시는 작가, 작품명을 검색할수 있어요");
+                    }
+                }, 100);
+                break;
+            }
+            case "4": {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showIntro(findViewById(R.id.tab1_like_btn2), "5", "평가하기",
+                                "만약에 평가를 하지 않으셨다면 평가를 하실 수 있어요!");
+                    }
+                }, 100);
+                break;
+            }
+            case "5": {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showIntro(findViewById(R.id.more_today_webtoon), "6", "더 보기 기능",
+                                "더 많은 웹툰과 만화책들을 볼 수 있어요.");
+                    }
+                }, 100);
+                break;
+            }
+            case "6": {
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showIntro(findViewById(R.id.today_webtoon_img), "7", "세부사항 보기",
+                                "이 작품에 세부사항을 보고 싶으시면 작품 이미지를 클릭해주세요!");
+                    }
+                }, 100);
+                break;
+            }
+         }
     }
 }
