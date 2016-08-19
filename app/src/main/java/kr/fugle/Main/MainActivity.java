@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.SearchData;
 import kr.fugle.R;
+import kr.fugle.comment.CommentActivity;
 import kr.fugle.main.tab4.likeandhate.LikeHateActivity;
 import kr.fugle.mystar.MyStarActivity;
 import kr.fugle.preference.PreferenceAnalysisActivity;
@@ -190,6 +191,17 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("category", 1);
             startActivity(intent);
         }
+    }
+
+    public void gotoComment(Content content){
+        Intent intent = new Intent(MainActivity.this, CommentActivity.class);
+
+        intent.putExtra("contentNo", content.getNo());
+        intent.putExtra("title", content.getTitle());
+        intent.putExtra("star", content.getRating());
+        intent.putExtra("isCartoon", content.getCartoon());
+
+        startActivity(intent);
     }
 
     @Override

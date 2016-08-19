@@ -3,10 +3,13 @@ package kr.fugle.main;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.CardView;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -15,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +34,7 @@ import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.login.CircleTransform;
+import kr.fugle.webconnection.PostSingleData;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -44,7 +50,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     Boolean checkBtn;   // true:취향분석, false:평가하기
 
     ArrayList<Content> contentArrayList1, contentArrayList2;
+    Content webtoon, cartoon;   // 메인 페이지에 나올 객체들
     int width, height;
+    AppCompatDialog dialog;
 
     // 1번째 카드뷰
     static boolean firstCardview = true;
@@ -54,12 +62,20 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     TextView todayWebtoonTitle; // 제목
     TextView todayWebtoonPrediction;    // 예상별점
     TextView todayWebtoonText;  // 이미지 밑에 있는 텍스트
+    LinearLayout webtoonLikeBtn;
+    TextView webtoonLike;
+    LinearLayout webtoonRatingBtn;
+    LinearLayout webtoonCommentBtn;
 
     // 카툰 정보
     ImageView todayCartoonImg;
     TextView todayCartoonTitle; // 제목
     TextView todayCartoonPrediction;    // 예상별점
     TextView todayCartoonText;
+    LinearLayout cartoonLikeBtn;
+    TextView cartoonLike;
+    LinearLayout cartoonRatingBtn;
+    LinearLayout cartoonCommentBtn;
 
     CardView cardView;
 
@@ -87,17 +103,36 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
         View rootView = inflater.inflate(R.layout.tab_fragment1, container, false);
 
+        // 별점 다이얼로그 객체 생성
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AppCompatAlertDialogStyle);
+        builder.setCancelable(true)
+                .setView(R.layout.dialog_rating);
+
+        dialog = builder.create();
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        params.width = 800;
+        dialog.getWindow().setAttributes(params);
+
         // 웹툰
         todayWebtoonImg = (ImageView) rootView.findViewById(R.id.today_webtoon_img);
         todayWebtoonTitle = (TextView) rootView.findViewById(R.id.today_webtoon_title);
         todayWebtoonPrediction = (TextView) rootView.findViewById(R.id.today_webtoon_prediction);
         todayWebtoonText = (TextView) rootView.findViewById(R.id.today_webtoon_text);
+        webtoonLikeBtn = (LinearLayout) rootView.findViewById(R.id.webtoon_like_btn);
+        webtoonLike = (TextView) rootView.findViewById(R.id.webtoon_like);
+        webtoonRatingBtn = (LinearLayout) rootView.findViewById(R.id.webtoon_rating_btn);
+        webtoonCommentBtn = (LinearLayout) rootView.findViewById(R.id.webtoon_comment_btn);
 
         // 카툰
         todayCartoonImg = (ImageView) rootView.findViewById(R.id.today_cartoon_img);
         todayCartoonTitle = (TextView) rootView.findViewById(R.id.today_cartoon_title);
         todayCartoonPrediction = (TextView) rootView.findViewById(R.id.today_cartoon_prediction);
         todayCartoonText = (TextView) rootView.findViewById(R.id.today_cartoon_text);
+        cartoonLikeBtn = (LinearLayout) rootView.findViewById(R.id.cartoon_like_btn);
+        cartoonLike = (TextView) rootView.findViewById(R.id.cartoon_like);
+        cartoonRatingBtn = (LinearLayout) rootView.findViewById(R.id.cartoon_rating_btn);
+        cartoonCommentBtn = (LinearLayout) rootView.findViewById(R.id.cartoon_comment_btn);
 
         // 추천 이미지
         DisplayMetrics metrics = new DisplayMetrics();
@@ -190,22 +225,36 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         } else {
             // 웹툰 정보 불러오기
             Picasso.with(getContext())
-                    .load(contentArrayList1.get(0).getThumbnailBig())
+                    .load(webtoon.getThumbnailBig())
                     .resize(width, height)
                     .centerCrop()
                     .into(todayWebtoonImg);
-            todayWebtoonTitle.setText(contentArrayList1.get(0).getTitle());
-            todayWebtoonPrediction.setText(contentArrayList1.get(0).getPrediction().toString());
+            todayWebtoonTitle.setText(webtoon.getTitle());
+            todayWebtoonPrediction.setText(webtoon.getPrediction().toString());
+            if(webtoon.getLike()){
+                webtoonLike.setTextColor(Color.parseColor("#F13839"));
+            }
 
             // 카툰 정보 불러오기
             Picasso.with(getContext())
-                    .load(contentArrayList2.get(0).getThumbnailBig())
+                    .load(cartoon.getThumbnailBig())
                     .resize(width, height)
                     .centerInside()
                     .into(todayCartoonImg);
-            todayCartoonTitle.setText(contentArrayList2.get(0).getTitle());
-            todayCartoonPrediction.setText(contentArrayList2.get(0).getPrediction().toString());
+            todayCartoonTitle.setText(cartoon.getTitle());
+            todayCartoonPrediction.setText(cartoon.getPrediction().toString());
+            if(cartoon.getLike()){
+                cartoonLike.setTextColor(Color.parseColor("#F13839"));
+            }
         }
+
+        // 버튼에 온클릭 할당
+        webtoonLikeBtn.setOnClickListener(this);
+        webtoonRatingBtn.setOnClickListener(this);
+        webtoonCommentBtn.setOnClickListener(this);
+        cartoonLikeBtn.setOnClickListener(this);
+        cartoonRatingBtn.setOnClickListener(this);
+        cartoonCommentBtn.setOnClickListener(this);
 
         return rootView;
     }
@@ -249,9 +298,118 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 activity.onFragmentChanged(4);
                 break;
             }
+            case R.id.webtoon_like_btn: {   // 오늘의 웹툰 보고싶어요
+                postLike(webtoon, webtoonLike);
+                break;
+            }
+            case R.id.webtoon_rating_btn: { // 오늘의 웹툰 평가하기
+                postRating(webtoon);
+                break;
+            }
+            case R.id.webtoon_comment_btn: {    //오늘의 웹툰 코멘트
+                postComment(webtoon);
+                break;
+            }
+            case R.id.cartoon_like_btn: {   // 오늘의 만화 보고싶어요
+                postLike(cartoon, cartoonLike);
+                break;
+            }
+            case R.id.cartoon_rating_btn: { // 오늘의 만화 평가하기
+                postRating(cartoon);
+                break;
+            }
+            case R.id.cartoon_comment_btn: {    // 오늘의 만화 코멘트
+                postComment(cartoon);
+                break;
+            }
             default:
                 break;
         }
+    }
+
+    // 보고싶어요 전송하는 메소드
+    private void postLike(Content content, TextView textView){
+        if(content == null) {
+            Toast.makeText(getContext(), "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Toast.makeText(getContext().getApplicationContext(), "만화 : " + content.getNo() + "'s like " + content.getLike(), Toast.LENGTH_SHORT).show();
+
+        // 서버로 데이터 전송
+        new PostSingleData(getContext().getApplicationContext())
+                .execute("like/", User.getInstance().getNo().toString(), content.getNo().toString());
+
+        if(content.getLike()){  // 이미 보고싶어요가 눌렸던 상태
+            User.getInstance().setLikes(User.getInstance().getLikes() - 1);
+            textView.setTextColor(Color.parseColor("#777777"));
+            content.setLike(false);
+        }else {
+            User.getInstance().setLikes(User.getInstance().getLikes() + 1);
+            textView.setTextColor(Color.parseColor("#F13839"));
+            content.setLike(true);
+        }
+    }
+
+    private void postRating(final Content content){
+        Log.d("ho's activity", "DetailActivity ratingBtn clicked");
+
+        dialog.show();
+
+        if(content == null){
+            Toast.makeText(getContext(), "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
+            dialog.cancel();
+            return;
+        }
+
+        ((TextView)dialog.findViewById(R.id.title)).setText(content.getTitle());
+
+        RatingBar ratingBar = (RatingBar)dialog.findViewById(R.id.ratingBar);
+        if(content != null) {
+            assert ratingBar != null;
+            ratingBar.setRating(content.getRating());
+        }
+
+        assert ratingBar != null;
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if(fromUser){
+
+                    // 별점 준 갯수 증가
+                    if(rating == 0){
+                        if(content.getCartoon())
+                            User.getInstance().setCartoonStars(User.getInstance().getCartoonStars() - 1);
+                        else
+                            User.getInstance().setWebtoonStars(User.getInstance().getWebtoonStars() - 1);
+                    }else if(content.getRating() == 0){
+                        if(content.getCartoon())
+                            User.getInstance().setCartoonStars(User.getInstance().getCartoonStars() + 1);
+                        else
+                            User.getInstance().setWebtoonStars(User.getInstance().getWebtoonStars() + 1);
+                    }
+
+                    Integer Rating = (int)(rating * 10);
+
+                    content.setRating(rating);
+
+                    Toast.makeText(getContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+
+                    new PostSingleData(getContext()).execute("insert/", User.getInstance().getNo().toString(), content.getNo().toString(), Rating.toString());
+
+                    dialog.cancel();
+                }
+            }
+        });
+    }
+
+    private void postComment(Content content){
+        if(content == null){
+            Toast.makeText(getContext(), "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ((MainActivity)getActivity()).gotoComment(content);
     }
 
     private class GetMainList extends AsyncTask<String, Void, String> {
@@ -362,6 +520,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             Content content = contentArrayList.get(0);
 
             if(idx == 1) {  // 웹툰 정보 불러오기
+
+                webtoon = content;
+
                 // 웹툰 정보 불러오기
                 Picasso.with(getContext())
                         .load(content.getThumbnailBig())
@@ -375,8 +536,15 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                         +content.getTags()
                         +"\n" + content.getLikeCnt()
                         +"명의 분들이 보고싶어요를 눌러주셨어요!");
+
+                if(content.getLike()){
+                    webtoonLike.setTextColor(Color.parseColor("#F13839"));
+                }
             }
             if(idx == 2) {   // 카툰 정보 불러오기
+
+                cartoon = content;
+
                 // 카툰 정보 불러오기
                 Picasso.with(getContext())
                         .load(content.getThumbnailBig())
@@ -390,6 +558,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                         +content.getTags()
                         +"\n" + content.getLikeCnt()
                         +"명의 분들이 보고싶어요를 눌러주셨어요!");
+                if(content.getLike()){
+                    cartoonLike.setTextColor(Color.parseColor("#F13839"));
+                }
             }
         }
     }

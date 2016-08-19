@@ -194,6 +194,13 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
                 }
             });
 
+            // 보기싫어요 버튼 보고싶어요 색 적용
+            if(content.getHate()){
+                vhItem.hate.setTextColor(Color.parseColor("#61CAFC"));
+            }else{
+                vhItem.hate.setTextColor(Color.parseColor("#777777"));
+            }
+
             // 보기싫어요 버튼
             vhItem.hate.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -206,11 +213,11 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
                             .execute("dontsee/", userNo.toString(), content.getNo().toString());
 
                     if(content.getHate()){  // 이미 보기싫어요 상태..는 없지않나?
-                        vhItem.hate.setTextColor(Color.parseColor("#000000"));
+                        vhItem.hate.setTextColor(Color.parseColor("#777777"));
                         User.getInstance().setHates(User.getInstance().getHates() - 1);
                         content.setHate(false);
                     }else{  // 여기서 보기 싫어요 액션부분
-                        vhItem.hate.setTextColor(Color.parseColor("#AAAAAA"));
+                        vhItem.hate.setTextColor(Color.parseColor("#61CAFC"));
                         User.getInstance().setHates(User.getInstance().getHates() + 1);
                         content.setHate(true);
                     }
