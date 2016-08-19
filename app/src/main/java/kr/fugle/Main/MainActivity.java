@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.SearchData;
 import kr.fugle.R;
+import kr.fugle.main.tab4.likeandhate.LikeHateActivity;
 import kr.fugle.mystar.MyStarActivity;
 import kr.fugle.preference.PreferenceAnalysisActivity;
 import kr.fugle.rating.RatingActivity;
@@ -179,6 +180,14 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         } else if (index == 6) {    // 취향 분석
             Intent intent = new Intent(MainActivity.this, PreferenceAnalysisActivity.class);
+            startActivity(intent);
+        } else if (index == 7) {    // 보고싶어요 목록 버튼 눌렀을시
+            Intent intent = new Intent(MainActivity.this, LikeHateActivity.class);
+            intent.putExtra("category", 0);
+            startActivity(intent);
+        } else if (index == 8) {    // 보기싫어요 목록 버튼 눌렀을시
+            Intent intent = new Intent(MainActivity.this, LikeHateActivity.class);
+            intent.putExtra("category", 1);
             startActivity(intent);
         }
     }

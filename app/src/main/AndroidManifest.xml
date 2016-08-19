@@ -106,7 +106,7 @@
         </activity>
 
         <!-- 보고싶어요 목록 액티비티 -->
-        <activity android:name=".main.tab4.like.LikeActivity"></activity>
+        <activity android:name=".main.tab4.likeandhate.LikeHateActivity"></activity>
     </application>
 
 </manifest>
