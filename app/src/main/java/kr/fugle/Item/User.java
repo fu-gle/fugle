@@ -8,7 +8,7 @@ public class User {
 
     private static User user;
 
-    private int no;
+    private Integer no;
     private String email;
     private String passwd;
     private String name;
@@ -50,11 +50,11 @@ public class User {
         this.message = message;
     }
 
-    public int getNo() {
+    public Integer getNo() {
         return no;
     }
 
-    public void setNo(int no) {
+    public void setNo(Integer no) {
         this.no = no;
     }
 

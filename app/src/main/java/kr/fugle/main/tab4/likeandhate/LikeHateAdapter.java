@@ -1,4 +1,4 @@
-package kr.fugle.recommend;
+package kr.fugle.main.tab4.likeandhate;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,12 +8,10 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,24 +29,19 @@ import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
-import kr.fugle.main.tab3.TagActivity;
-import kr.fugle.webconnection.PostUserLog;
 import kr.fugle.webconnection.PostSingleData;
-
-//import com.afollestad.materialdialogs.MaterialDialog;
+import kr.fugle.webconnection.PostUserLog;
 
 /**
- * Created by hokyung on 16. 7. 12..
+ * Created by hokyung on 16. 8. 18..
  */
-public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class LikeHateAdapter extends RecyclerView.Adapter{
 
-    private static final int TYPE_HEADER = 0;
-    private static final int TYPE_ITEM = 1;
-    private static final int TYPE_PROG = 2;
+    private static final int TYPE_ITEM = 0;
+    private static final int TYPE_PROG = 1;
 
-    private Context recommendContext;
+    private Context likeContext;
     private ArrayList<Content> list;
-    private ArrayList<String> tagList;
     private Integer userNo;
 
     // The minimum amount of items to have below your current scroll position
@@ -61,14 +54,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private ActivityStartListener activityStartListener;
 
-    public RecommendAdapter(Context recommendContext,
-                            ArrayList<Content> list,
-                            ArrayList<String> tagList,
-                            int userNo,
-                            RecyclerView recyclerView){
-        this.recommendContext = recommendContext;
+    public LikeHateAdapter(Context likeContext,
+                           ArrayList<Content> list,
+                           int userNo,
+                           RecyclerView recyclerView){
+        this.likeContext = likeContext;
         this.list = list;
-        this.tagList = tagList;
         this.userNo = userNo;
 
         if(recyclerView.getLayoutManager() instanceof LinearLayoutManager){
@@ -109,10 +100,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if(viewType == TYPE_HEADER){
-            View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend_header, parent, false);
-            return new VHHeader(v);
-        }else if(viewType == TYPE_ITEM) {
+        if(viewType == TYPE_ITEM) {
             View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_recommend, parent, false);
             return new VHItem(v);
         }else if(viewType == TYPE_PROG) {
@@ -124,34 +112,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(holder instanceof VHHeader){
-
-            VHHeader vhHeader = (VHHeader)holder;
-
-            for(int i = 0; i < tagList.size(); i++){
-                vhHeader.tags[i].setVisibility(View.VISIBLE);
-
-                final String tag = tagList.get(i);
-
-                vhHeader.tags[i].setText(tag);
-
-                vhHeader.tags[i].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d("ho's activity", "Recommend Activity tag clicked " + tag);
-
-                        Intent intent = new Intent(recommendContext, TagActivity.class);
-                        intent.putExtra("tag", tag);
-
-                        activityStartListener.activityStart(intent);
-                    }
-                });
-            }
-
-        }else if(holder instanceof VHItem){
+        if(holder instanceof VHItem){
             final VHItem vhItem = (VHItem)holder;
 
-            final Content content = list.get(position - 1);
+            final Content content = list.get(position);
 
             vhItem.prediction.setText(content.getPrediction().toString());
             vhItem.title.setText(content.getTitle());
@@ -169,12 +133,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
             DisplayMetrics metrics = new DisplayMetrics();
-            WindowManager windowManager = (WindowManager) recommendContext
+            WindowManager windowManager = (WindowManager) likeContext
                     .getApplicationContext()
                     .getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
-            Picasso.with(recommendContext.getApplicationContext())
+            Picasso.with(likeContext.getApplicationContext())
                     .load(content.getThumbnailBig())
                     .resize(metrics.widthPixels, metrics.heightPixels/3)
                     .centerCrop()
@@ -188,13 +152,13 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     // 상세보기 누른 흔적 전송
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String time = dateFormat.format(new Date());
-                    new PostUserLog(recommendContext.getApplicationContext())
+                    new PostUserLog(likeContext.getApplicationContext())
                             .execute("", userNo.toString(), content.getNo().toString(), time);
 
-                    Intent intent = new Intent(recommendContext, DetailActivity.class);
+                    Intent intent = new Intent(likeContext, DetailActivity.class);
                     intent.putExtra("userNo", userNo);
                     intent.putExtra("contentNo", content.getNo());
-                    recommendContext.startActivity(intent);
+                    likeContext.startActivity(intent);
 
                 }
             });
@@ -212,10 +176,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             vhItem.like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(recommendContext.getApplicationContext(), "만화 : " + content.getNo() + "'s like " + content.getLike(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(likeContext.getApplicationContext(), "만화 : " + content.getNo() + "'s like " + content.getLike(), Toast.LENGTH_SHORT).show();
 
                     // 서버로 데이터 전송
-                    new PostSingleData(recommendContext.getApplicationContext())
+                    new PostSingleData(likeContext.getApplicationContext())
                             .execute("like/", userNo.toString(), content.getNo().toString());
 
                     if(content.getLike()){  // 이미 보고싶어요가 눌렸던 상태
@@ -230,23 +194,30 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
+            // 보기싫어요 버튼 보고싶어요 색 적용
+            if(content.getHate()){
+                vhItem.hate.setTextColor(Color.parseColor("#61CAFC"));
+            }else{
+                vhItem.hate.setTextColor(Color.parseColor("#777777"));
+            }
+
             // 보기싫어요 버튼
             vhItem.hate.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(recommendContext, "만화 : " + content.getNo() + "'s 보기싫어요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(likeContext, "만화 : " + content.getNo() + "'s 보기싫어요", Toast.LENGTH_SHORT).show();
 
                     // 서버로 데이터 전송
-                    new PostSingleData(recommendContext.getApplicationContext())
+                    new PostSingleData(likeContext.getApplicationContext())
                             .execute("dontsee/", userNo.toString(), content.getNo().toString());
 
                     if(content.getHate()){  // 이미 보기싫어요 상태..는 없지않나?
-                        vhItem.hate.setTextColor(Color.parseColor("#000000"));
+                        vhItem.hate.setTextColor(Color.parseColor("#777777"));
                         User.getInstance().setHates(User.getInstance().getHates() - 1);
                         content.setHate(false);
                     }else{  // 여기서 보기 싫어요 액션부분
-                        vhItem.hate.setTextColor(Color.parseColor("#AAAAAA"));
+                        vhItem.hate.setTextColor(Color.parseColor("#61CAFC"));
                         User.getInstance().setHates(User.getInstance().getHates() + 1);
                         content.setHate(true);
                     }
@@ -257,12 +228,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             vhItem.link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(recommendContext, "만화 : " + content.getNo() + "'s 지금볼래요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(likeContext, "만화 : " + content.getNo() + "'s 지금볼래요", Toast.LENGTH_SHORT).show();
 
                     // 지금볼래요 누른 흔적 전송
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     String time = dateFormat.format(new Date());
-                    new PostUserLog(recommendContext.getApplicationContext())
+                    new PostUserLog(likeContext.getApplicationContext())
                             .execute("", userNo.toString(), content.getNo().toString(), time);
 
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(content.getLink()));
@@ -278,9 +249,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemViewType(int position) {
-        if(position == 0)
-            return TYPE_HEADER;
-        else if(list.get(position - 1) == null)
+        if(list.get(position) == null)
             return TYPE_PROG;
         else
             return TYPE_ITEM;
@@ -292,24 +261,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        return list.size() + 1;
-    }
-
-    public class VHHeader extends RecyclerView.ViewHolder{
-
-        Button [] tags = new Button[8];
-
-        public VHHeader(View itemView) {
-            super(itemView);
-            tags[0] = (Button)itemView.findViewById(R.id.tag1);
-            tags[1] = (Button)itemView.findViewById(R.id.tag2);
-            tags[2] = (Button)itemView.findViewById(R.id.tag3);
-            tags[3] = (Button)itemView.findViewById(R.id.tag4);
-            tags[4] = (Button)itemView.findViewById(R.id.tag5);
-            tags[5] = (Button)itemView.findViewById(R.id.tag6);
-            tags[6] = (Button)itemView.findViewById(R.id.tag7);
-            tags[7] = (Button)itemView.findViewById(R.id.tag8);
-        }
+        return list.size();
     }
 
     public class VHItem extends RecyclerView.ViewHolder{

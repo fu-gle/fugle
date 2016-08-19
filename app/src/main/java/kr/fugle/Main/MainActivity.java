@@ -28,7 +28,9 @@ import kr.fugle.Item.Content;
 import kr.fugle.Item.SearchData;
 import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.comment.CommentActivity;
 import kr.fugle.main.tab1.MoreWebtoonActivity;
+import kr.fugle.main.tab4.likeandhate.LikeHateActivity;
 import kr.fugle.mystar.MyStarActivity;
 import kr.fugle.rating.RatingActivity;
 import kr.fugle.search.SearchActivity;
@@ -212,7 +214,26 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
         } else if (index == 6) {    // 취향 분석
             Intent intent = new Intent(MainActivity.this, TutorialTestActivity.class);
             startActivity(intent);
+        } else if (index == 7) {    // 보고싶어요 목록 버튼 눌렀을시
+            Intent intent = new Intent(MainActivity.this, LikeHateActivity.class);
+            intent.putExtra("category", 0);
+            startActivity(intent);
+        } else if (index == 8) {    // 보기싫어요 목록 버튼 눌렀을시
+            Intent intent = new Intent(MainActivity.this, LikeHateActivity.class);
+            intent.putExtra("category", 1);
+            startActivity(intent);
         }
+    }
+
+    public void gotoComment(Content content){
+        Intent intent = new Intent(MainActivity.this, CommentActivity.class);
+
+        intent.putExtra("contentNo", content.getNo());
+        intent.putExtra("title", content.getTitle());
+        intent.putExtra("star", content.getRating());
+        intent.putExtra("isCartoon", content.getCartoon());
+
+        startActivity(intent);
     }
 
     @Override

@@ -154,6 +154,11 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if(content == null){
+                    Toast.makeText(DetailActivity.this, "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 // 서버로 데이터 전송
                 new PostSingleData(getApplicationContext())
                         .execute("like/", userNo.toString(), contentNo.toString());
@@ -173,12 +178,23 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("ho's activity", "DetailActivity ratingBtn clicked");
+
                 dialog.show();
+
+                if(content == null){
+                    Toast.makeText(DetailActivity.this, "잠시후 눌러주세요", Toast.LENGTH_SHORT).show();
+                    dialog.cancel();
+                    return;
+                }
+
+                ((TextView)dialog.findViewById(R.id.title)).setText(content.getTitle());
 
                 RatingBar ratingBar = (RatingBar)dialog.findViewById(R.id.ratingBar);
                 if(content != null) {
+                    assert ratingBar != null;
                     ratingBar.setRating(content.getRating());
                 }
+                assert ratingBar != null;
                 ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                             @Override
                             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
