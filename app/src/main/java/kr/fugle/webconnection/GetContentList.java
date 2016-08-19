@@ -256,8 +256,12 @@ public class GetContentList extends AsyncTask<String, Void, String> {
             // WebtoonRank Activity
             Log.d("uwangg's activity", "GetContentList WebtoonRank Activity");
         } else if(activity == 5) {
+            // LikeHate Activity
             Log.d("ho's activity", "GetContentList Like Activity");
             ((LikeHateAdapter)adapter).setLoaded();
+        } else if(activity == 6) {
+            // Tag Activity
+            Log.d("ho's activity", "GetContentList Tag Activity");
         }
     }
 }

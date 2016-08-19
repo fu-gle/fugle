@@ -8,6 +8,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.detail.DetailActivity;
+import kr.fugle.main.tab3.TagActivity;
 import kr.fugle.webconnection.PostUserLog;
 import kr.fugle.webconnection.PostSingleData;
 
@@ -128,7 +130,22 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             for(int i = 0; i < tagList.size(); i++){
                 vhHeader.tags[i].setVisibility(View.VISIBLE);
-                vhHeader.tags[i].setText(tagList.get(i));
+
+                final String tag = tagList.get(i);
+
+                vhHeader.tags[i].setText(tag);
+
+                vhHeader.tags[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("ho's activity", "Recommend Activity tag clicked " + tag);
+
+                        Intent intent = new Intent(recommendContext, TagActivity.class);
+                        intent.putExtra("tag", tag);
+
+                        activityStartListener.activityStart(intent);
+                    }
+                });
             }
 
         }else if(holder instanceof VHItem){
