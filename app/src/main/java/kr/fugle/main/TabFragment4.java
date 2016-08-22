@@ -349,11 +349,19 @@ public class TabFragment4 extends Fragment {
             imgPath = data.getData().toString();
             Log.d("uwangg's camera data : ", data.getData().toString());
             user.setProfileImg(imgPath);
+            new PostSingleData(getContext())
+                    .execute("userProfileImg/",
+                            User.getInstance().getNo()+"",
+                            imgPath);
         }
         if (requestCode == BACK_PICK_CODE) {
             imgPath = data.getData().toString();
             Log.d("uwangg's back data : ", data.getData().toString());
             user.setProfileBackground(imgPath);
+            new PostSingleData(getContext())
+                    .execute("userProfileBackground/",
+                            User.getInstance().getNo()+"",
+                            imgPath);
         }
     }
 }
