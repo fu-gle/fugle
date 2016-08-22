@@ -34,6 +34,7 @@ import kr.fugle.preference.PreferenceAnalysisActivity;
 import kr.fugle.rating.RatingActivity;
 import kr.fugle.search.SearchActivity;
 import kr.fugle.splash.SplashActivity;
+import kr.fugle.suggestion.SuggestionActivity;
 import kr.fugle.webconnection.GetContentList;
 
 /**
@@ -244,12 +245,22 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
 
-        if(id == R.id.action_search) {
-            startActivity(new Intent(MainActivity.this, SearchActivity.class));
-//            finish();
-            return true;
+        switch (item.getItemId()){
+            case R.id.action_search: {  // 검색 버튼 클릭시
+                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                break;
+            }
+            case R.id.action_settings: {    // 세팅 버튼 클릭시
+                break;
+            }
+            case R.id.action_suggestion: {    // 건의사항 버튼 클릭시
+                startActivity(new Intent(MainActivity.this, SuggestionActivity.class));
+                break;
+            }
+            default: {
+
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -284,20 +295,6 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
         if(requestCode == RATING_REQUEST_CODE && resultCode == RATING_RESULT_CODE) {
             refresh = true;
             return;
-        }
-
-        // 프로필 사진을 바꿨는지 확인
-        if(requestCode == REQ_PROFILE_PICK_CODE && data != null){
-            user.setProfileImg(data.getData().toString());
-            Log.d("------>", "프로필 체인지 " + data.getData().toString());
-            // 서버에 이미지 주소 변경을 알려야함
-        }
-
-        // 커버 사진을 바꿨는지 확인
-        if(requestCode == REQ_BACKGROUND_PICK_CODE && data != null){
-            user.setProfileBackground(data.getData().toString());
-            Log.d("------>", "커버사진 체인지 " + data.getData().toString());
-            // 서버에 이미지 주소 변경을 알려야함
         }
     }
 

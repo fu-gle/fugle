@@ -96,6 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="자기소개글을 입력해주세요."
+                    android:padding="4dp"
                     />
             </LinearLayout>
 

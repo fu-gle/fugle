@@ -124,11 +124,20 @@ public class DetailActivity extends AppCompatActivity {
         WindowManager windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(metrics);
 
-        Picasso.with(getApplicationContext())
-                .load(content.getThumbnailBig())
-                .resize(metrics.widthPixels, metrics.heightPixels/3)
-                .centerCrop()
-                .into(thumbnailImg);
+        // 만화의 경우 centerInside
+        if(content.getCartoon()){
+            Picasso.with(getApplicationContext())
+                    .load(content.getThumbnailBig())
+                    .resize(metrics.widthPixels, metrics.heightPixels / 3)
+                    .centerInside()
+                    .into(thumbnailImg);
+        }else {
+            Picasso.with(getApplicationContext())
+                    .load(content.getThumbnailBig())
+                    .resize(metrics.widthPixels, metrics.heightPixels / 3)
+                    .centerCrop()
+                    .into(thumbnailImg);
+        }
 
         title.setText(content.getTitle());
         title2.setText(content.getTitle());
@@ -391,8 +400,8 @@ public class DetailActivity extends AppCompatActivity {
                             content.setTags(obj.getString("tags").substring(0, obj.getString("tags").length() - 1));
                         if (!obj.isNull("star"))
                             content.setRating((float) (obj.getInt("star") * 1.0) / 10);
-                        if (!obj.isNull("isCartoon"))
-                            content.setCartoon(obj.getBoolean("isCartoon"));
+                        if (!obj.isNull("is_cartoon"))
+                            content.setCartoon(obj.getBoolean("is_cartoon"));
 
                     }
                 }catch(Exception e){
@@ -403,6 +412,26 @@ public class DetailActivity extends AppCompatActivity {
             if(content == null){
                 Toast.makeText(getApplicationContext(), "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
                 return;
+            }
+
+            // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
+            DisplayMetrics metrics = new DisplayMetrics();
+            WindowManager windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+            windowManager.getDefaultDisplay().getMetrics(metrics);
+
+            // 만화의 경우 centerInside
+            if(content.getCartoon()){
+                Picasso.with(getApplicationContext())
+                        .load(content.getThumbnailBig())
+                        .resize(metrics.widthPixels, metrics.heightPixels / 3)
+                        .centerInside()
+                        .into(thumbnailImg);
+            }else {
+                Picasso.with(getApplicationContext())
+                        .load(content.getThumbnailBig())
+                        .resize(metrics.widthPixels, metrics.heightPixels / 3)
+                        .centerCrop()
+                        .into(thumbnailImg);
             }
 
             average.setText("★ "+ String.format("%.1f",content.getAverage()));

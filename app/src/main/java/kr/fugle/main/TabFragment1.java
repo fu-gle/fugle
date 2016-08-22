@@ -522,8 +522,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                             content.setTags(obj.getString("tags").substring(0, obj.getString("tags").length() - 1));
                         if (!obj.isNull("dontsee"))
                             content.setHate(obj.getBoolean("dontsee"));
-                        if (!obj.isNull("isCartoon"))
-                            content.setCartoon(obj.getBoolean("isCartoon"));
+                        if (!obj.isNull("is_cartoon"))
+                            content.setCartoon(obj.getBoolean("is_cartoon"));
                         if (!obj.isNull("likecnt"))
                             content.setLikeCnt(obj.getInt("likecnt"));
 

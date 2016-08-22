@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -87,6 +89,16 @@ public class TagActivity extends AppCompatActivity {
                 6,
                 user.getNo())
                 .execute("searchTagName/", tag);
+
+        // 위로가기 버튼 Floating Action Button
+        findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
+
+                recyclerView.smoothScrollToPosition(0);
+            }
+        });
     }
 
     @Override
