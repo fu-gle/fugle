@@ -1,13 +1,16 @@
 package kr.fugle.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -49,48 +52,73 @@ public class TabFragment4 extends Fragment {
     // 프로필 사진 이미지 주소
     private String imgPath;
 
-    public void setTabStatusListener(TabStatusListener tabStatusListener){
+    // 배경 사진 갤러리에서 사진가져오기
+    private int BACK_PICK_CODE = 101;
+    private int width;
+    private int height;
+
+    public void setTabStatusListener(TabStatusListener tabStatusListener) {
         this.tabStatusListener = tabStatusListener;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.tab_fragment4, container,false);
+        View rootView = inflater.inflate(R.layout.tab_fragment4, container, false);
 
         // 취향분석 버튼
-        Button favoriteBtn = (Button)rootView.findViewById(R.id.prof_favorite_button);
+        Button favoriteBtn = (Button) rootView.findViewById(R.id.prof_favorite_button);
         favoriteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity activity = (MainActivity)getActivity();
+                MainActivity activity = (MainActivity) getActivity();
                 activity.onFragmentChanged(0);
             }
         });
 
         // 평가하기 버튼
-        Button ratingBtn = (Button)rootView.findViewById(R.id.prof_rating_button);
+        Button ratingBtn = (Button) rootView.findViewById(R.id.prof_rating_button);
         ratingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity activity = (MainActivity)getActivity();
+                MainActivity activity = (MainActivity) getActivity();
                 activity.onFragmentChanged(0);
             }
         });
 
         // 커버사진 (프로필 사진 뒤에 사진)
         backgroundImg = (ImageView) rootView.findViewById(R.id.header_cover_image);
-        if(!user.getProfileBackground().equals("")){    // 배경사진이 있다면
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) getContext()
+                .getApplicationContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+
+        width = metrics.widthPixels;
+        height = metrics.heightPixels/3;
+        if (!user.getProfileBackground().equals("")) {    // 배경사진이 있다면
             Picasso.with(getContext().getApplicationContext())
                     .load(user.getProfileBackground())
+                    .resize(width, height)
+                    .centerCrop()
                     .into(backgroundImg);
         }
 
         // 커버 사진 변경
-        backgroundImg.setOnClickListener(onClicked);
+        backgroundImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pickerIntent = new Intent(Intent.ACTION_PICK);
+                pickerIntent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                pickerIntent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(pickerIntent, BACK_PICK_CODE);
+            }
+        });
 
         // 프로필 사진
-        profileView = (ImageView)rootView.findViewById(R.id.user_profile_photo) ;
+        profileView = (ImageView) rootView.findViewById(R.id.user_profile_photo);
         String profileImagePath = user.getProfileImg();
         CircleTransform circleTransform = new CircleTransform();
         Picasso.with(getActivity().getApplicationContext())
@@ -113,20 +141,20 @@ public class TabFragment4 extends Fragment {
 
         // 이름
         String name = user.getName();
-        TextView nameView = (TextView)rootView.findViewById(R.id.prof_name);
+        TextView nameView = (TextView) rootView.findViewById(R.id.prof_name);
         nameView.setText(name);
 
         // 자기소개
         String message = user.getMessage();
-        if(message.equals("") || message.equals("null") || message == null)
+        if (message.equals("") || message.equals("null") || message == null)
             message = "자기소개 글을 입력해주세요";
-        TextView profMessage = (TextView)rootView.findViewById(R.id.prof_message);
+        TextView profMessage = (TextView) rootView.findViewById(R.id.prof_message);
         profMessage.setText(message);
         profMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 클릭시 자기소개 수정 다이얼로그
-                
+
             }
         });
 
@@ -145,11 +173,11 @@ public class TabFragment4 extends Fragment {
         hate = (TextView) rootView.findViewById(R.id.hate);
 
         // 내가 별점 준 웹툰 버튼
-        profWebtoonBtn = (Button)rootView.findViewById(R.id.prof_webtoon_btn);
+        profWebtoonBtn = (Button) rootView.findViewById(R.id.prof_webtoon_btn);
         profWebtoonBtn.setOnClickListener(onClicked);
 
         // 내가 별점 준 만화 버튼
-        profCartoonBtn = (Button)rootView.findViewById(R.id.prof_cartoon_btn);
+        profCartoonBtn = (Button) rootView.findViewById(R.id.prof_cartoon_btn);
         profCartoonBtn.setOnClickListener(onClicked);
 
         // 로그아웃
@@ -165,15 +193,15 @@ public class TabFragment4 extends Fragment {
         @Override
         public void onClick(View v) {
 
-            MainActivity activity = (MainActivity)getActivity();
+            MainActivity activity = (MainActivity) getActivity();
 
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.header_cover_image: { // 커버 사진 변경
                     Intent pickerIntent = new Intent(Intent.ACTION_PICK);
                     pickerIntent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
                     pickerIntent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                    startActivityForResult(pickerIntent, ((MainActivity)getActivity()).REQ_BACKGROUND_PICK_CODE);
+                    startActivityForResult(pickerIntent, ((MainActivity) getActivity()).REQ_BACKGROUND_PICK_CODE);
                     break;
                 }
                 case R.id.user_profile_photo: { // 프로필 사진 변경
@@ -181,7 +209,7 @@ public class TabFragment4 extends Fragment {
                     pickerIntent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
                     pickerIntent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                    startActivityForResult(pickerIntent, ((MainActivity)getActivity()).REQ_PROFILE_PICK_CODE);
+                    startActivityForResult(pickerIntent, ((MainActivity) getActivity()).REQ_PROFILE_PICK_CODE);
                     break;
                 }
                 case R.id.prof_webtoon_btn: {   // 내가 별점 준 웹툰 목록
@@ -210,9 +238,9 @@ public class TabFragment4 extends Fragment {
             // 페이스북
             if (AccessToken.getCurrentAccessToken() != null) {
                 LoginManager.getInstance().logOut();
-                MainActivity activity = (MainActivity)getActivity();
+                MainActivity activity = (MainActivity) getActivity();
                 activity.onFragmentChanged(1);
-                Log.d("---->","페북로그아웃");
+                Log.d("---->", "페북로그아웃");
             }
 
             // 카카오톡
@@ -220,12 +248,12 @@ public class TabFragment4 extends Fragment {
                 @Override
                 public void onCompleteLogout() {
                     Session.getCurrentSession().close();
-                    MainActivity activity = (MainActivity)getActivity();
+                    MainActivity activity = (MainActivity) getActivity();
                     activity.onFragmentChanged(1);
-                    Log.d("---->","카톡로그아웃");
+                    Log.d("---->", "카톡로그아웃");
                 }
             });
-            Log.d("---->","if밖로그아웃");
+            Log.d("---->", "if밖로그아웃");
         }
     };
 
@@ -241,6 +269,16 @@ public class TabFragment4 extends Fragment {
                 .load(user.getProfileImg())
                 .transform(circleTransform)
                 .into(profileView);
+
+        Log.d("uwangg's user back : ",user.getProfileBackground());
+
+        if (!user.getProfileBackground().equals("")) {
+            Picasso.with(getContext().getApplicationContext())
+                    .load(user.getProfileBackground())
+                    .resize(width, height)
+                    .centerCrop()
+                    .into(backgroundImg);
+        }
         like.setText(user.getLikes().toString());
         hate.setText(user.getHates().toString());
         profWebtoonBtn.setText("웹툰 " + user.getWebtoonStars().toString());
@@ -249,11 +287,18 @@ public class TabFragment4 extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(data == null) return;
+        if (data == null) return;
         super.onActivityResult(requestCode, resultCode, data);
 
-        imgPath = data.getData().toString();
-        Log.d("uwangg's camera data : ", data.getData().toString());
-        user.setProfileImg(imgPath);
+        if (requestCode == REQ_PICK_CODE) {
+            imgPath = data.getData().toString();
+            Log.d("uwangg's camera data : ", data.getData().toString());
+            user.setProfileImg(imgPath);
+        }
+        if (requestCode == BACK_PICK_CODE) {
+            imgPath = data.getData().toString();
+            Log.d("uwangg's back data : ", data.getData().toString());
+            user.setProfileBackground(imgPath);
+        }
     }
 }
