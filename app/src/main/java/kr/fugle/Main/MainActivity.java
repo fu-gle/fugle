@@ -61,10 +61,10 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
     final int RATING_RESULT_CODE = 505;
 
     private Toolbar toolbar;
+    R.drawable.ic_home_white,
     private TabLayout tabLayout;
     private ViewPager viewPager;
     public int[] tabIcons = {
-            R.drawable.ic_home_white,
             R.drawable.ic_trending_up_white,
             R.drawable.ic_favorite_white,
             R.drawable.ic_person_white
