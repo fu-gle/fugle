@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import kr.fugle.Item.Content;
@@ -29,6 +31,7 @@ import kr.fugle.R;
 import kr.fugle.comment.CommentActivity;
 import kr.fugle.detail.DetailActivity;
 import kr.fugle.webconnection.PostSingleData;
+import kr.fugle.webconnection.PostUserLog;
 
 /**
  * Created by hokyung on 16. 7. 24..
@@ -160,6 +163,12 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                                     new PostSingleData(myStarContext.getApplicationContext())
                                             .execute("like/", userNo.toString(), content.getNo().toString());
 
+                                    // 보고싶어요 누른 흔적 전송
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    String time = dateFormat.format(new Date());
+                                    new PostUserLog(myStarContext.getApplicationContext())
+                                            .execute("", userNo.toString(), content.getNo().toString(), time);
+
                                     dialog.cancel();
                                 }
                             });
@@ -169,8 +178,16 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+
+                                    // 상세정보 누른 흔적 전송
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    String time = dateFormat.format(new Date());
+                                    new PostUserLog(myStarContext.getApplicationContext())
+                                            .execute("", userNo.toString(), content.getNo().toString(), time);
+
                                     Toast.makeText(myStarContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(myStarContext, DetailActivity.class);
+                                    intent.putExtra("content", content);
                                     intent.putExtra("userNo", userNo);
                                     intent.putExtra("contentNo", content.getNo());
                                     myStarContext.startActivity(intent);
@@ -178,6 +195,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                                 }
                             });
 
+                    // 코멘트 버튼
                     dialog.findViewById(R.id.comment)
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -204,6 +222,15 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if(fromUser){
+
+                        if(content.getRating() == 0){
+                            // 별점 누른 흔적 전송
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            String time = dateFormat.format(new Date());
+                            new PostUserLog(myStarContext.getApplicationContext())
+                                    .execute("", userNo.toString(), content.getNo().toString(), time);
+                        }
+
                         Integer Rating = (int)(rating * 10);
 
                         content.setRating(rating);

@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
     int top;
     int left;
 
+    // 갤러리에서 사진가져오기
+    final int REQ_PROFILE_PICK_CODE = 100;
+    final int REQ_BACKGROUND_PICK_CODE = 101;
 
     final int RATING_REQUEST_CODE = 501;
     final int RATING_RESULT_CODE = 505;
@@ -74,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
     int pageNo;
     TabStatusListener tabStatusListener;
     boolean refresh;
+    User user = User.getInstance();
 
     // 작가명, 작품명만 들어있는 리스트
     private ArrayList<String> searchItem = SearchData.getInstance().getList();
@@ -183,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
     public void onFragmentChanged(int index) {
         if (index == 0) {
             Intent intent = new Intent(MainActivity.this, RatingActivity.class);
-            //intent.putExtra("userNo", user.getNo());
             startActivityForResult(intent, RATING_REQUEST_CODE);
         } else if(index == 1) { // 로그아웃 버튼 눌렀을시
             Intent intent = new Intent(MainActivity.this, SplashActivity.class);
@@ -256,11 +259,7 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // 평점을 매겼는지 확인
-        if(requestCode == RATING_REQUEST_CODE && resultCode == RATING_RESULT_CODE) {
-            refresh = true;
-        }
-
+        // 튜토리얼 용
         if(requestCode == CHECK_FINISH) {
             right = tabLayout.getWidth()/4;
             bottom = tabLayout.getBottom();
@@ -279,6 +278,26 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
                             "사용자분들이 관심있어하는 웹툰, 만화책 랭킹을 볼수있습니다.");
                 }
             }, 600);
+        }
+
+        // 평점을 매겼으면 추천 목록 새로고침
+        if(requestCode == RATING_REQUEST_CODE && resultCode == RATING_RESULT_CODE) {
+            refresh = true;
+            return;
+        }
+
+        // 프로필 사진을 바꿨는지 확인
+        if(requestCode == REQ_PROFILE_PICK_CODE && data != null){
+            user.setProfileImg(data.getData().toString());
+            Log.d("------>", "프로필 체인지 " + data.getData().toString());
+            // 서버에 이미지 주소 변경을 알려야함
+        }
+
+        // 커버 사진을 바꿨는지 확인
+        if(requestCode == REQ_BACKGROUND_PICK_CODE && data != null){
+            user.setProfileBackground(data.getData().toString());
+            Log.d("------>", "커버사진 체인지 " + data.getData().toString());
+            // 서버에 이미지 주소 변경을 알려야함
         }
     }
 
@@ -343,9 +362,9 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        showIntro(v, "2", User.getInstance().getName() + "님에 맞는 웹툰, 만화책 추천",
+                        showIntro(v, "2", user.getName() + "님에 맞는 웹툰, 만화책 추천",
                                 "평가하기를 완료하셨다면"
-                                        + User.getInstance().getName() +
+                                        + user.getName() +
                                         "님에 맞는 웹툰과 만화책 취향을 볼수있어요!");
                     }
                 }, 100);
@@ -364,7 +383,7 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
                     @Override
                     public void run() {
                         showIntro(v, "3", "마이페이지",
-                                "지금까지" + User.getInstance().getName()
+                                "지금까지" + user.getName()
                                         + "님이 툰데레에서 활동하신 내역을 볼 수있어요 ♡");
                     }
                 }, 100);

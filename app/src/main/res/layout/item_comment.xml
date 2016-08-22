@@ -13,7 +13,10 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/profileImg"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:background="@drawable/profile_circular_border_imageview"
+            android:scaleType="centerCrop"
+            android:src="@drawable/egg_profile"/>
 
         <TextView
             android:layout_width="wrap_content"

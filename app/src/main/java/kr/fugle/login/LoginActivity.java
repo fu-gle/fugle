@@ -71,7 +71,6 @@ public class LoginActivity extends AppCompatActivity {
 
     // User 정보 저장
     JSONObject obj;
-    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

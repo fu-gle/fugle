@@ -12,10 +12,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import kr.fugle.Item.Comment;
 import kr.fugle.R;
+import kr.fugle.login.CircleTransform;
 
 /**
  * Created by hokyung on 16. 8. 16..
@@ -45,8 +45,10 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         final Comment comment = list.get(position);
 
-        Picasso.with(commentContext)
+        CircleTransform circleTransform = new CircleTransform();
+        Picasso.with(commentContext.getApplicationContext())
                 .load(comment.getProfileImg())
+                .transform(circleTransform)
                 .into(vhItem.profileImg);
 
         vhItem.userName.setText(comment.getUserName());

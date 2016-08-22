@@ -177,6 +177,12 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             }else{
                                 User.getInstance().setLikes(User.getInstance().getLikes() + 1);
                                 content.setLike(true);
+
+                                // 보고싶어요 누른 흔적 전송
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                String time = dateFormat.format(new Date());
+                                new PostUserLog(ratingContext.getApplicationContext())
+                                        .execute("", userNo.toString(), content.getNo().toString(), time);
                             }
 
                             dialog.cancel();
@@ -197,6 +203,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
                             Toast.makeText(ratingContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(ratingContext, DetailActivity.class);
+                            intent.putExtra("content", content);
                             intent.putExtra("userNo", userNo);
                             intent.putExtra("contentNo", content.getNo());
                             ratingContext.startActivity(intent);
@@ -224,8 +231,6 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                 }
             });
 
-            if(vhItem.ratingBar == null)
-                Log.d("-----","ratingbar is null");
             vhItem.ratingBar.setRating(content.getRating());
             vhItem.ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
@@ -233,6 +238,13 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                     if(fromUser){
                         // 별점 준 갯수 증가
                         if(rating == 0){
+
+                            // 별점 누른 흔적 전송
+                            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            String time = dateFormat.format(new Date());
+                            new PostUserLog(ratingContext.getApplicationContext())
+                                    .execute("", userNo.toString(), content.getNo().toString(), time);
+
                             if(content.getCartoon())
                                 User.getInstance().setCartoonStars(User.getInstance().getCartoonStars() - 1);
                             else

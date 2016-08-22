@@ -192,6 +192,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .execute("", userNo.toString(), content.getNo().toString(), time);
 
                     Intent intent = new Intent(recommendContext, DetailActivity.class);
+                    intent.putExtra("content", content);
                     intent.putExtra("userNo", userNo);
                     intent.putExtra("contentNo", content.getNo());
                     recommendContext.startActivity(intent);
@@ -226,6 +227,12 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         vhItem.like.setTextColor(Color.parseColor("#F13839"));
                         User.getInstance().setLikes(User.getInstance().getLikes() + 1);
                         content.setLike(true);
+
+                        // 보고싶어요 누른 흔적 전송
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String time = dateFormat.format(new Date());
+                        new PostUserLog(recommendContext.getApplicationContext())
+                                .execute("", userNo.toString(), content.getNo().toString(), time);
                     }
                 }
             });

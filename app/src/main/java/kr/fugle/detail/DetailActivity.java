@@ -87,6 +87,7 @@ public class DetailActivity extends AppCompatActivity {
         serverUrl = this.getResources().getString(R.string.server_url);
 
         Intent data = getIntent();
+        content = (Content)data.getSerializableExtra("content");
         userNo = User.getInstance().getNo();
         contentNo = data.getIntExtra("contentNo", 0);
 
@@ -169,6 +170,12 @@ public class DetailActivity extends AppCompatActivity {
                 }else{
                     preferenceBtn.setTextColor(Color.parseColor("#F13839"));
                     content.setLike(true);
+
+                    // 보고싶어요 누른 흔적 전송
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    String time = dateFormat.format(new Date());
+                    new PostUserLog(getApplicationContext())
+                            .execute("", userNo.toString(), content.getNo().toString(), time);
                 }
             }
         });
@@ -206,10 +213,23 @@ public class DetailActivity extends AppCompatActivity {
 
                                     new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), contentNo.toString(), Rating.toString());
 
+                                    // 별점 누른 흔적 전송
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                    String time = dateFormat.format(new Date());
+                                    new PostUserLog(getApplicationContext())
+                                            .execute("", userNo.toString(), content.getNo().toString(), time);
+
                                 }else if(fromUser){
 
                                     // 별점 준 갯수 증가
                                     if(rating == 0){
+
+                                        // 별점 누른 흔적 전송
+                                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        String time = dateFormat.format(new Date());
+                                        new PostUserLog(getApplicationContext())
+                                                .execute("", userNo.toString(), content.getNo().toString(), time);
+
                                         if(content.getCartoon())
                                             User.getInstance().setCartoonStars(User.getInstance().getCartoonStars() - 1);
                                         else
