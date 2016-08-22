@@ -56,6 +56,8 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAd
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
+        final Content content = itemList.get(position);
+
         // 이미지
         DisplayMetrics metrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) commonContext
@@ -64,17 +66,17 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAd
         windowManager.getDefaultDisplay().getMetrics(metrics);
 
         Picasso.with(commonContext.getApplicationContext())
-                .load(itemList.get(position).getThumbnailBig())
+                .load(content.getThumbnailBig())
                 .resize(metrics.widthPixels, metrics.heightPixels/3)
                 .centerCrop()
                 .into(viewHolder.cImageView);
 
         // 타이틀
-        viewHolder.cTitleView.setText(itemList.get(position).getTitle());
+        viewHolder.cTitleView.setText(content.getTitle());
         // 평점
-        viewHolder.cStarView.setText("★ "+ String.format("%.1f",itemList.get(position).getAverage()));
+        viewHolder.cStarView.setText("★ "+ String.format("%.1f",content.getAverage()));
         // 작가명
-        viewHolder.cAuthorView.setText(itemList.get(position).getAuthor());
+        viewHolder.cAuthorView.setText(content.getAuthor());
 
         viewHolder.card.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,11 +84,12 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAd
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String time = dateFormat.format(new Date());
                 new PostUserLog(commonContext)
-                        .execute("", userNo.toString(), itemList.get(position).getNo().toString(), time);
+                        .execute("", userNo.toString(), content.getNo().toString(), time);
 
                 Intent intent = new Intent(commonContext, DetailActivity.class);
+                intent.putExtra("content", content);
                 intent.putExtra("userNo", userNo);
-                intent.putExtra("contentNo", itemList.get(position).getNo());
+                intent.putExtra("contentNo", content.getNo());
 
                 activityStartListener.activityStart(intent);
             }

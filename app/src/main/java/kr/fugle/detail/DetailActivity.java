@@ -87,6 +87,7 @@ public class DetailActivity extends AppCompatActivity {
         serverUrl = this.getResources().getString(R.string.server_url);
 
         Intent data = getIntent();
+        content = (Content)data.getSerializableExtra("content");
         userNo = User.getInstance().getNo();
         contentNo = data.getIntExtra("contentNo", 0);
 

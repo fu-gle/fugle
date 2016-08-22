@@ -187,6 +187,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
 
                                     Toast.makeText(myStarContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(myStarContext, DetailActivity.class);
+                                    intent.putExtra("content", content);
                                     intent.putExtra("userNo", userNo);
                                     intent.putExtra("contentNo", content.getNo());
                                     myStarContext.startActivity(intent);

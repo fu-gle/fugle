@@ -192,6 +192,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .execute("", userNo.toString(), content.getNo().toString(), time);
 
                     Intent intent = new Intent(recommendContext, DetailActivity.class);
+                    intent.putExtra("content", content);
                     intent.putExtra("userNo", userNo);
                     intent.putExtra("contentNo", content.getNo());
                     recommendContext.startActivity(intent);

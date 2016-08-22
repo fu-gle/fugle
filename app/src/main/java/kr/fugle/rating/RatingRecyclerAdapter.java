@@ -203,6 +203,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
                             Toast.makeText(ratingContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(ratingContext, DetailActivity.class);
+                            intent.putExtra("content", content);
                             intent.putExtra("userNo", userNo);
                             intent.putExtra("contentNo", content.getNo());
                             ratingContext.startActivity(intent);
