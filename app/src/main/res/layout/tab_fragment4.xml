@@ -12,26 +12,32 @@
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@drawable/landscape"
+            android:src="@drawable/android_background"
             android:scaleType="centerCrop"
             />
 
         <Button
             android:id="@+id/prof_favorite_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="40dp"
             android:layout_alignBottom="@+id/header_cover_image"
             android:layout_alignLeft="@+id/header_cover_image"
             android:text="취향분석"
+            android:background="@drawable/round_box_button4"
+            android:layout_margin="15dp"
+            android:textColor="@color/mainColor"
             />
 
         <Button
             android:id="@+id/prof_rating_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="90dp"
+            android:layout_height="40dp"
             android:layout_alignBottom="@+id/header_cover_image"
             android:layout_alignRight="@+id/header_cover_image"
             android:text="평가하기"
+            android:background="@drawable/round_box_button4"
+            android:layout_margin="15dp"
+            android:textColor="@color/mainColor"
             />
 
         <ImageView

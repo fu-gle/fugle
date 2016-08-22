@@ -16,14 +16,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/headerText"
                 android:text="제안하는 태그"
-                android:padding="5dp"/>
+                android:padding="15dp"/>
 
             <!--<TextView-->
                 <!--android:layout_width="match_parent"-->
@@ -33,11 +33,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:orientation="horizontal">
 
                     <Button
@@ -46,9 +51,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="미국"
-                        android:background="@drawable/round_box_button2"
+                        android:background="@drawable/round_box_button4"
                         android:visibility="gone"
-                        android:layout_margin="3dp"/>
+                        android:layout_margin="4dp"
+                        android:textColor="@color/mainColor"
+                        />
 
                     <Button
                         android:id="@+id/tag2"
@@ -56,9 +63,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="블록버스터"
-                        android:background="@drawable/round_box_button2"
+                        android:background="@drawable/round_box_button4"
                         android:visibility="gone"
-                        android:layout_margin="3dp"/>
+                        android:layout_margin="4dp"
+                        android:textColor="@color/mainColor"
+                        />
 
                     <Button
                         android:id="@+id/tag3"
@@ -66,9 +75,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="2010년대"
-                        android:background="@drawable/round_box_button2"
+                        android:background="@drawable/round_box_button4"
                         android:visibility="gone"
-                        android:layout_margin="3dp"/>
+                        android:layout_margin="4dp"
+                        android:textColor="@color/mainColor"
+                        />
 
                     <Button
                         android:id="@+id/tag4"
@@ -76,16 +87,19 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="2000년대"
-                        android:background="@drawable/round_box_button2"
+                        android:background="@drawable/round_box_button4"
                         android:visibility="gone"
-                        android:layout_margin="3dp"/>
+                        android:layout_margin="4dp"
+                        android:textColor="@color/mainColor"
+                        />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="50dp"
+                    android:orientation="horizontal"
+                    >
 
                     <Button
                         android:id="@+id/tag5"
@@ -93,9 +107,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="미국"
-                        android:background="@drawable/round_box_button2"
+                        android:background="@drawable/round_box_button4"
                         android:visibility="gone"
-                        android:layout_margin="3dp"/>
+                        android:layout_margin="4dp"
+                        android:textColor="@color/mainColor"
+                        />
 
                     <Button
                         android:id="@+id/tag6"
@@ -103,9 +119,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="블록버스터"
-                        android:background="@drawable/round_box_button2"
+                        android:background="@drawable/round_box_button4"
                         android:visibility="gone"
-                        android:layout_margin="3dp"/>
+                        android:layout_margin="4dp"
+                        android:textColor="@color/mainColor"
+                        />
 
                     <Button
                         android:id="@+id/tag7"
@@ -113,9 +131,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="2010년대"
-                        android:background="@drawable/round_box_button2"
+                        android:background="@drawable/round_box_button4"
                         android:visibility="gone"
-                        android:layout_margin="3dp"/>
+                        android:layout_margin="4dp"
+                        android:textColor="@color/mainColor"
+                        />
 
                     <Button
                         android:id="@+id/tag8"
@@ -123,9 +143,11 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="2000년대"
-                        android:background="@drawable/round_box_button2"
+                        android:background="@drawable/round_box_button4"
                         android:visibility="gone"
-                        android:layout_margin="3dp"/>
+                        android:layout_margin="4dp"
+                        android:textColor="@color/mainColor"
+                        />
 
                 </LinearLayout>
 

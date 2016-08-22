@@ -133,7 +133,7 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                 final String tag = tagList.get(i);
 
-                vhHeader.tags[i].setText(tag);
+                vhHeader.tags[i].setText("#"+tag);
 
                 vhHeader.tags[i].setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -174,11 +174,19 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     .getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
-            Picasso.with(recommendContext.getApplicationContext())
-                    .load(content.getThumbnailBig())
-                    .resize(metrics.widthPixels, metrics.heightPixels/3)
-                    .centerCrop()
-                    .into(vhItem.thumbnailImg);
+            if(content.getCartoon() == true) {
+                Picasso.with(recommendContext.getApplicationContext())
+                        .load(content.getThumbnailBig())
+                        .resize(metrics.widthPixels, metrics.heightPixels / 3)
+                        .centerInside()
+                        .into(vhItem.thumbnailImg);
+            } else {
+                Picasso.with(recommendContext.getApplicationContext())
+                        .load(content.getThumbnailBig())
+                        .resize(metrics.widthPixels, metrics.heightPixels / 3)
+                        .centerCrop()
+                        .into(vhItem.thumbnailImg);
+            }
 
             // 이미지 클릭시 상세보기로 넘어간다
             vhItem.thumbnailImg.setOnClickListener(new View.OnClickListener() {
