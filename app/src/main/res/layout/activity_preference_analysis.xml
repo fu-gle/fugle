@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -30,13 +30,88 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <ImageView
+            android:id="@+id/profile_img"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/egg_profile"
+            />
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="이름"
+            android:textStyle="bold"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            />
+        <TextView
+            android:id="@+id/star_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="평가갯수"
+            android:textSize="16dp"
+            android:layout_marginBottom="20dp"
+            />
+        
+        <android.support.v7.widget.CardView
+            android:id="@+id/zero_cardview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
+            app:contentPadding="16dp"
+            app:cardCornerRadius="5dp"
+            android:layout_margin="5dp"
             >
-        </android.support.v7.widget.RecyclerView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+            <TextView
+                android:id="@+id/zero_count_text"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:text="아직 평가가 없습니다."
+                android:textSize="17dp"
+                android:gravity="center"
+                />
+            <Button
+                android:id="@+id/go_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="평가하러가기"
+                android:padding="10dp"
+                android:textColor="@color/selector_text"
+                android:background="@drawable/select_button2"
+                android:layout_gravity="center"
+                />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentPadding="16dp"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="15dp"
+            >
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardview2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentPadding="16dp"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="2dp"
+            android:layout_marginBottom="15dp"
+            >
+        </android.support.v7.widget.CardView>
     </LinearLayout>
-
-</android.support.design.widget.CoordinatorLayout>
+</ScrollView>

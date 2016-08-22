@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/round_box_button"
+            android:background="@drawable/round_box_button1"
             android:gravity="center"
             android:onClick="onEmailButtonClicked"
             android:text="이메일로 로그인"
