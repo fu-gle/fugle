@@ -68,14 +68,6 @@ public class CommentActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_comment, menu);
-        for(int i = 0; i < menu.size(); i++) {
-            MenuItem item = menu.getItem(i);
-            SpannableString spanString = new SpannableString(menu.getItem(i).getTitle().toString());
-            int end = spanString.length();
-            spanString.setSpan(new AbsoluteSizeSpan(30, true), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-//            spanString.setSpan(new RelativeSizeSpan(1.5f), 0, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            item.setTitle(spanString);
-        }
         return true;
     }
 
