@@ -12,4 +12,7 @@
     <color name="whiteColor">#ffffff</color>
     <!-- fugle 전용색 -->
 
+    <!-- 투명색 -->
+    <color name="transparentMainColor">#0061CAFC</color>
+
 </resources>

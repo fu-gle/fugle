@@ -3,6 +3,7 @@ package kr.fugle.main;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,10 +30,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.detail.DetailActivity;
 import kr.fugle.login.CircleTransform;
 import kr.fugle.webconnection.PostSingleData;
 import okhttp3.MediaType;
@@ -59,6 +62,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
     // 웹툰 정보
     ImageView todayWebtoonImg;
+    TextView todayWebtoonFirstTitle;    // 몇월 몇주차 제목
     TextView todayWebtoonTitle; // 제목
     TextView todayWebtoonPrediction;    // 예상별점
     TextView todayWebtoonText;  // 이미지 밑에 있는 텍스트
@@ -69,6 +73,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
     // 카툰 정보
     ImageView todayCartoonImg;
+    TextView todayCartoonFirstTitle;    // 몇월 몇주차 제목
     TextView todayCartoonTitle; // 제목
     TextView todayCartoonPrediction;    // 예상별점
     TextView todayCartoonText;
@@ -116,6 +121,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
         // 웹툰
         todayWebtoonImg = (ImageView) rootView.findViewById(R.id.today_webtoon_img);
+        todayWebtoonFirstTitle = (TextView) rootView.findViewById(R.id.today_webtoon_first_title);
         todayWebtoonTitle = (TextView) rootView.findViewById(R.id.today_webtoon_title);
         todayWebtoonPrediction = (TextView) rootView.findViewById(R.id.today_webtoon_prediction);
         todayWebtoonText = (TextView) rootView.findViewById(R.id.today_webtoon_text);
@@ -126,6 +132,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
         // 카툰
         todayCartoonImg = (ImageView) rootView.findViewById(R.id.today_cartoon_img);
+        todayCartoonFirstTitle = (TextView) rootView.findViewById(R.id.today_cartoon_first_title);
         todayCartoonTitle = (TextView) rootView.findViewById(R.id.today_cartoon_title);
         todayCartoonPrediction = (TextView) rootView.findViewById(R.id.today_cartoon_prediction);
         todayCartoonText = (TextView) rootView.findViewById(R.id.today_cartoon_text);
@@ -133,6 +140,13 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         cartoonLike = (TextView) rootView.findViewById(R.id.cartoon_like);
         cartoonRatingBtn = (LinearLayout) rootView.findViewById(R.id.cartoon_rating_btn);
         cartoonCommentBtn = (LinearLayout) rootView.findViewById(R.id.cartoon_comment_btn);
+
+        // 월, 주차 표시
+        Calendar cal = Calendar.getInstance();
+        todayWebtoonFirstTitle.setText((cal.get(2)+1)+"월 "
+                +(cal.get(Calendar.WEEK_OF_MONTH)-1)+"주차의 인기 웹툰이예요!");
+        todayCartoonFirstTitle.setText((cal.get(2)+1)+"월 "
+                +(cal.get(Calendar.WEEK_OF_MONTH)-1)+"주차의 인기 만화책이예요!");
 
         // 추천 이미지
         DisplayMetrics metrics = new DisplayMetrics();
@@ -203,14 +217,11 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             checkBtn = true;
         }
 
-//        TextView likeView = (TextView)rootView.findViewById(R.id.tab1_like_content);
+
         likeView.setText(tabLikeContent);
         // button부분
-//        TextView likeBtn1 = (TextView) rootView.findViewById(R.id.tab1_like_btn1);
         likeBtn1.setOnClickListener(this);
-//        TextView likeBtn2 = (TextView) rootView.findViewById(R.id.tab1_like_btn2);
         likeBtn2.setOnClickListener(this);
-//        TextView moreWebtoon = (TextView) rootView.findViewById(R.id.more_today_webtoon);
         moreWebtoon.setOnClickListener(this);
         moreCartoon.setOnClickListener(this);
 
@@ -255,6 +266,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         cartoonLikeBtn.setOnClickListener(this);
         cartoonRatingBtn.setOnClickListener(this);
         cartoonCommentBtn.setOnClickListener(this);
+        todayWebtoonImg.setOnClickListener(this);
+        todayCartoonImg.setOnClickListener(this);
 
         return rootView;
     }
@@ -320,6 +333,12 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             }
             case R.id.cartoon_comment_btn: {    // 오늘의 만화 코멘트
                 postComment(cartoon);
+                break;
+            }
+            case R.id.today_webtoon_img: {
+                break;
+            }
+            case R.id.today_cartoon_img: {
                 break;
             }
             default:
@@ -425,10 +444,10 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         @Override
         protected String doInBackground(String... params) {
 
-            Log.d("ho's activity", "GetMainList.doInBackground");
+            Log.d("uwangg's activity", "GetMainList.doInBackground");
 
             String data = "userId=" + params[1];
-            Log.d("ho's activity", "GetMainList data " + data);
+            Log.d("uwangg's activity", "GetMainList data " + data);
 
             RequestBody body = RequestBody.create(HTML, data);
 
@@ -480,8 +499,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                             aut = aut.substring(0, aut.length() - 1);
                             content.setAuthor(aut);
                         }
-                        if (!obj.isNull("average"))
+                        if (!obj.isNull("average")) {
                             content.setAverage((float) obj.getInt("average") / 1000);
+                        }
                         if (!obj.isNull("genre"))
                             content.setGenre(obj.getString("genre").substring(0, obj.getString("genre").length() - 1));
                         if (!obj.isNull("adult"))
@@ -514,10 +534,11 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 }
             }
 
-            if (contentArrayList.size() == 0)
+            if (contentArrayList.size() == 0) {
                 return;
+            }
 
-            Content content = contentArrayList.get(0);
+            final Content content = contentArrayList.get(0);
 
             if(idx == 1) {  // 웹툰 정보 불러오기
 
@@ -530,7 +551,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                         .centerCrop()
                         .into(todayWebtoonImg);
                 todayWebtoonTitle.setText(content.getTitle());
-                todayWebtoonPrediction.setText(content.getAverage().toString());
+                todayWebtoonPrediction.setText(content.getPrediction().toString());
                 todayWebtoonText.setText(
                         "태그 : "
                         +content.getTags()
@@ -540,6 +561,15 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 if(content.getLike()){
                     webtoonLike.setTextColor(Color.parseColor("#F13839"));
                 }
+                todayWebtoonImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), DetailActivity.class);
+                        intent.putExtra("content", content);
+                        intent.putExtra("contentNo", content.getNo());
+                        startActivity(intent);
+                    }
+                });
             }
             if(idx == 2) {   // 카툰 정보 불러오기
 
@@ -552,7 +582,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                         .centerInside()
                         .into(todayCartoonImg);
                 todayCartoonTitle.setText(content.getTitle());
-                todayCartoonPrediction.setText(content.getAverage().toString());
+                todayCartoonPrediction.setText(content.getPrediction().toString());
                 todayCartoonText.setText(
                         "태그 : "
                         +content.getTags()
@@ -561,6 +591,15 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 if(content.getLike()){
                     cartoonLike.setTextColor(Color.parseColor("#F13839"));
                 }
+                todayCartoonImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getContext(), DetailActivity.class);
+                        intent.putExtra("content", content);
+                        intent.putExtra("contentNo", content.getNo());
+                        startActivity(intent);
+                    }
+                });
             }
         }
     }

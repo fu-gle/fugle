@@ -119,6 +119,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/today_webtoon_first_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -142,7 +143,7 @@
                         android:id="@+id/today_webtoon_prediction_title"
                         android:paddingLeft="5dp"
                         android:paddingTop="3dp"
-                        android:text="평균 별점 "
+                        android:text="예상 별점 "
                         android:layout_above="@+id/today_webtoon_title"
                         android:layout_alignLeft="@+id/today_webtoon_title"
                         android:background="#9FFF"/>
@@ -281,6 +282,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/today_cartoon_first_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp"
@@ -304,7 +306,7 @@
                         android:id="@+id/today_cartoon_prediction_title"
                         android:paddingLeft="5dp"
                         android:paddingTop="3dp"
-                        android:text="평균 별점 "
+                        android:text="예상 별점 "
                         android:layout_above="@+id/today_cartoon_title"
                         android:layout_alignLeft="@+id/today_cartoon_title"
                         android:background="#9FFF"/>

@@ -111,7 +111,6 @@
         <activity android:name=".Intro.TutorialTestActivity">
         </activity>
         <activity android:name=".Intro.TutorialActivity"
-            android:theme="@style/Theme.Transparent"
             >
         </activity>
         <!-- 보고싶어요 보기싫어요 목록 액티비티 -->

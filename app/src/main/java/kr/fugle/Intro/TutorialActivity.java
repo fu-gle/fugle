@@ -3,7 +3,7 @@ package kr.fugle.Intro;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.wooplr.spotlight.prefs.PreferencesManager;
 
@@ -23,8 +23,8 @@ public class TutorialActivity extends Activity {
 
         mPreferencesManager = new PreferencesManager(TutorialActivity.this);
 
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.rootLayout);
-        linearLayout.setOnClickListener(new View.OnClickListener() {
+        RelativeLayout relativeLayout = (RelativeLayout)findViewById(R.id.rootLayout);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

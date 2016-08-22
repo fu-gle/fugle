@@ -65,7 +65,7 @@
 
     <!-- 투명한 activity -->
     <style name="Theme.Transparent" parent="android:Theme">
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/transparentMainColor</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowAnimationStyle">@android:style/Animation</item>

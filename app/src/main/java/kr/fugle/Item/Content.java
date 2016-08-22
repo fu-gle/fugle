@@ -21,7 +21,7 @@ public class Content implements Serializable {
     Float prediction;   // 예상 별점
     Float rating;   // 내가 준 별점
     Boolean like;  // 보고싶어요 클릭 여부
-    Float average;  // 평균 별
+    Float average;  // 평균 별점
     String tags;    // 테그 들
     Boolean adult;
     Boolean hate;

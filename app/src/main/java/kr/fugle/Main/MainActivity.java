@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +22,6 @@ import com.wooplr.spotlight.utils.SpotlightListener;
 import java.util.ArrayList;
 
 import kr.fugle.Intro.TutorialActivity;
-import kr.fugle.Intro.TutorialTestActivity;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.SearchData;
 import kr.fugle.Item.User;
@@ -32,6 +30,7 @@ import kr.fugle.comment.CommentActivity;
 import kr.fugle.main.tab1.MoreWebtoonActivity;
 import kr.fugle.main.tab4.likeandhate.LikeHateActivity;
 import kr.fugle.mystar.MyStarActivity;
+import kr.fugle.preference.PreferenceAnalysisActivity;
 import kr.fugle.rating.RatingActivity;
 import kr.fugle.search.SearchActivity;
 import kr.fugle.splash.SplashActivity;
@@ -58,10 +57,10 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
     final int RATING_RESULT_CODE = 505;
 
     private Toolbar toolbar;
-    R.drawable.ic_home_white,
     private TabLayout tabLayout;
     private ViewPager viewPager;
     public int[] tabIcons = {
+            R.drawable.ic_home_white,
             R.drawable.ic_trending_up_white,
             R.drawable.ic_favorite_white,
             R.drawable.ic_person_white
@@ -70,9 +69,6 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
     TabFragment2 tabFragment2;
     TabFragment3 tabFragment3;
     TabFragment4 tabFragment4;
-
-    // test
-    CoordinatorLayout rootlayout;
 
     ArrayList<Content> contentArrayList;
     int pageNo;
@@ -90,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
         // tutorial
         mPreferencesManager = new PreferencesManager(MainActivity.this);
         startActivityForResult(new Intent(MainActivity.this, TutorialActivity.class), CHECK_FINISH);
-        mPreferencesManager.resetAll();
+//        mPreferencesManager.resetAll();
         v = findViewById(R.id.view);
 
         if(searchItem.isEmpty()) {
@@ -212,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
             intent.putExtra("category", "cartoon");
             startActivity(intent);
         } else if (index == 6) {    // 취향 분석
-            Intent intent = new Intent(MainActivity.this, TutorialTestActivity.class);
+            Intent intent = new Intent(MainActivity.this, PreferenceAnalysisActivity.class);
             startActivity(intent);
         } else if (index == 7) {    // 보고싶어요 목록 버튼 눌렀을시
             Intent intent = new Intent(MainActivity.this, LikeHateActivity.class);
@@ -282,16 +278,16 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
                     showIntro(v, order+"", "Home", "평가하기, 취향분석, " +
                             "사용자분들이 관심있어하는 웹툰, 만화책 랭킹을 볼수있습니다.");
                 }
-            }, 400);
+            }, 600);
         }
     }
 
     public void showIntro(View view, String usageId, String title, String text) {
         new SpotlightView.Builder(this)
-                .introAnimationDuration(400)
+                .introAnimationDuration(0)
                 .enableRevalAnimation(isRevealEnabled)
                 .performClick(true)
-                .fadeinTextDuration(400)
+                .fadeinTextDuration(0)
                 //.setTypeface(FontUtil.get(this, "RemachineScript_Personal_Use"))
                 .headingTvColor(Color.parseColor("#eb273f"))
                 .headingTvSize(32)
@@ -301,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
                 .subHeadingTvText(text)
                 .maskColor(Color.parseColor("#dc000000"))
                 .target(view)
-                .lineAnimDuration(400)
+                .lineAnimDuration(0)
                 .lineAndArcColor(Color.parseColor("#eb273f"))
                 .dismissOnTouch(true)
                 .dismissOnBackPress(true)
