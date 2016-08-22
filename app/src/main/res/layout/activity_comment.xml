@@ -53,16 +53,17 @@
                     android:id="@+id/ratingBar"
                     android:layout_centerInParent="true"
                     android:layout_marginTop="18dp"
-                    android:layout_marginBottom="18dp"/>
+                    android:layout_marginBottom="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@drawable/textview_border"
+                    android:layout_below="@+id/ratingBar"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"/>
 
             </RelativeLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="@drawable/textview_border"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"/>
 
             <EditText
                 android:layout_width="match_parent"

@@ -18,9 +18,13 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.webconnection.PostSingleData;
+import kr.fugle.webconnection.PostUserLog;
 
 public class CommentActivity extends AppCompatActivity {
 
@@ -97,6 +101,13 @@ public class CommentActivity extends AppCompatActivity {
 
                     // 별점 준 갯수 증가
                     if(rating == 0){
+
+                        // 별점 누른 흔적 전송
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        String time = dateFormat.format(new Date());
+                        new PostUserLog(getApplicationContext())
+                                .execute("", User.getInstance().getNo().toString(), contentNo + "", time);
+
                         if(isCartoon)
                             User.getInstance().setCartoonStars(User.getInstance().getCartoonStars() - 1);
                         else

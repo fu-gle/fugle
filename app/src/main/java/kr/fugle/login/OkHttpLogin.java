@@ -9,6 +9,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.SocketTimeoutException;
+
 import kr.fugle.Item.ActivityStartListener;
 import kr.fugle.Item.User;
 import kr.fugle.R;
@@ -41,6 +43,10 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
+
+        // 서버의 결과를 받을 변수
+        String result = "";
+
         // 서버로 보낼 사용자 데이터
         // server address, primary, name, password, message, profile
         String data = "primary=" + params[1] + "&name=" + params[2]
@@ -60,12 +66,16 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
         try {
             // 서버로 전송
             Response response = client.newCall(request).execute();
-            return response.body().string();
+            result = response.body().string();
+        } catch (SocketTimeoutException e) {
+            e.printStackTrace();
+
+            result = "SocketTimeoutException";
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return null;
+        return result;
     }
 
     @Override
@@ -74,6 +84,15 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
         // 서버에서 로그인 성공여부 받음
         // 성공시 startActivity. 실패시 토스트 메세지
         Log.i("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute " + s);
+
+        if(s.equals("SocketTimeoutException")){
+            Toast.makeText(context, "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
+
+            if(activityStartListener != null)
+                activityStartListener.activityFinish();
+
+            return;
+        }
 
         if(s.equals("result:1")) {  // 로그인 실패시
             Toast.makeText(context, "존재하지 않는 이메일이거나 틀린비밀번호 입니다.", Toast.LENGTH_SHORT).show();
