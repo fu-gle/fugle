@@ -1,6 +1,7 @@
 package kr.fugle.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,19 +30,20 @@ import kr.fugle.login.CircleTransform;
  */
 public class TabFragment4 extends Fragment {
 
-    final int RATING_REQUEST_CODE = 501;
-    final int RATING_RESULT_CODE = 505;
-
     // 액티비티간 데이터 통신을 위한 코드
     TabStatusListener tabStatusListener;
 
     // 위젯 객체
+    ImageView backgroundImg;    // 커버사진
+    ImageView profileView;  // 프로필 사진
     LinearLayout profLike;  // 보고싶어요 목록 가는 버튼
     LinearLayout profHate;  // 보기싫어요 목록 가는 버튼
     TextView like;
     TextView hate;
     Button profWebtoonBtn;
     Button profCartoonBtn;
+
+    User user = User.getInstance();
 
     public void setTabStatusListener(TabStatusListener tabStatusListener){
         this.tabStatusListener = tabStatusListener;
@@ -73,23 +75,35 @@ public class TabFragment4 extends Fragment {
         });
 
         // 커버사진 (프로필 사진 뒤에 사진)
+        backgroundImg = (ImageView) rootView.findViewById(R.id.header_cover_image);
+        if(!user.getProfileBackground().equals("")){    // 배경사진이 있다면
+            Picasso.with(getContext().getApplicationContext())
+                    .load(user.getProfileBackground())
+                    .into(backgroundImg);
+        }
+
+        // 커버 사진 변경
+        backgroundImg.setOnClickListener(onClicked);
 
         // 프로필 사진
-        Context c = getActivity().getApplicationContext();
-        ImageView profileView = (ImageView)rootView.findViewById(R.id.user_profile_photo) ;
-        String profileImagePath = User.getInstance().getProfileImg();
+        profileView = (ImageView)rootView.findViewById(R.id.user_profile_photo) ;
+        String profileImagePath = user.getProfileImg();
         CircleTransform circleTransform = new CircleTransform();
-        Picasso.with(c).load(profileImagePath)
+        Picasso.with(getActivity().getApplicationContext())
+                .load(profileImagePath)
                 .transform(circleTransform)
                 .into(profileView);
 
+        // 프로필 사진 변경
+        profileView.setOnClickListener(onClicked);
+
         // 이름
-        String name = User.getInstance().getName();
+        String name = user.getName();
         TextView nameView = (TextView)rootView.findViewById(R.id.prof_name);
         nameView.setText(name);
 
         // 자기소개
-        String message = User.getInstance().getMessage();
+        String message = user.getMessage();
         if(message.equals("") || message.equals("null") || message == null)
             message = "자기소개 글을 입력해주세요";
         TextView profMessage = (TextView)rootView.findViewById(R.id.prof_message);
@@ -140,6 +154,22 @@ public class TabFragment4 extends Fragment {
             MainActivity activity = (MainActivity)getActivity();
 
             switch (v.getId()){
+                case R.id.header_cover_image: { // 커버 사진 변경
+                    Intent pickerIntent = new Intent(Intent.ACTION_PICK);
+                    pickerIntent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                    pickerIntent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                    startActivityForResult(pickerIntent, ((MainActivity)getActivity()).REQ_BACKGROUND_PICK_CODE);
+                    break;
+                }
+                case R.id.user_profile_photo: { // 프로필 사진 변경
+                    Intent pickerIntent = new Intent(Intent.ACTION_PICK);
+                    pickerIntent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                    pickerIntent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                    startActivityForResult(pickerIntent, ((MainActivity)getActivity()).REQ_PROFILE_PICK_CODE);
+                    break;
+                }
                 case R.id.prof_webtoon_btn: {   // 내가 별점 준 웹툰 목록
                     activity.onFragmentChanged(2);
                     break;
@@ -190,9 +220,13 @@ public class TabFragment4 extends Fragment {
         super.onResume();
 
         Log.d("ho's activity", "TabFragment4.onResume");
-        User user = User.getInstance();
 
         // 유저의 정보 적용
+        CircleTransform circleTransform = new CircleTransform();
+        Picasso.with(getContext().getApplicationContext())
+                .load(user.getProfileImg())
+                .transform(circleTransform)
+                .into(profileView);
         like.setText(user.getLikes().toString());
         hate.setText(user.getHates().toString());
         profWebtoonBtn.setText("웹툰 " + user.getWebtoonStars().toString());
