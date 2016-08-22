@@ -60,7 +60,7 @@
             android:text="임시로그아웃"
             android:textColor="#ffffff"
             android:layout_alignBottom="@id/user_profile_photo"
-            android:background="@drawable/round_box_button"
+            android:background="@drawable/round_box_button1"
             android:onClick="onProfLogoutButtonClicked"
             />
 
