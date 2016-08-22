@@ -23,7 +23,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/userName"
             android:text="이름"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:textSize="13sp"/>
 
     </LinearLayout>
 

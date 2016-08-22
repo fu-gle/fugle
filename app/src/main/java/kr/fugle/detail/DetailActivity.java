@@ -57,7 +57,7 @@ public class DetailActivity extends AppCompatActivity {
 
     Content content;
     Toolbar toolbar;
-    Integer userNo, contentNo;
+    Integer userNo;
 
     ImageView adultImg;
     ImageView thumbnailImg;
@@ -89,7 +89,7 @@ public class DetailActivity extends AppCompatActivity {
         Intent data = getIntent();
         content = (Content)data.getSerializableExtra("content");
         userNo = User.getInstance().getNo();
-        contentNo = data.getIntExtra("contentNo", 0);
+//        contentNo = data.getIntExtra("contentNo", 0);
 
         // 툴바 생성
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -119,8 +119,26 @@ public class DetailActivity extends AppCompatActivity {
         commentCard = (CardView)findViewById(R.id.commentCard);
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
 
+        // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+
+        Picasso.with(getApplicationContext())
+                .load(content.getThumbnailBig())
+                .resize(metrics.widthPixels, metrics.heightPixels/3)
+                .centerCrop()
+                .into(thumbnailImg);
+
+        title.setText(content.getTitle());
+        title2.setText(content.getTitle());
+
+        average.setText("★ "+ String.format("%.1f",content.getAverage()));
+        prediction.setText(content.getPrediction().toString());
+
+        // 데이터 불러오기
         // 0: serverUrl , 1: userNo, 2:contentNo
-        new OkHttpGet().execute(serverUrl, userNo.toString(), contentNo.toString());
+        new OkHttpGet().execute(serverUrl, userNo.toString(), content.getNo().toString());
 
         // 별점 다이얼로그 객체 생성
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
@@ -148,7 +166,7 @@ public class DetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(commentAdapter);
 
         // 코멘트 불러오기
-        new GetCommentList().execute(serverUrl, contentNo.toString());
+        new GetCommentList().execute(serverUrl, content.getNo().toString());
 
         // 보고싶어요 버튼
         preferenceBtn.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +180,7 @@ public class DetailActivity extends AppCompatActivity {
 
                 // 서버로 데이터 전송
                 new PostSingleData(getApplicationContext())
-                        .execute("like/", userNo.toString(), contentNo.toString());
+                        .execute("like/", userNo.toString(), content.getNo().toString());
 
                 if(content.getLike()){
                     preferenceBtn.setTextColor(Color.parseColor("#777777"));
@@ -209,9 +227,9 @@ public class DetailActivity extends AppCompatActivity {
 
                                     Integer Rating = (int)(rating * 10);
 
-                                    Toast.makeText(getApplicationContext(), "작품 번호 : " + contentNo.toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                                    new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), contentNo.toString(), Rating.toString());
+                                    new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
 
                                     // 별점 누른 흔적 전송
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -245,9 +263,9 @@ public class DetailActivity extends AppCompatActivity {
 
                                     content.setRating(rating);
 
-                                    Toast.makeText(getApplicationContext(), "작품 번호 : " + contentNo.toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
-                                    new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), contentNo.toString(), Rating.toString());
+                                    new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
 
                                     dialog.cancel();
                                 }
@@ -387,30 +405,14 @@ public class DetailActivity extends AppCompatActivity {
                 return;
             }
 
+            average.setText("★ "+ String.format("%.1f",content.getAverage()));
+            prediction.setText(content.getPrediction().toString());
+
             // 성인물인 경우
             if(content.getAdult()){
                 Picasso.with(getApplicationContext())
                         .load(R.drawable.heart_full)
                         .into(adultImg);
-            }
-
-            // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
-            DisplayMetrics metrics = new DisplayMetrics();
-            WindowManager windowManager = (WindowManager)getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
-            windowManager.getDefaultDisplay().getMetrics(metrics);
-
-            Picasso.with(getApplicationContext())
-                    .load(content.getThumbnailBig())
-                    .resize(metrics.widthPixels, metrics.heightPixels/3)
-                    .centerCrop()
-                    .into(thumbnailImg);
-
-            title.setText(content.getTitle());
-            average.setText("★ "+ String.format("%.1f",content.getAverage()));
-            prediction.setText(content.getPrediction().toString());
-
-            if(content.getLike()){
-                preferenceBtn.setTextColor(Color.parseColor("#F13839"));
             }
 
             String tags = content.getTags();
@@ -424,8 +426,11 @@ public class DetailActivity extends AppCompatActivity {
             }
             tag.setText(tags);
 
+            if(content.getLike()){
+                preferenceBtn.setTextColor(Color.parseColor("#F13839"));
+            }
+
             friends.setText("");    // 친구목록 넣어야함
-            title2.setText(content.getTitle());
 
             author.setText(content.getAuthor());
 
@@ -499,7 +504,7 @@ public class DetailActivity extends AppCompatActivity {
                         JSONObject obj = list.getJSONObject(i);
 
                         comment = new Comment(
-                                contentNo,
+                                content.getNo(),
                                 0,
                                 obj.getString("name"),
                                 obj.getString("comment"),

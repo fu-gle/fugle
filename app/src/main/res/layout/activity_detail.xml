@@ -203,7 +203,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/tag"
-                            android:text="차원이동"/>
+                            android:text="#"/>
 
                     </LinearLayout>
 
@@ -217,7 +217,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/friends"
-                            android:text="벌레님, 팡이님"/>
+                            android:text="OO님"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -377,7 +377,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/summary"
-                        android:text="블라블라블라블라"
+                        android:text="내용"
                         android:paddingTop="15dp"/>
 
                 </LinearLayout>
