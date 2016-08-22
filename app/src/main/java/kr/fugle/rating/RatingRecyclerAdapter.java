@@ -140,11 +140,19 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
 //            vhItem.thumbnailImg.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-            Picasso.with(ratingContext.getApplicationContext())
-                    .load(content.getThumbnailBig())
-                    .resize(metrics.widthPixels, metrics.heightPixels/3)
-                    .centerCrop()
-                    .into(vhItem.thumbnailImg);
+            if(content.getCartoon()){   // 만화의 경우
+                Picasso.with(ratingContext.getApplicationContext())
+                        .load(content.getThumbnailBig())
+                        .resize(metrics.widthPixels, metrics.heightPixels / 3)
+                        .centerInside()
+                        .into(vhItem.thumbnailImg);
+            }else { // 웹툰의 경우
+                Picasso.with(ratingContext.getApplicationContext())
+                        .load(content.getThumbnailBig())
+                        .resize(metrics.widthPixels, metrics.heightPixels / 3)
+                        .centerCrop()
+                        .into(vhItem.thumbnailImg);
+            }
 
             vhItem.title.setText(content.getTitle());
 

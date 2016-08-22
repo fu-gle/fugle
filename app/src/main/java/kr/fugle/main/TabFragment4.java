@@ -1,17 +1,24 @@
 package kr.fugle.main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialog;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
@@ -23,6 +30,7 @@ import com.squareup.picasso.Picasso;
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.login.CircleTransform;
+import kr.fugle.webconnection.PostSingleData;
 
 /**
  * Created by 김은진 on 2016-07-26.
@@ -118,15 +126,67 @@ public class TabFragment4 extends Fragment {
 
         // 자기소개
         String message = user.getMessage();
-        if(message.equals("") || message.equals("null") || message == null)
+        if(message.equals("") || message.equals("null") || message == null) {
+            user.setMessage("");
             message = "자기소개 글을 입력해주세요";
-        TextView profMessage = (TextView)rootView.findViewById(R.id.prof_message);
+        }
+        final TextView profMessage = (TextView)rootView.findViewById(R.id.prof_message);
         profMessage.setText(message);
         profMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 클릭시 자기소개 수정 다이얼로그
-                
+                // 별점 다이얼로그 객체 생성
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.AppCompatAlertDialogStyle);
+                builder.setCancelable(true)
+                        .setView(R.layout.dialog_message);
+
+                final AppCompatDialog dialog = builder.create();
+
+                dialog.show();
+
+                DisplayMetrics metrics = new DisplayMetrics();
+                WindowManager windowManager = (WindowManager) getContext()
+                        .getApplicationContext()
+                        .getSystemService(Context.WINDOW_SERVICE);
+                windowManager.getDefaultDisplay().getMetrics(metrics);
+
+                WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+                params.width = (int)(metrics.widthPixels * 0.9);
+//                params.height = (int)(metrics.heightPixels * 0.5);
+                dialog.getWindow().setAttributes(params);
+
+                final EditText message = (EditText)dialog.findViewById(R.id.message);
+                Button doneBtn = (Button) dialog.findViewById(R.id.doneBtn);
+
+                if(!user.getMessage().equals(""));
+                    message.setText(user.getMessage());
+
+                assert doneBtn != null;
+                doneBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        String data = message.getText().toString();
+
+                        if(data.equals("")){
+                            Toast.makeText(getContext(), "자기소개를 입력해주세요", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        new PostSingleData(getContext())
+                                .execute("message/",
+                                        User.getInstance().getNo() + "",
+                                        data);
+
+                        // 변경사항 로컬에 저장
+                        user.setMessage(data);
+                        profMessage.setText(data);
+
+                        Toast.makeText(getContext(), "입력되었습니다", Toast.LENGTH_SHORT).show();
+                        dialog.cancel();
+                    }
+                });
             }
         });
 
@@ -154,9 +214,6 @@ public class TabFragment4 extends Fragment {
 
         // 로그아웃
         rootView.findViewById(R.id.logout_btn).setOnClickListener(onProfLogoutButtonClicked);
-
-        // 내 정보(보고싶어요 갯수, 별점준 작품 갯수) 가져오기
-//        new GetMyData().execute("mypage/", User.getInstance().getNo() + "");
 
         return rootView;
     }
