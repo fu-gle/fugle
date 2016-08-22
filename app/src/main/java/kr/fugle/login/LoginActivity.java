@@ -2,6 +2,7 @@ package kr.fugle.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -334,9 +335,14 @@ public class LoginActivity extends AppCompatActivity {
                         return;
                     }
 
-                    // 자동로그인 채크상태일시 SharedPreference 써야함
+                    // 자동로그인 채크상태일시 SharedPreferences에 저장
                     if(auto){
-
+                        Log.d("ho's activity", "자동로그인 눌러진 상태");
+                        SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("email", email);
+                        editor.putString("password", password);
+                        editor.commit();
                     }
 
                     // 서버로 전송
@@ -349,6 +355,8 @@ public class LoginActivity extends AppCompatActivity {
                             password,
                             null,
                             null);
+
+                    dialog.cancel();
                 }
             });
         }

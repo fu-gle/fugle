@@ -52,7 +52,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     // 첫번째 카드뷰 버튼
     Boolean checkBtn;   // true:취향분석, false:평가하기
 
-    ArrayList<Content> contentArrayList1, contentArrayList2;
+    ArrayList<Content> contentArrayList1;
+    ArrayList<Content> contentArrayList2;
     Content webtoon, cartoon;   // 메인 페이지에 나올 객체들
     int width, height;
     AppCompatDialog dialog;
@@ -95,16 +96,21 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     OkHttpClient client;
     String serverUrl;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         // 서버 통신용 객체
         client = new OkHttpClient();
         serverUrl = getContext().getApplicationContext().getResources().getString(R.string.server_url);
 
-        contentArrayList1 = new ArrayList<>();
-        contentArrayList2 = new ArrayList<>();
+        contentArrayList1 = ((MainActivity)getActivity()).mainList1;
+        contentArrayList2 = ((MainActivity)getActivity()).mainList2;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.tab_fragment1, container, false);
 
@@ -270,6 +276,75 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         todayCartoonImg.setOnClickListener(this);
 
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.d("------>", "tab1 onResume");
+        if(!contentArrayList1.isEmpty()) {
+
+            final Content content = contentArrayList1.get(0);
+
+            // 웹툰 정보 불러오기
+            Picasso.with(getContext())
+                    .load(content.getThumbnailBig())
+                    .resize(width, height)
+                    .centerCrop()
+                    .into(todayWebtoonImg);
+            todayWebtoonTitle.setText(content.getTitle());
+            todayWebtoonPrediction.setText(content.getPrediction().toString());
+            todayWebtoonText.setText(
+                    "태그 : "
+                            +content.getTags()
+                            +"\n" + content.getLikeCnt()
+                            +"명의 분들이 보고싶어요를 눌러주셨어요!");
+
+            if(content.getLike()){
+                webtoonLike.setTextColor(Color.parseColor("#F13839"));
+            }
+            todayWebtoonImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    intent.putExtra("content", content);
+                    intent.putExtra("contentNo", content.getNo());
+                    startActivity(intent);
+                }
+            });
+        }
+
+        if(!contentArrayList2.isEmpty()) {
+
+            final Content content = contentArrayList2.get(0);
+
+            // 카툰 정보 불러오기
+            Picasso.with(getContext())
+                    .load(content.getThumbnailBig())
+                    .resize(width, height)
+                    .centerInside()
+                    .into(todayCartoonImg);
+            todayCartoonTitle.setText(content.getTitle());
+            todayCartoonPrediction.setText(content.getPrediction().toString());
+            todayCartoonText.setText(
+                    "태그 : "
+                            +content.getTags()
+                            +"\n" + content.getLikeCnt()
+                            +"명의 분들이 보고싶어요를 눌러주셨어요!");
+            if(content.getLike()){
+                cartoonLike.setTextColor(Color.parseColor("#F13839"));
+            }
+            todayCartoonImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getContext(), DetailActivity.class);
+                    intent.putExtra("content", content);
+                    intent.putExtra("contentNo", content.getNo());
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
@@ -538,69 +613,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 return;
             }
 
-            final Content content = contentArrayList.get(0);
-
-            if(idx == 1) {  // 웹툰 정보 불러오기
-
-                webtoon = content;
-
-                // 웹툰 정보 불러오기
-                Picasso.with(getContext())
-                        .load(content.getThumbnailBig())
-                        .resize(width, height)
-                        .centerCrop()
-                        .into(todayWebtoonImg);
-                todayWebtoonTitle.setText(content.getTitle());
-                todayWebtoonPrediction.setText(content.getPrediction().toString());
-                todayWebtoonText.setText(
-                        "태그 : "
-                        +content.getTags()
-                        +"\n" + content.getLikeCnt()
-                        +"명의 분들이 보고싶어요를 눌러주셨어요!");
-
-                if(content.getLike()){
-                    webtoonLike.setTextColor(Color.parseColor("#F13839"));
-                }
-                todayWebtoonImg.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getContext(), DetailActivity.class);
-                        intent.putExtra("content", content);
-                        intent.putExtra("contentNo", content.getNo());
-                        startActivity(intent);
-                    }
-                });
-            }
-            if(idx == 2) {   // 카툰 정보 불러오기
-
-                cartoon = content;
-
-                // 카툰 정보 불러오기
-                Picasso.with(getContext())
-                        .load(content.getThumbnailBig())
-                        .resize(width, height)
-                        .centerInside()
-                        .into(todayCartoonImg);
-                todayCartoonTitle.setText(content.getTitle());
-                todayCartoonPrediction.setText(content.getPrediction().toString());
-                todayCartoonText.setText(
-                        "태그 : "
-                        +content.getTags()
-                        +"\n" + content.getLikeCnt()
-                        +"명의 분들이 보고싶어요를 눌러주셨어요!");
-                if(content.getLike()){
-                    cartoonLike.setTextColor(Color.parseColor("#F13839"));
-                }
-                todayCartoonImg.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getContext(), DetailActivity.class);
-                        intent.putExtra("content", content);
-                        intent.putExtra("contentNo", content.getNo());
-                        startActivity(intent);
-                    }
-                });
-            }
+            onResume();
         }
     }
 }
