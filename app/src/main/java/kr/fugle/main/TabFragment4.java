@@ -1,6 +1,5 @@
 package kr.fugle.main;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -44,6 +43,11 @@ public class TabFragment4 extends Fragment {
     Button profCartoonBtn;
 
     User user = User.getInstance();
+
+    // 프로필 사진 갤러리에서 사진가져오기
+    private int REQ_PICK_CODE = 100;
+    // 프로필 사진 이미지 주소
+    private String imgPath;
 
     public void setTabStatusListener(TabStatusListener tabStatusListener){
         this.tabStatusListener = tabStatusListener;
@@ -95,7 +99,17 @@ public class TabFragment4 extends Fragment {
                 .into(profileView);
 
         // 프로필 사진 변경
-        profileView.setOnClickListener(onClicked);
+//        profileView.setOnClickListener(onClicked);
+        profileView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pickerIntent = new Intent(Intent.ACTION_PICK);
+                pickerIntent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                pickerIntent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                startActivityForResult(pickerIntent, REQ_PICK_CODE);
+            }
+        });
 
         // 이름
         String name = user.getName();
@@ -231,5 +245,15 @@ public class TabFragment4 extends Fragment {
         hate.setText(user.getHates().toString());
         profWebtoonBtn.setText("웹툰 " + user.getWebtoonStars().toString());
         profCartoonBtn.setText("만화 " + user.getCartoonStars().toString());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(data == null) return;
+        super.onActivityResult(requestCode, resultCode, data);
+
+        imgPath = data.getData().toString();
+        Log.d("uwangg's camera data : ", data.getData().toString());
+        user.setProfileImg(imgPath);
     }
 }
