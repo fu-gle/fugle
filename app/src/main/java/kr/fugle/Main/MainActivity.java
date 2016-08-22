@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
     TabFragment4 tabFragment4;
 
     ArrayList<Content> contentArrayList;
+    ArrayList<Content> mainList1, mainList2;
     int pageNo;
     TabStatusListener tabStatusListener;
     boolean refresh;
@@ -121,6 +122,10 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
         // 추천 뷰용으로 arraylist 생성
         contentArrayList = new ArrayList<>();
         pageNo = 1;
+
+        // tab1에서 사용될 arraylist 생성
+        mainList1 = new ArrayList<>();
+        mainList2 = new ArrayList<>();
     }
 
     private void setupTabIcons() {

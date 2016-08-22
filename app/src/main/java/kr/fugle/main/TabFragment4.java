@@ -2,6 +2,7 @@ package kr.fugle.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -290,6 +291,13 @@ public class TabFragment4 extends Fragment {
     Button.OnClickListener onProfLogoutButtonClicked = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+
+            // 이메일
+            SharedPreferences preferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+
             // 페이스북
             if (AccessToken.getCurrentAccessToken() != null) {
                 LoginManager.getInstance().logOut();

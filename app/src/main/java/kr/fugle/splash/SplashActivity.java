@@ -2,6 +2,7 @@ package kr.fugle.splash;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -70,11 +71,30 @@ public class SplashActivity extends Activity {
 
             @Override
             public void run() {
-                if ((!Session.getCurrentSession().isClosed()) ||
+
+                // 이메일 자동 로그인 채크 확인
+                SharedPreferences preferences = getSharedPreferences("login", MODE_PRIVATE);
+                if(preferences != null && preferences.getString("email", null) != null) {
+                    String email = preferences.getString("email", null);
+                    String password = preferences.getString("password", null);
+
+                    Log.d("--->", "already email logined");
+
+                    OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
+                    okHttpLogin.setActivityStartListener(activityStartListener);
+
+                    okHttpLogin.execute(
+                            "emailLogin/",
+                            email,
+                            null,
+                            password,
+                            null,
+                            null);
+                }
+                // 카톡 & 페북 확인
+                else if ((!Session.getCurrentSession().isClosed()) ||
                         (AccessToken.getCurrentAccessToken() != null)) {
                     SessionCall();
-//                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//                    finish();
                 } else {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                     finish();
@@ -116,7 +136,7 @@ public class SplashActivity extends Activity {
     public void SessionCall() {
         // 이미 카톡로그인이 되어있는 경우 확인
         if (!Session.getCurrentSession().isClosed()) {
-            Log.d("--->", "already logined");
+            Log.d("--->", "already kakao logined");
             UserProfile userProfile = UserProfile.loadFromCache();
             Log.d("id--->", userProfile.getId() + "");
 
@@ -132,6 +152,7 @@ public class SplashActivity extends Activity {
                     userProfile.getProfileImagePath());
             return;
         }
+
         // 페이스북 로그인이 되어있는 경우 확인
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         if (accessToken != null) {
@@ -141,6 +162,8 @@ public class SplashActivity extends Activity {
                             @Override
                         public void onCompleted(JSONObject object, GraphResponse response) {
                             try {
+                                Log.d("--->", "already facebook logined");
+
                                 object.put("login_type", "facebook");
                                 JSONObject pic_data = new JSONObject(object.get("picture").toString());
                                 JSONObject pic_url = new JSONObject(pic_data.getString("data"));
