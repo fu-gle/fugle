@@ -1,12 +1,13 @@
 package kr.fugle.preference;
 
-import android.content.Context;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -74,14 +75,21 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
             });
         }
 
-        // 선호 키워드
-        LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
-        CardView cardview1 = (CardView) findViewById(R.id.cardview1);
-        inflater.inflate( R.layout.preference_keyword, cardview1 );
+//        // 선호 키워드
+//        LayoutInflater inflater = (LayoutInflater) getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+//        CardView cardview1 = (CardView) findViewById(R.id.cardview1);
+//        inflater.inflate( R.layout.preference_keyword, cardview1 );
+//
+//        // 차트 통계 (미디어)
+//        CardView cardview2 = (CardView) findViewById(R.id.cardview2);
+//        inflater.inflate( R.layout.preference_chart, cardview2 );
 
-        // 차트 통계 (미디어)
-        CardView cardview2 = (CardView) findViewById(R.id.cardview2);
-        inflater.inflate( R.layout.preference_chart, cardview2 );
+        Fragment preferenceKeywordFragment = new PreferenceKeywordFragment();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        fragmentTransaction.replace(R.id.cardview1, preferenceKeywordFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
