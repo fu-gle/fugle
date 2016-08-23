@@ -29,7 +29,7 @@
 
     <!-- 메인 툴바 -->
     <string name="search_hint">작품명 or 작가명을 입력해주세요.</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_logout">로그아웃</string>
     <string name="action_suggestion">건의사항</string>
 
 </resources>
