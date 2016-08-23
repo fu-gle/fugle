@@ -2,7 +2,6 @@ package kr.fugle.main;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,11 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
-import com.facebook.login.LoginManager;
-import com.kakao.auth.Session;
-import com.kakao.usermgmt.UserManagement;
-import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.squareup.picasso.Picasso;
 
 import kr.fugle.Item.User;
@@ -78,7 +72,7 @@ public class TabFragment4 extends Fragment {
             @Override
             public void onClick(View v) {
                 MainActivity activity = (MainActivity) getActivity();
-                activity.onFragmentChanged(0);
+                activity.onFragmentChanged(6);
             }
         });
 

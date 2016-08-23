@@ -6,6 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/whiteColor"
         >
 
         <ImageView
@@ -20,7 +21,7 @@
             android:id="@+id/prof_favorite_button"
             android:layout_width="90dp"
             android:layout_height="40dp"
-            android:layout_alignBottom="@+id/header_cover_image"
+            android:layout_below="@+id/header_cover_image"
             android:layout_alignLeft="@+id/header_cover_image"
             android:text="취향분석"
             android:background="@drawable/round_box_button4"
@@ -32,7 +33,7 @@
             android:id="@+id/prof_rating_button"
             android:layout_width="90dp"
             android:layout_height="40dp"
-            android:layout_alignBottom="@+id/header_cover_image"
+            android:layout_below="@+id/header_cover_image"
             android:layout_alignRight="@+id/header_cover_image"
             android:text="평가하기"
             android:background="@drawable/round_box_button4"
@@ -121,33 +122,6 @@
                         android:gravity="center_horizontal"
                         android:padding="5dp"
                         android:text="코멘트"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/prof_collection"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="vertical"
-                    >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:padding="5dp"
-                        android:text="0"
-                        />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center_horizontal"
-                        android:padding="5dp"
-                        android:text="컬렉션"
                         />
                 </LinearLayout>
 
