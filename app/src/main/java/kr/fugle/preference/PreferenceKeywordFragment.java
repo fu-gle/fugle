@@ -20,6 +20,17 @@ import kr.fugle.preference.item.Tag;
  */
 public class PreferenceKeywordFragment extends Fragment {
 
+    private TextView keyword1;
+    private TextView keyword2;
+    private TextView keyword3;
+    private TextView keyword4;
+    private TextView keyword5;
+    private TextView keyword6;
+    private TextView keyword7;
+    private TextView keyword8;
+    private TextView keyword9;
+    private TextView keyword10;
+
     ArrayList<Tag> tagArrayList;
     @Nullable
     @Override
@@ -29,26 +40,28 @@ public class PreferenceKeywordFragment extends Fragment {
         tagArrayList = ((PreferenceAnalysisActivity)getActivity()).tagArrayList;
         Collections.sort(tagArrayList, new NoDescCompare());
 
-        TextView keyword1 = (TextView) rootView.findViewById(R.id.keyword1);
-        TextView keyword2 = (TextView) rootView.findViewById(R.id.keyword2);
-        TextView keyword3 = (TextView) rootView.findViewById(R.id.keyword3);
-        TextView keyword4 = (TextView) rootView.findViewById(R.id.keyword4);
-        TextView keyword5 = (TextView) rootView.findViewById(R.id.keyword5);
-        TextView keyword6 = (TextView) rootView.findViewById(R.id.keyword6);
-        TextView keyword7 = (TextView) rootView.findViewById(R.id.keyword7);
-        TextView keyword8 = (TextView) rootView.findViewById(R.id.keyword8);
-        TextView keyword9 = (TextView) rootView.findViewById(R.id.keyword9);
+        keyword1 = (TextView) rootView.findViewById(R.id.keyword1);
+        keyword2 = (TextView) rootView.findViewById(R.id.keyword2);
+        keyword3 = (TextView) rootView.findViewById(R.id.keyword3);
+        keyword4 = (TextView) rootView.findViewById(R.id.keyword4);
+        keyword5 = (TextView) rootView.findViewById(R.id.keyword5);
+        keyword6 = (TextView) rootView.findViewById(R.id.keyword6);
+        keyword7 = (TextView) rootView.findViewById(R.id.keyword7);
+        keyword8 = (TextView) rootView.findViewById(R.id.keyword8);
+        keyword9 = (TextView) rootView.findViewById(R.id.keyword9);
+        keyword10 = (TextView) rootView.findViewById(R.id.keyword10);
 
-        if(tagArrayList.size() >= 9) {
+        if(tagArrayList.size() >= 10) {
             keyword5.setText(tagArrayList.get(0).getName());    // 1위
             keyword6.setText(tagArrayList.get(1).getName());    // 2위
             keyword9.setText(tagArrayList.get(2).getName());    // 3위
             keyword1.setText(tagArrayList.get(3).getName());    // 4위
             keyword8.setText(tagArrayList.get(4).getName());    // 5위
             keyword7.setText(tagArrayList.get(5).getName());    // 6위
-            keyword4.setText(tagArrayList.get(6).getName());    // 7위
-            keyword3.setText(tagArrayList.get(7).getName());    // 8위
-            keyword2.setText(tagArrayList.get(8).getName());    // 9위
+            keyword10.setText(tagArrayList.get(6).getName());    // 7위
+            keyword4.setText(tagArrayList.get(7).getName());    // 8위
+            keyword3.setText(tagArrayList.get(8).getName());    // 9위
+            keyword2.setText(tagArrayList.get(9).getName());    // 10위
         }
 
         return rootView;
@@ -65,5 +78,22 @@ public class PreferenceKeywordFragment extends Fragment {
             return arg0.getCount() > arg1.getCount() ? -1 : arg0.getCount() < arg1.getCount() ? 1:0;
         }
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(tagArrayList.size() >= 10) {
+            keyword5.setText(tagArrayList.get(0).getName());    // 1위
+            keyword6.setText(tagArrayList.get(1).getName());    // 2위
+            keyword9.setText(tagArrayList.get(2).getName());    // 3위
+            keyword1.setText(tagArrayList.get(3).getName());    // 4위
+            keyword8.setText(tagArrayList.get(4).getName());    // 5위
+            keyword7.setText(tagArrayList.get(5).getName());    // 6위
+            keyword10.setText(tagArrayList.get(6).getName());    // 7위
+            keyword4.setText(tagArrayList.get(7).getName());    // 8위
+            keyword3.setText(tagArrayList.get(8).getName());    // 9위
+            keyword2.setText(tagArrayList.get(9).getName());    // 10위
+        }
     }
 }

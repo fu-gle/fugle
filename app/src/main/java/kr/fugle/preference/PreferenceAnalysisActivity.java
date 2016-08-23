@@ -55,6 +55,10 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
     public ArrayList<Media> mediaArrayList;
     public ArrayList<Genre> genreArrayList;
 
+    Fragment preferenceKeywordFragment;
+    Fragment preferenceMediaFragment;
+    Fragment preferenceGenreFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,11 +73,11 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
         mediaArrayList = new ArrayList<>();
         genreArrayList = new ArrayList<>();
 
-        new GetPreferenceList().execute("userTaste/", user.getNo()+"");
+        new GetPreferenceList().execute("userTaste/", user.getNo() + "");
 
         // 툴바 설정
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle(user.getName() + "의 취향분석");
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(user.getName() + "님의 취향분석 결과예요");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -91,15 +95,19 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
 
         // 평가 갯수
         TextView starCount = (TextView) findViewById(R.id.star_count);
-        starCount.setText(user.getCartoonStars()+user.getWebtoonStars()+"");
+        starCount.setText(user.getCartoonStars() + user.getWebtoonStars() + "");
+
+        CardView cardView1 = (CardView) findViewById(R.id.cardview1);
+        CardView cardView2 = (CardView) findViewById(R.id.cardview2);
+        CardView cardView3 = (CardView) findViewById(R.id.cardview3);
 
         // 평가가 없을때
         CardView cardView = (CardView) findViewById(R.id.zero_cardview);
-        if(user.getWebtoonStars()+user.getCartoonStars() != 0) {
-            cardView.setVisibility(View.GONE);
+        if((user.getCartoonStars()+user.getWebtoonStars())<15) {
+
             TextView zeroText = (TextView) findViewById(R.id.zero_count_text);
-            zeroText.setText(user.getName() + "님 아직 평가가 없어서 \n취향을 알수없어요ㅠㅠ"
-                    + "\n평가를 하셔야 취향을 알 수 있어요!");
+            zeroText.setText(user.getName() + "님 아직 평가가 부족해서 \n취향을 알수없어요ㅠㅠ"
+                    + "\n15개 이상 평가를 하셔야 취향을 알 수 있어요!");
             // 평가하러가기
             Button button = (Button) findViewById(R.id.go_star);
             button.setOnClickListener(new View.OnClickListener() {
@@ -109,13 +117,27 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
                     finish();
                 }
             });
+
+            cardView1.setVisibility(View.GONE);
+            cardView2.setVisibility(View.GONE);
+            cardView3.setVisibility(View.GONE);
+            cardView.setVisibility(View.VISIBLE);
+        } else {
+            cardView1.setVisibility(View.VISIBLE);
+            cardView2.setVisibility(View.VISIBLE);
+            cardView3.setVisibility(View.VISIBLE);
+            cardView.setVisibility(View.GONE);
         }
 
-        Fragment preferenceKeywordFragment = new PreferenceKeywordFragment();
+        preferenceKeywordFragment = new PreferenceKeywordFragment();
+        preferenceMediaFragment = new PreferenceMediaFragment();
+        preferenceGenreFragment = new PreferenceGenreFragment();
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.cardview1, preferenceKeywordFragment);
+        fragmentTransaction.replace(R.id.cardview2, preferenceMediaFragment);
+        fragmentTransaction.replace(R.id.cardview3, preferenceGenreFragment);
         fragmentTransaction.commit();
     }
 
@@ -154,7 +176,7 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
                 Response response = client.newCall(request).execute();
 
                 // json 형태로의 변환을 위해 { "" :  } 추가
-                result = "{\"\":" + response.body().string() + "}";
+                result = response.body().string();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -174,56 +196,53 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
                     // 통째로 받아들여서 하나씩 자르기 위한 json object
                     JSONObject reader = new JSONObject(s);
 
-                    // 하나씩 잘라서 adapter에 저장해야 한다
-                    JSONArray dataList = reader.getJSONArray("");
-
-                    for (int i = 0; i < dataList.length(); i++) {
-                        JSONObject obj = dataList.getJSONObject(i);
-
-//                        media:{mediaName:naver,mediaAverage:40,mediaCount:23}
-
-                        // 태그를 보낼경우
-                        if (!obj.isNull("tag")) {
-                            // tagName, tagCount
-                            Tag tag = new Tag();
-                            if (!obj.isNull("tagName")) {
-                                tag.setName(obj.getString("tagName"));
-                            }
-                            if (!obj.isNull("tagCount")) {
-                                tag.setCount(obj.getInt("tagCount"));
-                            }
-                            tagArrayList.add(tag);
+                    JSONArray tags = reader.getJSONArray("tags");
+                    for (int i = 0; i < tags.length(); i++) {
+                        // tagName, tagCount
+                        JSONObject obj = tags.getJSONObject(i);
+                        Tag tag = new Tag();
+                        if (!obj.isNull("tagName")) {
+                            tag.setName(obj.getString("tagName"));
                         }
-
-                        // 미디어를 보낼경우
-                        if (!obj.isNull("media")) {
-                            Media media = new Media();
-                            if (!obj.isNull("mediaName")) {
-                                media.setName(obj.getString("mediaName"));
-                            }
-                            if (!obj.isNull("mediaAverage")) {
-                                media.setAverage((float) obj.getInt("mediaAverage") / 1000);
-                            }
-                            if (!obj.isNull("mediaCount")) {
-                                media.setCount(obj.getInt("mediaCount"));
-                            }
-                            mediaArrayList.add(media);
+                        if (!obj.isNull("tagCount")) {
+                            tag.setCount(obj.getInt("tagCount"));
                         }
-
-                        // 장르를 보낼경우
-                        if (!obj.isNull("genre")) {
-                            Genre genre = new Genre();
-                            if (!obj.isNull("genreName")) {
-                                genre.setName(obj.getString("genreName"));
-                            }
-                            if (!obj.isNull("genreAverage")) {
-                                genre.setAverage((float) obj.getInt("genreAverage") / 1000);
-                            }
-                            if (!obj.isNull("genreCount")) {
-                                genre.setCount(obj.getInt("genreCount"));
-                            }
-                            genreArrayList.add(genre);
+                        tagArrayList.add(tag);
+                    }
+                    JSONArray medias = reader.getJSONArray("media");
+                    Log.d("media--->", medias.toString());
+                    for (int i = 0; i < medias.length(); i++) {
+                        // tagName, tagCount
+                        JSONObject obj = medias.getJSONObject(i);
+                        Media media = new Media();
+                        if (!obj.isNull("mediaName")) {
+                            media.setName(obj.getString("mediaName"));
                         }
+                        if (!obj.isNull("mediaAverage")) {
+                            media.setAverage((float) obj.getInt("mediaAverage") / 1000);
+                        }
+                        if (!obj.isNull("mediaCount")) {
+                            media.setCount(obj.getInt("mediaCount"));
+                        }
+                        mediaArrayList.add(media);
+                    }
+
+                    JSONArray genres = reader.getJSONArray("genre");
+                    Log.d("genre--->", genres.toString());
+                    for (int i = 0; i < medias.length(); i++) {
+                        // tagName, tagCount
+                        JSONObject obj = genres.getJSONObject(i);
+                        Genre genre = new Genre();
+                        if (!obj.isNull("genreName")) {
+                            genre.setName(obj.getString("genreName"));
+                        }
+                        if (!obj.isNull("genreAverage")) {
+                            genre.setAverage((float) obj.getInt("genreAverage") / 1000);
+                        }
+                        if (!obj.isNull("genreCount")) {
+                            genre.setCount(obj.getInt("genreCount"));
+                        }
+                        genreArrayList.add(genre);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -233,7 +252,7 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
             if (tagArrayList.size() == 0 || mediaArrayList.size() == 0 || genreArrayList.size() == 0)
                 return;
 
-
+            preferenceKeywordFragment.onResume();
         }
     }
 }

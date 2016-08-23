@@ -130,5 +130,19 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="-20dp"
             />
+        <TextView
+        android:id="@+id/keyword10"
+        android:layout_width="wrap_content"
+        android:layout_height="80dp"
+        android:layout_below="@id/keyword4"
+        android:layout_toLeftOf="@id/keyword5"
+        android:padding="5dp"
+        android:text="키워드10"
+        android:textColor="@color/mainColor"
+        android:textSize="18dp"
+        android:gravity="top"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="-20dp"
+        />
     </RelativeLayout>
 </LinearLayout>
