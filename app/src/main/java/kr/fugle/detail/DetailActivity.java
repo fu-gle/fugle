@@ -69,7 +69,6 @@ public class DetailActivity extends AppCompatActivity {
     TextView linkBtn;
     TextView prediction;
     TextView tag;
-    TextView friends;
     TextView title2;
     TextView author;
     TextView genre;
@@ -89,7 +88,6 @@ public class DetailActivity extends AppCompatActivity {
         Intent data = getIntent();
         content = (Content)data.getSerializableExtra("content");
         userNo = User.getInstance().getNo();
-//        contentNo = data.getIntExtra("contentNo", 0);
 
         // 툴바 생성
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -109,7 +107,6 @@ public class DetailActivity extends AppCompatActivity {
         linkBtn = (TextView)findViewById(R.id.linkBtn);
         prediction = (TextView)findViewById(R.id.prediction);
         tag = (TextView)findViewById(R.id.tag);
-        friends = (TextView)findViewById(R.id.friends);
         title2 = (TextView)findViewById(R.id.title2);
         author = (TextView)findViewById(R.id.author);
         genre = (TextView)findViewById(R.id.genre);
@@ -458,8 +455,6 @@ public class DetailActivity extends AppCompatActivity {
             if(content.getLike()){
                 preferenceBtn.setTextColor(Color.parseColor("#F13839"));
             }
-
-            friends.setText("");    // 친구목록 넣어야함
 
             author.setText(content.getAuthor());
 

@@ -39,6 +39,10 @@ public class PostSingleData extends AsyncTask<String, Void, String> {
                 // 0: serverUrl, 1: userNo, 2: contentNo
                 data = "userId=" + params[1] + "&webtoonId=" + params[2];
                 Log.d("PostLike.data", data);
+            }else if(params[0].equals("dontsee/")){ // 보기싫어요
+                // 0: serverUrl, 1: userNo, 2: contentNo
+                data = "userId=" + params[1] + "&webtoonId=" + params[2];
+                Log.d("PostHate.data", data);
             }else if(params[0].equals("suggestion/")) {  // 건의사항
                 // 0: serverUrl, 1: userNo, 2: suggestion
                 data = "userId=" + params[1] + "&suggestion=" + params[2];

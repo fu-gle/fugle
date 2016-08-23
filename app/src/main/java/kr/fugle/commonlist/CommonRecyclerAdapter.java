@@ -88,8 +88,6 @@ public class CommonRecyclerAdapter extends RecyclerView.Adapter<CommonRecyclerAd
 
                 Intent intent = new Intent(commonContext, DetailActivity.class);
                 intent.putExtra("content", content);
-                intent.putExtra("userNo", userNo);
-                intent.putExtra("contentNo", content.getNo());
 
                 activityStartListener.activityStart(intent);
             }

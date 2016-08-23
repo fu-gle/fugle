@@ -31,6 +31,23 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/category"
+                    android:text="종류"
+                    android:textColor="@color/mainColor"
+                    android:textSize="12sp"
+                    android:gravity="center"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="10dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:background="@drawable/round_box_button4"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:id="@+id/textView"
                     android:paddingLeft="5dp"
                     android:paddingTop="3dp"
@@ -79,15 +96,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tag"
                     android:layout_below="@+id/thumbnailImg"
-                    android:text="선호하는 테그 #액션"/>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="6dp"
-                    android:id="@+id/friends"
-                    android:text="오리, 개구리님 외 친구 7명이 봤어요"
-                    android:layout_below="@+id/tag" />
+                    android:text="#"
+                    android:paddingBottom="6dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -104,7 +114,7 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_transparent"
                     android:gravity="center"
@@ -115,7 +125,7 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_transparent"
                     android:gravity="center"
@@ -126,7 +136,7 @@
 
                 <TextView
                     android:layout_width="0dp"
-                    android:layout_height="50dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_transparent"
                     android:gravity="center"
