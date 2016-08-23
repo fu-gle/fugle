@@ -286,6 +286,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         if(!contentArrayList1.isEmpty()) {
 
             final Content content = contentArrayList1.get(0);
+            webtoon = content;
 
             // 웹툰 정보 불러오기
             Picasso.with(getContext())
@@ -328,6 +329,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         if(!contentArrayList2.isEmpty()) {
 
             final Content content = contentArrayList2.get(0);
+
+            cartoon = content;
 
             // 카툰 정보 불러오기
             Picasso.with(getContext())
