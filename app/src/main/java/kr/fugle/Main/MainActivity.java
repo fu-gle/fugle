@@ -1,6 +1,8 @@
 package kr.fugle.main;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +17,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
+import com.kakao.auth.Session;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.wooplr.spotlight.SpotlightView;
 import com.wooplr.spotlight.prefs.PreferencesManager;
 import com.wooplr.spotlight.utils.SpotlightListener;
@@ -196,7 +203,6 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
             startActivityForResult(intent, RATING_REQUEST_CODE);
         } else if(index == 1) { // 로그아웃 버튼 눌렀을시
             Intent intent = new Intent(MainActivity.this, SplashActivity.class);
-            //intent.putExtra("logout",true);
             startActivity(intent);
             finish();
             System.gc();
@@ -256,11 +262,36 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 break;
             }
-            case R.id.action_settings: {    // 세팅 버튼 클릭시
-                break;
-            }
             case R.id.action_suggestion: {    // 건의사항 버튼 클릭시
                 startActivity(new Intent(MainActivity.this, SuggestionActivity.class));
+                break;
+            }
+            case R.id.action_logout: {    // 로그아웃 버튼 클릭시
+
+                // 이메일
+                SharedPreferences preferences = getSharedPreferences("login", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.apply();
+
+                // 페이스북
+                if (AccessToken.getCurrentAccessToken() != null) {
+                    LoginManager.getInstance().logOut();
+                    onFragmentChanged(1);
+                    Log.d("---->", "페북로그아웃");
+                }
+
+                // 카카오톡
+                UserManagement.requestLogout(new LogoutResponseCallback() {
+                    @Override
+                    public void onCompleteLogout() {
+                        Session.getCurrentSession().close();
+                        onFragmentChanged(1);
+                        Log.d("---->", "카톡로그아웃");
+                    }
+                });
+                Log.d("---->", "if밖로그아웃");
+
                 break;
             }
             default: {

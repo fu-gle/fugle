@@ -239,9 +239,6 @@ public class TabFragment4 extends Fragment {
         profCartoonBtn = (Button) rootView.findViewById(R.id.prof_cartoon_btn);
         profCartoonBtn.setOnClickListener(onClicked);
 
-        // 로그아웃
-        rootView.findViewById(R.id.logout_btn).setOnClickListener(onProfLogoutButtonClicked);
-
         return rootView;
     }
 
@@ -285,38 +282,6 @@ public class TabFragment4 extends Fragment {
                     break;
                 }
             }
-        }
-    };
-
-    Button.OnClickListener onProfLogoutButtonClicked = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-            // 이메일
-            SharedPreferences preferences = getActivity().getSharedPreferences("login", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.clear();
-            editor.commit();
-
-            // 페이스북
-            if (AccessToken.getCurrentAccessToken() != null) {
-                LoginManager.getInstance().logOut();
-                MainActivity activity = (MainActivity) getActivity();
-                activity.onFragmentChanged(1);
-                Log.d("---->", "페북로그아웃");
-            }
-
-            // 카카오톡
-            UserManagement.requestLogout(new LogoutResponseCallback() {
-                @Override
-                public void onCompleteLogout() {
-                    Session.getCurrentSession().close();
-                    MainActivity activity = (MainActivity) getActivity();
-                    activity.onFragmentChanged(1);
-                    Log.d("---->", "카톡로그아웃");
-                }
-            });
-            Log.d("---->", "if밖로그아웃");
         }
     };
 
