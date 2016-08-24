@@ -101,7 +101,7 @@ public class PreferenceMediaFragment extends Fragment {
         mediaArrayList = ((PreferenceAnalysisActivity)getActivity()).mediaArrayList;
 
         chart = (PieChartView) rootView.findViewById(R.id.chart);
-        chart.setOnValueTouchListener(new ValueTouchListener());
+//        chart.setOnValueTouchListener(new ValueTouchListener());
         reset();
 
         return rootView;
@@ -109,13 +109,13 @@ public class PreferenceMediaFragment extends Fragment {
 
     private void reset() {
         chart.setCircleFillRatio(1.0f);
-        hasLabels = true;
+        hasLabels = false;
         hasLabelsOutside = false;
         hasCenterCircle = true;
         hasCenterText1 = false;
         hasCenterText2 = false;
         isExploded = false;
-        hasLabelForSelected = true;
+        hasLabelForSelected = false;
     }
 
     private void generateData() {
@@ -123,7 +123,7 @@ public class PreferenceMediaFragment extends Fragment {
 
         for(int i=0 ; i<mediaArrayList.size() ; i++) {
             SliceValue sliceValue = new SliceValue((float)mediaArrayList.get(i).getCount(), COLORS[i]);
-            sliceValue.setLabel(mediaArrayList.get(i).getName());
+//            sliceValue.setLabel(mediaArrayList.get(i).getName());
             mColor[i].setBackgroundColor(COLORS[i]);
             mName[i].setText(mediaArrayList.get(i).getName());
             mScore[i].setText(mediaArrayList.get(i).getCount()+"개/"

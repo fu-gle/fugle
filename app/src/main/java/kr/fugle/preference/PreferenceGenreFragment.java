@@ -83,7 +83,7 @@ public class PreferenceGenreFragment extends Fragment {
         genreArrayList = ((PreferenceAnalysisActivity) getActivity()).genreArrayList;
 
         chart = (PieChartView) rootView.findViewById(R.id.chart);
-        chart.setOnValueTouchListener(new ValueTouchListener());
+//        chart.setOnValueTouchListener(new ValueTouchListener());
         reset();
 
         return rootView;
@@ -91,13 +91,13 @@ public class PreferenceGenreFragment extends Fragment {
 
     private void reset() {
         chart.setCircleFillRatio(1.0f);
-        hasLabels = true;
+        hasLabels = false;
         hasLabelsOutside = false;
         hasCenterCircle = true;
         hasCenterText1 = false;
         hasCenterText2 = false;
         isExploded = false;
-        hasLabelForSelected = true;
+        hasLabelForSelected = false;
     }
 
     private void generateData() {
@@ -109,7 +109,7 @@ public class PreferenceGenreFragment extends Fragment {
         if (genreArrayList.size() >= 5) {
             for (int i = 0; i < 4; i++) {
                 SliceValue sliceValue = new SliceValue((float) genreArrayList.get(i).getCount(), COLORS[i]);
-                sliceValue.setLabel(genreArrayList.get(i).getName());
+//                sliceValue.setLabel(genreArrayList.get(i).getName());
                 gColor[i].setBackgroundColor(COLORS[i]);
                 gName[i].setText(genreArrayList.get(i).getName());
                 gScore[i].setText(genreArrayList.get(i).getCount() + "개/"

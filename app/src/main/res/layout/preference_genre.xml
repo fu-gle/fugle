@@ -14,7 +14,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="300dp">
 
         <lecho.lib.hellocharts.view.PieChartView
             android:id="@+id/chart"
