@@ -1,11 +1,11 @@
 package kr.fugle.preference;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -133,7 +133,7 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
         preferenceMediaFragment = new PreferenceMediaFragment();
         preferenceGenreFragment = new PreferenceGenreFragment();
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.cardview1, preferenceKeywordFragment);
         fragmentTransaction.replace(R.id.cardview2, preferenceMediaFragment);
@@ -219,7 +219,7 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
                             media.setName(obj.getString("mediaName"));
                         }
                         if (!obj.isNull("mediaAverage")) {
-                            media.setAverage((float) obj.getInt("mediaAverage") / 1000);
+                            media.setAverage((float) obj.getInt("mediaAverage") / 10);
                         }
                         if (!obj.isNull("mediaCount")) {
                             media.setCount(obj.getInt("mediaCount"));
@@ -249,10 +249,13 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
                 }
             }
 
+            Log.d("mediaSize----->",mediaArrayList.size()+"");
+
             if (tagArrayList.size() == 0 || mediaArrayList.size() == 0 || genreArrayList.size() == 0)
                 return;
 
             preferenceKeywordFragment.onResume();
+            preferenceMediaFragment.onResume();
         }
     }
 }

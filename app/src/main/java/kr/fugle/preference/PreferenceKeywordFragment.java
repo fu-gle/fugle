@@ -1,8 +1,9 @@
 package kr.fugle.preference;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,7 @@ public class PreferenceKeywordFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("-------->", "PreferenceKeywordFragment.onResume");
         if(tagArrayList.size() >= 10) {
             keyword5.setText(tagArrayList.get(0).getName());    // 1위
             keyword6.setText(tagArrayList.get(1).getName());    // 2위
