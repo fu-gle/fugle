@@ -51,10 +51,10 @@ public class PostSingleData extends AsyncTask<String, Void, String> {
                 // 0: serverUrl, 1: userNo, 2: suggestion
                 data = "userId=" + params[1] + "&message=" + params[2];
                 Log.d("PostMessage.data", data);
-            }else if(params[0].equals("userProfileImg")) { // 마이페이지 프로필 사진 수정
+            }else if(params[0].equals("userProfileImg/")) { // 마이페이지 프로필 사진 수정
                 data = "userId=" + params[1] + "&imgPath=" + params[2];
                 Log.d("PostProfileImg.data", data);
-            }else if(params[0].equals("userProfileBackground")) {  // 마이페이지 커버사진 수정
+            }else if(params[0].equals("userProfileBackground/")) {  // 마이페이지 커버사진 수정
                 data = "userId=" + params[1] + "&imgPath=" + params[2];
                 Log.d("PostBackground.data", data);
             }else if(params[0].equals("deleteComment/")){
