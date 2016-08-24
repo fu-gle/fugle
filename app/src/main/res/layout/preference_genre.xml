@@ -38,7 +38,7 @@
     <LinearLayout
         android:id="@+id/chart_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
@@ -75,15 +75,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="미디어1"
-                android:layout_margin="2dp"
+                android:text="장르1"
                 />
 
             <TextView
                 android:id="@+id/genre1_score"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:gravity="center_horizontal"
                 android:text="갯수/퍼센트"
                 android:layout_margin="2dp"
@@ -102,6 +101,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:layout_margin="2dp"
                 >
 
                 <TextView
@@ -119,14 +119,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="미디어2"
+                android:text="장르2"
                 />
 
             <TextView
                 android:id="@+id/genre2_score"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:gravity="center_horizontal"
                 android:text="갯수/퍼센트"
                 />
@@ -144,6 +144,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:layout_margin="2dp"
                 >
 
                 <TextView
@@ -161,14 +162,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="미디어3"
+                android:text="장르3"
                 />
 
             <TextView
                 android:id="@+id/genre3_score"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:gravity="center_horizontal"
                 android:text="갯수/퍼센트"
                 />
@@ -203,15 +204,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="미디어1"
-                android:layout_margin="2dp"
+                android:text="장르4"
                 />
 
             <TextView
                 android:id="@+id/genre4_score"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:gravity="center_horizontal"
                 android:text="갯수/퍼센트"
                 android:layout_margin="2dp"
@@ -222,6 +222,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:layout_margin="2dp"
             >
 
             <LinearLayout
@@ -229,7 +230,6 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:layout_margin="2dp"
                 >
 
                 <TextView
@@ -247,15 +247,14 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:text="미디어1"
-                android:layout_margin="2dp"
+                android:text="장르5"
                 />
 
             <TextView
                 android:id="@+id/genre5_score"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:gravity="center_horizontal"
                 android:text="갯수/퍼센트"
                 android:layout_margin="2dp"

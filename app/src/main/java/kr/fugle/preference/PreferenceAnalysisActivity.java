@@ -229,7 +229,7 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
 
                     JSONArray genres = reader.getJSONArray("genre");
                     Log.d("genre--->", genres.toString());
-                    for (int i = 0; i < medias.length(); i++) {
+                    for (int i = 0; i < genres.length(); i++) {
                         // tagName, tagCount
                         JSONObject obj = genres.getJSONObject(i);
                         Genre genre = new Genre();
@@ -237,7 +237,7 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
                             genre.setName(obj.getString("genreName"));
                         }
                         if (!obj.isNull("genreAverage")) {
-                            genre.setAverage((float) obj.getInt("genreAverage") / 1000);
+                            genre.setAverage((float) obj.getInt("genreAverage") / 10);
                         }
                         if (!obj.isNull("genreCount")) {
                             genre.setCount(obj.getInt("genreCount"));
@@ -250,12 +250,14 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
             }
 
             Log.d("mediaSize----->",mediaArrayList.size()+"");
+            Log.d("genreSize----->",genreArrayList.size()+"");
 
             if (tagArrayList.size() == 0 || mediaArrayList.size() == 0 || genreArrayList.size() == 0)
                 return;
 
             preferenceKeywordFragment.onResume();
             preferenceMediaFragment.onResume();
+            preferenceGenreFragment.onResume();
         }
     }
 }
