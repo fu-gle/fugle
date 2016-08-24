@@ -32,13 +32,10 @@ public class AuthorContentActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private CommonRecyclerAdapter adapter;
 
-    // 서버 통신
-    public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-    OkHttpClient client;
-    String serverUrl;
-
     // 검색할 작가명
     String authorName;
+
+    GetContentList getContentList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,11 +105,19 @@ public class AuthorContentActivity extends AppCompatActivity {
     // 파라미터에 맞는 리스트 받아옴
     public void performSearch() {
         contentArrayList.clear();
-        new GetContentList(getApplicationContext(),
+        getContentList = new GetContentList(getApplicationContext(),
                 contentArrayList,
                 adapter,
                 3,
-                User.getInstance().getNo())
-                .execute("searchAuthorName/", authorName);
+                User.getInstance().getNo());
+        getContentList.execute("searchAuthorName/", authorName);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(getContentList != null)
+            getContentList.cancel(true);
     }
 }

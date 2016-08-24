@@ -20,26 +20,14 @@ import okhttp3.OkHttpClient;
  * Created by 김은진 on 2016-08-17.
  */
 public class ScoreOfAuthorRankFragment extends Fragment {
-    // 리스트뷰
-    private ArrayList<Author> authorArrayList;
-    private RecyclerView recyclerView;
-    private AuthorRankRecyclerAdapter adapter;
 
-    // 서버 통신
-    public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-    OkHttpClient client;
-    String serverUrl;
+    // 리스트뷰
+    private RecyclerView recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab2_rank_count, container, false);
-
-        // 서버 통신용 객체
-        client = new OkHttpClient();
-        serverUrl = getContext().getApplicationContext().getResources().getString(R.string.server_url);
-
-        authorArrayList = new ArrayList<>();
 
         // 레이아웃 초기화 (RecyclerView) - start
         recyclerView = (RecyclerView) rootView.findViewById(R.id.count_rank_recyclerview);

@@ -29,6 +29,8 @@ public class CountOfWebtoonRankFragment extends Fragment {
     private RecyclerView recyclerView;
     private CommonRecyclerAdapter adapter;
 
+    private GetContentList getContentList;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -79,11 +81,19 @@ public class CountOfWebtoonRankFragment extends Fragment {
     // 파라미터에 맞는 리스트 받아옴
     public void performSearch() {
         contentArrayList.clear();
-        new GetContentList(getContext(),
+        getContentList = new GetContentList(getContext(),
                 contentArrayList,
                 adapter,
                 4,
-                User.getInstance().getNo())
-                .execute("countOfWebtoonRank/", User.getInstance().getNo() + "");
+                User.getInstance().getNo());
+        getContentList.execute("countOfWebtoonRank/", User.getInstance().getNo() + "");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(getContentList != null)
+            getContentList.cancel(true);
     }
 }

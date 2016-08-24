@@ -48,6 +48,7 @@ import kr.fugle.webconnection.GetContentList;
  * Created by 김은진 on 2016-07-26.
  */
 public class MainActivity extends AppCompatActivity implements SpotlightListener {
+
     final int CHECK_FINISH = 1234;
 
     // tutorial
@@ -91,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
     // 작가명, 작품명만 들어있는 리스트
     private ArrayList<String> searchItem = SearchData.getInstance().getList();
 
+    private GetContentList getContentList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +106,8 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
         v = findViewById(R.id.view);
 
         if(searchItem.isEmpty()) {
-            new GetContentList(getApplicationContext()).execute("searchName/");
+            getContentList = new GetContentList(getApplicationContext());
+            getContentList.execute("searchName/");
         }
 
         // 추천 뷰 탭을 초기화 해야하는지 판별하는 값
@@ -332,6 +336,14 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
             refresh = true;
             return;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(getContentList != null)
+            getContentList.cancel(true);
     }
 
     public void showIntro(View view, String usageId, String title, String text) {

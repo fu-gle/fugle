@@ -62,6 +62,9 @@ public class DetailActivity extends AppCompatActivity {
     ArrayList<Comment> commentArrayList;
     ArrayList<Comment> smallCommentArrayList;
 
+    OkHttpGet okHttpGet;
+    GetCommentList getCommentList;
+
     Content content;
     Toolbar toolbar;
     Integer userNo;
@@ -153,7 +156,8 @@ public class DetailActivity extends AppCompatActivity {
 
         // 데이터 불러오기
         // 0: serverUrl , 1: userNo, 2:contentNo
-        new OkHttpGet().execute(serverUrl, userNo.toString(), content.getNo().toString());
+        okHttpGet = new OkHttpGet();
+        okHttpGet.execute(serverUrl, userNo.toString(), content.getNo().toString());
 
         // 별점 다이얼로그 객체 생성
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
@@ -182,7 +186,8 @@ public class DetailActivity extends AppCompatActivity {
         recyclerView.setAdapter(commentAdapter);
 
         // 코멘트 불러오기
-        new GetCommentList().execute(serverUrl, content.getNo().toString());
+        getCommentList = new GetCommentList();
+        getCommentList.execute(serverUrl, content.getNo().toString());
 
         // 보고싶어요 버튼
         preferenceBtn.setOnClickListener(new View.OnClickListener() {
@@ -360,6 +365,16 @@ public class DetailActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(okHttpGet != null)
+            okHttpGet.cancel(true);
+        if(getCommentList != null)
+            getCommentList.cancel(true);
+    }
+
     // 서버로부터 데이터를 json 형태로 긁어온다
     private class OkHttpGet extends AsyncTask<String, Void, String> {
 
@@ -401,6 +416,11 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             Log.d("ho's activity", "DetailActivity.OkHttpGet.onPostExecute" + s);
+
+            if(isCancelled()){
+                Log.d("ho's activity", "DetailActivity.OkHttpGet is canceled");
+                return;
+            }
 
             if(s != null && s != ""){
                 try{
@@ -549,6 +569,11 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
+            if(isCancelled()){
+                Log.d("ho's activity", "DetailActivity.GetComentList is canceled");
+                return;
+            }
 
             Log.d("ho's activity", "DetailActivity.GetCommentList.onPostExecute" + s);
 

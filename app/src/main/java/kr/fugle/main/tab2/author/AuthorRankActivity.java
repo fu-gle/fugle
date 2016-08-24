@@ -46,6 +46,8 @@ public class AuthorRankActivity extends AppCompatActivity {
     OkHttpClient client;
     String serverUrl;
 
+    GetAuthorList getAuthorList;
+
     // 어댑터
     AuthorRankRecyclerAdapter adapter1, adapter2;
 
@@ -154,7 +156,16 @@ public class AuthorRankActivity extends AppCompatActivity {
     // 작가명, 작품명 입력받았을때 서버로 보냄
     // 파라미터에 맞는 리스트 받아옴
     public void performSearch() {
-        new GetAuthorList().execute("authorRank/", User.getInstance().getNo() + "");
+        getAuthorList = new GetAuthorList();
+        getAuthorList.execute("authorRank/", User.getInstance().getNo() + "");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(getAuthorList != null)
+            getAuthorList.cancel(true);
     }
 
     private class GetAuthorList extends AsyncTask<String, Void, String> {
@@ -193,6 +204,12 @@ public class AuthorRankActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
+            if(isCancelled()){
+                Log.d("uwangg's activity", "GetAuthorList is canceled");
+                return;
+            }
+
             ArrayList<Author> authorArrayList = new ArrayList<>();
 
             Log.d("uwangg's activity", "GetAuthorList " + s);
