@@ -85,6 +85,11 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
         // 성공시 startActivity. 실패시 토스트 메세지
         Log.i("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute " + s);
 
+        if(isCancelled()){
+            Log.d("ho's activity", "LoginActivity.OkHttpLogin is canceled");
+            return;
+        }
+
         if(s.equals("SocketTimeoutException")){
             Toast.makeText(context, "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
 

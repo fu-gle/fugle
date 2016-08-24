@@ -248,6 +248,13 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 }
             });
 
+            // 보기싫어요 버튼 색 적용
+            if(content.getLike()){
+                vhItem.hate.setTextColor(Color.parseColor("#61CAFC"));
+            }else{
+                vhItem.hate.setTextColor(Color.parseColor("#777777"));
+            }
+
             // 보기싫어요 버튼
             vhItem.hate.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -267,6 +274,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         vhItem.hate.setTextColor(Color.parseColor("#61CAFC"));
                         User.getInstance().setHates(User.getInstance().getHates() + 1);
                         content.setHate(true);
+
+                        // recyclerview에서 삭제
+                        list.remove(content);
+                        notifyDataSetChanged();
                     }
                 }
             });

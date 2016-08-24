@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // 서버통신
     ActivityStartListener activityStartListener;
+    OkHttpLogin okHttpLogin;
 
     // User 정보 저장
     JSONObject obj;
@@ -204,7 +205,7 @@ public class LoginActivity extends AppCompatActivity {
                         obj.put("name", userProfile.getNickname());
                         obj.put("image", userProfile.getProfileImagePath());
                         // 서버로 데이터전송
-                        OkHttpLogin okHttpLogin = new OkHttpLogin(getApplication());
+                        okHttpLogin = new OkHttpLogin(getApplication());
                         okHttpLogin.setActivityStartListener(activityStartListener);
                         okHttpLogin.execute(
                                 "login/",
@@ -287,7 +288,7 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject pic_url = new JSONObject(pic_data.getString("data"));
 
                             // 서버로 로그인 데이터 전송
-                            OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
+                            okHttpLogin = new OkHttpLogin(getApplicationContext());
                             okHttpLogin.setActivityStartListener(activityStartListener);
 
                             okHttpLogin.execute(
@@ -346,7 +347,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
 
                     // 서버로 전송
-                    OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
+                    okHttpLogin = new OkHttpLogin(getApplicationContext());
                     okHttpLogin.setActivityStartListener(activityStartListener);
                     okHttpLogin.execute(
                             "emailLogin/",
@@ -377,6 +378,9 @@ public class LoginActivity extends AppCompatActivity {
 
         recyleView(R.id.linearLayout);
         recyleView(R.id.logo);
+
+        if(okHttpLogin != null)
+            okHttpLogin.cancel(true);
 
         System.gc();
     }

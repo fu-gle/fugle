@@ -20,9 +20,7 @@ import kr.fugle.R;
 public class CountOfAuthorRankFragment extends Fragment {
 
     // 리스트뷰
-    private ArrayList<Author> authorArrayList;
     private RecyclerView recyclerView;
-    private AuthorRankRecyclerAdapter adapter;
 
     @Nullable
     @Override

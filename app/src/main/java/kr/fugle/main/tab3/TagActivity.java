@@ -24,6 +24,8 @@ public class TagActivity extends AppCompatActivity {
 
     CommonRecyclerAdapter adapter;
 
+    GetContentList getContentList;
+
     Toolbar toolbar;
     RecyclerView recyclerView;
 
@@ -83,12 +85,12 @@ public class TagActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        new GetContentList(getApplicationContext(),
+        getContentList = new GetContentList(getApplicationContext(),
                 contentArrayList,
                 adapter,
                 6,
-                user.getNo())
-                .execute("searchTagName/", tag);
+                user.getNo());
+        getContentList.execute("searchTagName/", tag);
 
         // 위로가기 버튼 Floating Action Button
         findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
@@ -109,5 +111,13 @@ public class TagActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(getContentList != null)
+            getContentList.cancel(true);
     }
 }

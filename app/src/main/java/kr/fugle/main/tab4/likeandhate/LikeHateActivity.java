@@ -24,13 +24,15 @@ public class LikeHateActivity extends AppCompatActivity {
 
     LikeHateAdapter adapter;
 
+    GetContentList getContentList;
+    Handler handler;
+
     Toolbar toolbar;
     RecyclerView recyclerView;
 
     final User user = User.getInstance();
     ArrayList<Content> contentArrayList;
     static int pageNo;
-    Handler handler;
     int category;   // 보고싶어요 혹은 보기싫어요를 파악하기 위한 변수
     String url;     // 보고싶어요 혹은 보기싫어요에 따른 주소
     String title;   // 보고싶어요 혹은 보기싫어요에 따른 제목
@@ -120,7 +122,7 @@ public class LikeHateActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        GetContentList getContentList = new GetContentList(getApplicationContext(),
+        getContentList = new GetContentList(getApplicationContext(),
                 contentArrayList,
                 adapter,
                 5,
@@ -154,6 +156,9 @@ public class LikeHateActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        handler.removeMessages(0);
+        if(getContentList != null)
+            getContentList.cancel(true);
+        if(handler != null)
+            handler.removeMessages(0);
     }
 }

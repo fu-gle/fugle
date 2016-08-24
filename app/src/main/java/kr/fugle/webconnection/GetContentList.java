@@ -123,6 +123,12 @@ public class GetContentList extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
 
         super.onPostExecute(s);
+
+        if(isCancelled()){
+            Log.d("ho's activity", "GetContentList is canceled");
+            return;
+        }
+
         Log.d("ho's activity", "GetContentList.onPostExecute " + s);
 
         Content content;

@@ -59,6 +59,8 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
     Fragment preferenceMediaFragment;
     Fragment preferenceGenreFragment;
 
+    GetPreferenceList getPreferenceList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +75,8 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
         mediaArrayList = new ArrayList<>();
         genreArrayList = new ArrayList<>();
 
-        new GetPreferenceList().execute("userTaste/", user.getNo() + "");
+        getPreferenceList = new GetPreferenceList();
+        getPreferenceList.execute("userTaste/", user.getNo() + "");
 
         // 툴바 설정
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -151,6 +154,13 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        getPreferenceList.cancel(true);
+    }
+
     private class GetPreferenceList extends AsyncTask<String, Void, String> {
 
         @Override
@@ -187,6 +197,11 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
+            if(isCancelled()){
+                return;
+            }
+
             ArrayList<Author> authorArrayList = new ArrayList<>();
 
             Log.d("uwangg's activity", "GetPreferenceList " + s);

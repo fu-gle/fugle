@@ -119,7 +119,6 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public class VHItem extends RecyclerView.ViewHolder {
 
-        private LinearLayout linearLayout;
         private ImageView profileImg;
         private TextView userName;
         private EditText message;
@@ -128,7 +127,6 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public VHItem(View itemView) {
             super(itemView);
 
-            linearLayout = (LinearLayout)itemView.findViewById(R.id.linearLayout);
             profileImg = (ImageView)itemView.findViewById(R.id.profileImg);
             userName = (TextView)itemView.findViewById(R.id.userName);
             message = (EditText)itemView.findViewById(R.id.message);
