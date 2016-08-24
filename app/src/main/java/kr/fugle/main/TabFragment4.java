@@ -50,12 +50,12 @@ public class TabFragment4 extends Fragment {
     User user = User.getInstance();
 
     // 프로필 사진 갤러리에서 사진가져오기
-    private int REQ_PICK_CODE = 100;
+    private final int REQ_PICK_CODE = 100;
     // 프로필 사진 이미지 주소
     private String imgPath;
 
     // 배경 사진 갤러리에서 사진가져오기
-    private int BACK_PICK_CODE = 101;
+    private final int BACK_PICK_CODE = 101;
     private int width;
     private int height;
 
