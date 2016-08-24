@@ -35,7 +35,7 @@ import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.comment.CommentActivity;
 import kr.fugle.main.tab1.MoreWebtoonActivity;
-import kr.fugle.main.tab4.likeandhate.LikeHateActivity;
+import kr.fugle.main.tab4.LikeHateActivity;
 import kr.fugle.mystar.MyStarActivity;
 import kr.fugle.preference.PreferenceAnalysisActivity;
 import kr.fugle.rating.RatingActivity;
@@ -236,6 +236,10 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
         } else if (index == 8) {    // 보기싫어요 목록 버튼 눌렀을시
             Intent intent = new Intent(MainActivity.this, LikeHateActivity.class);
             intent.putExtra("category", 1);
+            startActivity(intent);
+        } else if (index == 9) {    // 코멘트 목록 버튼 눌렀을시
+            Intent intent = new Intent(MainActivity.this, LikeHateActivity.class);
+            intent.putExtra("category", 2);
             startActivity(intent);
         }
     }

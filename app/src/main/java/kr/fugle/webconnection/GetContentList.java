@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.SearchData;
 import kr.fugle.R;
-import kr.fugle.main.tab4.likeandhate.LikeHateAdapter;
+import kr.fugle.main.tab4.LikeHateAdapter;
 import kr.fugle.mystar.MyStarAdapter;
 import kr.fugle.rating.RatingRecyclerAdapter;
 import kr.fugle.recommend.RecommendAdapter;
@@ -268,6 +268,9 @@ public class GetContentList extends AsyncTask<String, Void, String> {
         } else if(activity == 6) {
             // Tag Activity
             Log.d("ho's activity", "GetContentList Tag Activity");
+        } else if(activity == 7) {
+            // Comment Activity
+            Log.d("ho's activity", "GetContentList Comment Activity");
         }
     }
 }

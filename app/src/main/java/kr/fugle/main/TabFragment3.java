@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
 import kr.fugle.Item.User;
 import kr.fugle.R;
+import kr.fugle.rating.RatingActivity;
 import kr.fugle.recommend.RecommendAdapter;
 import kr.fugle.webconnection.GetContentList;
 
@@ -36,9 +40,14 @@ public class TabFragment3 extends Fragment {
 
     private ArrayList<Content> contentArrayList;
     private ArrayList<String> tagList;
+
     private RecyclerView recyclerView;
+    private CardView cardView;
+    private RelativeLayout relativeLayout;
+    private Button goStar;
+
     private RecommendAdapter adapter;
-    private Integer userNo;
+    private User user;
     private static int pageNo;
     private TabStatusListener tabStatusListener;
 
@@ -49,44 +58,13 @@ public class TabFragment3 extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-        Log.d("ho's activity", "TabFragment3.onResume");
-
-        // 초기해야하는지 확인 후 초기화
-        if(tabStatusListener.getRefresh()){
-
-            contentArrayList.clear();
-            adapter.notifyDataSetChanged();
-
-            pageNo = 1;
-
-            GetContentList getContentList = new GetContentList(getContext(),
-                    contentArrayList,
-                    adapter,
-                    0,
-                    userNo);
-
-            if(tagList.size() == 0)
-                getContentList.setTagList(tagList);
-
-            getContentList.execute("recommend/", userNo.toString(), pageNo + "");
-
-            pageNo++;
-
-            tabStatusListener.setRefresh(false);
-        }
-    }
-
-    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         contentArrayList = tabStatusListener.getContentList();
         if(tagList == null)
             tagList = new ArrayList<>();
         pageNo = tabStatusListener.getPageNo();
-        userNo = User.getInstance().getNo();
+        user = User.getInstance();
     }
 
     @Nullable
@@ -99,11 +77,30 @@ public class TabFragment3 extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(manager);
 
+        cardView = (CardView)v.findViewById(R.id.zero_cardview);
+
+        goStar = (Button)v.findViewById(R.id.go_star);
+
+        relativeLayout = (RelativeLayout)v.findViewById(R.id.relativeLayout);
+
+        if((user.getWebtoonStars() + user.getCartoonStars()) < 15){
+            cardView.setVisibility(View.VISIBLE);
+
+            relativeLayout.setVisibility(View.GONE);
+
+            goStar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getContext(), RatingActivity.class));
+                }
+            });
+        }
+
         adapter = new RecommendAdapter(
                 getContext(),
                 contentArrayList,
                 tagList,
-                userNo,
+                user.getNo(),
                 recyclerView);
 
         handler = new Handler();
@@ -124,12 +121,12 @@ public class TabFragment3 extends Fragment {
                                     contentArrayList,
                                     adapter,
                                     0,
-                                    userNo);
+                                    user.getNo());
 
                         if(tagList.size() == 0)
                             getContentList.setTagList(tagList);
 
-                        getContentList.execute("recommend/", userNo.toString(), pageNo + "");
+                        getContentList.execute("recommend/", user.getNo().toString(), pageNo + "");
 
                         pageNo++;
                     }
@@ -167,6 +164,37 @@ public class TabFragment3 extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Log.d("ho's activity", "TabFragment3.onResume");
+
+        // 초기해야하는지 확인 후 초기화
+        if(tabStatusListener.getRefresh()){
+
+            contentArrayList.clear();
+            adapter.notifyDataSetChanged();
+
+            pageNo = 1;
+
+            GetContentList getContentList = new GetContentList(getContext(),
+                    contentArrayList,
+                    adapter,
+                    0,
+                    user.getNo());
+
+            if(tagList.size() == 0)
+                getContentList.setTagList(tagList);
+
+            getContentList.execute("recommend/", user.getNo().toString(), pageNo + "");
+
+            pageNo++;
+
+            tabStatusListener.setRefresh(false);
+        }
     }
 
     @Override

@@ -106,7 +106,7 @@
         <activity android:name=".Intro.TutorialTestActivity"></activity>
         <activity android:name=".Intro.TutorialActivity"></activity>
         <!-- 보고싶어요 보기싫어요 목록 액티비티 -->
-        <activity android:name=".main.tab4.likeandhate.LikeHateActivity" />
+        <activity android:name=".main.tab4.LikeHateActivity" />
 
         <!-- 추천리스트에서 태그 검색 액티비티 ㄴ -->
         <activity android:name=".main.tab3.TagActivity" />

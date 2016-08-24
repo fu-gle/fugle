@@ -138,6 +138,9 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
                 user.setCartoonStars(mypage.getInt("cartooncount"));
             if(!mypage.isNull("dontseecount"))
                 user.setHates(mypage.getInt("dontseecount"));
+            if(!mypage.isNull("commentcount"))
+                user.setComments(mypage.getInt("commentcount"));
+
         } catch (JSONException e) {
             e.printStackTrace();
             Toast.makeText(context, "로그인에 실패하였습니다(서버 페이지 에러)", Toast.LENGTH_SHORT).show();

@@ -17,13 +17,14 @@ public class User {
     private String profileImg;
     private String message;
     private String profileBackground;
+    private Integer comments;
     private Integer likes;
+    private Integer hates;
     private Integer webtoonStars;
     private Integer cartoonStars;
-    private Integer hates;
 
     private User(){
-        no = likes = webtoonStars = cartoonStars = hates = 0;
+        no = comments = likes = hates = webtoonStars = cartoonStars = 0;
         email = passwd = name = gender = primaryKey = profileImg = message = profileBackground = "";
     }
 
@@ -56,6 +57,14 @@ public class User {
 
     public void setNo(Integer no) {
         this.no = no;
+    }
+
+    public Integer getComments() {
+        return comments;
+    }
+
+    public void setComments(Integer comments) {
+        this.comments = comments;
     }
 
     public String getEmail() {

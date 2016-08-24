@@ -7,9 +7,48 @@
     android:background="#ffffffff"
     >
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/zero_cardview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="5dp"
+        app:contentPadding="16dp"
+        android:visibility="gone"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/zero_count_text"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:gravity="center"
+                android:text="아직 평가가 없습니다."
+                android:textSize="17dp"
+                />
+
+            <Button
+                android:id="@+id/go_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/select_button2"
+                android:padding="10dp"
+                android:text="평가하러가기"
+                android:textColor="@color/selector_text"
+                />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/relativeLayout">
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package kr.fugle.main.tab4.likeandhate;
+package kr.fugle.main.tab4;
 
 import android.content.Context;
 import android.content.Intent;
