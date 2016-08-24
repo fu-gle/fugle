@@ -138,11 +138,20 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
                     .getSystemService(Context.WINDOW_SERVICE);
             windowManager.getDefaultDisplay().getMetrics(metrics);
 
-            Picasso.with(likeContext.getApplicationContext())
-                    .load(content.getThumbnailBig())
-                    .resize(metrics.widthPixels, metrics.heightPixels/3)
-                    .centerCrop()
-                    .into(vhItem.thumbnailImg);
+            // 만화책은 centerInside, 웹툰은 centerCrop
+            if(content.getCartoon()){
+                Picasso.with(likeContext.getApplicationContext())
+                        .load(content.getThumbnailBig())
+                        .resize(metrics.widthPixels, metrics.heightPixels / 3)
+                        .centerInside()
+                        .into(vhItem.thumbnailImg);
+            }else {
+                Picasso.with(likeContext.getApplicationContext())
+                        .load(content.getThumbnailBig())
+                        .resize(metrics.widthPixels, metrics.heightPixels / 3)
+                        .centerCrop()
+                        .into(vhItem.thumbnailImg);
+            }
 
             // 이미지 클릭시 상세보기로 넘어간다
             vhItem.thumbnailImg.setOnClickListener(new View.OnClickListener() {
@@ -155,15 +164,19 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
                     new PostUserLog(likeContext.getApplicationContext())
                             .execute("", userNo.toString(), content.getNo().toString(), time);
 
-                    Intent intent = new Intent(likeContext, DetailActivity.class);
-                    intent.putExtra("userNo", userNo);
-                    intent.putExtra("contentNo", content.getNo());
+                   Intent intent = new Intent(likeContext, DetailActivity.class);
+                    intent.putExtra("content", content);
                     likeContext.startActivity(intent);
 
                 }
             });
 
-//        vhItem.friends.setText(content.getFriends + "님 왜 7명의 친구가 봤어요");
+            // 웹툰, 만화 종류 보여주기
+            if(content.getCartoon()){
+                vhItem.category.setText("만화책");
+            }else{
+                vhItem.category.setText("웹툰");
+            }
 
             // 보고싶어요 버튼 보고싶어요 색 적용
             if(content.getLike()){
@@ -275,6 +288,7 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
         // 위젯들
         CardView cardView;
         ImageView thumbnailImg;
+        TextView category;
         TextView prediction;
         TextView title;
         TextView tag;
@@ -287,6 +301,7 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
             super(itemView);
             cardView = (CardView)itemView.findViewById(R.id.recommendCardView);
             thumbnailImg = (ImageView)itemView.findViewById(R.id.thumbnailImg);
+            category = (TextView)itemView.findViewById(R.id.category);
             prediction = (TextView)itemView.findViewById(R.id.prediction);
             title = (TextView)itemView.findViewById(R.id.title);
             tag = (TextView)itemView.findViewById(R.id.tag);

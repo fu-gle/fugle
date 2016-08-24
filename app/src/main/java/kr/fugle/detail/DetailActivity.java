@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,12 +49,18 @@ import okhttp3.Response;
 
 public class DetailActivity extends AppCompatActivity {
 
+    // 코멘트 액티비티 통신
+    final int REQUEST_COMMENT = 150;
+    final int RESULT_COMMENT = 151;
+
+    // 서버통신용
     String serverUrl;
     OkHttpClient client = new OkHttpClient();
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
 
     CommentRecyclerAdapter commentAdapter;
     ArrayList<Comment> commentArrayList;
+    ArrayList<Comment> smallCommentArrayList;
 
     Content content;
     Toolbar toolbar;
@@ -69,7 +76,6 @@ public class DetailActivity extends AppCompatActivity {
     TextView linkBtn;
     TextView prediction;
     TextView tag;
-    TextView friends;
     TextView title2;
     TextView author;
     TextView genre;
@@ -78,6 +84,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView summary;
     CardView commentCard;
     RecyclerView recyclerView;
+    LinearLayout moreComment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +96,6 @@ public class DetailActivity extends AppCompatActivity {
         Intent data = getIntent();
         content = (Content)data.getSerializableExtra("content");
         userNo = User.getInstance().getNo();
-//        contentNo = data.getIntExtra("contentNo", 0);
 
         // 툴바 생성
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -109,7 +115,6 @@ public class DetailActivity extends AppCompatActivity {
         linkBtn = (TextView)findViewById(R.id.linkBtn);
         prediction = (TextView)findViewById(R.id.prediction);
         tag = (TextView)findViewById(R.id.tag);
-        friends = (TextView)findViewById(R.id.friends);
         title2 = (TextView)findViewById(R.id.title2);
         author = (TextView)findViewById(R.id.author);
         genre = (TextView)findViewById(R.id.genre);
@@ -118,6 +123,7 @@ public class DetailActivity extends AppCompatActivity {
         summary  = (TextView)findViewById(R.id.summary);
         commentCard = (CardView)findViewById(R.id.commentCard);
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
+        moreComment = (LinearLayout)findViewById(R.id.moreComment);
 
         // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
         DisplayMetrics metrics = new DisplayMetrics();
@@ -166,10 +172,11 @@ public class DetailActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
 
         commentArrayList = new ArrayList<>();
+        smallCommentArrayList = new ArrayList<>();
 
         commentAdapter = new CommentRecyclerAdapter(
                 DetailActivity.this,
-                commentArrayList,
+                smallCommentArrayList,
                 recyclerView);
 
         recyclerView.setAdapter(commentAdapter);
@@ -294,7 +301,7 @@ public class DetailActivity extends AppCompatActivity {
                 intent.putExtra("star", content.getRating());
                 intent.putExtra("isCartoon", content.getCartoon());
 
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_COMMENT);
             }
         });
 
@@ -313,6 +320,21 @@ public class DetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // 코멘트 더보기 버튼
+        moreComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // 버튼 없애기
+                moreComment.setVisibility(View.GONE);
+
+                // small에 전체를 넣는다
+                smallCommentArrayList.clear();
+                smallCommentArrayList.addAll(commentArrayList);
+                commentAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -323,6 +345,19 @@ public class DetailActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_COMMENT && resultCode == RESULT_OK){
+            Log.d("------>", "comment reset");
+            commentArrayList.clear();
+            commentAdapter.notifyDataSetChanged();
+
+            new GetCommentList().execute(serverUrl, content.getNo().toString());
+        }
     }
 
     // 서버로부터 데이터를 json 형태로 긁어온다
@@ -459,8 +494,6 @@ public class DetailActivity extends AppCompatActivity {
                 preferenceBtn.setTextColor(Color.parseColor("#F13839"));
             }
 
-            friends.setText("");    // 친구목록 넣어야함
-
             author.setText(content.getAuthor());
 
             genre.setText(content.getGenre());
@@ -533,8 +566,8 @@ public class DetailActivity extends AppCompatActivity {
                         JSONObject obj = list.getJSONObject(i);
 
                         comment = new Comment(
-                                content.getNo(),
-                                0,
+                                obj.getInt("id"),
+                                obj.getInt("user_id"),
                                 obj.getString("name"),
                                 obj.getString("comment"),
                                 obj.getString("profile"));
@@ -547,12 +580,21 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
 
-//            if(commentArrayList.size() > 0){
-//                commentCard.setVisibility(View.VISIBLE);
-//            }
-//            for(int i=0;i<commentArrayList.size();i++){
-//                Log.d("------>", commentArrayList.get(i).getMessage());
-//            }
+            smallCommentArrayList.clear();
+
+            // small list 에 옮긴다
+            int length;
+            if(commentArrayList.size() > 3) {
+                length = 3;
+                moreComment.setVisibility(View.VISIBLE);
+            }else{
+                length = commentArrayList.size();
+                moreComment.setVisibility(View.GONE);
+            }
+
+            for(int i = 0; i < length; i++){
+                smallCommentArrayList.add(commentArrayList.get(i));
+            }
 
             commentAdapter.notifyDataSetChanged();
         }

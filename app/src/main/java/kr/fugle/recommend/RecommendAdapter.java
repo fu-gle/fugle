@@ -201,14 +201,17 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
                     Intent intent = new Intent(recommendContext, DetailActivity.class);
                     intent.putExtra("content", content);
-                    intent.putExtra("userNo", userNo);
-                    intent.putExtra("contentNo", content.getNo());
                     recommendContext.startActivity(intent);
 
                 }
             });
 
-//        vhItem.friends.setText(content.getFriends + "님 왜 7명의 친구가 봤어요");
+            // 웹툰인지 만화인지 보여준다
+            if(content.getCartoon()){   // 만화인 경우
+                vhItem.category.setText("만화책");
+            }else{  // 웹툰인경우
+                vhItem.category.setText("웹툰");
+            }
 
             // 보고싶어요 버튼 보고싶어요 색 적용
             if(content.getLike()){
@@ -257,11 +260,11 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             .execute("dontsee/", userNo.toString(), content.getNo().toString());
 
                     if(content.getHate()){  // 이미 보기싫어요 상태..는 없지않나?
-                        vhItem.hate.setTextColor(Color.parseColor("#000000"));
+                        vhItem.hate.setTextColor(Color.parseColor("#777777"));
                         User.getInstance().setHates(User.getInstance().getHates() - 1);
                         content.setHate(false);
                     }else{  // 여기서 보기 싫어요 액션부분
-                        vhItem.hate.setTextColor(Color.parseColor("#AAAAAA"));
+                        vhItem.hate.setTextColor(Color.parseColor("#61CAFC"));
                         User.getInstance().setHates(User.getInstance().getHates() + 1);
                         content.setHate(true);
                     }
@@ -332,10 +335,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         // 위젯들
         CardView cardView;
         ImageView thumbnailImg;
+        TextView category;
         TextView prediction;
         TextView title;
         TextView tag;
-        TextView friends;
         TextView like;
         TextView hate;
         TextView link;
@@ -344,10 +347,10 @@ public class RecommendAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             super(itemView);
             cardView = (CardView)itemView.findViewById(R.id.recommendCardView);
             thumbnailImg = (ImageView)itemView.findViewById(R.id.thumbnailImg);
+            category = (TextView)itemView.findViewById(R.id.category);
             prediction = (TextView)itemView.findViewById(R.id.prediction);
             title = (TextView)itemView.findViewById(R.id.title);
             tag = (TextView)itemView.findViewById(R.id.tag);
-            friends = (TextView)itemView.findViewById(R.id.friends);
             like = (TextView)itemView.findViewById(R.id.like);
             hate = (TextView)itemView.findViewById(R.id.hate);
             link = (TextView)itemView.findViewById(R.id.link);

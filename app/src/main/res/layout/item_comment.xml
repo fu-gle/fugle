@@ -1,40 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/linearLayout">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
-
-        <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/profileImg"
-            android:layout_gravity="center"
-            android:background="@drawable/profile_circular_border_imageview"
-            android:scaleType="centerCrop"
-            android:src="@drawable/egg_profile"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/userName"
-            android:text="이름"
-            android:layout_gravity="center"
-            android:textSize="13sp"/>
-
-    </LinearLayout>
-
-    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/message"
-        android:padding="15dp"
-        android:focusable="false"
-        android:clickable="false"
-        android:background="@null"/>
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/profileImg"
+                android:layout_gravity="center"
+                android:background="@drawable/profile_circular_border_imageview"
+                android:scaleType="centerCrop"
+                android:src="@drawable/egg_profile"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userName"
+                android:text="이름"
+                android:layout_gravity="center"
+                android:textSize="13sp"/>
+
+        </LinearLayout>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:id="@+id/message"
+            android:padding="15dp"
+            android:focusable="false"
+            android:clickable="false"
+            android:background="@null"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/delete"
+                android:src="@drawable/ic_delete"
+                android:visibility="invisible"
+                android:clickable="false"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

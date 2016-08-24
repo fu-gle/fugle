@@ -291,6 +291,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         if(!contentArrayList1.isEmpty()) {
 
             final Content content = contentArrayList1.get(0);
+            webtoon = content;
 
             // 웹툰 정보 불러오기
             Picasso.with(getContext())
@@ -300,11 +301,21 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                     .into(todayWebtoonImg);
             todayWebtoonTitle.setText(content.getTitle());
             todayWebtoonPrediction.setText(content.getPrediction().toString());
+
+            String tags = content.getTags();
+            String [] tagList = tags.split(",");
+            tags = "";
+            for(int i = 0; i < tagList.length; i++){
+                tags += "#" + tagList[i];
+                if(i != tagList.length - 1){
+                    tags += " ";
+                }
+            }
+
             todayWebtoonText.setText(
-                    "태그 : "
-                            +content.getTags()
-                            +"\n" + content.getLikeCnt()
-                            +"명의 분들이 보고싶어요를 눌러주셨어요!");
+                    tags
+                            + "\n" + content.getLikeCnt()
+                            + "명의 분들이 관심을 가지고 계세요!");
 
             if(content.getLike()){
                 webtoonLike.setTextColor(Color.parseColor("#F13839"));
@@ -324,6 +335,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
             final Content content = contentArrayList2.get(0);
 
+            cartoon = content;
+
             // 카툰 정보 불러오기
             Picasso.with(getContext())
                     .load(content.getThumbnailBig())
@@ -332,11 +345,21 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                     .into(todayCartoonImg);
             todayCartoonTitle.setText(content.getTitle());
             todayCartoonPrediction.setText(content.getPrediction().toString());
+
+            String tags = content.getTags();
+            String [] tagList = tags.split(",");
+            tags = "";
+            for(int i = 0; i < tagList.length; i++){
+                tags += "#" + tagList[i];
+                if(i != tagList.length - 1){
+                    tags += " ";
+                }
+            }
+
             todayCartoonText.setText(
-                    "태그 : "
-                            +content.getTags()
-                            +"\n" + content.getLikeCnt()
-                            +"명의 분들이 보고싶어요를 눌러주셨어요!");
+                    tags
+                            + "\n" + content.getLikeCnt()
+                            + "명의 분들이 관심을 가지고 계세요!");
             if(content.getLike()){
                 cartoonLike.setTextColor(Color.parseColor("#F13839"));
             }
@@ -604,8 +627,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                             content.setHate(obj.getBoolean("dontsee"));
                         if (!obj.isNull("is_cartoon"))
                             content.setCartoon(obj.getBoolean("is_cartoon"));
-                        if (!obj.isNull("likecnt"))
-                            content.setLikeCnt(obj.getInt("likecnt"));
+                        if (!obj.isNull("cnt"))
+                            content.setLikeCnt(obj.getInt("cnt"));
 
                         contentArrayList.add(content);
                     }
