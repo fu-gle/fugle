@@ -18,7 +18,6 @@ public class PreferenceMediaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.preference_media, container, false);
-
         return rootView;
     }
 }

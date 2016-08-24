@@ -31,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
@@ -86,6 +87,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     CardView cardView;
 
     TabStatusListener tabStatusListener;
+
+    // 날짜
+    Calendar cal;
 
     public void setTabStatusListener(TabStatusListener tabStatusListener) {
         this.tabStatusListener = tabStatusListener;
@@ -148,11 +152,12 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         cartoonCommentBtn = (LinearLayout) rootView.findViewById(R.id.cartoon_comment_btn);
 
         // 월, 주차 표시
-        Calendar cal = Calendar.getInstance();
+        cal = Calendar.getInstance();
+        cal.add(Calendar.DATE, -7);
         todayWebtoonFirstTitle.setText((cal.get(2)+1)+"월 "
-                +(cal.get(Calendar.WEEK_OF_MONTH)-1)+"주차의 인기 웹툰이예요!");
+                +(cal.get(Calendar.WEEK_OF_MONTH))+"주차의 인기 웹툰이예요!");
         todayCartoonFirstTitle.setText((cal.get(2)+1)+"월 "
-                +(cal.get(Calendar.WEEK_OF_MONTH)-1)+"주차의 인기 만화책이예요!");
+                +(cal.get(Calendar.WEEK_OF_MONTH))+"주차의 인기 만화책이예요!");
 
         // 추천 이미지
         DisplayMetrics metrics = new DisplayMetrics();
@@ -544,7 +549,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
             Log.d("uwangg's activity", "GetMainList.doInBackground");
 
-            String data = "userId=" + params[1];
+            String data = "userId=" + params[1] + "&dayOfWeek=" + (cal.get(Calendar.WEEK_OF_MONTH));
             Log.d("uwangg's activity", "GetMainList data " + data);
 
             RequestBody body = RequestBody.create(HTML, data);
