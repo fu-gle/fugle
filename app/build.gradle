@@ -59,7 +59,7 @@ dependencies {
     compile 'com.github.wooplr:Spotlight:1.2.2'
 
     // chart를 그리기위해
-
+    compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
 }
 // Firebase
 apply plugin: 'com.google.gms.google-services'
