@@ -176,13 +176,15 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         // 1. 취향분석
 
         // 1 - (1)프로필 사진
-        Context c = getActivity().getApplicationContext();
-        ImageView profileView = (ImageView) rootView.findViewById(R.id.home_prof_img);
         String profileImagePath = User.getInstance().getProfileImg();
-        CircleTransform circleTransform = new CircleTransform();
-        Picasso.with(c).load(profileImagePath)
-                .transform(circleTransform)
-                .into(profileView);
+        if(profileImagePath != null && !profileImagePath.equals("")) {
+            Context c = getActivity().getApplicationContext();
+            ImageView profileView = (ImageView) rootView.findViewById(R.id.home_prof_img);
+            CircleTransform circleTransform = new CircleTransform();
+            Picasso.with(c).load(profileImagePath)
+                    .transform(circleTransform)
+                    .into(profileView);
+        }
 
 
         // 1 - (2) 취향 내용

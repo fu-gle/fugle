@@ -38,8 +38,10 @@ public class TabFragment4 extends Fragment {
     // 위젯 객체
     ImageView backgroundImg;    // 커버사진
     ImageView profileView;  // 프로필 사진
+    LinearLayout profComment;   // 코멘트 목록 가는 버튼
     LinearLayout profLike;  // 보고싶어요 목록 가는 버튼
     LinearLayout profHate;  // 보기싫어요 목록 가는 버튼
+    TextView comment;
     TextView like;
     TextView hate;
     Button profWebtoonBtn;
@@ -119,12 +121,14 @@ public class TabFragment4 extends Fragment {
 
         // 프로필 사진
         profileView = (ImageView) rootView.findViewById(R.id.user_profile_photo);
-        String profileImagePath = user.getProfileImg();
-        CircleTransform circleTransform = new CircleTransform();
-        Picasso.with(getActivity().getApplicationContext())
-                .load(profileImagePath)
-                .transform(circleTransform)
-                .into(profileView);
+//        String profileImagePath = User.getInstance().getProfileImg();
+//        if(profileImagePath != null && !profileImagePath.equals("")) {
+//            Context c = getActivity().getApplicationContext();
+//            CircleTransform circleTransform = new CircleTransform();
+//            Picasso.with(c).load(profileImagePath)
+//                    .transform(circleTransform)
+//                    .into(profileView);
+//        }
 
         // 프로필 사진 변경
 //        profileView.setOnClickListener(onClicked);
@@ -211,6 +215,10 @@ public class TabFragment4 extends Fragment {
             }
         });
 
+        // 코멘트 목록 버튼
+        profComment = (LinearLayout) rootView.findViewById(R.id.prof_comment);
+        profComment.setOnClickListener(onClicked);
+
         // 보고싶어요 목록 버튼
         profLike = (LinearLayout) rootView.findViewById(R.id.prof_like);
         profLike.setOnClickListener(onClicked);
@@ -218,6 +226,9 @@ public class TabFragment4 extends Fragment {
         // 보기싫어요 목록 버튼
         profHate = (LinearLayout) rootView.findViewById(R.id.prof_hate);
         profHate.setOnClickListener(onClicked);
+
+        // 코멘트 갯수
+        comment = (TextView) rootView.findViewById(R.id.comment);
 
         // 보고싶어요 갯수
         like = (TextView) rootView.findViewById(R.id.like);
@@ -259,12 +270,8 @@ public class TabFragment4 extends Fragment {
                     startActivityForResult(pickerIntent, ((MainActivity) getActivity()).REQ_PROFILE_PICK_CODE);
                     break;
                 }
-                case R.id.prof_webtoon_btn: {   // 내가 별점 준 웹툰 목록
-                    activity.onFragmentChanged(2);
-                    break;
-                }
-                case R.id.prof_cartoon_btn: {   // 내가 별점 준 만화 목록
-                    activity.onFragmentChanged(5);
+                case R.id.prof_comment: {   // 코멘트 목록
+                    activity.onFragmentChanged(9);
                     break;
                 }
                 case R.id.prof_like: {  // 보고싶어요 목록
@@ -275,10 +282,17 @@ public class TabFragment4 extends Fragment {
                     activity.onFragmentChanged(8);
                     break;
                 }
+                case R.id.prof_webtoon_btn: {   // 내가 별점 준 웹툰 목록
+                    activity.onFragmentChanged(2);
+                    break;
+                }
+                case R.id.prof_cartoon_btn: {   // 내가 별점 준 만화 목록
+                    activity.onFragmentChanged(5);
+                    break;
+                }
             }
         }
     };
-
     @Override
     public void onResume() {
         super.onResume();
@@ -286,11 +300,13 @@ public class TabFragment4 extends Fragment {
         Log.d("ho's activity", "TabFragment4.onResume");
 
         // 유저의 정보 적용
-        CircleTransform circleTransform = new CircleTransform();
-        Picasso.with(getContext().getApplicationContext())
-                .load(user.getProfileImg())
-                .transform(circleTransform)
-                .into(profileView);
+        if(user.getProfileImg() != null && user.getProfileImg().equals("")) {
+            CircleTransform circleTransform = new CircleTransform();
+            Picasso.with(getContext().getApplicationContext())
+                    .load(user.getProfileImg())
+                    .transform(circleTransform)
+                    .into(profileView);
+        }
 
         Log.d("uwangg's user back : ",user.getProfileBackground());
 
@@ -301,6 +317,7 @@ public class TabFragment4 extends Fragment {
                     .centerCrop()
                     .into(backgroundImg);
         }
+        comment.setText(user.getComments().toString());
         like.setText(user.getLikes().toString());
         hate.setText(user.getHates().toString());
         profWebtoonBtn.setText("웹툰 " + user.getWebtoonStars().toString());
