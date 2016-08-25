@@ -216,7 +216,8 @@ public class LoginActivity extends AppCompatActivity {
                         obj.put("image", userProfile.getProfileImagePath());
 
                         // 로딩 다이얼로그 띄우기
-                        loadingDialog.show();
+                        if(!LoginActivity.this.isFinishing())
+                            loadingDialog.show();
 
                         // 서버로 데이터전송
                         okHttpLogin = new OkHttpLogin(getApplication());
@@ -303,7 +304,8 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject pic_url = new JSONObject(pic_data.getString("data"));
 
                             // 로딩 다이얼로그 띄우기
-                            loadingDialog.show();
+                            if(!LoginActivity.this.isFinishing())
+                                loadingDialog.show();
 
                             // 서버로 로그인 데이터 전송
                             okHttpLogin = new OkHttpLogin(getApplicationContext());

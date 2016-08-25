@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -96,10 +98,20 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
 
     private Handler handler;
 
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         // tutorial
         mPreferencesManager = new PreferencesManager(MainActivity.this);
@@ -208,6 +220,10 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
             Intent intent = new Intent(MainActivity.this, RatingActivity.class);
             startActivityForResult(intent, RATING_REQUEST_CODE);
         } else if(index == 1) { // 로그아웃 버튼 눌렀을시
+            // 프로그래스바 종료
+            if(loadingDialog != null)
+                loadingDialog.cancel();
+
             Intent intent = new Intent(MainActivity.this, SplashActivity.class);
             startActivity(intent);
             finish();
@@ -277,6 +293,9 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
                 break;
             }
             case R.id.action_logout: {    // 로그아웃 버튼 클릭시
+
+                // 로딩 시작
+                loadingDialog.show();
 
                 // 이메일
                 SharedPreferences preferences = getSharedPreferences("login", Context.MODE_PRIVATE);

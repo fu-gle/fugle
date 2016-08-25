@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
@@ -35,6 +36,10 @@ import kr.fugle.main.MainActivity;
  */
 public class SplashActivity extends Activity {
 
+    // 퍼미션 관련 변수
+    String[] perms = {"android.permission.WRITE_EXTERNAL_STORAGE"};
+
+
     private Handler handler;
     private ActivityStartListener activityStartListener;
 
@@ -47,6 +52,15 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 페이스북 초기화
+        FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)
+
+        setContentView(R.layout.splash);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(perms, 200);
+        }
 
         // 로딩 다이얼로그
         AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(SplashActivity.this, R.style.AppCompatAlertDialogStyle);
@@ -72,10 +86,6 @@ public class SplashActivity extends Activity {
                 finish();
             }
         };
-
-        // 페이스북 초기화
-        FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)
-        setContentView(R.layout.splash);
 
         // 로고 이미지 할당
         ImageView logo = (ImageView)findViewById(R.id.logo);

@@ -2,9 +2,14 @@ package kr.fugle.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.CursorLoader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
 import android.util.DisplayMetrics;
@@ -22,10 +27,18 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
+
 import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.login.CircleTransform;
 import kr.fugle.webconnection.PostSingleData;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by 김은진 on 2016-07-26.
@@ -49,6 +62,8 @@ public class TabFragment4 extends Fragment {
 
     User user = User.getInstance();
 
+    private AppCompatDialog loadingDialog;
+
     // 프로필 사진 갤러리에서 사진가져오기
     private final int REQ_PICK_CODE = 100;
     // 프로필 사진 이미지 주소
@@ -67,6 +82,13 @@ public class TabFragment4 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_fragment4, container, false);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         // 취향분석 버튼
         Button favoriteBtn = (Button) rootView.findViewById(R.id.prof_favorite_button);
@@ -293,14 +315,15 @@ public class TabFragment4 extends Fragment {
             }
         }
     };
+
     @Override
     public void onResume() {
         super.onResume();
 
-        Log.d("ho's activity", "TabFragment4.onResume");
+        Log.d("ho's activity", "TabFragment4.onResume user profile " + user.getProfileImg());
 
         // 유저의 정보 적용
-        if(user.getProfileImg() != null && user.getProfileImg().equals("")) {
+        if(user.getProfileImg() != null && !user.getProfileImg().equals("")) {
             CircleTransform circleTransform = new CircleTransform();
             Picasso.with(getContext().getApplicationContext())
                     .load(user.getProfileImg())
@@ -329,23 +352,91 @@ public class TabFragment4 extends Fragment {
         if (data == null) return;
         super.onActivityResult(requestCode, resultCode, data);
 
+        loadingDialog.show();
+
+        imgPath = getRealPathFromURI(data.getData());
+
         if (requestCode == REQ_PICK_CODE) {
-            imgPath = data.getData().toString();
-            Log.d("uwangg's camera data : ", data.getData().toString());
-            user.setProfileImg(imgPath);
-            new PostSingleData(getContext())
-                    .execute("userProfileImg/",
-                            User.getInstance().getNo()+"",
-                            imgPath);
+            Log.d("uwangg's camera data : ", imgPath);
+
+            PostPicture postPicture = new PostPicture();
+            postPicture.setLoadingDialog(loadingDialog);
+            postPicture.execute("userProfileImg/", user.getNo().toString(), imgPath);
         }
         if (requestCode == BACK_PICK_CODE) {
-            imgPath = data.getData().toString();
-            Log.d("uwangg's back data : ", data.getData().toString());
-            user.setProfileBackground(imgPath);
-            new PostSingleData(getContext())
-                    .execute("userProfileBackground/",
-                            User.getInstance().getNo()+"",
-                            imgPath);
+            Log.d("uwangg's back data : ", imgPath);
+
+            PostPicture postPicture = new PostPicture();
+            postPicture.setLoadingDialog(loadingDialog);
+            postPicture.execute("userProfileBackground/", user.getNo().toString(), imgPath);
+        }
+    }
+
+    private String getRealPathFromURI(Uri contentUri){
+        String[] proj = {MediaStore.Images.Media.DATA};
+
+        CursorLoader cursorLoader = new CursorLoader(getActivity(), contentUri, proj, null, null, null);
+        Cursor cursor = cursorLoader.loadInBackground();
+
+        int colum_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+
+        return cursor.getString(colum_index);
+    }
+
+    private class PostPicture extends AsyncTask<String, Void, String>{
+
+        private final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+        private String serverUrl = getResources().getString(R.string.server_url);
+
+        private final OkHttpClient client = new OkHttpClient();
+
+        private AppCompatDialog loadingDialog;
+
+        public void setLoadingDialog(AppCompatDialog loadingDialog) {
+            this.loadingDialog = loadingDialog;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            // Use the imgur image upload API as documented at https://api.imgur.com/endpoints/image
+
+            File file = new File(params[2]);
+
+            RequestBody body = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("userId", params[1])
+                    .addFormDataPart("file", "file2.png", RequestBody.create(MEDIA_TYPE_PNG, file))
+                    .build();
+
+            Request request = new Request.Builder()
+                    .url(serverUrl + params[0])
+                    .post(body)
+                    .build();
+
+            String result = "";
+
+            try {
+                Response response = client.newCall(request).execute();
+                result = response.body().string();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            loadingDialog.cancel();
+
+            Log.d("------>", "okhttp image upload " + s);
+
+            user.setProfileImg(s);
+
+            onResume();
         }
     }
 }
