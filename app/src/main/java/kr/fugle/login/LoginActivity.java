@@ -65,11 +65,14 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
 
     // 이메일
-    private AppCompatDialog dialog;
+    private AppCompatDialog emailLoginDialog;
 
     // 서버통신
     ActivityStartListener activityStartListener;
     OkHttpLogin okHttpLogin;
+
+    // 로그인 기다리는 프로그래스바
+    private AppCompatDialog loadingDialog;
 
     // User 정보 저장
     JSONObject obj;
@@ -125,14 +128,21 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.com_kakao_login).setOnClickListener(onKakaoButtonClicked);
 
         // 이메일 로그인 다이얼로그
-        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this, R.style.AppCompatAlertDialogStyle);
-        builder.setCancelable(true)
+        AlertDialog.Builder emailDialogBuilder = new AlertDialog.Builder(LoginActivity.this, R.style.AppCompatAlertDialogStyle);
+        emailDialogBuilder.setCancelable(true)
                 .setView(R.layout.dialog_email_login);
 
-        dialog = builder.create();
+        emailLoginDialog = emailDialogBuilder.create();
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(LoginActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         // 다이얼로그 배경 설정
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLUE));
+        emailLoginDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.BLUE));
 
         // 다이얼로그 크기 정하기
         DisplayMetrics metrics = new DisplayMetrics();
@@ -140,9 +150,9 @@ public class LoginActivity extends AppCompatActivity {
                 .getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(metrics);
 
-        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        WindowManager.LayoutParams params = emailLoginDialog.getWindow().getAttributes();
         params.width = (int)(metrics.widthPixels * 0.9);
-        dialog.getWindow().setAttributes(params);
+        emailLoginDialog.getWindow().setAttributes(params);
     }
 
     @Override
@@ -204,9 +214,14 @@ public class LoginActivity extends AppCompatActivity {
                         obj.put("id", userProfile.getId()+"");
                         obj.put("name", userProfile.getNickname());
                         obj.put("image", userProfile.getProfileImagePath());
+
+                        // 로딩 다이얼로그 띄우기
+                        loadingDialog.show();
+
                         // 서버로 데이터전송
                         okHttpLogin = new OkHttpLogin(getApplication());
                         okHttpLogin.setActivityStartListener(activityStartListener);
+                        okHttpLogin.setLoadingDialog(loadingDialog);
                         okHttpLogin.execute(
                                 "login/",
                                 obj.getString("id"),
@@ -287,10 +302,13 @@ public class LoginActivity extends AppCompatActivity {
                             JSONObject pic_data = new JSONObject(object.get("picture").toString());
                             JSONObject pic_url = new JSONObject(pic_data.getString("data"));
 
+                            // 로딩 다이얼로그 띄우기
+                            loadingDialog.show();
+
                             // 서버로 로그인 데이터 전송
                             okHttpLogin = new OkHttpLogin(getApplicationContext());
                             okHttpLogin.setActivityStartListener(activityStartListener);
-
+                            okHttpLogin.setLoadingDialog(loadingDialog);
                             okHttpLogin.execute(
                                     "login/",
                                     object.getString("id"),
@@ -318,14 +336,14 @@ public class LoginActivity extends AppCompatActivity {
             // 로그인 다이얼로그
             Toast.makeText(LoginActivity.this, "email login clicked", Toast.LENGTH_SHORT).show();
 
-            dialog.show();
+            emailLoginDialog.show();
 
-            dialog.findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
+            emailLoginDialog.findViewById(R.id.btn_login).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EditText inputEmail = (EditText)dialog.findViewById(R.id.input_email);
-                    EditText inputPassword = (EditText)dialog.findViewById(R.id.input_password);
-                    CheckBox checkAutoLogin = (CheckBox)dialog.findViewById(R.id.check_auto_login);
+                    EditText inputEmail = (EditText)emailLoginDialog.findViewById(R.id.input_email);
+                    EditText inputPassword = (EditText)emailLoginDialog.findViewById(R.id.input_password);
+                    CheckBox checkAutoLogin = (CheckBox)emailLoginDialog.findViewById(R.id.check_auto_login);
 
                     String email = inputEmail.getText().toString();
                     String password = inputPassword.getText().toString();
@@ -346,9 +364,13 @@ public class LoginActivity extends AppCompatActivity {
                         editor.commit();
                     }
 
+                    // 로딩 다이얼로그 띄우기
+                    loadingDialog.show();
+
                     // 서버로 전송
                     okHttpLogin = new OkHttpLogin(getApplicationContext());
                     okHttpLogin.setActivityStartListener(activityStartListener);
+                    okHttpLogin.setLoadingDialog(loadingDialog);
                     okHttpLogin.execute(
                             "emailLogin/",
                             email,
@@ -357,7 +379,7 @@ public class LoginActivity extends AppCompatActivity {
                             null,
                             null);
 
-                    dialog.cancel();
+                    emailLoginDialog.cancel();
                 }
             });
         }

@@ -20,14 +20,18 @@ public class CategorySelectActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     RecyclerView recyclerView;
+    CategoryRecyclerAdapter adapter;
 
     ArrayList<Category> categoryArrayList;
-    CategoryRecyclerAdapter adapter;
+    Integer category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categoryselect);
+
+        Intent data = getIntent();
+        category = data.getIntExtra("category", 0); // 웹툰 : 0, 만화 : 1
 
         // 툴바 생성
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -42,7 +46,13 @@ public class CategorySelectActivity extends AppCompatActivity {
 
         categoryArrayList = new ArrayList<>();
 
-        String[] categoryNames = getResources().getStringArray(R.array.category);
+        String[] categoryNames;
+
+        if(category == 0) {
+            categoryNames = getResources().getStringArray(R.array.webtoon_category);
+        }else{
+            categoryNames = getResources().getStringArray(R.array.cartoon_category);
+        }
 
         for(int i = 0; i < categoryNames.length; i++){
             categoryArrayList.add(new Category(i, categoryNames[i], ""));

@@ -57,7 +57,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     ArrayList<Content> contentArrayList2;
     Content webtoon, cartoon;   // 메인 페이지에 나올 객체들
     int width, height;
-    AppCompatDialog dialog;
+    AppCompatDialog ratingDialog;
+    AppCompatDialog loadingDialog;
 
     // 1번째 카드뷰
     static boolean firstCardview = true;
@@ -123,11 +124,18 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         builder.setCancelable(true)
                 .setView(R.layout.dialog_rating);
 
-        dialog = builder.create();
+        ratingDialog = builder.create();
 
-        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        WindowManager.LayoutParams params = ratingDialog.getWindow().getAttributes();
         params.width = 800;
-        dialog.getWindow().setAttributes(params);
+        ratingDialog.getWindow().setAttributes(params);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         // 웹툰
         todayWebtoonImg = (ImageView) rootView.findViewById(R.id.today_webtoon_img);
@@ -154,9 +162,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         // 월, 주차 표시
         cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -7);
-        todayWebtoonFirstTitle.setText((cal.get(2)+1)+"월 "
+        todayWebtoonFirstTitle.setText((cal.get(Calendar.MONTH)+1)+"월 "
                 +(cal.get(Calendar.WEEK_OF_MONTH))+"주차의 인기 웹툰이예요!");
-        todayCartoonFirstTitle.setText((cal.get(2)+1)+"월 "
+        todayCartoonFirstTitle.setText((cal.get(Calendar.MONTH)+1)+"월 "
                 +(cal.get(Calendar.WEEK_OF_MONTH))+"주차의 인기 만화책이예요!");
 
         // 추천 이미지
@@ -238,13 +246,23 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         moreWebtoon.setOnClickListener(this);
         moreCartoon.setOnClickListener(this);
 
+        // 둘 다 비었을 경우 로딩 프로그래스바를 보여준다
+        if(contentArrayList1.isEmpty() && contentArrayList2.isEmpty()) {
+            Log.d("ho's activity", "main lists are empty");
+            loadingDialog.show();
+        }
+
         // 오늘의 추천 리스트 가져오기
         if(contentArrayList1.isEmpty() || contentArrayList2.isEmpty()) {
             if(contentArrayList1.isEmpty()) {
-                new GetMainList(contentArrayList1, 1).execute("webtoonLog/", User.getInstance().getNo() + "");
+                GetMainList getMainList = new GetMainList(contentArrayList1, 1);
+                getMainList.setLoadingDialog(loadingDialog);
+                getMainList.execute("webtoonLog/", User.getInstance().getNo() + "");
             }
             if(contentArrayList2.isEmpty()) {
-                new GetMainList(contentArrayList2, 2).execute("cartoonLog/", User.getInstance().getNo() + "");
+                GetMainList getMainList = new GetMainList(contentArrayList2, 2);
+                getMainList.setLoadingDialog(loadingDialog);
+                getMainList.execute("cartoonLog/", User.getInstance().getNo() + "");
             }
         } else {
             // 웹툰 정보 불러오기
@@ -478,17 +496,17 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     private void postRating(final Content content){
         Log.d("ho's activity", "DetailActivity ratingBtn clicked");
 
-        dialog.show();
+        ratingDialog.show();
 
         if(content == null){
             Toast.makeText(getContext(), "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
-            dialog.cancel();
+            ratingDialog.cancel();
             return;
         }
 
-        ((TextView)dialog.findViewById(R.id.title)).setText(content.getTitle());
+        ((TextView)ratingDialog.findViewById(R.id.title)).setText(content.getTitle());
 
-        RatingBar ratingBar = (RatingBar)dialog.findViewById(R.id.ratingBar);
+        RatingBar ratingBar = (RatingBar)ratingDialog.findViewById(R.id.ratingBar);
         if(content != null) {
             assert ratingBar != null;
             ratingBar.setRating(content.getRating());
@@ -521,7 +539,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
                     new PostSingleData(getContext()).execute("insert/", User.getInstance().getNo().toString(), content.getNo().toString(), Rating.toString());
 
-                    dialog.cancel();
+                    ratingDialog.cancel();
                 }
             }
         });
@@ -538,12 +556,18 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
     private class GetMainList extends AsyncTask<String, Void, String> {
 
+        AppCompatDialog loadingDialog;
+
         ArrayList<Content> contentArrayList;
         int idx = 0;
 
         GetMainList(ArrayList<Content> contentArrayList, int idx) {
             this.contentArrayList = contentArrayList;
             this.idx = idx;
+        }
+
+        public void setLoadingDialog(AppCompatDialog loadingDialog) {
+            this.loadingDialog = loadingDialog;
         }
 
         @Override
@@ -582,6 +606,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             super.onPostExecute(s);
 
             Log.d("ho's activity", "GetMainList " + s);
+
+            if(loadingDialog != null)
+                loadingDialog.cancel();
 
             if (s != null && s != "") {
                 try {

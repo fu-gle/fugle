@@ -2,6 +2,7 @@ package kr.fugle.login;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatDialog;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import okhttp3.Response;
 public class OkHttpLogin extends AsyncTask<String, Void, String> {
 
     ActivityStartListener activityStartListener;
+    AppCompatDialog loadingDialog;
 
     String serverUrl;
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
@@ -39,6 +41,10 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
 
     public void setActivityStartListener(ActivityStartListener activityStartListener) {
         this.activityStartListener = activityStartListener;
+    }
+
+    public void setLoadingDialog(AppCompatDialog loadingDialog) {
+        this.loadingDialog = loadingDialog;
     }
 
     @Override
@@ -158,6 +164,9 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
 
             return;
         }
+
+        if(loadingDialog != null)
+            loadingDialog.cancel();
 
         if(activityStartListener != null)
             activityStartListener.activityStart();

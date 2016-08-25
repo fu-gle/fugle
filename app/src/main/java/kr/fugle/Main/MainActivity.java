@@ -94,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
 
     private GetContentList getContentList;
 
+    private Handler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -325,7 +327,8 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
             v.setBottom(bottom);
             v.setTop(top);
             v.setLeft(left);
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            handler = new Handler(Looper.getMainLooper());
+            handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
 //                    showIntro(findViewById(R.id.action_search), order+"", "검색기능", "작가와 작품을 검색할 수 있습니다.");
@@ -348,6 +351,9 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
 
         if(getContentList != null)
             getContentList.cancel(true);
+
+        if(handler != null)
+            handler.removeMessages(0);
     }
 
     public void showIntro(View view, String usageId, String title, String text) {

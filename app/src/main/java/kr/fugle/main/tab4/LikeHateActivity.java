@@ -2,8 +2,10 @@ package kr.fugle.main.tab4;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -26,25 +28,37 @@ import kr.fugle.webconnection.GetContentList;
 * */
 public class LikeHateActivity extends AppCompatActivity {
 
-    RecyclerView.Adapter adapter;
+    // 리사이클러뷰의 어뎁터
+    private RecyclerView.Adapter adapter;
 
-    GetContentList getContentList;
-    Handler handler;
+    // 서버 통신
+    private GetContentList getContentList;
+    private Handler handler;
 
-    Toolbar toolbar;
-    RecyclerView recyclerView;
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
 
-    final User user = User.getInstance();
-    ArrayList<Content> contentArrayList;
-    static int pageNo;
-    int category;   // 보고싶어요 혹은 보기싫어요를 파악하기 위한 변수
-    String url;     // 보고싶어요 혹은 보기싫어요에 따른 주소
-    String title;   // 보고싶어요 혹은 보기싫어요에 따른 제목
+    private Toolbar toolbar;
+    private RecyclerView recyclerView;
+
+    private final User user = User.getInstance();
+    private ArrayList<Content> contentArrayList;
+    private static int pageNo;
+    private int category;   // 보고싶어요 혹은 보기싫어요를 파악하기 위한 변수
+    private String url;     // 보고싶어요 혹은 보기싫어요에 따른 주소
+    private String title;   // 보고싶어요 혹은 보기싫어요에 따른 제목
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mystar);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(LikeHateActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         pageNo = 1;
 
@@ -168,6 +182,10 @@ public class LikeHateActivity extends AppCompatActivity {
                     user.getNo());
         }
 
+        // 로딩 시작
+        loadingDialog.show();
+
+        getContentList.setLoadingDialog(loadingDialog);
         getContentList.execute(url, user.getNo() + "", pageNo + "");
         pageNo++;
 

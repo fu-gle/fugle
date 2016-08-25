@@ -6,7 +6,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -45,14 +47,23 @@ public class AuthorRankActivity extends AppCompatActivity {
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     OkHttpClient client;
     String serverUrl;
+    private GetAuthorList getAuthorList;
 
-    GetAuthorList getAuthorList;
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
 
     // 어댑터
     AuthorRankRecyclerAdapter adapter1, adapter2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(AuthorRankActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         // 서버 통신용 객체
         client = new OkHttpClient();
@@ -156,7 +167,12 @@ public class AuthorRankActivity extends AppCompatActivity {
     // 작가명, 작품명 입력받았을때 서버로 보냄
     // 파라미터에 맞는 리스트 받아옴
     public void performSearch() {
+
+        // 로딩 시작
+        loadingDialog.show();
+
         getAuthorList = new GetAuthorList();
+        getAuthorList.setLoadingDialog(loadingDialog);
         getAuthorList.execute("authorRank/", User.getInstance().getNo() + "");
     }
 
@@ -169,6 +185,12 @@ public class AuthorRankActivity extends AppCompatActivity {
     }
 
     private class GetAuthorList extends AsyncTask<String, Void, String> {
+
+        private AppCompatDialog loadingDialog;
+
+        public void setLoadingDialog(AppCompatDialog loadingDialog) {
+            this.loadingDialog = loadingDialog;
+        }
 
         @Override
         protected String doInBackground(String... params) {
@@ -204,6 +226,9 @@ public class AuthorRankActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
+            if(loadingDialog != null)
+                loadingDialog.cancel();
 
             if(isCancelled()){
                 Log.d("uwangg's activity", "GetAuthorList is canceled");

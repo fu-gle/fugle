@@ -2,7 +2,9 @@ package kr.fugle.main.tab2.author;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -33,9 +35,13 @@ public class AuthorContentActivity extends AppCompatActivity {
     private CommonRecyclerAdapter adapter;
 
     // 검색할 작가명
-    String authorName;
+    private String authorName;
 
-    GetContentList getContentList;
+    // 서버통신용
+    private GetContentList getContentList;
+
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,13 @@ public class AuthorContentActivity extends AppCompatActivity {
         toolbar.setTitle(authorName);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(AuthorContentActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         // 레이아웃 초기화 (RecyclerView) - start
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
@@ -104,12 +117,17 @@ public class AuthorContentActivity extends AppCompatActivity {
     // 작가명, 작품명 입력받았을때 서버로 보냄
     // 파라미터에 맞는 리스트 받아옴
     public void performSearch() {
+
+        // 로딩 시작
+        loadingDialog.show();
+
         contentArrayList.clear();
         getContentList = new GetContentList(getApplicationContext(),
                 contentArrayList,
                 adapter,
                 3,
                 User.getInstance().getNo());
+        getContentList.setLoadingDialog(loadingDialog);
         getContentList.execute("searchAuthorName/", authorName);
     }
 

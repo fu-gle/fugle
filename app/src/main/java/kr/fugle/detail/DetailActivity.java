@@ -69,6 +69,8 @@ public class DetailActivity extends AppCompatActivity {
     Toolbar toolbar;
     Integer userNo;
 
+    AppCompatDialog loadingDialog;
+
     ImageView adultImg;
     ImageView thumbnailImg;
     TextView title;
@@ -99,6 +101,13 @@ public class DetailActivity extends AppCompatActivity {
         Intent data = getIntent();
         content = (Content)data.getSerializableExtra("content");
         userNo = User.getInstance().getNo();
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(DetailActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         // 툴바 생성
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -154,9 +163,13 @@ public class DetailActivity extends AppCompatActivity {
         average.setText("★ "+ String.format("%.1f",content.getAverage()));
         prediction.setText(content.getPrediction().toString());
 
+        // 로딩 다이얼로그 활성화
+        loadingDialog.show();
+
         // 데이터 불러오기
         // 0: serverUrl , 1: userNo, 2:contentNo
         okHttpGet = new OkHttpGet();
+        okHttpGet.setLoadingDialog(loadingDialog);
         okHttpGet.execute(serverUrl, userNo.toString(), content.getNo().toString());
 
         // 별점 다이얼로그 객체 생성
@@ -378,6 +391,12 @@ public class DetailActivity extends AppCompatActivity {
     // 서버로부터 데이터를 json 형태로 긁어온다
     private class OkHttpGet extends AsyncTask<String, Void, String> {
 
+        AppCompatDialog loadingDialog;
+
+        public void setLoadingDialog(AppCompatDialog loadingDialog) {
+            this.loadingDialog = loadingDialog;
+        }
+
         // 서버와 통신을 하는 doInBackground 메소드
         @Override
         protected String doInBackground(String... params) {
@@ -416,6 +435,9 @@ public class DetailActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             Log.d("ho's activity", "DetailActivity.OkHttpGet.onPostExecute" + s);
+
+            if(loadingDialog != null)
+                loadingDialog.cancel();
 
             if(isCancelled()){
                 Log.d("ho's activity", "DetailActivity.OkHttpGet is canceled");

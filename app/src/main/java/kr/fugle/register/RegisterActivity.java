@@ -3,7 +3,9 @@ package kr.fugle.register;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -41,12 +43,22 @@ public class RegisterActivity extends AppCompatActivity {
     // 프로필 사진 이미지 주소
     private String imgPath;
 
-    ActivityStartListener activityStartListener;
+    private ActivityStartListener activityStartListener;
+
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(RegisterActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -156,9 +168,13 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
+        // 로딩 시작
+        loadingDialog.show();
+
         // name, email, password, message
         OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
         okHttpLogin.setActivityStartListener(activityStartListener);
+        okHttpLogin.setLoadingDialog(loadingDialog);
         okHttpLogin.execute(
                 "emailRegi/",
                 inputEmail.getText().toString(),

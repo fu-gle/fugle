@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="category">
-        <item>랜덤 웹툰</item>
+    <string-array name="webtoon_category">
+        <item>랜덤</item>
         <item>네이버</item>
         <item>다음</item>
         <item>레진코믹스</item>
+    </string-array>
+
+    <string-array name="cartoon_category">
+        <item>랜덤</item>
+        <item>순정</item>
+        <item>액션</item>
+        <item>판타지</item>
     </string-array>
 
 </resources>
