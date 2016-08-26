@@ -1,6 +1,7 @@
 package kr.fugle.login;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatDialog;
 import android.util.Log;
@@ -109,15 +110,6 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
             Toast.makeText(context, "존재하지 않는 이메일이거나 틀린비밀번호 입니다.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(s.equals("result:2")) {  // 회원가입 실패시
-            Toast.makeText(context, "존재하는 이메일입니다", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(s.equals("result:3")) {
-            Toast.makeText(context, "Thank You!", Toast.LENGTH_SHORT).show();
-            activityStartListener.activityStart();
-            return;
-        }
 
         JSONObject mypage, userInfo;
 
@@ -128,11 +120,17 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
             mypage = array.getJSONObject(0);
             userInfo = array.getJSONObject(1);
 
+            // 이미지가 없는경우 "" 를 넣는다
+            String profileImg = userInfo.getString("profile");
+            if(profileImg.equals("") || profileImg.equals("null")){
+                profileImg = "";
+            }
+
             user.setAttributes(
                     userInfo.getInt("id"),
                     userInfo.getString("name"),
                     userInfo.getString("primary"),
-                    userInfo.getString("profile"),
+                    profileImg,
                     userInfo.getString("message")
             );
 
@@ -146,6 +144,8 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
                 user.setHates(mypage.getInt("dontseecount"));
             if(!mypage.isNull("commentcount"))
                 user.setComments(mypage.getInt("commentcount"));
+            if(!mypage.isNull("email"))
+                user.setProfileBackground(mypage.getString("email"));
 
         } catch (JSONException e) {
             e.printStackTrace();

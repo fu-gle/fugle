@@ -117,8 +117,7 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
 
             final Content content = list.get(position);
 
-            vhItem.predictionText.setVisibility(View.INVISIBLE);
-            vhItem.prediction.setVisibility(View.INVISIBLE);
+            vhItem.prediction.setText(content.getPrediction().toString());
             
             vhItem.title.setText(content.getTitle());
 

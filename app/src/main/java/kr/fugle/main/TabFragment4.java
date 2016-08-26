@@ -359,14 +359,14 @@ public class TabFragment4 extends Fragment {
         if (requestCode == REQ_PICK_CODE) {
             Log.d("uwangg's camera data : ", imgPath);
 
-            PostPicture postPicture = new PostPicture();
+            PostPicture postPicture = new PostPicture(0);
             postPicture.setLoadingDialog(loadingDialog);
             postPicture.execute("userProfileImg/", user.getNo().toString(), imgPath);
         }
         if (requestCode == BACK_PICK_CODE) {
             Log.d("uwangg's back data : ", imgPath);
 
-            PostPicture postPicture = new PostPicture();
+            PostPicture postPicture = new PostPicture(1);
             postPicture.setLoadingDialog(loadingDialog);
             postPicture.execute("userProfileBackground/", user.getNo().toString(), imgPath);
         }
@@ -386,6 +386,8 @@ public class TabFragment4 extends Fragment {
 
     private class PostPicture extends AsyncTask<String, Void, String>{
 
+        private int category;
+
         private final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
         private String serverUrl = getResources().getString(R.string.server_url);
 
@@ -397,16 +399,19 @@ public class TabFragment4 extends Fragment {
             this.loadingDialog = loadingDialog;
         }
 
+        public PostPicture(int category) {
+            this.category = category;
+        }
+
         @Override
         protected String doInBackground(String... params) {
-            // Use the imgur image upload API as documented at https://api.imgur.com/endpoints/image
 
             File file = new File(params[2]);
 
             RequestBody body = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
                     .addFormDataPart("userId", params[1])
-                    .addFormDataPart("file", "file2.png", RequestBody.create(MEDIA_TYPE_PNG, file))
+                    .addFormDataPart("file", "profile.png", RequestBody.create(MEDIA_TYPE_PNG, file))
                     .build();
 
             Request request = new Request.Builder()
@@ -432,9 +437,13 @@ public class TabFragment4 extends Fragment {
 
             loadingDialog.cancel();
 
-            Log.d("------>", "okhttp image upload " + s);
-
-            user.setProfileImg(s);
+            if(category == 0) {
+                Log.d("------>", "PostPicture profileImg " + s);
+                user.setProfileImg(s);
+            }else {
+                Log.d("------>", "PostPicture profileBackgroundImg " + s);
+                user.setProfileBackground(s);
+            }
 
             onResume();
         }
