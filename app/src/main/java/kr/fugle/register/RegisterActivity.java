@@ -55,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         // 기본 이미지 주소
-        imgPath = "";
+        imgPath = "drawable://" + R.drawable.egg_profile;
 
         inputLayoutImage = (TextInputLayout) findViewById(R.id.input_layout_profileimg);
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
@@ -116,7 +116,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(data == null) return;
+        if(data == null)
+            return;
         super.onActivityResult(requestCode, resultCode, data);
 
         imgPath = data.getData().toString();

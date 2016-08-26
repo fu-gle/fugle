@@ -300,7 +300,7 @@ public class TabFragment4 extends Fragment {
         Log.d("ho's activity", "TabFragment4.onResume");
 
         // 유저의 정보 적용
-        if(user.getProfileImg() != null && user.getProfileImg().equals("")) {
+        if(user.getProfileImg() != null && !user.getProfileImg().equals("")) {
             CircleTransform circleTransform = new CircleTransform();
             Picasso.with(getContext().getApplicationContext())
                     .load(user.getProfileImg())

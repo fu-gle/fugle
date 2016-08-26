@@ -140,6 +140,8 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
                 user.setHates(mypage.getInt("dontseecount"));
             if(!mypage.isNull("commentcount"))
                 user.setComments(mypage.getInt("commentcount"));
+            if(!mypage.isNull("logcount"))
+                user.setLogCount(mypage.getInt("logcount"));
 
         } catch (JSONException e) {
             e.printStackTrace();

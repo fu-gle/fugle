@@ -86,11 +86,13 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
 
         // 프로필사진
         ImageView profileImg = (ImageView) findViewById(R.id.profile_img);
-        CircleTransform circleTransform = new CircleTransform();
-        Picasso.with(getApplicationContext())
-                .load(user.getProfileImg())
-                .transform(circleTransform)
-                .into(profileImg);
+        if(user.getProfileImg() != null && !user.getProfileImg().equals("")) {
+            CircleTransform circleTransform = new CircleTransform();
+            Picasso.with(getApplicationContext())
+                    .load(user.getProfileImg())
+                    .transform(circleTransform)
+                    .into(profileImg);
+        }
 
         // 사용자 이름
         TextView name = (TextView) findViewById(R.id.user_name);

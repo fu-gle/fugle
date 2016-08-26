@@ -22,9 +22,10 @@ public class User {
     private Integer hates;
     private Integer webtoonStars;
     private Integer cartoonStars;
+    private Integer logCount;
 
     private User(){
-        no = comments = likes = hates = webtoonStars = cartoonStars = 0;
+        no = comments = likes = hates = webtoonStars = cartoonStars = logCount = 0;
         email = passwd = name = gender = primaryKey = profileImg = message = profileBackground = "";
     }
 
@@ -161,5 +162,13 @@ public class User {
 
     public void setHates(Integer hates) {
         this.hates = hates;
+    }
+
+    public Integer getLogCount() {
+        return logCount;
+    }
+
+    public void setLogCount(Integer logCount) {
+        this.logCount = logCount;
     }
 }
