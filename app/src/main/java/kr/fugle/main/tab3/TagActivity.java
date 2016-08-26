@@ -1,8 +1,10 @@
 package kr.fugle.main.tab3;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,28 +24,40 @@ import kr.fugle.webconnection.GetContentList;
 
 public class TagActivity extends AppCompatActivity {
 
-    CommonRecyclerAdapter adapter;
+    // 리사이클러뷰의 어뎁터
+    private CommonRecyclerAdapter adapter;
 
-    GetContentList getContentList;
+    // 서버 통신
+    private GetContentList getContentList;
 
-    Toolbar toolbar;
-    RecyclerView recyclerView;
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
 
-    ArrayList<Content> contentArrayList;
-    static int pageNo;
-    final User user = User.getInstance();
-    String tag;     // 검색할 태그
+    private Toolbar toolbar;
+    private RecyclerView recyclerView;
+
+    private ArrayList<Content> contentArrayList;
+    private static int pageNo;
+    private final User user = User.getInstance();
+    private String tag;     // 검색할 태그
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mystar);
 
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(TagActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
+
         pageNo = 1;
 
         tag = getIntent().getStringExtra("tag");
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.setTitle(tag);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,11 +99,15 @@ public class TagActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
+        // 로딩 시작
+        loadingDialog.show();
+
         getContentList = new GetContentList(getApplicationContext(),
                 contentArrayList,
                 adapter,
                 6,
                 user.getNo());
+        getContentList.setLoadingDialog(loadingDialog);
         getContentList.execute("searchTagName/", tag);
 
         // 위로가기 버튼 Floating Action Button

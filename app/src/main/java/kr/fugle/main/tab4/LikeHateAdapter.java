@@ -118,6 +118,7 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
             final Content content = list.get(position);
 
             vhItem.prediction.setText(content.getPrediction().toString());
+            
             vhItem.title.setText(content.getTitle());
 
             String tags = content.getTags();
@@ -289,6 +290,7 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
         CardView cardView;
         ImageView thumbnailImg;
         TextView category;
+        TextView predictionText;
         TextView prediction;
         TextView title;
         TextView tag;
@@ -302,6 +304,7 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
             cardView = (CardView)itemView.findViewById(R.id.recommendCardView);
             thumbnailImg = (ImageView)itemView.findViewById(R.id.thumbnailImg);
             category = (TextView)itemView.findViewById(R.id.category);
+            predictionText = (TextView)itemView.findViewById(R.id.prediction_text);
             prediction = (TextView)itemView.findViewById(R.id.prediction);
             title = (TextView)itemView.findViewById(R.id.title);
             tag = (TextView)itemView.findViewById(R.id.tag);

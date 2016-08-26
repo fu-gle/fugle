@@ -9,7 +9,9 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
@@ -95,10 +97,28 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
 
     private GetContentList getContentList;
 
+    private Handler handler;
+
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(MainActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
+
+        // tutorial
+        mPreferencesManager = new PreferencesManager(MainActivity.this);
+        startActivityForResult(new Intent(MainActivity.this, TutorialActivity.class), CHECK_FINISH);
+//        mPreferencesManager.resetAll();
+        v = findViewById(R.id.view);
 
         if(searchItem.isEmpty()) {
             getContentList = new GetContentList(getApplicationContext());
@@ -236,6 +256,10 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
             Intent intent = new Intent(MainActivity.this, RatingActivity.class);
             startActivityForResult(intent, RATING_REQUEST_CODE);
         } else if(index == 1) { // 로그아웃 버튼 눌렀을시
+            // 프로그래스바 종료
+            if(loadingDialog != null)
+                loadingDialog.cancel();
+
             Intent intent = new Intent(MainActivity.this, SplashActivity.class);
             startActivity(intent);
             finish();
@@ -306,6 +330,9 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
             }
             case R.id.action_logout: {    // 로그아웃 버튼 클릭시
 
+                // 로딩 시작
+                loadingDialog.show();
+
                 // 이메일
                 SharedPreferences preferences = getSharedPreferences("login", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
@@ -344,10 +371,28 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // 튜토리얼 용
-        if(requestCode == CHECK_FINISH) {
-
-        }
+//        // 튜토리얼 용
+//        if(requestCode == CHECK_FINISH) {
+//
+//            right = tabLayout.getWidth()/4;
+//            bottom = tabLayout.getBottom();
+//            top = tabLayout.getTop();
+//            left = tabLayout.getLeft() ;
+//
+//            v.setRight(right);
+//            v.setBottom(bottom);
+//            v.setTop(top);
+//            v.setLeft(left);
+//            handler = new Handler(Looper.getMainLooper());
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+////                    showIntro(findViewById(R.id.action_search), order+"", "검색기능", "작가와 작품을 검색할 수 있습니다.");
+//                    showIntro(v, order+"", "Home", "평가하기, 취향분석, " +
+//                            "사용자분들이 관심있어하는 웹툰, 만화책 랭킹을 볼수있습니다.");
+//                }
+//            }, 600);
+//        }
 
         // 평점을 매겼으면 추천 목록 새로고침
         if(requestCode == RATING_REQUEST_CODE && resultCode == RATING_RESULT_CODE) {
@@ -362,6 +407,9 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
 
         if(getContentList != null)
             getContentList.cancel(true);
+
+        if(handler != null)
+            handler.removeMessages(0);
     }
 
     public void showIntro(View view, String usageId, String title, String text) {

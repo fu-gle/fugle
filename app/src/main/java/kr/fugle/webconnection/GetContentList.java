@@ -2,6 +2,7 @@ package kr.fugle.webconnection;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
@@ -28,6 +29,8 @@ import okhttp3.Response;
  * 추천 리스트, 평가 리스트 등 리스트로 된 데이터를 받아오기 위한 클래스
  */
 public class GetContentList extends AsyncTask<String, Void, String> {
+
+    AppCompatDialog loadingDialog;
 
     String serverUrl;
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
@@ -58,6 +61,10 @@ public class GetContentList extends AsyncTask<String, Void, String> {
 
     public void setTagList(ArrayList<String> tagList) {
         this.tagList = tagList;
+    }
+
+    public void setLoadingDialog(AppCompatDialog loadingDialog) {
+        this.loadingDialog = loadingDialog;
     }
 
     @Override
@@ -123,6 +130,9 @@ public class GetContentList extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
 
         super.onPostExecute(s);
+
+        if(loadingDialog != null)
+            loadingDialog.cancel();
 
         if(isCancelled()){
             Log.d("ho's activity", "GetContentList is canceled");

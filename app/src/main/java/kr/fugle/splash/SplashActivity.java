@@ -6,8 +6,11 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -33,12 +36,38 @@ import kr.fugle.main.MainActivity;
  */
 public class SplashActivity extends Activity {
 
-    Handler handler;
-    ActivityStartListener activityStartListener;
+    // 퍼미션 관련 변수
+    String[] perms = {"android.permission.WRITE_EXTERNAL_STORAGE"};
+
+
+    private Handler handler;
+    private ActivityStartListener activityStartListener;
+
+    // 서버 통신
+    private OkHttpLogin okHttpLogin;
+
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 페이스북 초기화
+        FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)
+
+        setContentView(R.layout.splash);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(perms, 200);
+        }
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(SplashActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         activityStartListener = new ActivityStartListener() {
             @Override
@@ -58,13 +87,13 @@ public class SplashActivity extends Activity {
             }
         };
 
-        // 페이스북 초기화
-        FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)
-        setContentView(R.layout.splash);
-
         // 로고 이미지 할당
         ImageView logo = (ImageView)findViewById(R.id.logo);
         logo.setImageDrawable(new BitmapDrawable(getResources(), BitmapFactory.decodeResource(getResources(), R.drawable.splash_test03)));
+
+        okHttpLogin = new OkHttpLogin(getApplicationContext());
+        okHttpLogin.setActivityStartListener(activityStartListener);
+        okHttpLogin.setLoadingDialog(loadingDialog);
 
         handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -80,8 +109,8 @@ public class SplashActivity extends Activity {
 
                     Log.d("--->", "already email logined");
 
-                    OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
-                    okHttpLogin.setActivityStartListener(activityStartListener);
+                    // 로딩 시작
+                    loadingDialog.show();
 
                     okHttpLogin.execute(
                             "emailLogin/",
@@ -140,8 +169,8 @@ public class SplashActivity extends Activity {
             UserProfile userProfile = UserProfile.loadFromCache();
             Log.d("id--->", userProfile.getId() + "");
 
-            OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
-            okHttpLogin.setActivityStartListener(activityStartListener);
+            // 로딩 시작
+            loadingDialog.show();
 
             okHttpLogin.execute(
                     "login/",
@@ -168,9 +197,8 @@ public class SplashActivity extends Activity {
                                 JSONObject pic_data = new JSONObject(object.get("picture").toString());
                                 JSONObject pic_url = new JSONObject(pic_data.getString("data"));
 
-                                // 서버로 로그인 데이터 전송
-                                OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
-                                okHttpLogin.setActivityStartListener(activityStartListener);
+                                // 로딩 시작
+                                loadingDialog.show();
 
                                 okHttpLogin.execute(
                                         "login/",

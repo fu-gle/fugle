@@ -2,7 +2,9 @@ package kr.fugle.search;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -41,10 +43,23 @@ public class SearchActivity extends AppCompatActivity {
     private CommonRecyclerAdapter adapter;
     private Integer userNo;
 
+    // 서버 통신
+    private GetContentList getContentList;
+
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(SearchActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         userNo = User.getInstance().getNo();
 
@@ -96,6 +111,13 @@ public class SearchActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
+        getContentList = new GetContentList(getApplicationContext(),
+                contentArrayList,
+                adapter,
+                3,
+                userNo);
+        getContentList.setLoadingDialog(loadingDialog);
+
         // 자동 완성 된 것중 선택했을 때
         edit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -122,13 +144,12 @@ public class SearchActivity extends AppCompatActivity {
     // 작가명, 작품명 입력받았을때 서버로 보냄
     // 파라미터에 맞는 리스트 받아옴
     public void performSearch() {
+
+        // 로딩 시작
+        loadingDialog.show();
+
         contentArrayList.clear();
-        new GetContentList(getApplicationContext(),
-                contentArrayList,
-                adapter,
-                3,
-                userNo)
-                .execute("search/", edit.getText().toString());
+        getContentList.execute("search/", edit.getText().toString());
     }
 
 
@@ -140,5 +161,13 @@ public class SearchActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(getContentList != null)
+            getContentList.cancel(true);
     }
 }

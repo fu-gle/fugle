@@ -1,13 +1,23 @@
 package kr.fugle.register;
 
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.CursorLoader;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,10 +28,23 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+
 import kr.fugle.Item.ActivityStartListener;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.login.CircleTransform;
 import kr.fugle.login.OkHttpLogin;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by 김은진 on 2016-07-15.
@@ -41,12 +64,25 @@ public class RegisterActivity extends AppCompatActivity {
     // 프로필 사진 이미지 주소
     private String imgPath;
 
-    ActivityStartListener activityStartListener;
+    private ActivityStartListener activityStartListener;
+
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
+
+    // 서버 통신
+    private PostRegister postRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(RegisterActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
@@ -120,7 +156,7 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         super.onActivityResult(requestCode, resultCode, data);
 
-        imgPath = data.getData().toString();
+        imgPath = getRealPathFromURI(data.getData());
 
         CircleTransform circleTransform = new CircleTransform();
         Picasso.with(this)
@@ -131,6 +167,18 @@ public class RegisterActivity extends AppCompatActivity {
                 .into(inputImage);
     }
 
+    private String getRealPathFromURI(Uri contentUri){
+        String[] proj = {MediaStore.Images.Media.DATA};
+
+        CursorLoader cursorLoader = new CursorLoader(RegisterActivity.this, contentUri, proj, null, null, null);
+        Cursor cursor = cursorLoader.loadInBackground();
+
+        int colum_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+
+        return cursor.getString(colum_index);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -139,6 +187,14 @@ public class RegisterActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(postRegister != null)
+            postRegister.cancel(true);
     }
 
     /**
@@ -157,18 +213,26 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // name, email, password, message
-        OkHttpLogin okHttpLogin = new OkHttpLogin(getApplicationContext());
-        okHttpLogin.setActivityStartListener(activityStartListener);
-        okHttpLogin.execute(
+//        // 이미지를 선택하지 않았을 경우
+//        if(imgPath.equals("")){
+//            Toast.makeText(RegisterActivity.this, "이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+
+        // 로딩 시작
+        loadingDialog.show();
+
+        // name, email, password, message, image
+        postRegister = new PostRegister();
+        postRegister.setActivityStartListener(activityStartListener);
+        postRegister.setLoadingDialog(loadingDialog);
+        postRegister.execute(
                 "emailRegi/",
                 inputEmail.getText().toString(),
                 inputName.getText().toString(),
                 inputPassword.getText().toString(),
                 inputMessage.getText().toString(),
                 imgPath);
-
-//        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
     }
 
     private boolean validateName() {
@@ -244,6 +308,102 @@ public class RegisterActivity extends AppCompatActivity {
                 case R.id.input_password:
                     validatePassword();
                     break;
+            }
+        }
+    }
+
+    private class PostRegister extends AsyncTask<String, Void, String>{
+
+        private final MediaType MEDIA_TYPE_PNG = MediaType.parse("image/png");
+        private String serverUrl = getResources().getString(R.string.server_url);
+
+        private final OkHttpClient client = new OkHttpClient();
+
+        private ActivityStartListener activityStartListener;
+
+        private AppCompatDialog loadingDialog;
+
+        public void setActivityStartListener(ActivityStartListener activityStartListener) {
+            this.activityStartListener = activityStartListener;
+        }
+
+        public void setLoadingDialog(AppCompatDialog loadingDialog) {
+            this.loadingDialog = loadingDialog;
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            Log.d("ho's activity", "PostRegister.doInBackground");
+
+            RequestBody body;
+            MultipartBody.Builder builder = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("primary", params[1])
+                    .addFormDataPart("name", params[2])
+                    .addFormDataPart("password", params[3])
+                    .addFormDataPart("message", params[4]);
+
+            // 사진 유무에 따라
+            if(params[5].equals("")){
+                body = builder.build();
+            }else{
+                // 사진 파일
+                File file = new File(params[5]);
+
+                body = builder.addFormDataPart("file", "profile.png", RequestBody.create(MEDIA_TYPE_PNG, file))
+                        .build();
+            }
+
+            Request request = new Request.Builder()
+                    .url(serverUrl + params[0])
+                    .post(body)
+                    .build();
+
+            String result = "";
+
+            try {
+                Response response = client.newCall(request).execute();
+                result = response.body().string();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            Log.d("ho's activity", "RegisterActivity.PostRegister.onPostExecute " + s);
+
+            if(loadingDialog != null)
+                loadingDialog.cancel();
+
+            if(isCancelled()){
+                Log.d("ho's activity", "RegisterActivity.PostRegister is canceled");
+                return;
+            }
+
+            if(s.equals("SocketTimeoutException")){
+                Toast.makeText(RegisterActivity.this, "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
+
+                if(activityStartListener != null)
+                    activityStartListener.activityFinish();
+
+                return;
+            }
+
+            if(s.equals("result:2")) {  // 회원가입 실패시
+                Toast.makeText(RegisterActivity.this, "존재하는 이메일입니다", Toast.LENGTH_SHORT).show();
+                return;
+            }else if(s.equals("result:3")) {  // 회원가입 성공시
+                activityStartListener.activityStart();
+                return;
+            }else{
+                Toast.makeText(RegisterActivity.this, "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
+                return;
             }
         }
     }

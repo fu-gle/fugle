@@ -49,6 +49,13 @@ public class RatingTabFragment1 extends Fragment {
     private Context context;
     private Handler handler;
 
+    // 서버 통신
+    private GetContentList getContentList;
+    private GetContentList getContentListWithCategory;
+
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
+
     public void setCountChangeListener(CountChangeListener countChangeListener){
         this.countChangeListener = countChangeListener;
     }
@@ -59,6 +66,13 @@ public class RatingTabFragment1 extends Fragment {
 
         context = getContext().getApplicationContext();
         handler = new Handler();
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         userNo = User.getInstance().getNo();
         pageNo = 1;
@@ -122,13 +136,17 @@ public class RatingTabFragment1 extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
+        // 로딩 시작
+        loadingDialog.show();
+
         // 아이템 넣기
-        new GetContentList(getContext(),
+        getContentList = new GetContentList(getContext(),
                 contentArrayList,
                 adapter,
                 1,
-                userNo)
-                .execute("webtoonEvaluate/", userNo + "", pageNo + "", ""); // 웹툰 표시 추가
+                userNo);
+        getContentList.setLoadingDialog(loadingDialog);
+        getContentList.execute("webtoonEvaluate/", userNo + "", pageNo + "", ""); // 웹툰 표시 추가
 
         pageNo++;
 
@@ -146,7 +164,9 @@ public class RatingTabFragment1 extends Fragment {
         view.findViewById(R.id.categoryBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getContext(), CategorySelectActivity.class), CATEGORY_REQUEST_CODE);
+                Intent intent = new Intent(getContext(), CategorySelectActivity.class);
+                intent.putExtra("category", 0); // 만화책인경우
+                startActivityForResult(intent, CATEGORY_REQUEST_CODE);
             }
         });
 
@@ -200,18 +220,22 @@ public class RatingTabFragment1 extends Fragment {
                 }
             };
 
+            // 로딩 시작
+            loadingDialog.show();
+
             contentArrayList.clear();
             adapter.notifyDataSetChanged();
 
             adapter.setOnLoadMoreListener(onLoadMoreListener);
 
             // 아이템 넣기
-            new GetContentList(getContext(),
+            getContentListWithCategory = new GetContentList(getContext(),
                     contentArrayList,
                     adapter,
                     1,
-                    userNo)
-                    .execute("webtoonEvaluate/", userNo + "", pageNo + "", CATEGORYNAME); // 웹툰 표시 추가
+                    userNo);
+            getContentListWithCategory.setLoadingDialog(loadingDialog);
+            getContentListWithCategory.execute("webtoonEvaluate/", userNo + "", pageNo + "", CATEGORYNAME); // 웹툰 표시 추가
 
             pageNo++;
         }
@@ -221,5 +245,11 @@ public class RatingTabFragment1 extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         handler.removeMessages(0);
+
+        if(getContentList != null)
+            getContentList.cancel(true);
+
+        if(getContentListWithCategory != null)
+            getContentListWithCategory.cancel(true);
     }
 }

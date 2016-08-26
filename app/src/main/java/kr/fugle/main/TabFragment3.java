@@ -53,6 +53,9 @@ public class TabFragment3 extends Fragment {
 
     private Handler handler;
 
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
+
     public void setTabStatusListener(TabStatusListener tabStatusListener){
         this.tabStatusListener = tabStatusListener;
     }
@@ -71,6 +74,13 @@ public class TabFragment3 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_fragment3, container,false);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(getActivity(), R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         recyclerView = (RecyclerView)v.findViewById(R.id.recyclerview);
         LinearLayoutManager manager = new LinearLayoutManager(getContext().getApplicationContext());
@@ -180,6 +190,9 @@ public class TabFragment3 extends Fragment {
 
             pageNo = 1;
 
+            // 로딩 시작
+            loadingDialog.show();
+
             GetContentList getContentList = new GetContentList(getContext(),
                     contentArrayList,
                     adapter,
@@ -188,6 +201,8 @@ public class TabFragment3 extends Fragment {
 
             if(tagList.size() == 0)
                 getContentList.setTagList(tagList);
+
+            getContentList.setLoadingDialog(loadingDialog);
 
             getContentList.execute("recommend/", user.getNo().toString(), pageNo + "");
 

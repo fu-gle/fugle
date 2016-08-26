@@ -34,19 +34,32 @@ import kr.fugle.webconnection.GetContentList;
  */
 public class MyStarActivity extends AppCompatActivity {
 
-    ArrayList<Content> contentArrayList;
-    RecyclerView recyclerView;
-    MyStarAdapter adapter;
-    Toolbar toolbar;
-    Integer userNo;
-    static int pageNo;
-    boolean category;   // true : webtoon, false : cartoon
-    String url;
+    private ArrayList<Content> contentArrayList;
+    private RecyclerView recyclerView;
+    private MyStarAdapter adapter;
+    private Toolbar toolbar;
+    private Integer userNo;
+    private static int pageNo;
+    private boolean category;   // true : webtoon, false : cartoon
+    private String url;
+
+    // 서버 통신
+    private GetContentList getContentList;
+
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mystar);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(MyStarActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         pageNo = 1;
 
@@ -125,12 +138,16 @@ public class MyStarActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        new GetContentList(getApplicationContext(),
+        // 로딩 시작
+        loadingDialog.show();
+
+        getContentList = new GetContentList(getApplicationContext(),
                 contentArrayList,
                 adapter,
                 2,
-                userNo)
-                .execute(url, userNo.toString(), pageNo + "");
+                userNo);
+        getContentList.setLoadingDialog(loadingDialog);
+        getContentList.execute(url, userNo.toString(), pageNo + "");
 
         pageNo++;
 
@@ -152,5 +169,13 @@ public class MyStarActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if(getContentList != null)
+            getContentList.cancel(true);
     }
 }

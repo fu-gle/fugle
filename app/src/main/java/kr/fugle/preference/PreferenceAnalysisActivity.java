@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -43,12 +45,12 @@ import okhttp3.Response;
 // 취향분석
 public class PreferenceAnalysisActivity extends AppCompatActivity {
 
-    User user;
+    private User user;
 
     // 서버 통신
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
-    OkHttpClient client;
-    String serverUrl;
+    private OkHttpClient client;
+    private String serverUrl;
 
     // 취향 태그, 미디어, 장르
     public ArrayList<Tag> tagArrayList;
@@ -59,12 +61,23 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
     Fragment preferenceMediaFragment;
     Fragment preferenceGenreFragment;
 
-    GetPreferenceList getPreferenceList;
+    // 서버 통신
+    private GetPreferenceList getPreferenceList;
+
+    // 로딩 다이얼로그
+    private AppCompatDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preference_analysis);
+
+        // 로딩 다이얼로그
+        AlertDialog.Builder loadingDialogBuilder = new AlertDialog.Builder(PreferenceAnalysisActivity.this, R.style.AppCompatAlertDialogStyle);
+        loadingDialogBuilder.setCancelable(false)
+                .setView(R.layout.dialog_progressbar);
+
+        loadingDialog = loadingDialogBuilder.create();
 
         // 서버 통신용 객체
         client = new OkHttpClient();
@@ -75,7 +88,11 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
         mediaArrayList = new ArrayList<>();
         genreArrayList = new ArrayList<>();
 
+        // 로딩 시작
+        loadingDialog.show();
+
         getPreferenceList = new GetPreferenceList();
+        getPreferenceList.setLoadingDialog(loadingDialog);
         getPreferenceList.execute("userTaste/", user.getNo() + "");
 
         // 툴바 설정
@@ -165,6 +182,12 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
 
     private class GetPreferenceList extends AsyncTask<String, Void, String> {
 
+        private AppCompatDialog loadingDialog;
+
+        public void setLoadingDialog(AppCompatDialog loadingDialog) {
+            this.loadingDialog = loadingDialog;
+        }
+
         @Override
         protected String doInBackground(String... params) {
 
@@ -199,6 +222,9 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
+            if(loadingDialog != null)
+                loadingDialog.cancel();
 
             if(isCancelled()){
                 return;
