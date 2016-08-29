@@ -31,6 +31,7 @@ import com.wooplr.spotlight.utils.SpotlightListener;
 
 import java.util.ArrayList;
 
+import kr.fugle.Intro.MenualActivity;
 import kr.fugle.Intro.TutorialActivity;
 import kr.fugle.Item.Content;
 import kr.fugle.Item.SearchData;
@@ -115,8 +116,8 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
         loadingDialog = loadingDialogBuilder.create();
 
         // tutorial
-        mPreferencesManager = new PreferencesManager(MainActivity.this);
-        startActivityForResult(new Intent(MainActivity.this, TutorialActivity.class), CHECK_FINISH);
+//        mPreferencesManager = new PreferencesManager(MainActivity.this);
+//        startActivityForResult(new Intent(MainActivity.this, TutorialActivity.class), CHECK_FINISH);
 //        mPreferencesManager.resetAll();
         v = findViewById(R.id.view);
 
@@ -153,33 +154,6 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
         getApplicationContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
         int actionBarHeight = getResources().getDimensionPixelSize(tv.resourceId);
 
-        Log.d("logCount--->", User.getInstance().getLogCount()+"");
-        if(User.getInstance().getLogCount() == 0) {
-            // tutorial
-            v = findViewById(R.id.view);
-
-            right = 540;
-            bottom = 312;
-            top = 168;
-            left = 270;
-//                right = tabLayout.getWidth()/4*2;
-//                bottom = tabLayout.getBottom();
-//                top = tabLayout.getTop();
-//                left = tabLayout.getLeft()+tabLayout.getWidth();
-                v.setRight(right);
-                v.setBottom(bottom);
-                v.setTop(top);
-                v.setLeft(left);
-                Log.d("position---->","case 0 :"+right+" "+bottom+" "+top+" "+left);
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        showIntro(v, "0", "웹툰, 만화책, 작가 랭킹",
-                                "웹툰, 만화책, 작가의 평균별점순 평가갯수순 랭킹을 확인해볼수있어요!");
-                    }
-                }, 600);
-        }
-
         // 추천 뷰용으로 arraylist 생성
         contentArrayList = new ArrayList<>();
         pageNo = 1;
@@ -187,6 +161,12 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
         // tab1에서 사용될 arraylist 생성
         mainList1 = new ArrayList<>();
         mainList2 = new ArrayList<>();
+
+        Log.d("logCount--->", User.getInstance().getLogCount()+"");
+        if(User.getInstance().getLogCount() != 0) {
+            startActivity(new Intent(MainActivity.this, MenualActivity.class));
+        }
+
     }
 
     private void setupTabIcons() {

@@ -60,6 +60,14 @@ dependencies {
 
     // chart를 그리기위해
     compile 'com.github.lecho:hellocharts-library:1.5.8@aar'
+
+    // slide viewpager
+    compile 'com.github.paolorotolo:appintro:4.0.0'
+
+    // manual
+    compile 'com.github.paolorotolo:appintro:4.0.0'
+
+    compile 'me.relex:circleindicator:1.2.1@aar'
 }
 // Firebase
 apply plugin: 'com.google.gms.google-services'
