@@ -69,10 +69,14 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     TextView todayWebtoonTitle; // 제목
     TextView todayWebtoonPrediction;    // 예상별점
     TextView todayWebtoonText;  // 이미지 밑에 있는 텍스트
+    ImageView webtoonLikeImg;
     LinearLayout webtoonLikeBtn;
     TextView webtoonLike;
     LinearLayout webtoonRatingBtn;
+    ImageView webtoonRatingImg;
+    TextView webtoonRating;
     LinearLayout webtoonCommentBtn;
+    ImageView webtoonCommentImg;
 
     // 카툰 정보
     ImageView todayCartoonImg;
@@ -82,8 +86,12 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     TextView todayCartoonText;
     LinearLayout cartoonLikeBtn;
     TextView cartoonLike;
+    ImageView cartoonLikeImg;
     LinearLayout cartoonRatingBtn;
+    ImageView cartoonRatingImg;
+    TextView cartoonRating;
     LinearLayout cartoonCommentBtn;
+    ImageView cartoonCommentImg;
 
     CardView cardView;
 
@@ -145,8 +153,12 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         todayWebtoonText = (TextView) rootView.findViewById(R.id.today_webtoon_text);
         webtoonLikeBtn = (LinearLayout) rootView.findViewById(R.id.webtoon_like_btn);
         webtoonLike = (TextView) rootView.findViewById(R.id.webtoon_like);
+        webtoonLikeImg = (ImageView) rootView.findViewById(R.id.webtoon_like_img);
         webtoonRatingBtn = (LinearLayout) rootView.findViewById(R.id.webtoon_rating_btn);
+        webtoonRatingImg = (ImageView) rootView.findViewById(R.id.webtoon_rating_img);
+        webtoonRating = (TextView) rootView.findViewById(R.id.webtoon_rating);
         webtoonCommentBtn = (LinearLayout) rootView.findViewById(R.id.webtoon_comment_btn);
+        webtoonCommentImg = (ImageView) rootView.findViewById(R.id.webtoon_comment_img);
 
         // 카툰
         todayCartoonImg = (ImageView) rootView.findViewById(R.id.today_cartoon_img);
@@ -156,8 +168,12 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         todayCartoonText = (TextView) rootView.findViewById(R.id.today_cartoon_text);
         cartoonLikeBtn = (LinearLayout) rootView.findViewById(R.id.cartoon_like_btn);
         cartoonLike = (TextView) rootView.findViewById(R.id.cartoon_like);
+        cartoonLikeImg = (ImageView) rootView.findViewById(R.id.cartoon_like_img);
         cartoonRatingBtn = (LinearLayout) rootView.findViewById(R.id.cartoon_rating_btn);
+        cartoonRatingImg = (ImageView) rootView.findViewById(R.id.cartoon_rating_img);
+        cartoonRating = (TextView) rootView.findViewById(R.id.cartoon_rating);
         cartoonCommentBtn = (LinearLayout) rootView.findViewById(R.id.cartoon_comment_btn);
+        cartoonCommentImg = (ImageView) rootView.findViewById(R.id.cartoon_comment_img);
 
         // 월, 주차 표시
         cal = Calendar.getInstance();
@@ -275,8 +291,11 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                     .into(todayWebtoonImg);
             todayWebtoonTitle.setText(webtoon.getTitle());
             todayWebtoonPrediction.setText(webtoon.getPrediction().toString());
-            if(webtoon.getLike()){
+            if(webtoon.getLike()){  // 보고싶어요가 눌려있는 경우
                 webtoonLike.setTextColor(Color.parseColor("#F13839"));
+                Picasso.with(getContext().getApplicationContext())
+                        .load(R.drawable.main_heart_fill)
+                        .into(webtoonLikeImg);
             }
 
             // 카툰 정보 불러오기
@@ -287,8 +306,11 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                     .into(todayCartoonImg);
             todayCartoonTitle.setText(cartoon.getTitle());
             todayCartoonPrediction.setText(cartoon.getPrediction().toString());
-            if(cartoon.getLike()){
+            if(cartoon.getLike()){  // 보고싶어요가 눌려있는 경우
                 cartoonLike.setTextColor(Color.parseColor("#F13839"));
+                Picasso.with(getContext().getApplicationContext())
+                        .load(R.drawable.main_heart_fill)
+                        .into(cartoonLikeImg);
             }
         }
 
@@ -341,6 +363,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
             if(content.getLike()){
                 webtoonLike.setTextColor(Color.parseColor("#F13839"));
+                Picasso.with(getContext().getApplicationContext())
+                        .load(R.drawable.main_heart_fill)
+                        .into(webtoonLikeImg);
             }
             todayWebtoonImg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -384,6 +409,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                             + "명의 분들이 관심을 가지고 계세요!");
             if(content.getLike()){
                 cartoonLike.setTextColor(Color.parseColor("#F13839"));
+                Picasso.with(getContext().getApplicationContext())
+                        .load(R.drawable.main_heart_fill)
+                        .into(cartoonLikeImg);
             }
             todayCartoonImg.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -437,7 +465,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id.webtoon_like_btn: {   // 오늘의 웹툰 보고싶어요
-                postLike(webtoon, webtoonLike);
+                postLike(webtoon, webtoonLike, webtoonLikeImg);
                 break;
             }
             case R.id.webtoon_rating_btn: { // 오늘의 웹툰 평가하기
@@ -449,7 +477,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id.cartoon_like_btn: {   // 오늘의 만화 보고싶어요
-                postLike(cartoon, cartoonLike);
+                postLike(cartoon, cartoonLike, cartoonLikeImg);
                 break;
             }
             case R.id.cartoon_rating_btn: { // 오늘의 만화 평가하기
@@ -472,7 +500,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
     }
 
     // 보고싶어요 전송하는 메소드
-    private void postLike(Content content, TextView textView){
+    private void postLike(Content content, TextView textView, ImageView imageView){
         if(content == null) {
             Toast.makeText(getContext(), "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
             return;
@@ -488,10 +516,16 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             User.getInstance().setLikes(User.getInstance().getLikes() - 1);
             textView.setTextColor(Color.parseColor("#777777"));
             content.setLike(false);
+            Picasso.with(getContext().getApplicationContext())
+                    .load(R.drawable.main_heart_empty)
+                    .into(imageView);
         }else {
             User.getInstance().setLikes(User.getInstance().getLikes() + 1);
             textView.setTextColor(Color.parseColor("#F13839"));
             content.setLike(true);
+            Picasso.with(getContext().getApplicationContext())
+                    .load(R.drawable.main_heart_fill)
+                    .into(imageView);
         }
     }
 

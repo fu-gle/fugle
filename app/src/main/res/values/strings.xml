@@ -7,7 +7,7 @@
     <string name="facebook_app_id">1783256118555186</string>
 
     <!-- 서버 주소 -->
-    <string name="server_url">http://192.168.33.122:8000/</string>
+    <string name="server_url">http://192.168.22.68:8000/</string>
 
     <!-- 회원가입 -->
     <string name="actionbar_name">회원가입</string>

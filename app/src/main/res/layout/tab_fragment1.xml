@@ -202,15 +202,21 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:orientation="horizontal"
                         android:gravity="center"
                         >
+
+                        <ImageView
+                            android:id="@+id/webtoon_like_img"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/main_heart_empty"/>
 
                         <TextView
                             android:id="@+id/webtoon_like"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/home_like"
-                            android:drawablePadding="7dp"
+                            android:layout_marginLeft="7dp"
                             android:gravity="center"
                             android:text="보고싶어요"
                             />
@@ -224,11 +230,17 @@
                         android:gravity="center"
                         >
 
+                        <ImageView
+                            android:id="@+id/webtoon_rating_img"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/main_star_empty"/>
+
                         <TextView
+                            android:id="@+id/webtoon_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/home_star"
-                            android:drawablePadding="7dp"
+                            android:layout_marginLeft="7dp"
                             android:gravity="center"
                             android:text="평가하기"
                             />
@@ -242,11 +254,16 @@
                         android:gravity="center"
                         >
 
+                        <ImageView
+                            android:id="@+id/webtoon_comment_img"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/main_reply_empty"/>
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/home_edit"
-                            android:drawablePadding="7dp"
+                            android:layout_marginLeft="7dp"
                             android:gravity="center"
                             android:text="코멘트"
                             />
@@ -371,15 +388,21 @@
                         android:gravity="center"
                         >
 
+                        <ImageView
+                            android:id="@+id/cartoon_like_img"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/main_heart_empty"/>
+
                         <TextView
                             android:id="@+id/cartoon_like"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/home_like"
-                            android:drawablePadding="7dp"
+                            android:layout_marginLeft="7dp"
                             android:gravity="center"
                             android:text="보고싶어요"
                             />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -390,11 +413,17 @@
                         android:gravity="center"
                         >
 
+                        <ImageView
+                            android:id="@+id/cartoon_rating_img"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/main_star_empty"/>
+
                         <TextView
+                            android:id="@+id/cartoon_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/home_star"
-                            android:drawablePadding="7dp"
+                            android:layout_marginLeft="7dp"
                             android:gravity="center"
                             android:text="평가하기"
                             />
@@ -408,11 +437,16 @@
                         android:gravity="center"
                         >
 
+                        <ImageView
+                            android:id="@+id/cartoon_comment_img"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:src="@drawable/main_reply_empty"/>
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:drawableLeft="@drawable/home_edit"
-                            android:drawablePadding="7dp"
+                            android:layout_marginLeft="7dp"
                             android:gravity="center"
                             android:text="코멘트"
                             />

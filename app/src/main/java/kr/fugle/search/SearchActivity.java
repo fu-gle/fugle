@@ -111,13 +111,6 @@ public class SearchActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        getContentList = new GetContentList(getApplicationContext(),
-                contentArrayList,
-                adapter,
-                3,
-                userNo);
-        getContentList.setLoadingDialog(loadingDialog);
-
         // 자동 완성 된 것중 선택했을 때
         edit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -149,6 +142,14 @@ public class SearchActivity extends AppCompatActivity {
         loadingDialog.show();
 
         contentArrayList.clear();
+
+        getContentList = new GetContentList(getApplicationContext(),
+                contentArrayList,
+                adapter,
+                3,
+                userNo);
+        getContentList.setLoadingDialog(loadingDialog);
+
         getContentList.execute("search/", edit.getText().toString());
     }
 

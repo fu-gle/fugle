@@ -47,15 +47,24 @@ public class CategorySelectActivity extends AppCompatActivity {
         categoryArrayList = new ArrayList<>();
 
         String[] categoryNames;
+        Integer[] categoryImg;
 
-        if(category == 0) {
+        if(category == 0) { // 웹툰 카테고리
             categoryNames = getResources().getStringArray(R.array.webtoon_category);
-        }else{
+
+            categoryImg = new Integer[categoryNames.length];
+            categoryImg[0] = R.drawable.egg_profile;
+            categoryImg[1] = R.drawable.naver;
+            categoryImg[2] = R.drawable.daum;
+            categoryImg[3] = R.drawable.lezhin;
+        }else{  // 만화 카테고리
             categoryNames = getResources().getStringArray(R.array.cartoon_category);
+
+            categoryImg = new Integer[categoryNames.length];
         }
 
         for(int i = 0; i < categoryNames.length; i++){
-            categoryArrayList.add(new Category(i, categoryNames[i], ""));
+            categoryArrayList.add(new Category(i, categoryNames[i], categoryImg[i]));
         }
 
         adapter = new CategoryRecyclerAdapter(categoryArrayList, this);

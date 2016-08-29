@@ -8,12 +8,12 @@ public class Category {
 
     Integer no;
     String name;
-    String thumbnailImg;
+    Integer thumbnailImg;
 
     public Category() {
     }
 
-    public Category(Integer no, String name, String thumbnailImg) {
+    public Category(Integer no, String name, Integer thumbnailImg) {
         this.no = no;
         this.name = name;
         this.thumbnailImg = thumbnailImg;
@@ -35,11 +35,11 @@ public class Category {
         this.name = name;
     }
 
-    public String getThumbnailImg() {
+    public Integer getThumbnailImg() {
         return thumbnailImg;
     }
 
-    public void setThumbnailImg(String thumbnailImg) {
+    public void setThumbnailImg(Integer thumbnailImg) {
         this.thumbnailImg = thumbnailImg;
     }
 }
