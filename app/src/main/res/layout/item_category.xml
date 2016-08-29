@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/categoryImg"
+        android:id="@+id/thumbnailImg"
         android:src="@drawable/heart_empty"
         android:layout_marginLeft="10dp"/>
 

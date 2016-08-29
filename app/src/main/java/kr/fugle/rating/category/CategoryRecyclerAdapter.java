@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 
 import kr.fugle.Item.ActivityStartListener;
@@ -53,6 +55,9 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter {
         final Category category = categoryArrayList.get(position);
 
         // 카테고리 섬네일 이미지 지정
+        Picasso.with(categoryContext)
+                .load(category.getThumbnailImg())
+                .into(categoryVH.thumnailImg);
 
         // 카테고리 이름 지정
         categoryVH.name.setText(category.getName());

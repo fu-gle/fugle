@@ -136,6 +136,8 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
                     profileImg,
                     userInfo.getString("message")
             );
+            if(!userInfo.isNull("email"))
+                user.setProfileBackground(userInfo.getString("email"));
 
             if(!mypage.isNull("likecount"))
                 user.setLikes(mypage.getInt("likecount"));
@@ -149,8 +151,6 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
                 user.setComments(mypage.getInt("commentcount"));
             if(!mypage.isNull("logcount"))
                 user.setLogCount(mypage.getInt("logcount"));
-            if(!mypage.isNull("email"))
-                user.setProfileBackground(mypage.getString("email"));
 
 
         } catch (JSONException e) {
