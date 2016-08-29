@@ -25,6 +25,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -64,6 +66,8 @@ public class TabFragment4 extends Fragment {
 
     private AppCompatDialog loadingDialog;
 
+    private DisplayMetrics metrics;
+
     // 프로필 사진 갤러리에서 사진가져오기
     private final int REQ_PICK_CODE = 100;
     // 프로필 사진 이미지 주소
@@ -71,8 +75,6 @@ public class TabFragment4 extends Fragment {
 
     // 배경 사진 갤러리에서 사진가져오기
     private final int BACK_PICK_CODE = 101;
-    private int width;
-    private int height;
 
     public void setTabStatusListener(TabStatusListener tabStatusListener) {
         this.tabStatusListener = tabStatusListener;
@@ -110,24 +112,15 @@ public class TabFragment4 extends Fragment {
             }
         });
 
-        // 커버사진 (프로필 사진 뒤에 사진)
-        backgroundImg = (ImageView) rootView.findViewById(R.id.header_cover_image);
-
-        DisplayMetrics metrics = new DisplayMetrics();
+        // 사진 리사이즈 용
+        metrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) getContext()
                 .getApplicationContext()
                 .getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(metrics);
 
-        width = metrics.widthPixels;
-        height = metrics.heightPixels/3;
-        if (!user.getProfileBackground().equals("")) {    // 배경사진이 있다면
-            Picasso.with(getContext().getApplicationContext())
-                    .load(user.getProfileBackground())
-                    .resize(width, height)
-                    .centerCrop()
-                    .into(backgroundImg);
-        }
+        // 커버사진 (프로필 사진 뒤에 사진)
+        backgroundImg = (ImageView) rootView.findViewById(R.id.header_cover_image);
 
         // 커버 사진 변경
         backgroundImg.setOnClickListener(new View.OnClickListener() {
@@ -143,17 +136,8 @@ public class TabFragment4 extends Fragment {
 
         // 프로필 사진
         profileView = (ImageView) rootView.findViewById(R.id.user_profile_photo);
-//        String profileImagePath = User.getInstance().getProfileImg();
-//        if(profileImagePath != null && !profileImagePath.equals("")) {
-//            Context c = getActivity().getApplicationContext();
-//            CircleTransform circleTransform = new CircleTransform();
-//            Picasso.with(c).load(profileImagePath)
-//                    .transform(circleTransform)
-//                    .into(profileView);
-//        }
 
         // 프로필 사진 변경
-//        profileView.setOnClickListener(onClicked);
         profileView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -324,9 +308,14 @@ public class TabFragment4 extends Fragment {
 
         // 유저의 정보 적용
         if(user.getProfileImg() != null && !user.getProfileImg().equals("")) {
+
+            Log.d("ho's activity", "Profile change");
+
             CircleTransform circleTransform = new CircleTransform();
             Picasso.with(getContext().getApplicationContext())
                     .load(user.getProfileImg())
+                    .resize(metrics.widthPixels / 3, metrics.heightPixels / 3)
+                    .centerCrop()
                     .transform(circleTransform)
                     .into(profileView);
         }
@@ -334,9 +323,12 @@ public class TabFragment4 extends Fragment {
         Log.d("uwangg's user back : ",user.getProfileBackground());
 
         if (!user.getProfileBackground().equals("")) {
+
+            Log.d("ho's activity", "Background change");
+
             Picasso.with(getContext().getApplicationContext())
                     .load(user.getProfileBackground())
-                    .resize(width, height)
+                    .resize(metrics.widthPixels, metrics.heightPixels / 2)
                     .centerCrop()
                     .into(backgroundImg);
         }
@@ -381,7 +373,13 @@ public class TabFragment4 extends Fragment {
         int colum_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
 
-        return cursor.getString(colum_index);
+        String result = cursor.getString(colum_index);
+
+        // 커서 반환
+        cursor.close();
+        cursorLoader.cancelLoadInBackground();
+
+        return result;
     }
 
     private class PostPicture extends AsyncTask<String, Void, String>{
@@ -436,6 +434,10 @@ public class TabFragment4 extends Fragment {
             super.onPostExecute(s);
 
             loadingDialog.cancel();
+
+            // 이미지뷰 초기화
+            Picasso.with(getContext().getApplicationContext())
+                    .invalidate(s);
 
             if(category == 0) {
                 Log.d("------>", "PostPicture profileImg " + s);

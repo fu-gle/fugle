@@ -1,5 +1,6 @@
 package kr.fugle.preference;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -101,12 +104,19 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // 이미지 크기 조절 용
+        DisplayMetrics metrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager)getSystemService(Context.WINDOW_SERVICE);
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+
         // 프로필사진
         ImageView profileImg = (ImageView) findViewById(R.id.profile_img);
         if(user.getProfileImg() != null && !user.getProfileImg().equals("")) {
             CircleTransform circleTransform = new CircleTransform();
             Picasso.with(getApplicationContext())
                     .load(user.getProfileImg())
+                    .resize(metrics.widthPixels / 3, metrics.heightPixels / 3)
+                    .centerCrop()
                     .transform(circleTransform)
                     .into(profileImg);
         }
