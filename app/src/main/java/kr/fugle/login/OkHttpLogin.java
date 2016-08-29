@@ -92,6 +92,9 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
         // 성공시 startActivity. 실패시 토스트 메세지
         Log.i("ho's activity", "LoginActivity.OkHttpLogin.onPostExecute " + s);
 
+        if(loadingDialog != null)
+            loadingDialog.cancel();
+
         if(isCancelled()){
             Log.d("ho's activity", "LoginActivity.OkHttpLogin is canceled");
             return;
@@ -167,9 +170,6 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
 
             return;
         }
-
-        if(loadingDialog != null)
-            loadingDialog.cancel();
 
         if(activityStartListener != null)
             activityStartListener.activityStart();

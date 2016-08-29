@@ -3,6 +3,7 @@ package kr.fugle.splash;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
@@ -58,8 +60,12 @@ public class SplashActivity extends Activity {
 
         setContentView(R.layout.splash);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        handler = new Handler();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(perms[0]) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(perms, 200);
+        }else{
+            goNext();
         }
 
         // 로딩 다이얼로그
@@ -94,8 +100,28 @@ public class SplashActivity extends Activity {
         okHttpLogin = new OkHttpLogin(getApplicationContext());
         okHttpLogin.setActivityStartListener(activityStartListener);
         okHttpLogin.setLoadingDialog(loadingDialog);
+    }
 
-        handler = new Handler();
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            Log.d("ho's activity", "permission granted");
+
+            goNext();
+
+            return;
+        }
+
+        Log.d("ho's activity", "permission denied");
+
+        Toast.makeText(SplashActivity.this, "허가가 필요합니다", Toast.LENGTH_SHORT).show();
+
+        finish();
+    }
+
+    private void goNext(){
         handler.postDelayed(new Runnable() {
 
             @Override
@@ -219,5 +245,17 @@ public class SplashActivity extends Activity {
             request.executeAsync();
             return;
         }
+    }
+
+    // 안드로이드 버전 확인
+    private boolean canMakeSmores(){
+        return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
+    }
+
+    private boolean hasPermission(String permission){
+        if(canMakeSmores()){
+            return (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED);
+        }
+        return true;
     }
 }

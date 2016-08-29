@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:text="잠시만 기다려주세요"
             android:textSize="18sp"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"/>
 
     </LinearLayout>
 
