@@ -160,7 +160,7 @@ public class DetailActivity extends AppCompatActivity {
         title.setText(content.getTitle());
         title2.setText(content.getTitle());
 
-        average.setText("★ "+ String.format("%.1f",content.getAverage()));
+        average.setText("평균 ★ "+ String.format("%.1f",content.getAverage()));
         prediction.setText(content.getPrediction().toString());
 
         // 로딩 다이얼로그 활성화
@@ -512,7 +512,7 @@ public class DetailActivity extends AppCompatActivity {
                 ratingBtn.setTextColor(Color.parseColor("#F13839"));
             }
 
-            average.setText("★ " + String.format("%.1f",content.getAverage()));
+            average.setText("평균 ★ "+ String.format("%.1f",content.getAverage()));
             prediction.setText(content.getPrediction().toString());
 
             // 성인물인 경우
