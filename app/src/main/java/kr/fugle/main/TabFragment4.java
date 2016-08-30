@@ -3,6 +3,7 @@ package kr.fugle.main;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -306,31 +307,48 @@ public class TabFragment4 extends Fragment {
 
         Log.d("ho's activity", "TabFragment4.onResume user profile " + user.getProfileImg() + " / background " + user.getProfileBackground());
 
-        // 유저의 정보 적용
-        if(user.getProfileImg() != null && !user.getProfileImg().equals("")) {
+        try {
+            // 유저의 정보 적용
+            if (user.getProfileImg() != null && !user.getProfileImg().equals("")) {
 
-            Log.d("ho's activity", "Profile change");
+                Log.d("ho's activity", "Profile change");
 
-            CircleTransform circleTransform = new CircleTransform();
-            Picasso.with(getContext().getApplicationContext())
-                    .load(user.getProfileImg())
-                    .resize(metrics.widthPixels / 3, metrics.heightPixels / 3)
-                    .centerCrop()
-                    .transform(circleTransform)
-                    .into(profileView);
-        }
+                CircleTransform circleTransform = new CircleTransform();
+                Picasso.with(getContext().getApplicationContext())
+                        .load(user.getProfileImg())
+                        .resize(metrics.widthPixels / 3, metrics.heightPixels / 3)
+                        .centerCrop()
+                        .transform(circleTransform)
+                        .into(profileView);
+            }else{
+                CircleTransform circleTransform = new CircleTransform();
+                Picasso.with(getContext().getApplicationContext())
+                        .load(R.drawable.egg_profile)
+                        .transform(circleTransform)
+                        .into(profileView);
+            }
 
-        Log.d("uwangg's user back : ",user.getProfileBackground());
+            Log.d("uwangg's user back : ", user.getProfileBackground());
 
-        if (!user.getProfileBackground().equals("")) {
+            if (!user.getProfileBackground().equals("")) {
 
-            Log.d("ho's activity", "Background change");
+                Log.d("ho's activity", "Background change");
 
-            Picasso.with(getContext().getApplicationContext())
-                    .load(user.getProfileBackground())
-                    .resize(metrics.widthPixels, metrics.heightPixels / 2)
-                    .centerCrop()
-                    .into(backgroundImg);
+                Picasso.with(getContext().getApplicationContext())
+                        .load(user.getProfileBackground())
+                        .resize(metrics.widthPixels, metrics.heightPixels / 2)
+                        .centerCrop()
+                        .into(backgroundImg);
+            }else{
+                Picasso.with(getContext().getApplicationContext())
+                        .load(R.drawable.android_background)
+                        .resize(metrics.widthPixels, metrics.heightPixels / 2)
+                        .centerCrop()
+                        .into(backgroundImg);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
         }
         comment.setText(user.getComments().toString());
         like.setText(user.getLikes().toString());
