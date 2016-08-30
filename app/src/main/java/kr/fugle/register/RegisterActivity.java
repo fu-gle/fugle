@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         // 기본 이미지 주소
-        imgPath = "drawable://" + R.drawable.egg_profile;
+        imgPath = "";
 
         inputLayoutImage = (TextInputLayout) findViewById(R.id.input_layout_profileimg);
         inputLayoutName = (TextInputLayout) findViewById(R.id.input_layout_name);
@@ -346,6 +346,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             // 사진 유무에 따라
             if(params[5].equals("")){
+                Log.d("----->", "img is null");
                 body = builder.build();
             }else{
                 // 사진 파일
