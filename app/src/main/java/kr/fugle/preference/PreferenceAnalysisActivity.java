@@ -138,7 +138,7 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
         if((user.getCartoonStars()+user.getWebtoonStars())<15) {
 
             TextView zeroText = (TextView) findViewById(R.id.zero_count_text);
-            zeroText.setText(user.getName() + "님 아직 평가가 부족해서 \n취향을 알수없어요ㅠㅠ"
+            zeroText.setText(user.getName() + "님 아직 평가가 부족해서 \n취향을 알 수 없어요ㅠㅠ"
                     + "\n15개 이상 평가를 하셔야 취향을 알 수 있어요!");
             // 평가하러가기
             Button button = (Button) findViewById(R.id.go_star);
