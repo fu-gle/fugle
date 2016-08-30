@@ -190,7 +190,9 @@ public class TabFragment3 extends Fragment {
         Log.d("ho's activity", "TabFragment3.onResume");
 
         // 초기해야하는지 확인 후 초기화
-        if(tabStatusListener.getRefresh()){
+        int totalCount = user.getWebtoonStars() + user.getCartoonStars();
+        if(tabStatusListener.getRefresh()  // 새로 평가하기 액티비티에서 입력한 경우
+                || (totalCount >= 15 && contentArrayList.size() == 0)){ // 평가하기 이외의 액티비티에서 입력하였는데, 마침 15개가 되었을
 
             Log.d("ho's activity", "Recommend List Refresh");
 
