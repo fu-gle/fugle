@@ -334,13 +334,13 @@ public class TabFragment4 extends Fragment {
                 Picasso.with(getContext().getApplicationContext())
                         .load(user.getProfileBackground())
                         .resize(metrics.widthPixels, metrics.heightPixels / 2)
-                        .centerCrop()
+                        .centerInside()
                         .into(backgroundImg);
             }else{
                 Picasso.with(getContext().getApplicationContext())
                         .load(R.drawable.android_background)
                         .resize(metrics.widthPixels, metrics.heightPixels / 2)
-                        .centerCrop()
+                        .centerInside()
                         .into(backgroundImg);
             }
 
