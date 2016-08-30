@@ -531,7 +531,11 @@ public class DetailActivity extends AppCompatActivity {
                     tags += " ";
                 }
             }
-            tag.setText(tags);
+
+            if(tags.equals("#"))
+                tag.setVisibility(View.GONE);
+            else
+                tag.setText(tags);
 
             if(content.getLike()){
                 preferenceBtn.setTextColor(Color.parseColor("#F13839"));

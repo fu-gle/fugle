@@ -130,7 +130,11 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
                     tags += " ";
                 }
             }
-            vhItem.tag.setText(tags);
+
+            if(tags.equals("#"))
+                vhItem.tag.setVisibility(View.GONE);
+            else
+                vhItem.tag.setText(tags);
 
             // 이미지 뷰 가운데 정렬 후 세로 길이 맞추기. 잘 되는지 테스트가 필요한디.
             DisplayMetrics metrics = new DisplayMetrics();
