@@ -36,6 +36,7 @@ public class CommentActivity extends AppCompatActivity {
     private String title;
     private Float star;
     private Boolean isCartoon;
+    private User user = User.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +146,8 @@ public class CommentActivity extends AppCompatActivity {
                         User.getInstance().getNo() + "",
                         contentNo + "",
                         comment);
+
+        user.setComments(user.getComments() + 1);
 
 //        Toast.makeText(CommentActivity.this, "입력되었습니다", Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK);

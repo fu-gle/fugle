@@ -83,6 +83,8 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                     list.remove(comment);
                                     notifyDataSetChanged();
                                     dialog.cancel();
+
+                                    User.getInstance().setComments(User.getInstance().getComments() - 1);
                                 }
                             })
                             .setNegativeButton("아니오", new DialogInterface.OnClickListener() {
