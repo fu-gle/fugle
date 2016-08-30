@@ -47,7 +47,7 @@ public class CategorySelectActivity extends AppCompatActivity {
         categoryArrayList = new ArrayList<>();
 
         String[] categoryNames;
-        Integer[] categoryImg;
+        Integer[] categoryImg;  // 장르별 사진 주소
 
         if(category == 0) { // 웹툰 카테고리
             categoryNames = getResources().getStringArray(R.array.webtoon_category);
@@ -61,6 +61,13 @@ public class CategorySelectActivity extends AppCompatActivity {
             categoryNames = getResources().getStringArray(R.array.cartoon_category);
 
             categoryImg = new Integer[categoryNames.length];
+            categoryImg[0] = R.drawable.egg_profile;
+            categoryImg[1] = R.drawable.cartoon_1;
+            categoryImg[2] = R.drawable.cartoon_2;
+            categoryImg[3] = R.drawable.cartoon_3;
+            categoryImg[4] = R.drawable.cartoon_4;
+            categoryImg[5] = R.drawable.cartoon_5;
+            categoryImg[6] = R.drawable.cartoon_6;
         }
 
         for(int i = 0; i < categoryNames.length; i++){

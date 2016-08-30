@@ -355,9 +355,13 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 }
             }
 
+            if(tags.equals("#"))
+                tags = "";
+            else
+                tags += "\n";
+
             todayWebtoonText.setText(
-                    tags
-                            + "\n" + content.getLikeCnt()
+                    tags    + content.getLikeCnt()
                             + "명의 분들이 관심을 가지고 계세요!");
 
             if(content.getLike()){
@@ -375,6 +379,18 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                     startActivity(intent);
                 }
             });
+
+            // 별점을 준 경우
+            if(content.getRating() > 0){
+                // 아이콘 수정
+                Picasso.with(getContext().getApplicationContext())
+                        .load(R.drawable.main_star_fill)
+                        .into(webtoonRatingImg);
+
+                // 텍스트 수정
+                webtoonRating.setText((content.getRating()) + "");
+                webtoonRating.setTextColor(Color.parseColor("#FF4081"));
+            }
         }
 
         if(!contentArrayList2.isEmpty()) {
@@ -402,10 +418,15 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 }
             }
 
-            todayCartoonText.setText(
-                    tags
-                            + "\n" + content.getLikeCnt()
+            if(tags.equals("#"))
+                tags = "";
+            else
+                tags += "\n";
+
+            todayWebtoonText.setText(
+                    tags    + content.getLikeCnt()
                             + "명의 분들이 관심을 가지고 계세요!");
+
             if(content.getLike()){
                 cartoonLike.setTextColor(Color.parseColor("#F13839"));
                 Picasso.with(getContext().getApplicationContext())
@@ -421,6 +442,18 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                     startActivity(intent);
                 }
             });
+
+            // 별점을 준 경우
+            if(content.getRating() > 0){
+                // 아이콘 수정
+                Picasso.with(getContext().getApplicationContext())
+                        .load(R.drawable.main_star_fill)
+                        .into(cartoonRatingImg);
+
+                // 텍스트 수정
+                cartoonRating.setText((content.getRating()) + "");
+                cartoonRating.setTextColor(Color.parseColor("#FF4081"));
+            }
         }
     }
 
@@ -468,7 +501,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id.webtoon_rating_btn: { // 오늘의 웹툰 평가하기
-                postRating(webtoon);
+                postRating(webtoon, webtoonRatingImg, webtoonRating);
                 break;
             }
             case R.id.webtoon_comment_btn: {    //오늘의 웹툰 코멘트
@@ -480,7 +513,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                 break;
             }
             case R.id.cartoon_rating_btn: { // 오늘의 만화 평가하기
-                postRating(cartoon);
+                postRating(cartoon, cartoonRatingImg, cartoonRating);
                 break;
             }
             case R.id.cartoon_comment_btn: {    // 오늘의 만화 코멘트
@@ -528,7 +561,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void postRating(final Content content){
+    private void postRating(final Content content, final ImageView imageView, final TextView textView){
         Log.d("ho's activity", "DetailActivity ratingBtn clicked");
 
         ratingDialog.show();
@@ -573,6 +606,27 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
                     Toast.makeText(getContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
                     new PostSingleData(getContext()).execute("insert/", User.getInstance().getNo().toString(), content.getNo().toString(), Rating.toString());
+
+                    // 별점을 준 경우
+                    if(content.getRating() > 0){
+                        // 아이콘 수정
+                        Picasso.with(getContext().getApplicationContext())
+                                .load(R.drawable.main_star_fill)
+                                .into(imageView);
+
+                        // 텍스트 수정
+                        textView.setText((content.getRating()) + "");
+                        textView.setTextColor(Color.parseColor("#FF4081"));
+                    }else{  // 0점을 준 경우
+                        // 아이콘 수정
+                        Picasso.with(getContext().getApplicationContext())
+                                .load(R.drawable.main_star_empty)
+                                .into(imageView);
+
+                        // 텍스트 수정
+                        textView.setText("평가하기");
+                        textView.setTextColor(Color.parseColor("#777777"));
+                    }
 
                     ratingDialog.cancel();
                 }

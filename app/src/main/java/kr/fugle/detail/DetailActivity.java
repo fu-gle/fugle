@@ -160,7 +160,7 @@ public class DetailActivity extends AppCompatActivity {
         title.setText(content.getTitle());
         title2.setText(content.getTitle());
 
-        average.setText("★ "+ String.format("%.1f",content.getAverage()));
+        average.setText("평균 ★ "+ String.format("%.1f",content.getAverage()));
         prediction.setText(content.getPrediction().toString());
 
         // 로딩 다이얼로그 활성화
@@ -257,21 +257,7 @@ public class DetailActivity extends AppCompatActivity {
                 ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                             @Override
                             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                                if(content == null){
-
-                                    Integer Rating = (int)(rating * 10);
-
-                                    Toast.makeText(getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
-
-                                    new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
-
-                                    // 별점 누른 흔적 전송
-                                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                    String time = dateFormat.format(new Date());
-                                    new PostUserLog(getApplicationContext())
-                                            .execute("", userNo.toString(), content.getNo().toString(), time);
-
-                                }else if(fromUser){
+                                if(fromUser){
 
                                     // 별점 준 갯수 증가
                                     if(rating == 0){
@@ -300,6 +286,15 @@ public class DetailActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
                                     new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+
+                                    // 별점이 입력된 경우
+                                    if(content.getRating() > 0){
+                                        ratingBtn.setText("★ " + content.getRating().toString());
+                                        ratingBtn.setTextColor(Color.parseColor("#F13839"));
+                                    }else{
+                                        ratingBtn.setText("평가하기");
+                                        ratingBtn.setTextColor(Color.parseColor("#777777"));
+                                    }
 
                                     dialog.cancel();
                                 }
@@ -511,7 +506,13 @@ public class DetailActivity extends AppCompatActivity {
                         .into(thumbnailImg);
             }
 
-            average.setText("★ "+ String.format("%.1f",content.getAverage()));
+            // 별점이 입력되어 있는 경우
+            if(content.getRating() > 0){
+                ratingBtn.setText("★ " + content.getRating().toString());
+                ratingBtn.setTextColor(Color.parseColor("#F13839"));
+            }
+
+            average.setText("평균 ★ "+ String.format("%.1f",content.getAverage()));
             prediction.setText(content.getPrediction().toString());
 
             // 성인물인 경우
@@ -530,7 +531,11 @@ public class DetailActivity extends AppCompatActivity {
                     tags += " ";
                 }
             }
-            tag.setText(tags);
+
+            if(tags.equals("#"))
+                tag.setVisibility(View.GONE);
+            else
+                tag.setText(tags);
 
             if(content.getLike()){
                 preferenceBtn.setTextColor(Color.parseColor("#F13839"));

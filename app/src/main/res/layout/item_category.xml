@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/categoryImg"
+        android:id="@+id/thumbnailImg"
         android:src="@drawable/heart_empty"
         android:layout_marginLeft="10dp"/>
 
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/categoryName"
         android:text="카테고리 이름"
-        android:textSize="25sp"
+        android:textSize="18sp"
         android:layout_marginLeft="15dp"/>
 
 </LinearLayout>

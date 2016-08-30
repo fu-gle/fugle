@@ -304,7 +304,7 @@ public class TabFragment4 extends Fragment {
     public void onResume() {
         super.onResume();
 
-        Log.d("ho's activity", "TabFragment4.onResume user profile " + user.getProfileImg());
+        Log.d("ho's activity", "TabFragment4.onResume user profile " + user.getProfileImg() + " / background " + user.getProfileBackground());
 
         // 유저의 정보 적용
         if(user.getProfileImg() != null && !user.getProfileImg().equals("")) {
