@@ -68,6 +68,7 @@ public class DetailActivity extends AppCompatActivity {
     Content content;
     Toolbar toolbar;
     Integer userNo;
+    User user = User.getInstance();
 
     AppCompatDialog loadingDialog;
 
@@ -223,9 +224,13 @@ public class DetailActivity extends AppCompatActivity {
                 if(content.getLike()){
                     preferenceBtn.setTextColor(Color.parseColor("#777777"));
                     content.setLike(false);
+
+                    user.setLikes(user.getLikes() - 1);
                 }else{
                     preferenceBtn.setTextColor(Color.parseColor("#F13839"));
                     content.setLike(true);
+
+                    user.setLikes(user.getLikes() + 1);
 
                     // 보고싶어요 누른 흔적 전송
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
