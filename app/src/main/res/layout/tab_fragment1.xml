@@ -204,6 +204,7 @@
                         android:layout_weight="1"
                         android:orientation="horizontal"
                         android:gravity="center"
+                        android:background="@drawable/button_transparent"
                         >
 
                         <ImageView
@@ -228,6 +229,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:background="@drawable/button_transparent"
                         >
 
                         <ImageView
@@ -252,6 +254,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:background="@drawable/button_transparent"
                         >
 
                         <ImageView
@@ -386,6 +389,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:background="@drawable/button_transparent"
                         >
 
                         <ImageView
@@ -411,6 +415,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:background="@drawable/button_transparent"
                         >
 
                         <ImageView
@@ -435,6 +440,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:background="@drawable/button_transparent"
                         >
 
                         <ImageView

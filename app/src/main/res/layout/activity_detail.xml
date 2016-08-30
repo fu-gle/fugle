@@ -106,7 +106,7 @@
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="47dp"
                             android:layout_weight="1"
                             android:id="@+id/preferenceBtn"
                             android:text="보고싶어요"
@@ -116,21 +116,36 @@
                             android:paddingTop="15dp"
                             android:paddingBottom="15dp"/>
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="47dp"
                             android:layout_weight="1"
                             android:id="@+id/ratingBtn"
-                            android:text="평가하기"
-                            android:background="@drawable/button_transparent"
+                            android:orientation="horizontal"
                             android:gravity="center"
-                            android:textColor="#777"
-                            android:paddingTop="15dp"
-                            android:paddingBottom="15dp"/>
+                            android:background="@drawable/button_transparent">
+
+                            <ImageView
+                                android:layout_width="15dp"
+                                android:layout_height="15dp"
+                                android:id="@+id/ratingImg"
+                                android:src="@drawable/main_star_fill"
+                                android:visibility="gone"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/ratingText"
+                                android:text="평가하기"
+                                android:gravity="center"
+                                android:textColor="#777"
+                                android:clickable="false"/>
+
+                        </LinearLayout>
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="47dp"
                             android:layout_weight="1"
                             android:id="@+id/commentBtn"
                             android:text="코멘트"
@@ -142,7 +157,7 @@
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="47dp"
                             android:layout_weight="1"
                             android:id="@+id/linkBtn"
                             android:text="보러가기"

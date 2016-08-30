@@ -76,7 +76,9 @@ public class DetailActivity extends AppCompatActivity {
     TextView title;
     TextView average;
     TextView preferenceBtn;
-    TextView ratingBtn;
+    LinearLayout ratingBtn;
+    ImageView ratingImg;
+    TextView ratingText;
     TextView commentBtn;
     TextView linkBtn;
     TextView prediction;
@@ -122,7 +124,9 @@ public class DetailActivity extends AppCompatActivity {
         title = (TextView)findViewById(R.id.title);
         average = (TextView)findViewById(R.id.average);
         preferenceBtn = (TextView)findViewById(R.id.preferenceBtn);
-        ratingBtn = (TextView)findViewById(R.id.ratingBtn);
+        ratingBtn = (LinearLayout)findViewById(R.id.ratingBtn);
+        ratingImg = (ImageView)findViewById(R.id.ratingImg);
+        ratingText = (TextView)findViewById(R.id.ratingText);
         commentBtn = (TextView)findViewById(R.id.commentBtn);
         linkBtn = (TextView)findViewById(R.id.linkBtn);
         prediction = (TextView)findViewById(R.id.prediction);
@@ -161,7 +165,7 @@ public class DetailActivity extends AppCompatActivity {
         title2.setText(content.getTitle());
 
         average.setText("평균 ★ "+ String.format("%.1f",content.getAverage()));
-        prediction.setText(content.getPrediction().toString());
+        prediction.setText(" " + content.getPrediction().toString());
 
         // 로딩 다이얼로그 활성화
         loadingDialog.show();
@@ -289,11 +293,13 @@ public class DetailActivity extends AppCompatActivity {
 
                                     // 별점이 입력된 경우
                                     if(content.getRating() > 0){
-                                        ratingBtn.setText("★ " + content.getRating().toString());
-                                        ratingBtn.setTextColor(Color.parseColor("#F13839"));
+                                        ratingImg.setVisibility(View.VISIBLE);
+                                        ratingText.setText(" " + content.getRating().toString());
+                                        ratingText.setTextColor(Color.parseColor("#F13839"));
                                     }else{
-                                        ratingBtn.setText("평가하기");
-                                        ratingBtn.setTextColor(Color.parseColor("#777777"));
+                                        ratingImg.setVisibility(View.GONE);
+                                        ratingText.setText("평가하기");
+                                        ratingText.setTextColor(Color.parseColor("#777777"));
                                     }
 
                                     dialog.cancel();
@@ -508,12 +514,13 @@ public class DetailActivity extends AppCompatActivity {
 
             // 별점이 입력되어 있는 경우
             if(content.getRating() > 0){
-                ratingBtn.setText("★ " + content.getRating().toString());
-                ratingBtn.setTextColor(Color.parseColor("#F13839"));
+                ratingImg.setVisibility(View.VISIBLE);
+                ratingText.setText(" " + content.getRating().toString());
+                ratingText.setTextColor(Color.parseColor("#F13839"));
             }
 
             average.setText("평균 ★ "+ String.format("%.1f",content.getAverage()));
-            prediction.setText(content.getPrediction().toString());
+            prediction.setText(" " + content.getPrediction().toString());
 
             // 성인물인 경우
             if(content.getAdult()){
