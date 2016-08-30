@@ -27,6 +27,7 @@ import java.util.List;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.OnLoadMoreListener;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.comment.CommentActivity;
 import kr.fugle.detail.DetailActivity;
@@ -45,6 +46,9 @@ public class MyStarAdapter extends RecyclerView.Adapter {
     private Dialog dialog;
     private List<Content> list;
     private Integer userNo;
+    private boolean category;
+
+    private User user = User.getInstance();
 
     // The minimum amount of items to have below your current scroll position
     // before loading more.
@@ -86,6 +90,10 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                 }
             });
         }
+    }
+
+    public void setCategory(boolean category) {
+        this.category = category;
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener){
@@ -227,6 +235,18 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                             String time = dateFormat.format(new Date());
                             new PostUserLog(myStarContext.getApplicationContext())
                                     .execute("", userNo.toString(), content.getNo().toString(), time);
+
+                            if(category){   // 웹툰
+                                user.setWebtoonStars(user.getWebtoonStars() + 1);
+                            }else{  // 만화
+                                user.setCartoonStars(user.getCartoonStars() + 1);
+                            }
+                        }else if(rating == 0){
+                            if(category){   // 웹툰
+                                user.setWebtoonStars(user.getWebtoonStars() - 1);
+                            }else{  // 만화
+                                user.setCartoonStars(user.getCartoonStars() - 1);
+                            }
                         }
 
                         Integer Rating = (int)(rating * 10);
@@ -236,6 +256,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
 //                        Toast.makeText(myStarContext.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
                         new PostSingleData(myStarContext).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
+
                     }
                 }
             });
