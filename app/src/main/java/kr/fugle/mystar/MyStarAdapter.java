@@ -148,7 +148,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
             vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(myStarContext, "clicked", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(myStarContext, "clicked", Toast.LENGTH_SHORT).show();
 
                     dialog.show();
 
@@ -158,7 +158,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Toast.makeText(myStarContext, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(myStarContext, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
 
                                     new PostSingleData(myStarContext.getApplicationContext())
                                             .execute("like/", userNo.toString(), content.getNo().toString());
@@ -185,7 +185,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                                     new PostUserLog(myStarContext.getApplicationContext())
                                             .execute("", userNo.toString(), content.getNo().toString(), time);
 
-                                    Toast.makeText(myStarContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(myStarContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(myStarContext, DetailActivity.class);
                                     intent.putExtra("content", content);
                                     myStarContext.startActivity(intent);
@@ -198,7 +198,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                             .setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Toast.makeText(myStarContext, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(myStarContext, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
 
                                     Intent intent = new Intent(myStarContext, CommentActivity.class);
                                     intent.putExtra("contentNo", content.getNo());
@@ -233,7 +233,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
 
                         content.setRating(rating);
 
-                        Toast.makeText(myStarContext.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(myStarContext.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
                         new PostSingleData(myStarContext).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
                     }

@@ -213,12 +213,6 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-//        // 이미지를 선택하지 않았을 경우
-//        if(imgPath.equals("")){
-//            Toast.makeText(RegisterActivity.this, "이미지를 선택해주세요", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-
         // 로딩 시작
         loadingDialog.show();
 

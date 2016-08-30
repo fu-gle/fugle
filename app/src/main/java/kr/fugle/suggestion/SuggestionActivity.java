@@ -71,7 +71,7 @@ public class SuggestionActivity extends AppCompatActivity {
                         User.getInstance().getNo() + "",
                         suggestion);
 
-        Toast.makeText(SuggestionActivity.this, "입력되었습니다", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(SuggestionActivity.this, "입력되었습니다", Toast.LENGTH_SHORT).show();
         finish();
     }
 }

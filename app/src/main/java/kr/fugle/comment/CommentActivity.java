@@ -115,7 +115,7 @@ public class CommentActivity extends AppCompatActivity {
 
                     star = rating;
 
-                    Toast.makeText(getApplicationContext(), "작품 번호 : " + contentNo + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "작품 번호 : " + contentNo + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
                     new PostSingleData(CommentActivity.this)
                             .execute("insert/",
@@ -146,7 +146,7 @@ public class CommentActivity extends AppCompatActivity {
                         contentNo + "",
                         comment);
 
-        Toast.makeText(CommentActivity.this, "입력되었습니다", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(CommentActivity.this, "입력되었습니다", Toast.LENGTH_SHORT).show();
         setResult(RESULT_OK);
         finish();
     }

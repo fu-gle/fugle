@@ -155,7 +155,7 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            Toast.makeText(context, "로그인에 실패하였습니다(서버 페이지 에러)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "로그인에 실패하였습니다\n인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
 
             if(activityStartListener != null)
                 activityStartListener.activityFinish();
@@ -163,7 +163,18 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
             return;
         } catch (NullPointerException e){
             e.printStackTrace();
-            Toast.makeText(context, "로그인에 실패하였습니다(서버 커넥션 에러)", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "로그인에 실패하였습니다\n" +
+                    "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
+
+            if(activityStartListener != null)
+                activityStartListener.activityFinish();
+
+            return;
+        }catch (Exception e){
+            e.printStackTrace();
+
+            Toast.makeText(context, "로그인에 실패하였습니다\n" +
+                    "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
 
             if(activityStartListener != null)
                 activityStartListener.activityFinish();

@@ -164,7 +164,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
             vhItem.detailBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(ratingContext, "clicked", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(ratingContext, "clicked", Toast.LENGTH_SHORT).show();
 
                     dialog.show();
 
@@ -174,7 +174,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             .setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(ratingContext, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(ratingContext, "작품 " + content.getNo() + ". " + content.getTitle() + "를 보고싶어요", Toast.LENGTH_SHORT).show();
 
                             new PostSingleData(ratingContext.getApplicationContext())
                                     .execute("like/", userNo.toString(), content.getNo().toString());
@@ -209,7 +209,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             new PostUserLog(ratingContext.getApplicationContext())
                                     .execute("", userNo.toString(), content.getNo().toString(), time);
 
-                            Toast.makeText(ratingContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(ratingContext, "작품 " + content.getNo() + " 상세정보", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(ratingContext, DetailActivity.class);
                             intent.putExtra("content", content);
                             ratingContext.startActivity(intent);
@@ -221,7 +221,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
                             .setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Toast.makeText(ratingContext, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(ratingContext, "작품 " + content.getNo() + " 코멘트", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(ratingContext, CommentActivity.class);
                             intent.putExtra("contentNo", content.getNo());
@@ -268,7 +268,7 @@ public class RatingRecyclerAdapter extends RecyclerView.Adapter {
 
                         content.setRating(rating);
 
-                        Toast.makeText(ratingContext.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ratingContext.getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
                         new PostSingleData(ratingContext)
                                 .execute("insert/",

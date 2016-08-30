@@ -125,7 +125,7 @@ public class TabFragment3 extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getContext().getApplicationContext(), "rating bottom", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getContext().getApplicationContext(), "rating bottom", Toast.LENGTH_SHORT).show();
 
                         GetContentList getContentList = new GetContentList(getContext(),
                                     contentArrayList,
@@ -167,7 +167,7 @@ public class TabFragment3 extends Fragment {
         v.findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext().getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext().getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
                 recyclerView.scrollToPosition(3);
                 recyclerView.smoothScrollToPosition(0);
             }

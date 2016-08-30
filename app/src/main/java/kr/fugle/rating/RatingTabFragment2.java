@@ -116,7 +116,7 @@ public class RatingTabFragment2 extends Fragment {
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(context, "rating bottom", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "rating bottom", Toast.LENGTH_SHORT).show();
 
                         new GetContentList(getContext(),
                                 contentArrayList,
@@ -154,7 +154,7 @@ public class RatingTabFragment2 extends Fragment {
         view.findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext().getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext().getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
 
                 recyclerView.smoothScrollToPosition(0);
             }
@@ -206,7 +206,7 @@ public class RatingTabFragment2 extends Fragment {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(context, "rating bottom", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(context, "rating bottom", Toast.LENGTH_SHORT).show();
 
                             new GetContentList(getContext(),
                                     contentArrayList,

@@ -114,7 +114,7 @@ public class TagActivity extends AppCompatActivity {
         findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
 
                 recyclerView.smoothScrollToPosition(0);
             }

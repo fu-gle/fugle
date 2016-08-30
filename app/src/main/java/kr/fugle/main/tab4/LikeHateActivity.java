@@ -132,7 +132,7 @@ public class LikeHateActivity extends AppCompatActivity {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getApplicationContext(), "rating bottom", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(), "rating bottom", Toast.LENGTH_SHORT).show();
 
                             GetContentList getContentList = new GetContentList(getApplicationContext(),
                                     contentArrayList,
@@ -193,7 +193,7 @@ public class LikeHateActivity extends AppCompatActivity {
         findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "위로가자!", Toast.LENGTH_SHORT).show();
                 recyclerView.scrollToPosition(3);
                 recyclerView.smoothScrollToPosition(0);
             }

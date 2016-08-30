@@ -67,7 +67,7 @@ public class CategoryRecyclerAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(categoryContext, category.getNo() + " 카테고리 " + category.getName(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(categoryContext, category.getNo() + " 카테고리 " + category.getName(), Toast.LENGTH_SHORT).show();
                 
                 Intent intent = new Intent();
                 intent.putExtra("categoryNo", category.getNo());

@@ -245,7 +245,7 @@ public class DetailActivity extends AppCompatActivity {
                 dialog.show();
 
                 if(content == null){
-                    Toast.makeText(DetailActivity.this, "잠시후 눌러주세요", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DetailActivity.this, "잠시만 기다려주세요", Toast.LENGTH_SHORT).show();
                     dialog.cancel();
                     return;
                 }
@@ -287,7 +287,7 @@ public class DetailActivity extends AppCompatActivity {
 
                                     content.setRating(rating);
 
-                                    Toast.makeText(getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(getApplicationContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
                                     new PostSingleData(getApplicationContext()).execute("insert/", userNo.toString(), content.getNo().toString(), Rating.toString());
 

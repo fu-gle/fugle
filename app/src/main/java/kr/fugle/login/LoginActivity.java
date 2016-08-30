@@ -336,7 +336,7 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             // 로그인 다이얼로그
-            Toast.makeText(LoginActivity.this, "email login clicked", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(LoginActivity.this, "email login clicked", Toast.LENGTH_SHORT).show();
 
             emailLoginDialog.show();
 

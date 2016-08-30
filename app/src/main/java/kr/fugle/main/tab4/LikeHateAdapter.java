@@ -194,7 +194,7 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
             vhItem.like.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(likeContext.getApplicationContext(), "만화 : " + content.getNo() + "'s like " + content.getLike(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(likeContext.getApplicationContext(), "만화 : " + content.getNo() + "'s like " + content.getLike(), Toast.LENGTH_SHORT).show();
 
                     // 서버로 데이터 전송
                     new PostSingleData(likeContext.getApplicationContext())
@@ -230,7 +230,7 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
                 @Override
                 public void onClick(View v) {
 
-                    Toast.makeText(likeContext, "만화 : " + content.getNo() + "'s 보기싫어요", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(likeContext, "만화 : " + content.getNo() + "'s 보기싫어요", Toast.LENGTH_SHORT).show();
 
                     // 서버로 데이터 전송
                     new PostSingleData(likeContext.getApplicationContext())
@@ -252,7 +252,7 @@ public class LikeHateAdapter extends RecyclerView.Adapter{
             vhItem.link.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(likeContext, "만화 : " + content.getNo() + "'s 지금볼래요", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(likeContext, "만화 : " + content.getNo() + "'s 지금볼래요", Toast.LENGTH_SHORT).show();
 
                     // 지금볼래요 누른 흔적 전송
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

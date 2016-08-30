@@ -154,7 +154,7 @@ public class PreferenceMediaFragment extends Fragment {
 
         @Override
         public void onValueSelected(int arcIndex, SliceValue value) {
-            Toast.makeText(getContext().getApplicationContext(), "Selected: " + value, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext().getApplicationContext(), "Selected: " + value, Toast.LENGTH_SHORT).show();
         }
 
         @Override

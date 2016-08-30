@@ -122,7 +122,7 @@ public class MyStarActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(MyStarActivity.this, "rating bottom", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MyStarActivity.this, "rating bottom", Toast.LENGTH_SHORT).show();
 
                         new GetContentList(getApplicationContext(),
                                 contentArrayList,
@@ -155,7 +155,7 @@ public class MyStarActivity extends AppCompatActivity {
         findViewById(R.id.topBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MyStarActivity.this, "위로가자!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MyStarActivity.this, "위로가자!", Toast.LENGTH_SHORT).show();
                 recyclerView.scrollToPosition(0);
             }
         });

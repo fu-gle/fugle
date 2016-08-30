@@ -3,6 +3,7 @@ package kr.fugle.webconnection;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import kr.fugle.R;
 import okhttp3.MediaType;
@@ -17,11 +18,13 @@ import okhttp3.Response;
  */
 public class PostSingleData extends AsyncTask<String, Void, String> {
 
+    Context context;
     String serverUrl;
     public final MediaType HTML = MediaType.parse("application/x-www-form-urlencoded; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
     public PostSingleData(Context context){
+        this.context = context;
         serverUrl = context.getResources().getString(R.string.server_url);
     }
 
@@ -112,8 +115,10 @@ public class PostSingleData extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String s) {
         if(s == null){
             Log.d("PostSingleData", "post failed " + s);
+            Toast.makeText(context, "인터넷 연결을 확인해주세요", Toast.LENGTH_SHORT).show();
         }else {
             Log.d("PostSingleData", "post complete " + s);
+            Toast.makeText(context, "입력되었습니다", Toast.LENGTH_SHORT).show();
         }
     }
 }

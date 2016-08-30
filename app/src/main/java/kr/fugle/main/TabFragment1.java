@@ -538,7 +538,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             return;
         }
 
-        Toast.makeText(getContext().getApplicationContext(), "만화 : " + content.getNo() + "'s like " + content.getLike(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext().getApplicationContext(), "만화 : " + content.getNo() + "'s like " + content.getLike(), Toast.LENGTH_SHORT).show();
 
         // 서버로 데이터 전송
         new PostSingleData(getContext().getApplicationContext())
@@ -603,7 +603,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
                     content.setRating(rating);
 
-                    Toast.makeText(getContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "작품 번호 : " + content.getNo().toString() + ", 별점 : " + Rating.toString(), Toast.LENGTH_SHORT).show();
 
                     new PostSingleData(getContext()).execute("insert/", User.getInstance().getNo().toString(), content.getNo().toString(), Rating.toString());
 
