@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class TabFragment3 extends Fragment {
     private RecyclerView recyclerView;
     private CardView cardView;
     private RelativeLayout relativeLayout;
+    private TextView zeroText;
     private Button goStar;
 
     private RecommendAdapter adapter;
@@ -89,12 +91,17 @@ public class TabFragment3 extends Fragment {
 
         cardView = (CardView)v.findViewById(R.id.zero_cardview);
 
+        zeroText = (TextView)v.findViewById(R.id.zero_count_text);
+
         goStar = (Button)v.findViewById(R.id.go_star);
 
         relativeLayout = (RelativeLayout)v.findViewById(R.id.relativeLayout);
 
         if((user.getWebtoonStars() + user.getCartoonStars()) < 15){
             cardView.setVisibility(View.VISIBLE);
+
+            zeroText.setText(user.getName() + "님 아직 평가가 부족해서 \n추천을 할 수 없어요ㅠㅠ"
+                    + "\n15개 이상 평가를 하셔야 추천을 받을 수 있어요!");
 
             relativeLayout.setVisibility(View.GONE);
 

@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
                 android:gravity="center"
-                android:text="아직 평가가 없습니다."
+                android:text="아직 평가가 부족해요"
                 android:textSize="17dp"
                 />
 
