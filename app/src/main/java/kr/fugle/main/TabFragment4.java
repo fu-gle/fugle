@@ -372,6 +372,12 @@ public class TabFragment4 extends Fragment {
             PostPicture postPicture = new PostPicture(0);
             postPicture.setLoadingDialog(loadingDialog);
             postPicture.execute("userProfileImg/", user.getNo().toString(), imgPath);
+
+            Picasso.with(getContext().getApplicationContext())
+                    .load(data.getData())
+                    .resize(metrics.widthPixels, metrics.heightPixels / 2)
+                    .centerCrop()
+                    .into(profileView);
         }
         if (requestCode == BACK_PICK_CODE) {
             Log.d("uwangg's back data : ", imgPath);
@@ -379,6 +385,12 @@ public class TabFragment4 extends Fragment {
             PostPicture postPicture = new PostPicture(1);
             postPicture.setLoadingDialog(loadingDialog);
             postPicture.execute("userProfileBackground/", user.getNo().toString(), imgPath);
+
+            Picasso.with(getContext().getApplicationContext())
+                    .load(data.getData())
+                    .resize(metrics.widthPixels, metrics.heightPixels / 2)
+                    .centerCrop()
+                    .into(backgroundImg);
         }
     }
 
@@ -465,7 +477,7 @@ public class TabFragment4 extends Fragment {
                 user.setProfileBackground(s);
             }
 
-            onResume();
+//            onResume();
         }
     }
 }
