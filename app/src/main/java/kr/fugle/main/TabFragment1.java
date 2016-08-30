@@ -206,7 +206,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
             CircleTransform circleTransform = new CircleTransform();
             Picasso.with(c).load(profileImagePath)
                     .resize(metrics.widthPixels / 3, metrics.heightPixels / 3)
-                    .centerCrop()
+                    .centerInside()
                     .transform(circleTransform)
                     .into(profileView);
         }

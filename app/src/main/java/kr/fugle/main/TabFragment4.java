@@ -3,7 +3,6 @@ package kr.fugle.main;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,8 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -317,7 +314,7 @@ public class TabFragment4 extends Fragment {
                 Picasso.with(getContext().getApplicationContext())
                         .load(user.getProfileImg())
                         .resize(metrics.widthPixels / 3, metrics.heightPixels / 3)
-                        .centerCrop()
+                        .centerInside()
                         .transform(circleTransform)
                         .into(profileView);
             }else{
