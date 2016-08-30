@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatDialog;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -181,6 +183,12 @@ public class OkHttpLogin extends AsyncTask<String, Void, String> {
 
             return;
         }
+
+        // 이미지 초기화
+        Picasso.with(context)
+                .invalidate(user.getProfileImg());
+        Picasso.with(context)
+                .invalidate(user.getProfileBackground());
 
         if(activityStartListener != null)
             activityStartListener.activityStart();

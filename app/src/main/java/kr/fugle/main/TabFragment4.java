@@ -62,6 +62,8 @@ public class TabFragment4 extends Fragment {
 
     User user = User.getInstance();
 
+    PostPicture postPicture;
+
     private AppCompatDialog loadingDialog;
 
     private DisplayMetrics metrics;
@@ -305,7 +307,7 @@ public class TabFragment4 extends Fragment {
         Log.d("ho's activity", "TabFragment4.onResume user profile " + user.getProfileImg() + " / background " + user.getProfileBackground());
 
         try {
-            // 유저의 정보 적용
+//             유저의 정보 적용
             if (user.getProfileImg() != null && !user.getProfileImg().equals("")) {
 
                 Log.d("ho's activity", "Profile change");
@@ -321,6 +323,8 @@ public class TabFragment4 extends Fragment {
                 CircleTransform circleTransform = new CircleTransform();
                 Picasso.with(getContext().getApplicationContext())
                         .load(R.drawable.egg_profile)
+                        .resize(metrics.widthPixels / 3, metrics.heightPixels / 3)
+                        .centerInside()
                         .transform(circleTransform)
                         .into(profileView);
             }
@@ -366,28 +370,20 @@ public class TabFragment4 extends Fragment {
         if (requestCode == REQ_PICK_CODE) {
             Log.d("uwangg's camera data : ", imgPath);
 
-            PostPicture postPicture = new PostPicture(0);
+            postPicture = new PostPicture(0);
             postPicture.setLoadingDialog(loadingDialog);
             postPicture.execute("userProfileImg/", user.getNo().toString(), imgPath);
 
-            Picasso.with(getContext().getApplicationContext())
-                    .load(data.getData())
-                    .resize(metrics.widthPixels, metrics.heightPixels / 2)
-                    .centerCrop()
-                    .into(profileView);
+            user.setProfileImg(data.getData().toString());
         }
         if (requestCode == BACK_PICK_CODE) {
             Log.d("uwangg's back data : ", imgPath);
 
-            PostPicture postPicture = new PostPicture(1);
+            postPicture = new PostPicture(1);
             postPicture.setLoadingDialog(loadingDialog);
             postPicture.execute("userProfileBackground/", user.getNo().toString(), imgPath);
 
-            Picasso.with(getContext().getApplicationContext())
-                    .load(data.getData())
-                    .resize(metrics.widthPixels, metrics.heightPixels / 2)
-                    .centerCrop()
-                    .into(backgroundImg);
+            user.setProfileBackground(data.getData().toString());
         }
     }
 
@@ -407,6 +403,14 @@ public class TabFragment4 extends Fragment {
         cursorLoader.cancelLoadInBackground();
 
         return result;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        if(postPicture != null)
+            postPicture.cancel(true);
     }
 
     private class PostPicture extends AsyncTask<String, Void, String>{
@@ -460,6 +464,11 @@ public class TabFragment4 extends Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
 
+            if(isCancelled()){
+                Log.d("ho's activity", "post picture is canceled");
+                return;
+            }
+
             loadingDialog.cancel();
 
             // 이미지뷰 초기화
@@ -468,13 +477,11 @@ public class TabFragment4 extends Fragment {
 
             if(category == 0) {
                 Log.d("------>", "PostPicture profileImg " + s);
-                user.setProfileImg(s);
             }else {
                 Log.d("------>", "PostPicture profileBackgroundImg " + s);
-                user.setProfileBackground(s);
             }
 
-//            onResume();
+            onResume();
         }
     }
 }

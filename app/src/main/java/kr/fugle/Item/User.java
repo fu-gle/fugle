@@ -1,5 +1,7 @@
 package kr.fugle.Item;
 
+import android.util.Log;
+
 /**
  * Created by hokyung on 16. 7. 14..
  * 유저 정보를 갖고있기 위한 클래스
@@ -41,6 +43,9 @@ public class User {
     }
 
     public static void destroy(){
+
+        Log.d("ho's activity", "user destroyed");
+
         if(user != null)
             user = null;
 

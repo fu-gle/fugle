@@ -23,11 +23,13 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.kakao.auth.Session;
 import com.kakao.usermgmt.response.model.UserProfile;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import kr.fugle.Item.ActivityStartListener;
+import kr.fugle.Item.User;
 import kr.fugle.R;
 import kr.fugle.login.LoginActivity;
 import kr.fugle.login.OkHttpLogin;
@@ -54,6 +56,9 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 유저 객체 초기화
+        User.destroy();
 
         // 페이스북 초기화
         FacebookSdk.sdkInitialize(getApplicationContext()); // SDK 초기화 (setContentView 보다 먼저 실행되어야합니다. 안그럼 에러납니다.)
