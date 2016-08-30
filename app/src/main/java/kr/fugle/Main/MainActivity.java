@@ -347,29 +347,6 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        // 튜토리얼 용
-//        if(requestCode == CHECK_FINISH) {
-//
-//            right = tabLayout.getWidth()/4;
-//            bottom = tabLayout.getBottom();
-//            top = tabLayout.getTop();
-//            left = tabLayout.getLeft() ;
-//
-//            v.setRight(right);
-//            v.setBottom(bottom);
-//            v.setTop(top);
-//            v.setLeft(left);
-//            handler = new Handler(Looper.getMainLooper());
-//            handler.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-////                    showIntro(findViewById(R.id.action_search), order+"", "검색기능", "작가와 작품을 검색할 수 있습니다.");
-//                    showIntro(v, order+"", "Home", "평가하기, 취향분석, " +
-//                            "사용자분들이 관심있어하는 웹툰, 만화책 랭킹을 볼수있습니다.");
-//                }
-//            }, 600);
-//        }
-
         // 평점을 매겼으면 추천 목록 새로고침
         if(requestCode == RATING_REQUEST_CODE && resultCode == RATING_RESULT_CODE) {
             refresh = true;

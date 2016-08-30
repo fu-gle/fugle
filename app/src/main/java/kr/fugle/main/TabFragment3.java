@@ -192,6 +192,8 @@ public class TabFragment3 extends Fragment {
         // 초기해야하는지 확인 후 초기화
         if(tabStatusListener.getRefresh()){
 
+            Log.d("ho's activity", "Recommend List Refresh");
+
             contentArrayList.clear();
             adapter.notifyDataSetChanged();
 

@@ -112,6 +112,8 @@ public class MyStarActivity extends AppCompatActivity {
                 userNo,
                 recyclerView);
 
+        adapter.setCategory(category);
+
         adapter.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {

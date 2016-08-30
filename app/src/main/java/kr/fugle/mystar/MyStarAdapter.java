@@ -243,6 +243,7 @@ public class MyStarAdapter extends RecyclerView.Adapter {
                             }
                         }else if(rating == 0){
                             if(category){   // 웹툰
+                                Log.d("------>", "들어왔어");
                                 user.setWebtoonStars(user.getWebtoonStars() - 1);
                             }else{  // 만화
                                 user.setCartoonStars(user.getCartoonStars() - 1);
