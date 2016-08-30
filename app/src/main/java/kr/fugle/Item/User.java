@@ -40,6 +40,13 @@ public class User {
         return user;
     }
 
+    public static void destroy(){
+        if(user != null)
+            user = null;
+
+        System.gc();
+    }
+
     public void setAttributes(int no,
                               String name,
                               String primaryKey,

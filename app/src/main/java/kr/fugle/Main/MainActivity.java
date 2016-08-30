@@ -25,6 +25,7 @@ import com.facebook.login.LoginManager;
 import com.kakao.auth.Session;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
+import com.squareup.picasso.Picasso;
 import com.wooplr.spotlight.SpotlightView;
 import com.wooplr.spotlight.prefs.PreferencesManager;
 import com.wooplr.spotlight.utils.SpotlightListener;
@@ -308,6 +309,15 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
 
                 // 로딩 시작
                 loadingDialog.show();
+
+                // 프로필 사진과 배경 사진 날리기
+                Picasso.with(getApplicationContext())
+                        .invalidate(user.getProfileImg());
+                Picasso.with(getApplicationContext())
+                        .invalidate(user.getProfileBackground());
+
+                // User 객체 초기화
+                User.destroy();
 
                 // 이메일
                 SharedPreferences preferences = getSharedPreferences("login", Context.MODE_PRIVATE);
