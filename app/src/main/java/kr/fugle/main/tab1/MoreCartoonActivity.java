@@ -34,7 +34,7 @@ public class MoreCartoonActivity extends AppCompatActivity {
 
         // 툴바 설정
         Toolbar toolbar = (Toolbar)findViewById(R.id.more_webtoon_toolbar);
-        toolbar.setTitle("만화책 랭킹 - 보고싶어요");
+        toolbar.setTitle("주차별 인기 만화책 랭킹");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

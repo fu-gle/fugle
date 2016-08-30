@@ -36,7 +36,7 @@ public class MoreWebtoonActivity extends AppCompatActivity {
 
         // 툴바 설정
         Toolbar toolbar = (Toolbar)findViewById(R.id.more_webtoon_toolbar);
-        toolbar.setTitle("웹툰 랭킹 - 보고싶어요");
+        toolbar.setTitle("주차별 인기 웹툰 랭킹");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

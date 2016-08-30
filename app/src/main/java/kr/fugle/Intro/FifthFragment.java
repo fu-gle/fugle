@@ -13,9 +13,9 @@ import com.squareup.picasso.Picasso;
 import kr.fugle.R;
 
 /**
- * Created by 김은진 on 2016-08-29.
+ * Created by 김은진 on 2016-08-30.
  */
-public class FirstFragment extends Fragment {
+public class FifthFragment  extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
@@ -23,8 +23,8 @@ public class FirstFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.menual_fragment, container, false);
         ImageView imageView = (ImageView) rootView.findViewById(R.id.image);
         Picasso.with(getContext())
-                .load(R.drawable.menual2_1)
-                .resize(1080, 1920)
+                .load(R.drawable.menual6)
+                .resize(540, 960)
                 .centerCrop()
                 .into(imageView);
         return rootView;

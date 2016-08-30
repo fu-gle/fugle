@@ -23,8 +23,8 @@ public class SecondFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.menual_fragment, container, false);
         ImageView imageView = (ImageView) rootView.findViewById(R.id.image);
         Picasso.with(getContext())
-                .load(R.drawable.menual2)
-                .resize(1080, 1920)
+                .load(R.drawable.menual3)
+                .resize(540, 960)
                 .centerCrop()
                 .into(imageView);
         return rootView;

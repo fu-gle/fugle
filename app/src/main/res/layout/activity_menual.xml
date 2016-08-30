@@ -19,17 +19,30 @@
         android:layout_gravity="bottom"
         android:background="@color/mainColor">
 
-        <TextView
-            android:id="@+id/skip"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="left|center"
             android:layout_marginLeft="48dp"
-            android:gravity="center"
-            android:text="Skip"
-            android:textColor="@color/whiteColor"
-            android:textSize="17dp"
-            />
+            >
+            <TextView
+                android:id="@+id/skip"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:text="Skip"
+                android:textColor="@color/whiteColor"
+                android:textSize="17dp"
+                />
+            <ImageView
+                android:id="@+id/left_next"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_keyboard_arrow_left_24dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                />
+        </FrameLayout>
 
         <me.relex.circleindicator.CircleIndicator
             android:id="@+id/indicator"
@@ -38,16 +51,29 @@
             android:layout_gravity="center"
             />
 
-        <TextView
-            android:id="@+id/done"
+        <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="right|center"
             android:layout_marginRight="48dp"
-            android:gravity="center"
-            android:text="Done"
-            android:textColor="@color/whiteColor"
-            android:textSize="17dp"
-            />
+            >
+            <TextView
+                android:id="@+id/done"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:text="Done"
+                android:textColor="@color/whiteColor"
+                android:textSize="17dp"
+                android:visibility="gone"
+                />
+            <ImageView
+                android:id="@+id/right_next"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_keyboard_arrow_right_24dp"
+                android:scaleType="centerCrop"
+                />
+        </FrameLayout>
     </FrameLayout>
 </FrameLayout>

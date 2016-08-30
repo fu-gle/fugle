@@ -146,10 +146,6 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
         tabLayout.setSelectedTabIndicatorHeight(10);
         setupTabIcons();
 
-        mPreferencesManager = new PreferencesManager(MainActivity.this);
-//            startActivityForResult(new Intent(MainActivity.this, TutorialActivity.class), CHECK_FINISH);
-        mPreferencesManager.resetAll();
-
         TypedValue tv = new TypedValue();
         getApplicationContext().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
         int actionBarHeight = getResources().getDimensionPixelSize(tv.resourceId);
@@ -163,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements SpotlightListener
         mainList2 = new ArrayList<>();
 
         Log.d("logCount--->", User.getInstance().getLogCount()+"");
-        if(User.getInstance().getLogCount() != 0) {
+        if(User.getInstance().getLogCount() == 0) {
             startActivity(new Intent(MainActivity.this, MenualActivity.class));
         }
 

@@ -105,7 +105,6 @@
         <activity android:name=".preference.PreferenceAnalysisActivity"/>
 
         <!-- 튜토리얼 -->
-        <activity android:name=".Intro.TutorialTestActivity"/>
         <activity android:name=".Intro.TutorialActivity"/>
         <!-- 보고싶어요 보기싫어요 목록 액티비티 -->
         <activity android:name=".main.tab4.LikeHateActivity"/>

@@ -31,7 +31,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import kr.fugle.Item.Content;
 import kr.fugle.Item.User;
@@ -239,7 +238,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener {
 
         // true:취향분석, false:평가하기
         String tabLikeContent;
-        if(User.getInstance().getWebtoonStars() + User.getInstance().getCartoonStars() == 0) {
+        if(User.getInstance().getWebtoonStars() + User.getInstance().getCartoonStars() < 15) {
             tabLikeContent = User.getInstance().getName()
                     + "님 아직 취향을 입력하지 않으셨네요\n"
                     + User.getInstance().getName()
