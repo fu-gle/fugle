@@ -32,6 +32,8 @@
             android:layout_height="80dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:src="@drawable/egg_profile"
+            android:scaleType="centerInside"
             />
     </RelativeLayout>
 

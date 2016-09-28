@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -142,11 +141,13 @@ public class PreferenceMediaFragment extends Fragment {
         chart.setPieChartData(data);
 
         // 프로필사진
-        CircleTransform circleTransform = new CircleTransform();
-        Picasso.with(getContext().getApplicationContext())
-                .load(User.getInstance().getProfileImg())
-                .transform(circleTransform)
-                .into(profileImg);
+        if(!User.getInstance().getProfileImg().equals("")) {
+            CircleTransform circleTransform = new CircleTransform();
+            Picasso.with(getContext().getApplicationContext())
+                    .load(User.getInstance().getProfileImg())
+                    .transform(circleTransform)
+                    .into(profileImg);
+        }
 
     }
 

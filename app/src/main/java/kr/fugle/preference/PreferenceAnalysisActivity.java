@@ -116,7 +116,7 @@ public class PreferenceAnalysisActivity extends AppCompatActivity {
             Picasso.with(getApplicationContext())
                     .load(user.getProfileImg())
                     .resize(metrics.widthPixels / 3, metrics.heightPixels / 3)
-                    .centerCrop()
+                    .centerInside()
                     .transform(circleTransform)
                     .into(profileImg);
         }
